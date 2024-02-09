@@ -1,0 +1,34 @@
+Here are some common Identity API endpoints and the data they typically expect:
+
+Register a new user:
+
+Endpoint: /api/Account/Register
+Expected data: User registration information (e.g., username, email, password).
+Login:
+
+Endpoint: /api/Account/Login
+Expected data: User credentials (e.g., username or email and password).
+Get user profile:
+
+Endpoint: /api/Account/Profile
+Expected data: Usually, no data is required. The user's identity is typically determined through the authentication token.
+Update user profile:
+
+Endpoint: /api/Account/Profile
+Expected data: User profile information to be updated.
+Change password:
+
+Endpoint: /api/Account/ChangePassword
+Expected data: Current and new password.
+Forgot password (password recovery):
+
+Endpoint: /api/Account/ForgotPassword
+Expected data: User identifier (e.g., email) for password recovery.
+Reset password (after password recovery):
+
+Endpoint: /api/Account/ResetPassword
+Expected data: Token from password recovery email and new password.
+Logout:
+
+Endpoint: /api/Account/Logout
+Expected data: Usually, no data is required. The user's identity is typically determined through the authentication token.
