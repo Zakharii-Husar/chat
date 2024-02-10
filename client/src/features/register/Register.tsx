@@ -1,6 +1,6 @@
 import type { RootState } from '../../app/store';
 import { useAppSelector, useAppDispatch } from '../../hooks/useAppSelectorAndDispatch';
-import { setEmail, setFullName, setNickName, setPassword, setConfirm } from './registerSlice';
+import { setEmail, setFullName, setNickName, setPassword, setConfirm, registerAsync } from './registerSlice';
 import { SyntheticEvent, useEffect } from 'react';
 import { Form } from 'react-bootstrap';
 import { useRegValidation } from './useRegValidation';
@@ -15,16 +15,19 @@ export function Register() {
         fullName,
         nickName,
         password,
-        confirm,
         validationErrors
     } = useAppSelector((state: RootState) => state.register);
+
+    const { id: loggedInUserId } = useAppSelector(state => state.auth.response);
 
 
     const dispatch = useAppDispatch();
     useRegValidation();
 
-    useEffect(()=>{
-    }, [email])
+    useEffect(() => {
+        if (loggedInUserId) navigate("/");
+        console.log(loggedInUserId);
+      }, [loggedInUserId])
 
     const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
         const name = e.target.name;
@@ -50,31 +53,36 @@ export function Register() {
     };
 
     
-    async function createUser() {
-        const response = await fetch("http://localhost:5190/api/CreateUser",{
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify({
-                UserName: nickName,
-                Email: email,
-                FullName: fullName,
-                PasswordHash: password
-              }),
-              credentials: 'include',
-        });
+    // async function createUser() {
+    //     const response = await fetch("http://localhost:5190/api/SignUp",{
+    //         method: 'POST',
+    //         headers: {
+    //             'Content-Type': 'application/json',
+    //           },
+    //           body: JSON.stringify({
+    //             UserName: nickName,
+    //             Email: email.toLowerCase(),
+    //             FullName: fullName,
+    //             PasswordHash: password
+    //           }),
+    //           credentials: 'include',
+    //     });
 
-        if (response.ok) {
-            navigate("/");
-        } else {
-            alert("REGISTRATION FAILED!!!");
-        }
-      }
+    //     if (response.ok) {
+    //         navigate("/");
+    //     } else {
+    //         alert("REGISTRATION FAILED!");
+    //     }
+    //   }
 
     const handleSubmit = (e: SyntheticEvent) => {
         e.preventDefault();
-        createUser();
+        const inputIsOk = Object.values(validationErrors).every(err => err === "");
+        if(inputIsOk){
+            dispatch(registerAsync());
+        }else{
+            alert("YOU HAVE VALIDATION ERRORS!");
+        }
     };
 
     return (

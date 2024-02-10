@@ -1,64 +1,88 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import type { PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import type { PayloadAction } from "@reduxjs/toolkit";
+import type { RootState } from "../../app/store";
 
-// Define a type for the slice state
-interface Request {
-  email: string
-  password: string
+interface IRequest {
+  usernameOrEmail: string | null;
+  password: string | null;
 }
 
-interface Response {
-  id: number | null
-  nickName: string | null
+interface IResponse {
+  id: number | null;
+  nickName: string | null;
+  email: string | null,
+  fullName: string | null
 }
 
-interface AuthState {
-  request: Request
-  response: Response
+interface IAuthState {
+  request: IRequest;
+  response: IResponse;
 }
 
-
-
-// Define the initial state using that type
-const initialState: AuthState = {
+const initialState: IAuthState = {
   request: {
-    email: "",
-    password: "",
+    usernameOrEmail: null,
+    password: null,
   },
   response: {
     id: null,
-    nickName: null
+    nickName: null,
+    email: null,
+    fullName: null
+  },
+};
+
+export const loginAsync = createAsyncThunk(
+  "auth/login",
+  async (_, { getState, dispatch }) => {
+    const state = getState() as RootState;
+    try {
+      const response = await fetch("http://localhost:5190/api/SignIn", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          UserNameOrEmail: state.auth.request.usernameOrEmail,
+          Password: state.auth.request.password,
+        }),
+        credentials: "include",
+      });
+
+      if(response.ok){
+        const data = await response.json();
+        dispatch(authSlice.actions.setResponse(data));
+        return data;
+      }
+      
+    } catch (error) {
+      console.error(error);
+    }
   }
-}
-
-export const loginAsync = createAsyncThunk('auth/login', async ({ email, password }:Request) => {
-
-  return {
-    id: 1,
-    nickName: "Zakharii"
-  };
-});
+);
 
 export const authSlice = createSlice({
-  name: 'authSlice',
+  name: "authSlice",
   initialState,
   reducers: {
     setLogin: (state, action: PayloadAction<string>) => {
-      state.request.email = action.payload
+      state.request.usernameOrEmail = action.payload; 
     },
     setPassword: (state, action: PayloadAction<string>) => {
-      state.request.password = action.payload
+      state.request.password = action.payload;
     },
+    setResponse: (state, action: PayloadAction<IResponse>) => {
+      state.response = action.payload;
+    }
   },
-  extraReducers: (builder) => {
-    builder.addCase(loginAsync.fulfilled, (state, action) => {
-      const { id, nickName } = action.payload;
-      state.response = {id: id, nickName: nickName} as Response;
-    });
-    // handle other login-related actions if needed
-  },
-})
+  // extraReducers: (builder) => {
+  //   builder.addCase(loginAsync.fulfilled, (state, action) => {
 
-export const { setLogin, setPassword } = authSlice.actions
+  //     console.log(action.payload);
+  //   });
+  // },
+});
 
-export default authSlice.reducer
+export const { setLogin, setPassword, setResponse } = authSlice.actions;
+
+export default authSlice.reducer;

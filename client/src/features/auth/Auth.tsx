@@ -12,7 +12,7 @@ import Container from 'react-bootstrap/Container';
 export function Auth() {
   const navigate = useNavigate();
 
-  const uEmail = useAppSelector(state => state.auth.request.email);
+  const uNameOrEmail = useAppSelector(state => state.auth.request.usernameOrEmail);
   const uPswd = useAppSelector(state => state.auth.request.password);
 
   const { id: loggedInUserId, nickName } = useAppSelector(state => state.auth.response);
@@ -26,22 +26,22 @@ export function Auth() {
 
   useEffect(() => {
     if (loggedInUserId) navigate("/");
+    console.log(loggedInUserId);
   }, [loggedInUserId])
 
   const handleSubmit = (e: SyntheticEvent) => {
     e.preventDefault();
-    dispatch(loginAsync({ email: uEmail, password: uPswd }));
-    console.log(uEmail, uPswd);
+    dispatch(loginAsync());
   };
 
   return (
     <Container className="d-flex align-items-center justify-content-center" style={{ minHeight: '100vh' }}>
       <form onSubmit={handleSubmit}>
         <Col xs={12} style={{ flexShrink: 0 }}>
-          <Form.Label htmlFor="inputEmail">Email</Form.Label>
+          <Form.Label htmlFor="inputEmail">Email or Nickname</Form.Label>
           <Form.Control
             onInput={handleInput}
-            type="email"
+            type="text"
             name="login"
             id="inputEmail"
             aria-describedby="passwordHelpBlock"
