@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import type { RootState } from "../../app/store";
+import { API_URL } from "../../app/globalVars";
 
 interface IRequest {
   usernameOrEmail: string | null;
@@ -37,7 +38,7 @@ export const loginAsync = createAsyncThunk(
   async (_, { getState, dispatch }) => {
     const state = getState() as RootState;
     try {
-      const response = await fetch("http://localhost:5190/api/SignIn", {
+      const response = await fetch(`${API_URL}SignIn`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

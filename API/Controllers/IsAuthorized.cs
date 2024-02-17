@@ -6,18 +6,16 @@ using Microsoft.EntityFrameworkCore;
 
 namespace API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("chat-api/[controller]")]
     [ApiController]
-    public class IsAuthorizedController(UserManager<AppUser> userManager) : ControllerBase
+    public class IsAuthorizedController( ) : ControllerBase
     {
-        private readonly UserManager<AppUser> _userManager = userManager;
 
         [HttpGet]
-        public async Task<IActionResult> CheckAuthorization()
+        public IActionResult CheckAuthorization()
         {
-            if (User.Identity.IsAuthenticated) return Ok(true);
-
-            return Ok(false);
+            bool isAuth = User.Identity?.IsAuthenticated ?? false;
+            return Ok(isAuth);
         }
     }
 }

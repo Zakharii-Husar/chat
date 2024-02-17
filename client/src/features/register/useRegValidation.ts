@@ -6,6 +6,7 @@ import {
 import { useEffect } from "react";
 import validator from "validator";
 import { setEmailErr, setFullNameErr, setNickNameErr,  setPasswordErr, setConfirmErr } from './registerSlice';
+import { API_URL } from "../../app/globalVars";
 
 export const useRegValidation = () => {
   const { email, fullName, nickName, password, confirm } = useAppSelector(
@@ -20,7 +21,7 @@ export const useRegValidation = () => {
   ): Promise<boolean> => {
     try {
       const response = await fetch(
-        `http://localhost:5190/api/CheckAvailability/${APIEndpoint}/${encodeURIComponent(
+        `${API_URL}/CheckAvailability/${APIEndpoint}/${encodeURIComponent(
           valueToCheck
         )}`
       );

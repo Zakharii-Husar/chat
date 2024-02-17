@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("chat-api/[controller]")]
     [ApiController]
     public class CheckAvailabilityController(UserManager<AppUser> userManager) : ControllerBase
     {

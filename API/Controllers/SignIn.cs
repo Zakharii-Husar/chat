@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("chat-api/[controller]")]
     [ApiController]
     public class SignInController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager) : ControllerBase
     {

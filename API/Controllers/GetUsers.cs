@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("chat-api/[controller]")]
     [ApiController]
     public class GetUsers(UserManager<AppUser> userManager) : ControllerBase
     {

@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Identity;
 namespace API.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("chat-api/[controller]")]
     public class SignUpController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager) : ControllerBase
     {
 
@@ -16,7 +16,10 @@ namespace API.Controllers
         public async Task<IActionResult> Register([FromBody] AppUser model)
         {
             var user = new AppUser { UserName = model.UserName, Email = model.Email, FullName = model.FullName };
-
+            if (model.PasswordHash!.Length < 8 || model.PasswordHash.Length > 30)
+            {
+                return BadRequest("Password must be between 8 and 30 characters.");
+            }
             var result = await _userManager.CreateAsync(user, model.PasswordHash!);
 
             if (result.Succeeded)

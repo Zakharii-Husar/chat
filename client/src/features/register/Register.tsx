@@ -52,29 +52,6 @@ export function Register() {
         }
     };
 
-    
-    // async function createUser() {
-    //     const response = await fetch("http://localhost:5190/api/SignUp",{
-    //         method: 'POST',
-    //         headers: {
-    //             'Content-Type': 'application/json',
-    //           },
-    //           body: JSON.stringify({
-    //             UserName: nickName,
-    //             Email: email.toLowerCase(),
-    //             FullName: fullName,
-    //             PasswordHash: password
-    //           }),
-    //           credentials: 'include',
-    //     });
-
-    //     if (response.ok) {
-    //         navigate("/");
-    //     } else {
-    //         alert("REGISTRATION FAILED!");
-    //     }
-    //   }
-
     const handleSubmit = (e: SyntheticEvent) => {
         e.preventDefault();
         const inputIsOk = Object.values(validationErrors).every(err => err === "");
