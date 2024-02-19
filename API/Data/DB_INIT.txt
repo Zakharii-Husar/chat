@@ -1,10 +1,4 @@
 
-Certainly! You can use the following SQL statements to achieve this:
-
-sql
-Copy code
--- Connect to MySQL as the root user
-mysql -u root -p
 
 -- Create the 'chat' database
 CREATE DATABASE chat;

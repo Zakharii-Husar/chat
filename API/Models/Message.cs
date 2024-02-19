@@ -10,12 +10,12 @@ namespace API.Models
         [Key]
         public int MessageId { get; set; }
 
-        // Foreign Key to User (Sender)
+        [MaxLength(450)]
         [ForeignKey("Sender")]
         public string SenderId { get; set; } = null!;
         public AppUser Sender { get; set; } = null!;
 
-        // Foreign Key to User (Receiver)
+        [MaxLength(450)]
         [ForeignKey("Receiver")]
         public string ReceiverId { get; set; } = null!;
         public AppUser Receiver { get; set; } = null!;
@@ -26,6 +26,10 @@ namespace API.Models
 
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [DefaultValue("CURRENT_TIMESTAMP")]
-        public DateTime SentAt { get; set; } 
+        public DateTime SentAt { get; set; }
+
+        public bool IsRead { get; set; } = false;
+
+        public int? RepliedTo { get; set; }
     }
 }

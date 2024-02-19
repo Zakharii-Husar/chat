@@ -15,7 +15,7 @@ export const Chats: React.FC = () => {
         loading,
         error } = useAppSelector(state => state.chats);
 
-    const loggedInUserId = 1;
+    const loggedInUserId = "1";
 
 
     useEffect(() => {
@@ -32,8 +32,8 @@ export const Chats: React.FC = () => {
                             <Link to={i.toString()}>
                                 <li><h1>{
                                     chat[0].sender !== loggedInUserId ?
-                                        findUser(chat[0].sender)?.nickName :
-                                        findUser(chat[0].reciever)?.nickName
+                                        findUser(chat[0].sender)?.nickname :
+                                        findUser(chat[0].reciever)?.nickname
                                 }</h1></li>
                                 <li>{chat[0].content}</li>
                             </Link>

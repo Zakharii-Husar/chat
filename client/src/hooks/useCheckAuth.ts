@@ -1,41 +1,38 @@
 import { useEffect } from "react";
 import { useNavigate, useLocation } from "react-router";
-import { useAppSelector } from "./useAppSelectorAndDispatch";
-import { API_URL } from "../app/globalVars";
+import { useAppSelector, useAppDispatch } from "./useAppSelectorAndDispatch";
+import { validateCookiesAsync } from './../features/auth/authSlice';
+
 
 export const useCheckAuth = () => {
-    // const location = useLocation();
-    // const uId = useAppSelector(state => state.auth.response.id);
-    // const navigate = useNavigate();
 
-    // const checkCookies = () => {
+    const dispatch = useAppDispatch();
+    const location = useLocation();
+    const loggedIn = useAppSelector(state => state.auth.loggedIn);
+    const navigate = useNavigate();
 
-    // };
 
-    // const hasValidCookies = checkCookies();
+ 
 
-    // const redirect = () => {
-    //     if (location.pathname !== "/login" &&
-    //         location.pathname !== "/register" &&
-    //         location.pathname !== "/") navigate("/");
+    useEffect(() => {
 
-    // };
+        const checkCookies = () => {
+            dispatch(validateCookiesAsync());
+        };
 
-    // const setUserDetails () => {
 
-    // };
 
-    // const verifyUser = () => {
-    //     if (uId !== null) return;
-    //     if (!hasValidCookies) {
-    //         redirect();
-    //         return;
-    //     } else {
-    //         setUserDetails();
-    //     }
-    // };
+        const redirect = () => {
+            if (location.pathname !== "/login" &&
+                location.pathname !== "/register" &&
+                location.pathname !== "/") navigate("/");
 
-    // useEffect(() => {
-    //     verifyUser();
-    // }, [location.pathname, navigate, uId]);
+        };
+        const verifyUser = async () => {
+            if (loggedIn) return;
+            await checkCookies();
+            if (!loggedIn) redirect();
+        }
+        verifyUser();
+    }, [location.pathname, loggedIn, dispatch, navigate]);
 };

@@ -2,11 +2,11 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
-namespace API.Controllers
+namespace API.Controllers.Auth
 {
     [Route("chat-api/[controller]")]
     [ApiController]
-    public class SignInController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager) : ControllerBase
+    public class AuthWithPassController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager) : ControllerBase
     {
         private readonly UserManager<AppUser> _userManager = userManager;
         private readonly SignInManager<AppUser> _signInManager = signInManager;

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useAppSelector, useAppDispatch } from '../../hooks/useAppSelectorAndDispatch';
-import { fetchAllUsers, searchUsers, updateSearchedUser, UserModel } from '../users/usersSlice';
+import { fetchAllUsers, searchUsers, updateSearchedUser, IUserModel } from '../users/usersSlice';
 import { Link } from 'react-router-dom';
 
 import Container from 'react-bootstrap/Container';
@@ -11,8 +11,10 @@ import Form from 'react-bootstrap/Form';
 
 import { FaUserCircle } from 'react-icons/fa';
 import { BsFillSendFill } from 'react-icons/bs';
+import { useCheckAuth } from "../../hooks/useCheckAuth";
 
 const Users: React.FC = () => {
+    useCheckAuth();
     const dispatch = useAppDispatch();
     const {
         allUsers,
@@ -50,14 +52,14 @@ const Users: React.FC = () => {
                     />
                     {loading === 'succeeded' && (
                         <ListGroup>
-                            {currentList?.map((user: UserModel, i) => (
+                            {currentList?.map((user: IUserModel, i) => (
                                 <Link to={`chats/${i.toString()}`}>
                                     <ListGroup.Item key={user.id}
                                         className="d-flex align-items-center justify-content-between py-1">
 
                                         <FaUserCircle size={25} className="ms-2" />
 
-                                        <h5>{`${user.nickName}`}</h5>
+                                        <h5>{`${user.nickname}`}</h5>
 
                                         <BsFillSendFill size={25} className="me-2" />
 

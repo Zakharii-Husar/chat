@@ -1,37 +1,47 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-
 import { mockAPI } from '../../app/mockAPI';
+import { GET_ALL_USERS } from '../../app/globalVars';
 
-export interface UserModel {
-    id: number;
-    nickName: string;
+export interface IUserModel {
+    id: string;
+    nickname: string;
 }
 
-interface UsersModel {
-    allUsers: UserModel[]
-    filteredUsers: UserModel[]
+interface IUsersModel {
+    allUsers: IUserModel[]
+    filteredUsers: IUserModel[]
     searchedUser: string | null
     loading: 'idle' | 'pending' | 'succeeded' | 'failed',
     error: string | null;
 }
 
-const initialState = {
+const initialState: IUsersModel = {
     allUsers: [],
     filteredUsers: [],
     searchedUser: null,
     loading: 'idle',
     error: null
-} as UsersModel;
+};
 
 
 export const fetchAllUsers = createAsyncThunk(
     'users/fetchUsers',
     async () => {
         try {
-            const response = JSON.stringify(mockAPI.users);
-            const data = await JSON.parse(response);
-            return data;
+            const response = await fetch(GET_ALL_USERS, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                credentials: "include"
+            });
+
+            if (response.ok) {
+                const usersList = await response.json();
+                return usersList;
+
+            }
         } catch (error) {
             console.log(error);
         }
@@ -45,7 +55,7 @@ export const searchUsers = createAsyncThunk(
         try {
             const response = JSON.stringify(mockAPI.users);
             const data = await JSON.parse(response);
-            return data.filter((user: UserModel) => user.nickName.toLocaleLowerCase().includes(searchQuery.toLocaleLowerCase()));
+            return data.filter((user: IUserModel) => user.nickname.toLocaleLowerCase().includes(searchQuery.toLocaleLowerCase()));
         } catch (error) {
             console.error('Error searching users:', error);
             throw error;
@@ -69,9 +79,9 @@ export const usersSlice = createSlice({
                 state.loading = 'pending';
                 state.error = null;
             })
-            .addCase(fetchAllUsers.fulfilled, (state, action: PayloadAction<UserModel[]>) => {
+            .addCase(fetchAllUsers.fulfilled, (state, action: PayloadAction<IUserModel[]>) => {
                 state.loading = 'succeeded';
-                state.allUsers = action.payload as UserModel[];
+                state.allUsers = action.payload;
             })
             .addCase(fetchAllUsers.rejected, (state, action) => {
                 state.loading = 'failed';
@@ -83,9 +93,9 @@ export const usersSlice = createSlice({
                 state.loading = 'pending';
                 state.error = null;
             })
-            .addCase(searchUsers.fulfilled, (state, action: PayloadAction<UserModel[]>) => {
+            .addCase(searchUsers.fulfilled, (state, action: PayloadAction<IUserModel[]>) => {
                 state.loading = 'succeeded';
-                state.filteredUsers = action.payload as UserModel[];
+                state.filteredUsers = action.payload as IUserModel[];
             })
             .addCase(searchUsers.rejected, (state, action) => {
                 state.loading = 'failed';

@@ -19,7 +19,7 @@ public class AppUser : IdentityUser
 
     [Required(ErrorMessage = "Password is required.")]
     [DataType(DataType.Password)]
-    [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^a-zA-Z\d]).{8,30}$", ErrorMessage = "Password must contain at least one uppercase letter, one lowercase letter, one digit, and one special character.")]
+
     public override string? PasswordHash { get; set; }
 
     [Required(ErrorMessage = "Full name is required.")]

@@ -2,11 +2,11 @@
 using API.Models;
 using Microsoft.AspNetCore.Identity;
 
-namespace API.Controllers
+namespace API.Controllers.Auth
 {
     [ApiController]
     [Route("chat-api/[controller]")]
-    public class SignUpController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager) : ControllerBase
+    public class RegisterWithPassController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager) : ControllerBase
     {
 
         private readonly UserManager<AppUser> _userManager = userManager;
@@ -37,7 +37,6 @@ namespace API.Controllers
 
                 return Ok(response);
             }
-
             return BadRequest(new { result.Errors });
         }
 

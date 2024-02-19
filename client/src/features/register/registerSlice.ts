@@ -1,9 +1,8 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import type { RootState } from "../../app/store";
-import authSlice from '../auth/authSlice';
 import { setResponse } from '../auth/authSlice';
-import { API_URL } from '../../app/globalVars';
+import { REGISTER_URL } from '../../app/globalVars';
 // Define a type for the slice state
 export interface UserState {
     email: string
@@ -37,7 +36,7 @@ export const registerAsync = createAsyncThunk(
     async (_, { getState, dispatch }) => {
       const state = getState() as RootState;
       try {
-        const response = await fetch(`${API_URL}/SignUp`, {
+          const response = await fetch(REGISTER_URL, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -48,7 +47,9 @@ export const registerAsync = createAsyncThunk(
             FullName: state.register.fullName,
             PasswordHash: state.register.password
           }),
+            credentials: "include"
         });
+          console.log(response);
   
         if(response.ok){
           const data = await response.json();

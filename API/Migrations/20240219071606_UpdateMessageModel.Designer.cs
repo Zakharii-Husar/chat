@@ -3,6 +3,7 @@ using System;
 using API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240219071606_UpdateMessageModel")]
+    partial class UpdateMessageModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -108,16 +111,10 @@ namespace API.Migrations
                         .HasMaxLength(300)
                         .HasColumnType("TEXT");
 
-                    b.Property<bool>("IsRead")
-                        .HasColumnType("tinyint(1)");
-
                     b.Property<string>("ReceiverId")
                         .IsRequired()
                         .HasMaxLength(450)
                         .HasColumnType("varchar(450)");
-
-                    b.Property<int?>("RepliedTo")
-                        .HasColumnType("int");
 
                     b.Property<string>("SenderId")
                         .IsRequired()

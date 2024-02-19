@@ -6,9 +6,9 @@ import { mockAPI } from '../../app/mockAPI';
 
 
 export interface MessageModel {
-    "id": number
-    "sender": number
-    "reciever": number
+    "id": string
+    "sender": string
+    "reciever": string
     "content": string
     "time": string
     "isRead": boolean

@@ -5,8 +5,8 @@ import {
 } from "../../hooks/useAppSelectorAndDispatch";
 import { useEffect } from "react";
 import validator from "validator";
-import { setEmailErr, setFullNameErr, setNickNameErr,  setPasswordErr, setConfirmErr } from './registerSlice';
-import { API_URL } from "../../app/globalVars";
+import { setEmailErr, setFullNameErr, setNickNameErr, setPasswordErr, setConfirmErr } from './registerSlice';
+import { EMAIL_AVAILABILITY_URL, NICKNAME_AVAILABILITY_URL } from "../../app/globalVars";
 
 export const useRegValidation = () => {
   const { email, fullName, nickName, password, confirm } = useAppSelector(
@@ -19,9 +19,11 @@ export const useRegValidation = () => {
     APIEndpoint: string,
     valueToCheck: string
   ): Promise<boolean> => {
+      const link = APIEndpoint === "email" ? EMAIL_AVAILABILITY_URL :
+          NICKNAME_AVAILABILITY_URL;
     try {
       const response = await fetch(
-        `${API_URL}/CheckAvailability/${APIEndpoint}/${encodeURIComponent(
+        `${link}/${encodeURIComponent(
           valueToCheck
         )}`
       );
@@ -30,7 +32,8 @@ export const useRegValidation = () => {
         throw new Error("Failed to fetch");
       }
 
-      const result = await response.json();
+        const result = await response.json();
+console.log(result)
       return result;
     } catch (error) {
       console.error("Error during checking email availability:", error);

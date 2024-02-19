@@ -6,7 +6,7 @@ export function groupMessagesByChats(messages: MessageModel[]) {
     messages.forEach((message: MessageModel) => {
 
         const existingPairIndex = allChats.findIndex((group: MessageModel[]) => {
-            const makeChatId = (sender: number, reciever: number) => {
+            const makeChatId = (sender: string, reciever: string) => {
                 return [sender, reciever].sort().join("_");
             }
 
@@ -27,7 +27,5 @@ export function groupMessagesByChats(messages: MessageModel[]) {
         }
     });
 
-    const chatsSortedByTime = allChats.map(chat => chat.sort((a, b) => b.id - a.id)).reverse();
-
-    return chatsSortedByTime;
+    return allChats;
 }

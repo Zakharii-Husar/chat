@@ -17,7 +17,7 @@ export const Chat: React.FC = () => {
     const dispatch = useAppDispatch();
     const { chatId } = useParams();
 
-    const loggedInUserId = 1;
+    const loggedInUserId = "1";
 
 
 

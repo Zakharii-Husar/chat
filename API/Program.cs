@@ -35,6 +35,7 @@ builder.Services.AddIdentityCore<AppUser>(options =>
     options.Password.RequireUppercase = false;
     options.Password.RequireLowercase = false;
     options.Password.RequireNonAlphanumeric = false;
+
 })
 .AddUserManager<UserManager<AppUser>>()
 .AddSignInManager<SignInManager<AppUser>>()
