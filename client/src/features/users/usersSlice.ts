@@ -40,7 +40,6 @@ export const fetchAllUsers = createAsyncThunk(
             if (response.ok) {
                 const usersList = await response.json();
                 return usersList;
-
             }
         } catch (error) {
             console.log(error);

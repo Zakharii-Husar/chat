@@ -31,9 +31,9 @@ export const Chats: React.FC = () => {
                         <ul key={i}>
                             <Link to={i.toString()}>
                                 <li><h1>{
-                                    chat[0].sender !== loggedInUserId ?
-                                        findUser(chat[0].sender)?.nickname :
-                                        findUser(chat[0].reciever)?.nickname
+                                    chat[0].senderId !== loggedInUserId ?
+                                        findUser(chat[0].senderId)?.nickname :
+                                        findUser(chat[0].recieverId)?.nickname
                                 }</h1></li>
                                 <li>{chat[0].content}</li>
                             </Link>

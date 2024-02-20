@@ -32,7 +32,7 @@ namespace API.Controllers.Auth
                 }
             }
 
-            return Unauthorized();
+            return Ok(false);
         }
     }
 }

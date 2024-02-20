@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../hooks/useAppSelectorAndDispatch";
 import { fetchAChat } from "./chatSlice";
 import { useFindUserById } from "../../hooks/useFindUserById";
@@ -10,14 +10,16 @@ import Col from 'react-bootstrap/Col';
 import ListGroup from 'react-bootstrap/ListGroup';
 import Form from 'react-bootstrap/Form';
 
-
 export const Chat: React.FC = () => {
 
-    const findUser = useFindUserById()
+    let { state } = useLocation();
+    const findUser = useFindUserById();
     const dispatch = useAppDispatch();
     const { chatId } = useParams();
 
-    const loggedInUserId = "1";
+    console.log(state.recieverId);
+
+    const { id: loggedInUserId } = useAppSelector(state => state.auth.response);
 
 
 
@@ -35,10 +37,10 @@ export const Chat: React.FC = () => {
 
 
     return (
-        <Container style={{ backgroundColor: "yellow" } }
+        <Container style={{ backgroundColor: "yellow" }}
             fluid className="d-flex flex-column vw-100">
             <Row style={{ height: '70vh', overflowY: 'auto' }}
-            className="d-flex flex-column align-items-center justify-content-center w-100 mt-3">
+                className="d-flex flex-column align-items-center justify-content-center w-100 mt-3">
                 <Col xs={12} md={8} lg={4} xl={2}>
                     {loading === 'pending' && <p>Loading...</p>}
                     {loading === 'failed' && <p>Error: {error}</p>}
@@ -46,7 +48,7 @@ export const Chat: React.FC = () => {
                     {loading === 'succeeded' && (
                         <ListGroup className="">
                             {reversedChat?.map((message, i) => {
-                                const alignSelf = `align-self-${message.sender === loggedInUserId ?
+                                const alignSelf = `align-self-${message.senderId === loggedInUserId ?
                                     "end" : "start"}`
                                 return (
                                     <ListGroup.Item style={{ backgroundColor: "blue" }} key={message.id}

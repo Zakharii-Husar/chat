@@ -10,7 +10,8 @@ import { useAppSelector } from '../../hooks/useAppSelectorAndDispatch';
 
 export const MainHeader: React.FC = () => {
     useCheckAuth();
-    const loggedIn = useAppSelector(state => state.auth.loggedIn);
+
+    const id = useAppSelector(state => state.auth.response.id);
 
 
     return (
@@ -34,12 +35,13 @@ export const MainHeader: React.FC = () => {
                     </Col >
                 </Row>
                 <Row>
-                    {loggedIn ?
+                    {id ?
                         <Col>
                             <div>
                                 <UserHeader />
                             </div>
-                        </Col> : null}</Row>
+                        </Col> : null}
+                </Row>
             </Link>
 
         </Container>

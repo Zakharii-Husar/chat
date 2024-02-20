@@ -2,6 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import type { RootState } from "../../app/store";
 import { LOGIN_URL, CHECK_COOKIES_URL } from "../../app/globalVars";
+import { useAppDispatch } from "../../hooks/useAppSelectorAndDispatch";
 
 interface IRequest {
     usernameOrEmail: string | null;
@@ -9,7 +10,7 @@ interface IRequest {
 }
 
 interface IResponse {
-    id: number | null;
+    id: string | null;
     nickname: string | null;
     email: string | null,
     fullName: string | null
@@ -50,9 +51,8 @@ export const validateCookiesAsync = createAsyncThunk(
 
             if (response.ok) {
                 const data = await response.json();
+                dispatch(setResponse(data));
                 return data;
-            } else {
-                return false;
             }
 
         } catch (error) {
@@ -82,8 +82,6 @@ export const loginAsync = createAsyncThunk(
                 const data = await response.json();
                 dispatch(setResponse(data));
                 return data;
-            } else {
-                return false;
             }
 
         } catch (error) {

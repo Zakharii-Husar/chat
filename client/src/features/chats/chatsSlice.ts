@@ -1,5 +1,4 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import type { PayloadAction } from '@reduxjs/toolkit';
 import { groupMessagesByChats } from './groupMessagesByChats';
 
 import { mockAPI } from '../../app/mockAPI';
@@ -7,20 +6,19 @@ import { mockAPI } from '../../app/mockAPI';
 
 export interface MessageModel {
     "id": string
-    "sender": string
-    "reciever": string
+    "senderId": string
+    "recieverId": string
     "content": string
     "time": string
     "isRead": boolean
     "replyToMsg": null | number
-    "likedBy": null | number
 };
 
 interface ChatsModel {
     chats: MessageModel[][],
     loading: 'idle' | 'pending' | 'succeeded' | 'failed',
     error: string | null;
-    
+
 }
 
 const initialState = {
@@ -35,7 +33,7 @@ export const fetchAllChats = createAsyncThunk(
         try {
             const response = JSON.stringify(mockAPI.messages);
             const data = await JSON.parse(response);
-            return groupMessagesByChats(data);
+            return [];
         } catch (error) {
             console.log(error);
         }

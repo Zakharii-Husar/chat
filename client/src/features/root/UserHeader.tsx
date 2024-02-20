@@ -3,7 +3,6 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
 import { useAppSelector } from '../../hooks/useAppSelectorAndDispatch';
-import { useEffect } from 'react';
 import { IoIosMail } from "react-icons/io";
 import { Link } from 'react-router-dom';
 

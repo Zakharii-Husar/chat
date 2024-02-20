@@ -10,7 +10,7 @@ interface ChatModel {
     chat: MessageModel[],
     loading: 'idle' | 'pending' | 'succeeded' | 'failed',
     error: string | null;
-    
+
 }
 
 const initialState = {
@@ -21,11 +21,11 @@ const initialState = {
 
 export const fetchAChat = createAsyncThunk(
     'users/fetchAChat',
-    async (i:string) => {
+    async (i: string) => {
         try {
             const response = JSON.stringify(mockAPI.messages);
             const data = await JSON.parse(response);
-            return groupMessagesByChats(data)[Number(i)];
+            return [];
         } catch (error) {
             console.log(error);
         }

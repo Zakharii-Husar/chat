@@ -53,8 +53,8 @@ const Users: React.FC = () => {
                     {loading === 'succeeded' && (
                         <ListGroup>
                             {currentList?.map((user: IUserModel, i) => (
-                                <Link to={`chats/${i.toString()}`}>
-                                    <ListGroup.Item key={user.id}
+                                <Link key={user.id} to={`chats/${user.nickname}`} state={{ recieverId: user.id }}>
+                                    <ListGroup.Item
                                         className="d-flex align-items-center justify-content-between py-1">
 
                                         <FaUserCircle size={25} className="ms-2" />

@@ -1,17 +1,45 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+using Microsoft.EntityFrameworkCore;
+using API.Data;
+using API.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace API.Controllers.Messages
 {
-    [Route("api/[controller]")]
+    [Route("chat-api/[controller]")]
     [ApiController]
-    public class SendMessage : ControllerBase
+    public class SendMessage(AppDbContext dbContext, UserManager<AppUser> userManager) : ControllerBase
     {
         [HttpPost]
-        public void Post([FromBody] string value)
+        public async Task<IActionResult> Post([FromBody] SendMessageModel messageModel)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
 
+            var currentUser = await userManager.GetUserAsync(User);
+            if (currentUser == null)
+            {
+                return Unauthorized();
+            }
+
+            var senderId = currentUser.Id;
+
+            var newMessage = new Message
+            {
+                SenderId = senderId,
+                ReceiverId = messageModel.ReceiverId,
+                Content = messageModel.Content,
+                RepliedTo = messageModel.RepliedTo
+            };
+
+
+            dbContext.Messages.Add(newMessage);
+            await dbContext.SaveChangesAsync();
+
+            return Ok(newMessage);
         }
     }
 }
+
