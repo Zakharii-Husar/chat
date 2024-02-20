@@ -4,7 +4,7 @@ import { groupMessagesByChats } from './groupMessagesByChats';
 import { mockAPI } from '../../app/mockAPI';
 
 
-export interface MessageModel {
+export interface IMessage {
     "id": string
     "senderId": string
     "recieverId": string
@@ -14,8 +14,8 @@ export interface MessageModel {
     "replyToMsg": null | number
 };
 
-interface ChatsModel {
-    chats: MessageModel[][],
+interface IChats {
+    chats: IMessage[][],
     loading: 'idle' | 'pending' | 'succeeded' | 'failed',
     error: string | null;
 
@@ -25,10 +25,10 @@ const initialState = {
     chats: [],
     loading: 'idle',
     error: null
-} as ChatsModel;
+} as IChats;
 
 export const fetchAllChats = createAsyncThunk(
-    'users/fetchChats',
+    'chats/fetchChats',
     async () => {
         try {
             const response = JSON.stringify(mockAPI.messages);
@@ -53,7 +53,7 @@ export const chatsSlice = createSlice({
             })
             .addCase(fetchAllChats.fulfilled, (state, action) => {
                 state.loading = 'succeeded';
-                state.chats = action.payload as MessageModel[][];
+                state.chats = action.payload as IMessage[][];
             })
             .addCase(fetchAllChats.rejected, (state, action) => {
                 state.loading = 'failed';

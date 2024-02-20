@@ -26,7 +26,7 @@ const initialState: IUsersModel = {
 
 
 export const fetchAllUsers = createAsyncThunk(
-    'users/fetchUsers',
+    'users/fetchAllUsers',
     async () => {
         try {
             const response = await fetch(GET_ALL_USERS, {
@@ -94,7 +94,7 @@ export const usersSlice = createSlice({
             })
             .addCase(searchUsers.fulfilled, (state, action: PayloadAction<IUserModel[]>) => {
                 state.loading = 'succeeded';
-                state.filteredUsers = action.payload as IUserModel[];
+                state.filteredUsers = action.payload;
             })
             .addCase(searchUsers.rejected, (state, action) => {
                 state.loading = 'failed';

@@ -80,7 +80,7 @@ export const loginAsync = createAsyncThunk(
 
             if (response.ok) {
                 const data = await response.json();
-                dispatch(setResponse(data));
+                //dispatch(setResponse(data));
                 return data;
             }
 

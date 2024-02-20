@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useParams, useLocation } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../hooks/useAppSelectorAndDispatch";
-import { fetchAChat } from "./chatSlice";
+import { fetchAChat, setRecieverId, setMessageContent, sendMessageAsync } from "./chatSlice";
 import { useFindUserById } from "../../hooks/useFindUserById";
 
 import Container from 'react-bootstrap/Container';
@@ -9,17 +9,18 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import ListGroup from 'react-bootstrap/ListGroup';
 import Form from 'react-bootstrap/Form';
+import { Button } from "react-bootstrap";
 
 export const Chat: React.FC = () => {
 
-    let { state } = useLocation();
-    const findUser = useFindUserById();
+    let { state: locationState } = useLocation();
     const dispatch = useAppDispatch();
-    const { chatId } = useParams();
+    const { frirensdNickname } = useParams();
 
-    console.log(state.recieverId);
+    console.log(locationState.recieverId);
 
     const { id: loggedInUserId } = useAppSelector(state => state.auth.response);
+    const { ReceiverId, Content } = useAppSelector(state => state.chat.messageToSend);
 
 
 
@@ -28,12 +29,21 @@ export const Chat: React.FC = () => {
         loading,
         error } = useAppSelector(state => state.chat);
 
+    useEffect(() => {
+        dispatch(setRecieverId(locationState.recieverId))
+    }, [locationState.recieverId])
 
     useEffect(() => {
-        dispatch(fetchAChat(chatId ?? "0"));
+        dispatch(fetchAChat(frirensdNickname ?? "0"));
     }, [dispatch])
 
-    const reversedChat = [...chat].reverse();
+    const handleMessageInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+        dispatch(setMessageContent(e.target.value))
+    };
+
+    const sendMessage = () => {
+        dispatch(sendMessageAsync());
+    }
 
 
     return (
@@ -47,7 +57,7 @@ export const Chat: React.FC = () => {
 
                     {loading === 'succeeded' && (
                         <ListGroup className="">
-                            {reversedChat?.map((message, i) => {
+                            {chat?.map((message, i) => {
                                 const alignSelf = `align-self-${message.senderId === loggedInUserId ?
                                     "end" : "start"}`
                                 return (
@@ -69,9 +79,13 @@ export const Chat: React.FC = () => {
             <Row>
                 <Col>
                     <Form.Control
+                        onChange={handleMessageInput}
                         type="text"
                         placeholder="Type message..."
                     />
+                    <Button onClick={sendMessage}>
+                        Submit
+                    </Button>
                 </Col>
             </Row>
         </Container>)
