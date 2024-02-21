@@ -1,28 +1,9 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import type { RootState } from "../../app/store";
-import { LOGIN_URL, CHECK_COOKIES_URL } from "../../app/globalVars";
-import { useAppDispatch } from "../../hooks/useAppSelectorAndDispatch";
+import { LOGIN_URL, CHECK_COOKIES_URL } from "../../app/APIEndpoints";
 
-interface IRequest {
-    usernameOrEmail: string | null;
-    password: string | null;
-}
-
-interface IResponse {
-    id: string | null;
-    nickname: string | null;
-    email: string | null,
-    fullName: string | null
-}
-
-export interface IAuthState {
-    loggedIn: boolean;
-    loading: 'idle' | 'pending' | 'succeeded' | 'failed' | 'rejected';
-    error: string | null;
-    request: IRequest;
-    response: IResponse;
-}
+import { IAuthState, IResponse } from '../../app/authInterfaces';
 
 const initialState: IAuthState = {
     loggedIn: false,
@@ -64,6 +45,7 @@ export const validateCookiesAsync = createAsyncThunk(
 export const loginAsync = createAsyncThunk(
     "auth/login",
     async (_, { getState, dispatch }) => {
+
         const state = getState() as RootState;
         try {
             const response = await fetch(LOGIN_URL, {
@@ -80,7 +62,7 @@ export const loginAsync = createAsyncThunk(
 
             if (response.ok) {
                 const data = await response.json();
-                //dispatch(setResponse(data));
+                dispatch(setResponse(data));
                 return data;
             }
 
@@ -112,22 +94,22 @@ export const authSlice = createSlice({
         builder
 
             //LOGIN WITH PASSWORD
-            .addCase(loginAsync.pending, (state) => {
-                state.loading = 'pending';
-                state.error = null;
-            })
-            .addCase(loginAsync.fulfilled, (state, action: PayloadAction<IResponse>) => {
+            //.addCase(loginAsync.pending, (state) => {
+            //    state.loading = 'pending';
+            //    state.error = null;
+            //})
+            //.addCase(loginAsync.fulfilled, (state, action: PayloadAction<IResponse>) => {
 
-                if (action.payload) {
-                    state.response = action.payload;
-                    state.loading = 'succeeded';
-                    state.loggedIn = true;
-                }
-            })
-            .addCase(loginAsync.rejected, (state, action) => {
-                state.loading = 'failed';
-                state.error = action.error.message ?? null;
-            })
+            //    if (action.payload) {
+            //        state.response = action.payload;
+            //        state.loading = 'succeeded';
+            //        state.loggedIn = true;
+            //    }
+            //})
+            //.addCase(loginAsync.rejected, (state, action) => {
+            //    state.loading = 'failed';
+            //    state.error = action.error.message ?? null;
+            //})
 
             //CHECK FOR COOKIES
             .addCase(validateCookiesAsync.pending, (state) => {

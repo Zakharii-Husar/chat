@@ -2,21 +2,11 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import type { RootState } from "../../app/store";
 import { setResponse } from '../auth/authSlice';
-import { REGISTER_URL } from '../../app/globalVars';
-// Define a type for the slice state
-export interface UserState {
-    email: string
-    fullName: string
-    nickName: string
-    password: string
-    confirm: string
-}
-interface RegisterState extends UserState {
-    validationErrors: UserState;
-}
+import { REGISTER_URL } from '../../app/APIEndpoints';
 
-// Define the initial state using that type
-const initialState: RegisterState = {
+import { IRegisterState } from '../../app/authInterfaces';
+
+const initialState: IRegisterState = {
     email: "",
     fullName: "",
     nickName: "",
@@ -34,34 +24,34 @@ const initialState: RegisterState = {
 export const registerAsync = createAsyncThunk(
     "auth/register",
     async (_, { getState, dispatch }) => {
-      const state = getState() as RootState;
-      try {
-          const response = await fetch(REGISTER_URL, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            UserName: state.register.nickName,
-            Email: state.register.email.toLowerCase(),
-            FullName: state.register.fullName,
-            PasswordHash: state.register.password
-          }),
-            credentials: "include"
-        });
-          console.log(response);
-  
-        if(response.ok){
-          const data = await response.json();
-          dispatch(setResponse(data));
-          return data;
+        const state = getState() as RootState;
+        try {
+            const response = await fetch(REGISTER_URL, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    UserName: state.register.nickName,
+                    Email: state.register.email.toLowerCase(),
+                    FullName: state.register.fullName,
+                    PasswordHash: state.register.password
+                }),
+                credentials: "include"
+            });
+            console.log(response);
+
+            if (response.ok) {
+                const data = await response.json();
+                dispatch(setResponse(data));
+                return data;
+            }
+
+        } catch (error) {
+            console.error(error);
         }
-        
-      } catch (error) {
-        console.error(error);
-      }
     }
-  );
+);
 
 export const registerSlice = createSlice({
     name: 'registerSlice',
@@ -101,7 +91,7 @@ export const registerSlice = createSlice({
     },
 })
 
-export const { setEmail, setFullName, setNickName,  setPassword, setConfirm,
-    setEmailErr, setFullNameErr, setNickNameErr,  setPasswordErr, setConfirmErr, } = registerSlice.actions
+export const { setEmail, setFullName, setNickName, setPassword, setConfirm,
+    setEmailErr, setFullNameErr, setNickNameErr, setPasswordErr, setConfirmErr, } = registerSlice.actions
 
 export default registerSlice.reducer

@@ -1,6 +1,6 @@
-import { MessageModel } from "./chatsSlice";
+import { IMessage } from "../../app/messagesInterfaces";
 
-export function groupMessagesByChats(messages: MessageModel[]) {
+export function groupMessagesByChats(messages: IMessage[]) {
     //const allChats: MessageModel[][] = [];
 
     //messages.forEach((message: MessageModel) => {

@@ -2,30 +2,13 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { groupMessagesByChats } from './groupMessagesByChats';
 
 import { mockAPI } from '../../app/mockAPI';
+import { IChats, IMessage } from '../../app/messagesInterfaces';
 
-
-export interface IMessage {
-    "id": string
-    "senderId": string
-    "recieverId": string
-    "content": string
-    "time": string
-    "isRead": boolean
-    "replyToMsg": null | number
-};
-
-interface IChats {
-    chats: IMessage[][],
-    loading: 'idle' | 'pending' | 'succeeded' | 'failed',
-    error: string | null;
-
-}
-
-const initialState = {
+const initialState: IChats = {
     chats: [],
     loading: 'idle',
     error: null
-} as IChats;
+};
 
 export const fetchAllChats = createAsyncThunk(
     'chats/fetchChats',

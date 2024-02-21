@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { mockAPI } from '../../app/mockAPI';
-import { GET_ALL_USERS } from '../../app/globalVars';
+import { GET_ALL_USERS } from '../../app/APIEndpoints';
 
 export interface IUserModel {
     id: string;

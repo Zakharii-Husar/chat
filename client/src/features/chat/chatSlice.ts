@@ -1,52 +1,19 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import { groupMessagesByChats } from '../chats/groupMessagesByChats';
-import { IMessage } from '../chats/chatsSlice';
-import { mockAPI } from '../../app/mockAPI';
-import { SEND_MESSAGE } from '../../app/globalVars';
+import { GET_CHAT, SEND_MESSAGE } from '../../app/APIEndpoints';
 import type { RootState } from "../../app/store";
 
-
-interface IMessageToSend {
-    ReceiverId: string | null,
-    Content: string | null,
-    RepliedTo: number | null
-}
-
-interface IChat {
-    chat: IMessage[],
-    messageToSend: IMessageToSend,
-    sentMessage: IMessageToSend | undefined
-    loading: 'idle' | 'pending' | 'succeeded' | 'failed',
-    error: string | null;
-
-}
+import { IChat, IMessage } from '../../app/messagesInterfaces';
 
 
-const initialState = {
+const initialState: IChat = {
     chat: [],
     messageToSend: {
         ReceiverId: null,
         Content: null,
         RepliedTo: null
-    },
-    sentMessage: undefined,
-    loading: 'idle',
-    error: null
-} as IChat;
-
-export const fetchAChat = createAsyncThunk(
-    'chat/fetchAChat',
-    async (i: string) => {
-        try {
-            const response = JSON.stringify(mockAPI.messages);
-            const data = await JSON.parse(response);
-            return [];
-        } catch (error) {
-            console.log(error);
-        }
     }
-);
+};
 
 export const sendMessageAsync = createAsyncThunk(
     'chat/sendMessageAsync',
@@ -63,8 +30,8 @@ export const sendMessageAsync = createAsyncThunk(
             });
 
             if (response.ok) {
-                const usersList = await response.json();
-                return usersList;
+                const messageResponse = await response.json();
+                dispatch(chatSlice.actions.addToChat(messageResponse));
             }
         } catch (error) {
             console.log(error);
@@ -72,46 +39,47 @@ export const sendMessageAsync = createAsyncThunk(
     }
 );
 
+export const fetchAChat = createAsyncThunk(
+    'chat/fetchAChat',
+    async (friendId: string, { getState, dispatch }) => {
+        try {
+            const response = await fetch(GET_CHAT, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(friendId),
+                credentials: "include",
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                dispatch(chatSlice.actions.setChat(data));
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
+);
+
+
 export const chatSlice = createSlice({
     name: 'chatSlice',
     initialState,
     reducers: {
+
+        setChat: (state, action: PayloadAction<IMessage[]>) => {
+            state.chat = action.payload;
+        },
+        addToChat: (state, action: PayloadAction<IMessage>) => {
+            state.chat.push(action.payload);
+        },
         setRecieverId: (state, action: PayloadAction<string>) => {
             state.messageToSend.ReceiverId = action.payload;
         },
         setMessageContent: (state, action: PayloadAction<string>) => {
             state.messageToSend.Content = action.payload;
         },
-    },
-    extraReducers: (builder) => {
-        builder
-            //FETCH MESSAGES
-            .addCase(fetchAChat.pending, (state) => {
-                state.loading = 'pending';
-                state.error = null;
-            })
-            .addCase(fetchAChat.fulfilled, (state, action) => {
-                state.loading = 'succeeded';
-                state.chat = action.payload as IMessage[];
-            })
-            .addCase(fetchAChat.rejected, (state, action) => {
-                state.loading = 'failed';
-                state.error = action.error.message ?? null;
-            })
-            //SEND MESSAGE
-            .addCase(sendMessageAsync.pending, (state) => {
-                state.loading = 'pending';
-                state.error = null;
-            })
-            .addCase(sendMessageAsync.fulfilled, (state, action) => {
-                state.loading = 'succeeded';
-                //state.chat.sentMessage = action.payload;
-            })
-            .addCase(sendMessageAsync.rejected, (state, action) => {
-                state.loading = 'failed';
-                state.error = action.error.message ?? null;
-            })
-
     },
 })
 

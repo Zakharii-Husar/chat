@@ -11,7 +11,7 @@ namespace API.Controllers.Messages
     [ApiController]
     public class GetChat(AppDbContext dbContext, UserManager<AppUser> userManager) : ControllerBase
     {
-        [HttpGet]
+        [HttpPost]
         public async Task<IActionResult> Get([FromBody] string friendId)
         {
             var currentUser = await userManager.GetUserAsync(User);

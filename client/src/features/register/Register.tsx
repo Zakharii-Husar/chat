@@ -3,7 +3,7 @@ import { useAppSelector, useAppDispatch } from '../../hooks/useAppSelectorAndDis
 import { setEmail, setFullName, setNickName, setPassword, setConfirm, registerAsync } from './registerSlice';
 import { SyntheticEvent, useEffect } from 'react';
 import { Form } from 'react-bootstrap';
-import { useRegValidation } from './useRegValidation';
+import { useRegValidation } from '../../hooks/useRegValidation';
 import { useNavigate } from 'react-router';
 
 export function Register() {
@@ -27,7 +27,7 @@ export function Register() {
     useEffect(() => {
         if (loggedInUserId) navigate("/");
         console.log(loggedInUserId);
-      }, [loggedInUserId])
+    }, [loggedInUserId])
 
     const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
         const name = e.target.name;
@@ -55,9 +55,9 @@ export function Register() {
     const handleSubmit = (e: SyntheticEvent) => {
         e.preventDefault();
         const inputIsOk = Object.values(validationErrors).every(err => err === "");
-        if(inputIsOk){
+        if (inputIsOk) {
             dispatch(registerAsync());
-        }else{
+        } else {
             alert("YOU HAVE VALIDATION ERRORS!");
         }
     };

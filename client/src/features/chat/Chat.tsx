@@ -2,7 +2,6 @@ import { useEffect } from "react";
 import { useParams, useLocation } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../hooks/useAppSelectorAndDispatch";
 import { fetchAChat, setRecieverId, setMessageContent, sendMessageAsync } from "./chatSlice";
-import { useFindUserById } from "../../hooks/useFindUserById";
 
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
@@ -17,25 +16,21 @@ export const Chat: React.FC = () => {
     const dispatch = useAppDispatch();
     const { frirensdNickname } = useParams();
 
-    console.log(locationState.recieverId);
-
     const { id: loggedInUserId } = useAppSelector(state => state.auth.response);
     const { ReceiverId, Content } = useAppSelector(state => state.chat.messageToSend);
 
 
 
-    const {
-        chat,
-        loading,
-        error } = useAppSelector(state => state.chat);
+    const { chat } = useAppSelector(state => state.chat);
 
-    useEffect(() => {
-        dispatch(setRecieverId(locationState.recieverId))
-    }, [locationState.recieverId])
 
+    //GETTING EXISTING MESSAGES & SETTING MESSAGE RECIEVER
     useEffect(() => {
-        dispatch(fetchAChat(frirensdNickname ?? "0"));
-    }, [dispatch])
+        if (locationState.recieverId) {
+            dispatch(setRecieverId(locationState.recieverId));
+            dispatch(fetchAChat(locationState.recieverId));
+        }
+    }, [dispatch, locationState.recieverId])
 
     const handleMessageInput = (e: React.ChangeEvent<HTMLInputElement>) => {
         dispatch(setMessageContent(e.target.value))
@@ -52,28 +47,25 @@ export const Chat: React.FC = () => {
             <Row style={{ height: '70vh', overflowY: 'auto' }}
                 className="d-flex flex-column align-items-center justify-content-center w-100 mt-3">
                 <Col xs={12} md={8} lg={4} xl={2}>
-                    {loading === 'pending' && <p>Loading...</p>}
-                    {loading === 'failed' && <p>Error: {error}</p>}
 
-                    {loading === 'succeeded' && (
-                        <ListGroup className="">
-                            {chat?.map((message, i) => {
-                                const alignSelf = `align-self-${message.senderId === loggedInUserId ?
-                                    "end" : "start"}`
-                                return (
-                                    <ListGroup.Item style={{ backgroundColor: "blue" }} key={message.id}
-                                        className={`d-flex flex-column ${alignSelf}
+
+                    <ListGroup className="">
+                        {chat?.map((message, i) => {
+                            const alignSelf = `align-self-${message.senderId === loggedInUserId ?
+                                "end" : "start"}`
+                            return (
+                                <ListGroup.Item style={{ backgroundColor: "blue" }} key={message.id}
+                                    className={`d-flex flex-column ${alignSelf}
                                      align-items-start justify-content-between py-1
                                       w-50`}>
-                                        <div className="d-flex flex-column w-100">
-                                            <p>{message.content}</p>
-                                            <p style={{ backgroundColor: "grey" }} className={`d-flex ${alignSelf}`}>{message.time}</p>
-                                        </div>
-                                    </ListGroup.Item>
-                                )
-                            })}
-                        </ListGroup>
-                    )}
+                                    <div className="d-flex flex-column w-100">
+                                        <p>{message.content}</p>
+                                        <p style={{ backgroundColor: "grey" }} className={`d-flex ${alignSelf}`}>{message.time}</p>
+                                    </div>
+                                </ListGroup.Item>
+                            )
+                        })}
+                    </ListGroup>
                 </Col>
             </Row>
             <Row>
