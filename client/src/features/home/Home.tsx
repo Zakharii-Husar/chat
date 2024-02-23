@@ -8,7 +8,9 @@ import Row from "react-bootstrap/Row";
 import { useCheckAuth } from "../../hooks/useCheckAuth";
 
 export const Home: React.FC = () => {
+    useCheckAuth();
     const loggedInId = useAppSelector(state => state.auth.response?.id);
+    console.log(loggedInId);
 
 
     return (

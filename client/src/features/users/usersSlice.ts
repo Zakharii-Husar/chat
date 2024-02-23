@@ -2,26 +2,12 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { mockAPI } from '../../app/mockAPI';
 import { GET_ALL_USERS } from '../../app/APIEndpoints';
-
-export interface IUserModel {
-    id: string;
-    nickname: string;
-}
-
-interface IUsersModel {
-    allUsers: IUserModel[]
-    filteredUsers: IUserModel[]
-    searchedUser: string | null
-    loading: 'idle' | 'pending' | 'succeeded' | 'failed',
-    error: string | null;
-}
+import { IUserModel, IUsersModel } from '../../app/userInterfaces';
 
 const initialState: IUsersModel = {
     allUsers: [],
     filteredUsers: [],
-    searchedUser: null,
-    loading: 'idle',
-    error: null
+    searchedUser: null
 };
 
 
