@@ -6,7 +6,6 @@ import { LOGIN_URL, CHECK_COOKIES_URL } from "../../app/APIEndpoints";
 import { IAuthState, IResponse } from '../../app/authInterfaces';
 
 const initialState: IAuthState = {
-    loggedIn: false,
     loading: 'idle',
     error: null,
     request: {
@@ -85,51 +84,8 @@ export const authSlice = createSlice({
         setResponse: (state, action: PayloadAction<IResponse>) => {
             state.response = action.payload;
         },
-        setLoggedIn: (state, action: PayloadAction<boolean>) => {
-            state.loggedIn = action.payload;
-        },
     },
 
-    extraReducers: (builder) => {
-        builder
-
-            //LOGIN WITH PASSWORD
-            //.addCase(loginAsync.pending, (state) => {
-            //    state.loading = 'pending';
-            //    state.error = null;
-            //})
-            //.addCase(loginAsync.fulfilled, (state, action: PayloadAction<IResponse>) => {
-
-            //    if (action.payload) {
-            //        state.response = action.payload;
-            //        state.loading = 'succeeded';
-            //        state.loggedIn = true;
-            //    }
-            //})
-            //.addCase(loginAsync.rejected, (state, action) => {
-            //    state.loading = 'failed';
-            //    state.error = action.error.message ?? null;
-            //})
-
-            //CHECK FOR COOKIES
-            .addCase(validateCookiesAsync.pending, (state) => {
-                state.loading = 'pending';
-                state.error = null;
-            })
-            .addCase(validateCookiesAsync.fulfilled, (state, action: PayloadAction<IResponse>) => {
-
-                if (action.payload) {
-                    state.response = action.payload;
-                    state.loading = 'succeeded';
-                    state.loggedIn = true;
-                }
-            })
-            .addCase(validateCookiesAsync.rejected, (state, action) => {
-                state.loading = 'failed';
-                state.error = action.error.message ?? null;
-                console.log("rejected")
-            })
-    },
 });
 
 export const { setLogin, setPassword, setResponse } = authSlice.actions;

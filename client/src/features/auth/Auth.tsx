@@ -26,7 +26,6 @@ export function Auth() {
 
     useEffect(() => {
         if (loggedInUserId) navigate("/");
-        console.log(loggedInUserId);
     }, [loggedInUserId, navigate])
 
     const handleSubmit = (e: SyntheticEvent) => {

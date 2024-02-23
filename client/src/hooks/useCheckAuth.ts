@@ -8,7 +8,7 @@ export const useCheckAuth = () => {
 
     const dispatch = useAppDispatch();
     const location = useLocation();
-    const loggedIn = useAppSelector(state => state.auth.loggedIn);
+    const loggedInId = useAppSelector(state => state.auth.response?.id);
     const navigate = useNavigate();
 
 
@@ -29,10 +29,10 @@ export const useCheckAuth = () => {
 
         };
         const verifyUser = async () => {
-            if (loggedIn) return;
+            if (loggedInId) return;
             await checkCookies();
-            if (!loggedIn) redirect();
+            if (!loggedInId) redirect();
         }
         verifyUser();
-    }, [location.pathname, loggedIn, dispatch, navigate]);
+    }, [location.pathname, loggedInId, dispatch, navigate]);
 };

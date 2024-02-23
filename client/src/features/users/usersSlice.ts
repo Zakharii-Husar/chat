@@ -25,9 +25,9 @@ const initialState: IUsersModel = {
 };
 
 
-export const fetchAllUsers = createAsyncThunk(
-    'users/fetchAllUsers',
-    async () => {
+export const fetchAllUsersThunk = createAsyncThunk(
+    'users/fetchAllUsersThunk',
+    async (_, { getState, dispatch }) => {
         try {
             const response = await fetch(GET_ALL_USERS, {
                 method: "GET",
@@ -39,7 +39,7 @@ export const fetchAllUsers = createAsyncThunk(
 
             if (response.ok) {
                 const usersList = await response.json();
-                return usersList;
+                dispatch(fetchAllUsers(usersList));
             }
         } catch (error) {
             console.log(error);
@@ -48,13 +48,13 @@ export const fetchAllUsers = createAsyncThunk(
 );
 
 export const searchUsers = createAsyncThunk(
-    'users/searchUsers',
-    async (searchQuery: string) => {
+    'users/findUser',
+    async (searchQuery: string, { getState, dispatch }) => {
 
         try {
             const response = JSON.stringify(mockAPI.users);
             const data = await JSON.parse(response);
-            return data.filter((user: IUserModel) => user.nickname.toLocaleLowerCase().includes(searchQuery.toLocaleLowerCase()));
+            dispatch(findUser(data));
         } catch (error) {
             console.error('Error searching users:', error);
             throw error;
@@ -68,42 +68,17 @@ export const usersSlice = createSlice({
     reducers: {
         updateSearchedUser: (state, action: PayloadAction<string | null>) => {
             state.searchedUser = action.payload;
-        }
-
-    },
-    extraReducers: (builder) => {
-        builder
-            //FETCH ALL USERS
-            .addCase(fetchAllUsers.pending, (state) => {
-                state.loading = 'pending';
-                state.error = null;
-            })
-            .addCase(fetchAllUsers.fulfilled, (state, action: PayloadAction<IUserModel[]>) => {
-                state.loading = 'succeeded';
-                state.allUsers = action.payload;
-            })
-            .addCase(fetchAllUsers.rejected, (state, action) => {
-                state.loading = 'failed';
-                state.error = action.error.message ?? null;
-            })
-
-            //SEARCH USER
-            .addCase(searchUsers.pending, (state) => {
-                state.loading = 'pending';
-                state.error = null;
-            })
-            .addCase(searchUsers.fulfilled, (state, action: PayloadAction<IUserModel[]>) => {
-                state.loading = 'succeeded';
-                state.filteredUsers = action.payload;
-            })
-            .addCase(searchUsers.rejected, (state, action) => {
-                state.loading = 'failed';
-                state.error = action.error.message ?? null;
-            });
+        },
+        fetchAllUsers: (state, action: PayloadAction<IUserModel[]>) => {
+            state.allUsers = action.payload;
+        },
+        findUser: (state, action: PayloadAction<IUserModel[]>) => {
+            state.filteredUsers = action.payload;
+        },
 
     },
 })
 
-export const { updateSearchedUser } = usersSlice.actions
+export const { fetchAllUsers, updateSearchedUser, findUser } = usersSlice.actions
 
 export default usersSlice.reducer

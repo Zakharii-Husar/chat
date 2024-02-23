@@ -4,7 +4,7 @@ import type { RootState } from "../../app/store";
 import { setResponse } from '../auth/authSlice';
 import { REGISTER_URL } from '../../app/APIEndpoints';
 
-import { IRegisterState } from '../../app/authInterfaces';
+import type { IRegisterState } from '../../app/authInterfaces';
 
 const initialState: IRegisterState = {
     email: "",
@@ -55,7 +55,6 @@ export const registerAsync = createAsyncThunk(
 
 export const registerSlice = createSlice({
     name: 'registerSlice',
-    // `createSlice` will infer the state type from the `initialState` argument
     initialState,
     reducers: {
         setEmail: (state, action: PayloadAction<string>) => {

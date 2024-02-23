@@ -2,12 +2,10 @@ import { fetchAllChats } from "./chatsSlice";
 import { useAppDispatch, useAppSelector } from "../../hooks/useAppSelectorAndDispatch";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
-import { useFindUserById } from "../../hooks/useFindUserById";
 
 
 export const Chats: React.FC = () => {
 
-    const findUser = useFindUserById();
     const dispatch = useAppDispatch();
 
     const {
@@ -26,21 +24,17 @@ export const Chats: React.FC = () => {
         <>
             <h1>Chats</h1>
             <div>
-                {chats.map((chat, i) => {
-                    return (
-                        <ul key={i}>
-                            <Link to={i.toString()}>
-                                <li><h1>{
-                                    chat[0].senderId !== loggedInUserId ?
-                                        findUser(chat[0].senderId)?.nickname :
-                                        findUser(chat[0].recieverId)?.nickname
-                                }</h1></li>
-                                <li>{chat[0].content}</li>
-                            </Link>
-                        </ul>
-                    )
-                })
-                }
+                {/*{chats.map((chat, i) => {*/}
+                {/*    return (*/}
+                {/*        <ul key={i}>*/}
+                {/*            <Link to={i.toString()}>*/}
+                {/*                <li>*/}
+                {/*                <li>{chat[0].content}</li>*/}
+                {/*            </Link>*/}
+                {/*        </ul>*/}
+                {/*    )*/}
+                {/*})*/}
+                {/*}*/}
             </div>
         </>)
 }

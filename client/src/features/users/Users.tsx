@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useAppSelector, useAppDispatch } from '../../hooks/useAppSelectorAndDispatch';
-import { fetchAllUsers, searchUsers, updateSearchedUser, IUserModel } from '../users/usersSlice';
+import { fetchAllUsersThunk, searchUsers, updateSearchedUser, IUserModel } from '../users/usersSlice';
 import { Link } from 'react-router-dom';
 
 import Container from 'react-bootstrap/Container';
@@ -25,7 +25,7 @@ const Users: React.FC = () => {
     } = useAppSelector(state => state.users);
 
     useEffect(() => {
-        dispatch(fetchAllUsers());
+        dispatch(fetchAllUsersThunk());
     }, [dispatch]);
 
     useEffect(() => {

@@ -8,12 +8,12 @@ import Row from "react-bootstrap/Row";
 import { useCheckAuth } from "../../hooks/useCheckAuth";
 
 export const Home: React.FC = () => {
-    const loggedIn = useAppSelector(state => state.auth.loggedIn);
+    const loggedInId = useAppSelector(state => state.auth.response?.id);
 
 
     return (
         <Container fluid className="d-flex flex-column align-items-center vw-100">
-            {loggedIn ? <Users /> : <Welcome />}
+            {loggedInId ? <Users /> : <Welcome />}
         </Container>
     )
 }
