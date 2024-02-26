@@ -29,6 +29,7 @@ export const Chat: React.FC = () => {
         if (locationState.recieverId) {
             dispatch(setRecieverId(locationState.recieverId));
             dispatch(fetchAChat(locationState.recieverId));
+            console.log(chat);
         }
     }, [dispatch, locationState.recieverId])
 

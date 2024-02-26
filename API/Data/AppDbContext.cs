@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using API.Models;
+using API.Models.DB;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 namespace API.Data
 {

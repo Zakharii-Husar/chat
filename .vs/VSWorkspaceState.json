@@ -4,7 +4,8 @@
     "\\API",
     "\\API\\Controllers",
     "\\API\\Controllers\\Messages",
-    "\\API\\Data"
+    "\\API\\Data",
+    "\\API\\Models"
   ],
   "SelectedNode": "\\API\\Controllers\\Messages\\SendMessage.cs",
   "PreviewInSolutionExplorer": false

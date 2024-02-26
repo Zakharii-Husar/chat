@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using API.Data;
 using API.Models;
+using API.Models.DB;
 using Microsoft.AspNetCore.Identity;
 using System.Threading.Tasks;
 
@@ -24,10 +25,8 @@ namespace API.Controllers.Messages
 
             var messagesWithUsers = await dbContext.Messages
                 .Include(m => m.Sender)
-                .Include(m => m.Receiver)
                 .Where(m =>
-                    (m.SenderId == currentUserId && m.ReceiverId == friendId) ||
-                    (m.SenderId == friendId && m.ReceiverId == currentUserId))
+                    (m.SenderId == currentUserId || m.SenderId == friendId))
                 .ToListAsync();
 
             return Ok(messagesWithUsers);

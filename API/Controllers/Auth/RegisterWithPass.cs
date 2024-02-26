@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using API.Models;
 using Microsoft.AspNetCore.Identity;
+using API.Models.DB;
 
 namespace API.Controllers.Auth
 {

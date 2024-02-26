@@ -1,4 +1,4 @@
-﻿using API.Models;
+﻿using API.Models.DB;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -21,7 +21,7 @@ namespace API.Controllers
     .Select(user => new
     {
         id = user.Id,
-        nickname = user.UserName 
+        nickname = user.UserName
     })
     .ToListAsync();
             return Ok(users);

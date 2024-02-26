@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using API.Data;
+using API.Models.DB;
 using API.Models;
 using Microsoft.AspNetCore.Identity;
 
@@ -28,7 +29,7 @@ namespace API.Controllers.Messages
             var newMessage = new Message
             {
                 SenderId = senderId,
-                ReceiverId = messageModel.ReceiverId,
+                //ReceiverId = messageModel.ReceiverId,
                 Content = messageModel.Content,
                 RepliedTo = messageModel.RepliedTo
             };
