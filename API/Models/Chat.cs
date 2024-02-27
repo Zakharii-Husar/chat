@@ -1,13 +1,13 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace API.Models.DB
+namespace API.Models
 {
     [Table("Chats")]
     public class Chat
     {
         [Key]
-        public int ChatId { get; }
+        public int ChatId { get; set; }
         public string ChatName { get; set; } = null!;
 
     }

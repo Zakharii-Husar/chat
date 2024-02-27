@@ -2,9 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using API.Data;
 using API.Models;
-using API.Models.DB;
 using Microsoft.AspNetCore.Identity;
-using System.Threading.Tasks;
 
 namespace API.Controllers.Messages
 {

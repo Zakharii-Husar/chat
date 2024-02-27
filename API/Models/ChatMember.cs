@@ -2,28 +2,28 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace API.Models.DB
+namespace API.Models
 {
-    [Table("Participants")]
-    public class Participant
+    [Table("ChatMembers")]
+    public class ChatMember
     {
         [Key]
-        public int RecordId { get; }
-        [ForeignKey("ChatParticipant")]
-        public string ChatParticipantId { get; set; } = null!;
-        public AppUser ChatParticipant { get; set; } = null!;
+        public int RecordId { get; set; }
+
+        [ForeignKey("Member")]
+        public string MemberId { get; set; } = null!;
+        public AppUser Member { get; set; } = null!;
 
         [ForeignKey("Chat")]
         public int ChatId { get; set; }
-
         public Chat Chat { get; set; } = null!;
 
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [DefaultValue("CURRENT_TIMESTAMP")]
-        public DateTime Joined { get; }
+        public DateTime EnteredChat { get; set; }
 
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public DateTime? Left { get; set; } = null;
+        public DateTime? LeftChat { get; set; } = null;
 
         public bool IsCreator { get; set; } = false;
     }

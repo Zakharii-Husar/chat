@@ -1,6 +1,6 @@
-using API.Models.DB;
 using Microsoft.AspNetCore.Identity;
 using API.Data;
+using API.Models;
 
 
 var builder = WebApplication.CreateBuilder(args);

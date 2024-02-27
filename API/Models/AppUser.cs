@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 
-namespace API.Models.DB
+namespace API.Models
 {
     [Table("Users")]
 

@@ -1,11 +1,15 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using API.Models.DB;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using API.Models;
 namespace API.Data
 {
     public class AppDbContext : IdentityDbContext<AppUser>
     {
+        public DbSet<Chat> Chats { get; set; } = null!;
+        public DbSet<ChatMember> ChatMembers { get; set; } = null!;
         public DbSet<Message> Messages { get; set; } = null!;
+        public DbSet<Like> Likes { get; set; } = null!;
+        public DbSet<ReadReceipt> ReadReceipts { get; set; } = null!;
 
         private string DB_NAME { get; }
         private string DB_USERNAME { get; }
@@ -16,7 +20,6 @@ namespace API.Data
 
         public AppDbContext()
         {
-            // Initialize environment variables
             DB_NAME = Environment.GetEnvironmentVariable("DB_NAME") ??
                 throw new ArgumentNullException("DB_NAME environment variable is missing.");
             DB_USERNAME = Environment.GetEnvironmentVariable("DB_USERNAME") ??
@@ -37,6 +40,7 @@ namespace API.Data
         {
             optionsBuilder.UseMySQL(ConnectionString);
         }
+
     }
 }
 

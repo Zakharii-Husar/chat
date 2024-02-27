@@ -1,4 +1,4 @@
-using API.Models.DB;
+using API.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 

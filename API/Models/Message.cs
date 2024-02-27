@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace API.Models.DB
+namespace API.Models
 {
     [Table("Messages")]
     public class Message
@@ -15,6 +15,10 @@ namespace API.Models.DB
         public string SenderId { get; set; } = null!;
         public AppUser Sender { get; set; } = null!;
 
+        [ForeignKey("Chat")]
+        public int ChatId { get; set; }
+        public Chat Chat { get; set; } = null!;
+
         [Column(TypeName = "TEXT")]
         [MaxLength(300)]
         public string Content { get; set; } = null!;
@@ -23,6 +27,7 @@ namespace API.Models.DB
         [DefaultValue("CURRENT_TIMESTAMP")]
         public DateTime SentAt { get; set; }
 
+        [ForeignKey("MessageId")]
         public int? RepliedTo { get; set; }
 
         public bool IsRead { get; set; } = false;

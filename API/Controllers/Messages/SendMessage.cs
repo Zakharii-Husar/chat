@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using API.Data;
-using API.Models.DB;
 using API.Models;
 using Microsoft.AspNetCore.Identity;
 
