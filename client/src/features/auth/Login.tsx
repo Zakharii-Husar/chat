@@ -1,7 +1,7 @@
 import { useAppSelector, useAppDispatch } from '../../hooks/useAppSelectorAndDispatch';
-import { setLogin, setPassword } from './authSlice';
+import { setLogin, setPassword } from './loginSlice';
 import { SyntheticEvent, useEffect } from 'react';
-import { loginAsync } from './authSlice';
+import { loginAsync } from './loginSlice';
 import { useNavigate } from 'react-router';
 
 import Form from 'react-bootstrap/Form';

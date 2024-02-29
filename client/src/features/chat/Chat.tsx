@@ -12,11 +12,14 @@ import { Button } from "react-bootstrap";
 
 export const Chat: React.FC = () => {
 
-    let { state: locationState } = useLocation();
-    const dispatch = useAppDispatch();
-    const { frirensdNickname } = useParams();
+    const { state: locationState } = useLocation();
 
     const { id: loggedInUserId } = useAppSelector(state => state.auth.response);
+    const dispatch = useAppDispatch();
+
+
+    const { friendNickname } = useParams();
+
     const { ReceiverId, Content } = useAppSelector(state => state.chat.messageToSend);
 
 
@@ -26,12 +29,12 @@ export const Chat: React.FC = () => {
 
     //GETTING EXISTING MESSAGES & SETTING MESSAGE RECIEVER
     useEffect(() => {
-        if (locationState.recieverId) {
-            dispatch(setRecieverId(locationState.recieverId));
-            dispatch(fetchAChat(locationState.recieverId));
+        if (locationState.recipientId) {
+            dispatch(setRecieverId(locationState.recipientId));
+            dispatch(fetchAChat(locationState.recipientId));
             console.log(chat);
         }
-    }, [dispatch, locationState.recieverId])
+    }, [dispatch, locationState.recipientId])
 
     const handleMessageInput = (e: React.ChangeEvent<HTMLInputElement>) => {
         dispatch(setMessageContent(e.target.value))

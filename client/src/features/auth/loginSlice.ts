@@ -22,7 +22,7 @@ const initialState: IAuthState = {
 
 export const validateCookiesAsync = createAsyncThunk(
     "auth/cookies",
-    async (_, { getState, dispatch }) => {
+    async (_, { dispatch }) => {
         try {
             const response = await fetch(CHECK_COOKIES_URL, {
                 method: "GET",
@@ -32,11 +32,10 @@ export const validateCookiesAsync = createAsyncThunk(
             if (response.ok) {
                 const data = await response.json();
                 dispatch(setResponse(data));
-                return data;
             }
 
         } catch (error) {
-            return false;
+            console.error(error);
         }
     }
 );
@@ -60,13 +59,12 @@ export const loginAsync = createAsyncThunk(
             });
 
             if (response.ok) {
-                const data = await response.json();
-                dispatch(setResponse(data));
-                return data;
+                dispatch(validateCookiesAsync());
+                  
             }
 
         } catch (error) {
-            return false;
+            console.error(error);
         }
     }
 );

@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useNavigate, useLocation } from "react-router";
 import { useAppSelector, useAppDispatch } from "./useAppSelectorAndDispatch";
-import { validateCookiesAsync } from './../features/auth/authSlice';
+import { validateCookiesAsync } from '../features/auth/loginSlice';
 
 
 export const useCheckAuth = () => {

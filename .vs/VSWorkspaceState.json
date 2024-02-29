@@ -3,11 +3,10 @@
     "",
     "\\API",
     "\\API\\Controllers",
-    "\\API\\Controllers\\Messages",
     "\\API\\Data",
-    "\\API\\Migrations",
-    "\\API\\Models"
+    "\\API\\Models",
+    "\\client"
   ],
-  "SelectedNode": "\\API\\Migrations",
+  "SelectedNode": "\\API\\Models\\Message.cs",
   "PreviewInSolutionExplorer": false
 }

@@ -5,7 +5,7 @@ import {
 } from "../hooks/useAppSelectorAndDispatch";
 import { useEffect } from "react";
 import validator from "validator";
-import { setEmailErr, setFullNameErr, setNickNameErr, setPasswordErr, setConfirmErr } from '../features/register/registerSlice';
+import { setEmailErr, setFullNameErr, setNickNameErr, setPasswordErr, setConfirmErr } from '../features/auth/registerSlice';
 import { EMAIL_AVAILABILITY_URL, NICKNAME_AVAILABILITY_URL } from "../app/APIEndpoints";
 
 export const useRegValidation = () => {
@@ -33,7 +33,6 @@ export const useRegValidation = () => {
             }
 
             const result = await response.json();
-            console.log(result)
             return result;
         } catch (error) {
             console.error("Error during checking email availability:", error);

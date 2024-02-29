@@ -3,14 +3,11 @@ import { useAppSelector } from "../../hooks/useAppSelectorAndDispatch";
 import { Welcome } from "./Welcome";
 
 import Container from "react-bootstrap/Container";
-import Col from "react-bootstrap/Col";
-import Row from "react-bootstrap/Row";
 import { useCheckAuth } from "../../hooks/useCheckAuth";
 
 export const Home: React.FC = () => {
     useCheckAuth();
-    const loggedInId = useAppSelector(state => state.auth.response?.id);
-    console.log(loggedInId);
+    const loggedInId = useAppSelector(state => state.auth.response.id);
 
 
     return (

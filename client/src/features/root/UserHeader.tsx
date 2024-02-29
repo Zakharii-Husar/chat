@@ -14,7 +14,7 @@ export const UserHeader: React.FC = () => {
     return (
         <Container fluid className="d-flex justify-content-center vw-100 p-4">
             <Row className="align-items-center">                <Col className="me-3">
-                <div>
+                <div> 
                     <h1 style={{ color: "blue" }} className="text-xl" >Chat</h1>
                 </div>
             </Col >

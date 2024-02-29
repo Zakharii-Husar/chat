@@ -10,13 +10,7 @@ export function Register() {
 
     const navigate = useNavigate();
 
-    const {
-        email,
-        fullName,
-        nickName,
-        password,
-        validationErrors
-    } = useAppSelector((state: RootState) => state.register);
+    const validationErrors = useAppSelector((state) => state.register.validationErrors);
 
     const { id: loggedInUserId } = useAppSelector(state => state.auth.response);
 
@@ -26,7 +20,6 @@ export function Register() {
 
     useEffect(() => {
         if (loggedInUserId) navigate("/");
-        console.log(loggedInUserId);
     }, [loggedInUserId])
 
     const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {

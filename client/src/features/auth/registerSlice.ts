@@ -1,8 +1,8 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import type { RootState } from "../../app/store";
-import { setResponse } from '../auth/authSlice';
 import { REGISTER_URL } from '../../app/APIEndpoints';
+import { validateCookiesAsync } from './loginSlice';
 
 import type { IRegisterState } from '../../app/authInterfaces';
 
@@ -39,12 +39,9 @@ export const registerAsync = createAsyncThunk(
                 }),
                 credentials: "include"
             });
-            console.log(response);
 
             if (response.ok) {
-                const data = await response.json();
-                dispatch(setResponse(data));
-                return data;
+                dispatch(validateCookiesAsync());
             }
 
         } catch (error) {

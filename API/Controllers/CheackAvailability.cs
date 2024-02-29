@@ -11,34 +11,20 @@ namespace API.Controllers
     {
         private readonly UserManager<AppUser> _userManager = userManager;
 
-        [HttpGet("email/{email}")]
+        [HttpGet("IsEmailTaken/{email}")]
         public async Task<IActionResult> CheckEmailAvailability(string email)
         {
             var user = await _userManager.FindByEmailAsync(email);
 
-            if (user != null)
-            {
-                return Ok(true);
-            }
-            else
-            {
-                return Ok(false);
-            }
+            return Ok(user != null);
         }
 
-        [HttpGet("UserName/{UserName}")]
-        public async Task<IActionResult> CheckUserNameAvailability(string UserName)
+        [HttpGet("IsUsernameTaken/{UserName}")]
+        public async Task<IActionResult> CheckUserNameAvailability(string userName)
         {
-            var user = await _userManager.FindByNameAsync(UserName);
+            var user = await _userManager.FindByNameAsync(userName);
 
-            if (user != null)
-            {
-                return Ok(true);
-            }
-            else
-            {
-                return Ok(false);
-            }
+            return Ok(user != null);
         }
 
     }

@@ -26,7 +26,6 @@ const Users: React.FC = () => {
     useEffect(() => {
         dispatch(fetchAllUsersThunk());
     }, [dispatch]);
-    console.log(allUsers)
 
     //useEffect(() => {
     //    if (searchedUser) dispatch(searchUsers(searchedUser));
@@ -51,7 +50,7 @@ const Users: React.FC = () => {
 
                     <ListGroup>
                         {allUsers?.map((user: IUserModel, i) => (
-                            <Link key={user.id} to={`chats/${user.nickname}`} state={{ recieverId: user.id }}>
+                            <Link key={user.id} to={`chats/${user.nickname}`} state={{ recipientId: user.id }}>
                                 <ListGroup.Item
                                     className="d-flex align-items-center justify-content-between py-1">
 
