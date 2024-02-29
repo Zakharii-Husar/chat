@@ -10,11 +10,13 @@ Backend communication using Fetch API.
 WebSocket support using SignalR.
 
 STACK
+
 Frontend:
 React.js
 React Bootstrap (for UI components)
 TypeScript
 Fetch API (for communication with the backend)
+
 Backend:
 .NET Core (Web API)
 Entity Framework Core (for database access)
