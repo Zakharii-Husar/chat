@@ -3,10 +3,11 @@
     "",
     "\\API",
     "\\API\\Controllers",
+    "\\API\\Controllers\\Messages",
     "\\API\\Data",
     "\\API\\Models",
     "\\client"
   ],
-  "SelectedNode": "\\API\\Models\\Message.cs",
+  "SelectedNode": "\\API\\Controllers\\Messages\\AddChat.cs",
   "PreviewInSolutionExplorer": false
 }

@@ -19,7 +19,7 @@ namespace API.Controllers
             return Ok(user != null);
         }
 
-        [HttpGet("IsUsernameTaken/{UserName}")]
+        [HttpGet("IsUsernameTaken/{userName}")]
         public async Task<IActionResult> CheckUserNameAvailability(string userName)
         {
             var user = await _userManager.FindByNameAsync(userName);
