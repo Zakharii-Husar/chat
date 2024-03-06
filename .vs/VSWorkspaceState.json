@@ -3,11 +3,12 @@
     "",
     "\\API",
     "\\API\\Controllers",
+    "\\API\\Controllers\\Auth",
     "\\API\\Controllers\\Messages",
     "\\API\\Data",
     "\\API\\Models",
     "\\client"
   ],
-  "SelectedNode": "\\API\\API.sln",
+  "SelectedNode": "\\API\\Controllers\\Auth\\AuthWithCookies.cs",
   "PreviewInSolutionExplorer": false
 }

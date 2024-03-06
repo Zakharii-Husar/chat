@@ -9,12 +9,10 @@ namespace API.Controllers
     [ApiController]
     public class CheckAvailabilityController(UserManager<AppUser> userManager) : ControllerBase
     {
-        private readonly UserManager<AppUser> _userManager = userManager;
-
         [HttpGet("IsEmailTaken/{email}")]
         public async Task<IActionResult> CheckEmailAvailability(string email)
         {
-            var user = await _userManager.FindByEmailAsync(email);
+            var user = await userManager.FindByEmailAsync(email);
 
             return Ok(user != null);
         }
@@ -22,7 +20,7 @@ namespace API.Controllers
         [HttpGet("IsUsernameTaken/{userName}")]
         public async Task<IActionResult> CheckUserNameAvailability(string userName)
         {
-            var user = await _userManager.FindByNameAsync(userName);
+            var user = await userManager.FindByNameAsync(userName);
 
             return Ok(user != null);
         }

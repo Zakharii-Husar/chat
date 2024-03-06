@@ -8,7 +8,7 @@ namespace API.Models
     {
         [Key]
         public int ChatId { get; set; }
-        public string ChatName { get; set; } = null!;
+        public string? ChatName { get; set; }
 
         public ICollection<ChatMember> ChatMembers { get; set; } = new List<ChatMember>();
     }

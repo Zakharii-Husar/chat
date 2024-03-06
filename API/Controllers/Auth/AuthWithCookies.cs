@@ -9,30 +9,30 @@ namespace API.Controllers.Auth
     [Route("chat-api/[controller]")]
     public class AuthWithCookiesController(UserManager<AppUser> userManager) : ControllerBase
     {
-        private readonly UserManager<AppUser> _userManager = userManager;
-
         [HttpGet]
         public async Task<IActionResult> CheckAuthorization()
         {
-            bool isAuth = User.Identity?.IsAuthenticated ?? false;
+            var isAuth = User.Identity?.IsAuthenticated ?? false;
 
-            if (isAuth)
+            if (!isAuth) return Ok(false);
+            var user = await userManager.GetUserAsync(User);
+
+            if (user != null)
             {
-                var user = await _userManager.GetUserAsync(User);
-
-                if (user != null)
+                return Ok(new
                 {
-                    return Ok(new
-                    {
-                        id = user.Id,
-                        nickname = user.UserName,
-                        email = user.Email,
-                        fullName = user.FullName
-                    });
-                }
+                    id = user.Id,
+                    nickname = user.UserName,
+                    email = user.Email,
+                    fullName = user.FullName
+                });
             }
 
             return Ok(false);
+        }
+
+        public AuthWithCookiesController() : this(null)
+        {
         }
     }
 }

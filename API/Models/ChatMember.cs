@@ -19,7 +19,6 @@ namespace API.Models
         public Chat Chat { get; set; } = null!;
 
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        [DefaultValue("CURRENT_TIMESTAMP")]
         public DateTime EnteredChat { get; set; }
 
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
