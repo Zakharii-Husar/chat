@@ -10,12 +10,10 @@ namespace API.Models
         [Key]
         public int LikeId { get; set; }
 
-        [ForeignKey("Message")]
-        public int MessageId { get; set; }
-        public Message Message { get; set; } = null!;
+        [ForeignKey("Message")][Required] public int? MessageId { get; set; }
+        public Message Message { get; set; }
 
-        [ForeignKey("User")]
-        public string UserId { get; set; } = null!;
-        public AppUser User { get; set; } = null!;
+        [ForeignKey("User")][Required] public string? UserId { get; set; }
+        public AppUser User { get; set; }
     }
 }

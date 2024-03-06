@@ -39,7 +39,30 @@ namespace API.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseMySQL(ConnectionString);
+            optionsBuilder.UseSqlServer("data source=MSI\\SQLEXPRESS;initial catalog=chat;trusted_connection=true; TrustServerCertificate=True;");
+        }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            // Configuring your relationships using Fluent API
+            modelBuilder.Entity<Like>()
+                .HasKey(l => l.LikeId);
+
+            modelBuilder.Entity<Like>()
+                .HasOne(l => l.Message)
+                .WithMany(m => m.Likes)
+                .HasForeignKey(l => l.MessageId)
+                .OnDelete(DeleteBehavior.NoAction);  // Adjust this as needed
+
+            modelBuilder.Entity<Like>()
+                .HasOne(l => l.User)
+                .WithMany()
+                .HasForeignKey(l => l.UserId)
+                .OnDelete(DeleteBehavior.Cascade);  // Adjust this as needed
+
+            // Add more configurations as needed
         }
 
     }

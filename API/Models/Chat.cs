@@ -10,5 +10,6 @@ namespace API.Models
         public int ChatId { get; set; }
         public string ChatName { get; set; } = null!;
 
+        public ICollection<ChatMember> ChatMembers { get; set; } = new List<ChatMember>();
     }
 }

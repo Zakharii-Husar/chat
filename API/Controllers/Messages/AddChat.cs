@@ -15,34 +15,37 @@ namespace API.Controllers.Messages
         {
             List<string> myList =
 [
-    "19703815-90cd-4de8-8017-f9ec56695e41",
-    //"e0083f0d-b1d6-4964-bbc3-e429284e9f59",
-    "f965e7f6-7dca-4824-8083-aef165d5330c",
-    "sd"
+    "c0a993a4-72fa-4327-b836-23e40d5f8426",
+    "d5d9c727-6e7b-4805-a8e7-a8282ec16483",
+    "e06c412a-7cf4-40aa-8b6a-d2a6613c9fd1"
 ];
 
 
             try
             {
-                var matchingChatIds = await dbContext.ChatMembers
-    .Where(cm => myList.Contains(cm.MemberId))
-    .GroupBy(cm => cm.MemberId)
-    .Where(group => group.Select(cm => cm.ChatId).Distinct().Count() == 1)
-    .Select(group => group.First().ChatId)
-    .FirstOrDefaultAsync();
+                //QUERY MEMBERS TABLE
+                //QUERY MEMBERS TABLE
+                //HAS TO RETURN ONLY POSSIBLE CHATS IDS
+                var matchingChatsIds = await dbContext.ChatMembers
+                    .Where(cm => participantUserIds.Contains(cm.MemberId))
+                    .GroupBy(cm => cm.ChatId)
+                    .Select(chat => chat.Key)
+                    .ToListAsync();
 
-                // If matchingChatIds is null, it means the conditions were not met.
-                // Otherwise, it contains the common chat ID.
+                //QUERY CHATS TABLE
+                //HAS TO FIND THE CHAT ID THAT ALL PARTICIPANTS HAVE IN COMMON OR NULL
+                var exactMatch = await dbContext.Chats
+                    .Where(c => matchingChatsIds.Contains(c.ChatId))
+                    .Where(c => c.ChatMembers.Count() == participantUserIds.Count)
+                    .Where(c => c.ChatMembers.All(m => participantUserIds.Contains(m.MemberId)))
+                    .Select(c => c.ChatId)
+                    .FirstOrDefaultAsync();
 
 
-                if (matchingChatIds != null)
-                {
-                    return Ok(matchingChatIds);
-                }
-                else
-                {
-                    return NotFound();
-                }
+
+
+
+                return Ok(exactMatch);
             }
             catch (Exception e)
             {

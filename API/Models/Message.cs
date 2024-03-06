@@ -33,5 +33,7 @@ namespace API.Models
         public bool IsRead { get; set; } = false;
 
         public bool IsDeleted { get; set; } = false;
+
+        public ICollection<Like> Likes { get; set; } = new List<Like>();
     }
 }
