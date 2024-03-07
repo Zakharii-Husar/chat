@@ -31,9 +31,6 @@ namespace API.Controllers.Auth
             return Ok(false);
         }
 
-        public AuthWithCookiesController() : this(null)
-        {
-        }
     }
 }
 

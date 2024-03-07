@@ -1,7 +1,8 @@
 import { useEffect } from "react";
-import { useParams, useLocation } from "react-router-dom";
+import { useParams, useLocation, useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../hooks/useAppSelectorAndDispatch";
-import { fetchAChat, setRecieverId, setMessageContent, sendMessageAsync } from "./chatSlice";
+import { fetchAChat, setRecieverId, setMessageContent, sendMessageAsync, getChatIdAsync, setCurrentChatId } from "./chatSlice";
+
 
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
@@ -9,32 +10,58 @@ import Col from 'react-bootstrap/Col';
 import ListGroup from 'react-bootstrap/ListGroup';
 import Form from 'react-bootstrap/Form';
 import { Button } from "react-bootstrap";
+import { channel } from "diagnostics_channel";
 
 export const Chat: React.FC = () => {
 
     const { state: locationState } = useLocation();
+    const recipientId = locationState?.recipientId;
 
     const { id: loggedInUserId } = useAppSelector(state => state.auth.response);
     const dispatch = useAppDispatch();
-
+const navigate = useNavigate();
 
     const { friendNickname } = useParams();
 
     const { ReceiverId, Content } = useAppSelector(state => state.chat.messageToSend);
 
+    const chatId = useAppSelector(state => state.chat.chatId);
+
 
 
     const { chat } = useAppSelector(state => state.chat);
 
-
     //GETTING EXISTING MESSAGES & SETTING MESSAGE RECIEVER
-    useEffect(() => {
-        if (locationState.recipientId) {
-            dispatch(setRecieverId(locationState.recipientId));
-            dispatch(fetchAChat(locationState.recipientId));
-            console.log(chat);
+    // useEffect(() => {
+    //     if (recipientId) {
+    //         dispatch(setRecieverId(recipientId));
+    //         dispatch(fetchAChat(recipientId));
+    //         console.log(chat);
+    //     }
+    // }, [dispatch, recipientId])
+
+
+    //fetch chat id
+    useEffect(()=>{
+        if (chatId === 0 && recipientId !== null){
+            dispatch(getChatIdAsync([recipientId, loggedInUserId]));
         }
-    }, [dispatch, locationState.recipientId])
+    }, [recipientId])
+
+    //update url to chatid
+    useEffect(()=>{
+        const url = `/chats/${chatId.toString()}`;
+        if(chatId !== 0) navigate(url, { replace: true });
+
+    }, [chatId])
+    
+    //reset currentChatId on exit
+    useEffect(()=>{
+        return(()=>{
+            dispatch(setCurrentChatId(0));
+            })
+    }, [])
+
 
     const handleMessageInput = (e: React.ChangeEvent<HTMLInputElement>) => {
         dispatch(setMessageContent(e.target.value))

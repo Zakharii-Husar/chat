@@ -1,12 +1,13 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import { GET_CHAT, SEND_MESSAGE } from '../../app/APIEndpoints';
+import { GET_CHAT, GET_CHAT_ID, SEND_MESSAGE } from '../../app/APIEndpoints';
 import type { RootState } from "../../app/store";
 
 import { IChat, IMessage } from '../../app/messagesInterfaces';
 
 
 const initialState: IChat = {
+    chatId: 0,
     chat: [],
     messageToSend: {
         ReceiverId: null,
@@ -14,6 +15,30 @@ const initialState: IChat = {
         RepliedTo: null
     }
 };
+
+export const getChatIdAsync = createAsyncThunk(
+    'chat/getChatIdAsync',
+    async (participantsIds: string[], { getState, dispatch }) => {
+        try {
+            const response = await fetch(GET_CHAT_ID, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(participantsIds),
+                credentials: "include",
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                dispatch(chatSlice.actions.setCurrentChatId(data));
+                console.log(data);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
+);
 
 export const sendMessageAsync = createAsyncThunk(
     'chat/sendMessageAsync',
@@ -68,6 +93,9 @@ export const chatSlice = createSlice({
     initialState,
     reducers: {
 
+        setCurrentChatId: (state, action: PayloadAction<number>) => {
+            state.chatId = action.payload;
+        },
         setChat: (state, action: PayloadAction<IMessage[]>) => {
             state.chat = action.payload;
         },
@@ -83,6 +111,6 @@ export const chatSlice = createSlice({
     },
 })
 
-export const { setRecieverId, setMessageContent } = chatSlice.actions
+export const { setRecieverId, setMessageContent, setCurrentChatId } = chatSlice.actions
 
 export default chatSlice.reducer

@@ -9,6 +9,6 @@
     "\\API\\Models",
     "\\client"
   ],
-  "SelectedNode": "\\API\\Controllers\\Auth\\AuthWithCookies.cs",
+  "SelectedNode": "\\API\\Controllers\\Messages\\GetChatIdOrCreate.cs",
   "PreviewInSolutionExplorer": false
 }

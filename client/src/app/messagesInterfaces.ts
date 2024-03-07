@@ -22,6 +22,7 @@ export interface IMessageToSend {
 
 
 export interface IChat {
+    chatId: number,
     chat: IMessage[],
     messageToSend: IMessageToSend
 

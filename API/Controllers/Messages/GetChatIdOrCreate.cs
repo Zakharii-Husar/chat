@@ -4,12 +4,15 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
+
 
 namespace API.Controllers.Messages
 {
+    [Authorize]
     [Route("chat-api/[controller]")]
     [ApiController]
-    public class AddChat(AppDbContext dbContext, UserManager<AppUser> userManager) : ControllerBase
+    public class GetChatIdOrCreate(AppDbContext dbContext, UserManager<AppUser> userManager) : ControllerBase
     {
 
         [HttpPost]
@@ -17,9 +20,9 @@ namespace API.Controllers.Messages
         {
             List<string> myList =
 [
-    "c0a993a4-72fa-4327-b836-23e40d5f8426",
-    "d5d9c727-6e7b-4805-a8e7-a8282ec16483",
-    "e06c412a-7cf4-40aa-8b6a-d2a6613c9fd1"
+    "b5478f7f-7478-4e72-81ea-788916ab2294",
+    "dd175fb3-b059-4d4d-90d6-eb9f988ad13b",
+    "799b0730-84d4-4e9a-af9d-38c17a817a99"
 ];
 
 
@@ -61,7 +64,7 @@ namespace API.Controllers.Messages
                     .Select(c => c.ChatId)
                     .FirstOrDefaultAsync();
 
-                //CREATE A NEW CHAT:
+                //CHAT DOESN'T EXIST CREATE A NEW CHAT:
 
                 if (exactMatch != 0) return Ok(exactMatch);
 

@@ -50,7 +50,7 @@ const Users: React.FC = () => {
 
                     <ListGroup>
                         {allUsers?.map((user: IUserModel, i) => (
-                            <Link key={user.id} to={`chats/${user.nickname}`} state={{ recipientId: user.id }}>
+                            <Link key={user.id} to={`/chats/*`} state={{ recipientId: user.id }}>
                                 <ListGroup.Item
                                     className="d-flex align-items-center justify-content-between py-1">
 

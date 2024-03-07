@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240305221921_Initial")]
-    partial class Initial
+    [Migration("20240306184926_Edit2")]
+    partial class Edit2
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -113,7 +113,6 @@ namespace API.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ChatId"));
 
                     b.Property<string>("ChatName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ChatId");
@@ -134,7 +133,8 @@ namespace API.Migrations
 
                     b.Property<DateTime>("EnteredChat")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
                     b.Property<bool>("IsCreator")
                         .HasColumnType("bit");
@@ -384,7 +384,7 @@ namespace API.Migrations
             modelBuilder.Entity("API.Models.ChatMember", b =>
                 {
                     b.HasOne("API.Models.Chat", "Chat")
-                        .WithMany()
+                        .WithMany("ChatMembers")
                         .HasForeignKey("ChatId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -506,6 +506,11 @@ namespace API.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("API.Models.Chat", b =>
+                {
+                    b.Navigation("ChatMembers");
                 });
 
             modelBuilder.Entity("API.Models.Message", b =>

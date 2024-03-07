@@ -60,9 +60,13 @@ namespace API.Data
                 .HasOne(l => l.User)
                 .WithMany()
                 .HasForeignKey(l => l.UserId)
-                .OnDelete(DeleteBehavior.Cascade);  // Adjust this as needed
+                .OnDelete(DeleteBehavior.Cascade);
 
-            // Add more configurations as needed
+
+            //GENERATING TIMESTAMP ON INSERTION OF NEW CHAT MEMBER:
+            modelBuilder.Entity<ChatMember>()
+                .Property(cm => cm.EnteredChat)
+                .HasDefaultValueSql("CURRENT_TIMESTAMP");
         }
 
     }

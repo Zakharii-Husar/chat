@@ -10,24 +10,22 @@ namespace API.Controllers.Messages
 {
     [Route("chat-api/[controller]")]
     [ApiController]
-    public class GetChat(AppDbContext dbContext, UserManager<AppUser> userManager) : ControllerBase
+    public class GetChatById(AppDbContext dbContext, UserManager<AppUser> userManager) : ControllerBase
     {
         [HttpPost]
         [Authorize]
-        public async Task<IActionResult> Get([FromBody] string friendId)
+        public async Task<IActionResult> Get([FromBody] int chatId)
         {
             var currentUser = await userManager.GetUserAsync(User);
-            if (currentUser == null){ return Unauthorized();}
+            if (currentUser == null) { return Unauthorized(); }
             var currentUserId = currentUser.Id;
 
 
-            var messagesWithUsers = await dbContext.Messages
-                .Include(m => m.Sender)
-                .Where(m =>
-                    (m.SenderId == currentUserId || m.SenderId == friendId))
+            var chat = await dbContext.Chats
+                .Where(chat => chat.ChatId == chatId)
+                .Where(chat => chat.ChatMembers.Any(member => member.MemberId == currentUserId))
                 .ToListAsync();
-
-            return Ok(messagesWithUsers);
+            return Ok(chat);
 
         }
 
