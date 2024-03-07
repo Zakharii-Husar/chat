@@ -46,7 +46,7 @@ namespace API.Data
         {
             base.OnModelCreating(modelBuilder);
 
-            // Configuring your relationships using Fluent API
+            //Handling cascading deletes
             modelBuilder.Entity<Like>()
                 .HasKey(l => l.LikeId);
 
@@ -54,7 +54,7 @@ namespace API.Data
                 .HasOne(l => l.Message)
                 .WithMany(m => m.Likes)
                 .HasForeignKey(l => l.MessageId)
-                .OnDelete(DeleteBehavior.NoAction);  // Adjust this as needed
+                .OnDelete(DeleteBehavior.NoAction);
 
             modelBuilder.Entity<Like>()
                 .HasOne(l => l.User)
