@@ -16,7 +16,7 @@ export const MainHeader: React.FC = () => {
 
     return (
         <Container fluid className="d-flex justify-content-center vw-100 p-4">
-            <Link style={{ textDecoration: "none" }} to="/">
+            <Col>
                 <Row className="align-items-center">
                     <Col className="me-3">
                         <div>
@@ -41,7 +41,7 @@ export const MainHeader: React.FC = () => {
                             </div>
                         </Col>
                 </Row>
-            </Link>
+            </Col>
 
         </Container>
     );
