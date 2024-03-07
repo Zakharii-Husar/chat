@@ -22,7 +22,7 @@ const navigate = useNavigate();
 
     const { friendNickname } = useParams();
 
-    const { Content } = useAppSelector(state => state.chat.messageToSend);
+    const { Content: msgContent } = useAppSelector(state => state.chat.messageToSend);
 
     const chatId = useAppSelector(state => state.chat.chatId);
 
@@ -66,7 +66,8 @@ const navigate = useNavigate();
     };
 
     const sendMessage = () => {
-        dispatch(sendMessageAsync());
+        if(msgContent && msgContent.length > 0)dispatch(sendMessageAsync());
+        dispatch(setMessageContent(""));
     }
 
 
@@ -103,9 +104,10 @@ const navigate = useNavigate();
                         onChange={handleMessageInput}
                         type="text"
                         placeholder="Type message..."
+                        value={msgContent ?? ""}
                     />
                     <Button onClick={sendMessage}>
-                        Submit
+                        Send
                     </Button>
                 </Col>
             </Row>
