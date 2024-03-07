@@ -60,7 +60,6 @@ export const loginAsync = createAsyncThunk(
 
             if (response.ok) {
                 dispatch(validateCookiesAsync());
-                  
             }
 
         } catch (error) {

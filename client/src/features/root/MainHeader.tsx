@@ -34,6 +34,8 @@ export const MainHeader: React.FC = () => {
                         </div>
                     </Col >
                 </Row>
+                {
+                    !nickname ? null :
                 <Row>
                         <Col>
                             <div>
@@ -41,6 +43,7 @@ export const MainHeader: React.FC = () => {
                             </div>
                         </Col>
                 </Row>
+}
             </Col>
 
         </Container>

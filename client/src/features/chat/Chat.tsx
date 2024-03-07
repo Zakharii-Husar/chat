@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useParams, useLocation, useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../hooks/useAppSelectorAndDispatch";
-import { fetchAChat, setMessageContent, sendMessageAsync, getChatIdAsync, setCurrentChatId } from "./chatSlice";
+import { getChatById, setMessageContent, sendMessageAsync, getChatIdAsync, setCurrentChatId } from "./chatSlice";
 
 
 import Container from 'react-bootstrap/Container';
@@ -10,7 +10,6 @@ import Col from 'react-bootstrap/Col';
 import ListGroup from 'react-bootstrap/ListGroup';
 import Form from 'react-bootstrap/Form';
 import { Button } from "react-bootstrap";
-import { channel } from "diagnostics_channel";
 
 export const Chat: React.FC = () => {
 
@@ -34,9 +33,6 @@ const navigate = useNavigate();
     //GETTING EXISTING MESSAGES & SETTING MESSAGE RECIEVER
     // useEffect(() => {
     //     if (recipientId) {
-    //         dispatch(setRecieverId(recipientId));
-    //         dispatch(fetchAChat(recipientId));
-    //         console.log(chat);
     //     }
     // }, [dispatch, recipientId])
 
@@ -44,7 +40,9 @@ const navigate = useNavigate();
     //fetch chat id
     useEffect(()=>{
         if (chatId === 0 && recipientId !== null){
-            dispatch(getChatIdAsync([recipientId, loggedInUserId]));
+            dispatch(getChatIdAsync([recipientId, loggedInUserId]))
+        }else{
+            dispatch(getChatById(chatId));
         }
     }, [recipientId])
 
@@ -85,7 +83,7 @@ const navigate = useNavigate();
                             const alignSelf = `align-self-${message.senderId === loggedInUserId ?
                                 "end" : "start"}`
                             return (
-                                <ListGroup.Item style={{ backgroundColor: "blue" }} key={message.id}
+                                <ListGroup.Item style={{ backgroundColor: "blue" }} key={message.id || i}
                                     className={`d-flex flex-column ${alignSelf}
                                      align-items-start justify-content-between py-1
                                       w-50`}>

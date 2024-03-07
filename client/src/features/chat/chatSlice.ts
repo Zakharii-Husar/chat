@@ -31,7 +31,6 @@ export const getChatIdAsync = createAsyncThunk(
             if (response.ok) {
                 const data = await response.json();
                 dispatch(chatSlice.actions.setCurrentChatId(data));
-                console.log(data);
             }
         } catch (error) {
             console.log(error);
@@ -55,7 +54,7 @@ export const sendMessageAsync = createAsyncThunk(
 
             if (response.ok) {
                 const messageResponse = await response.json();
-                dispatch(chatSlice.actions.addToChat(messageResponse));
+                dispatch(chatSlice.actions.addToChat(messageResponse))
             }
         } catch (error) {
             console.log(error);
@@ -63,22 +62,23 @@ export const sendMessageAsync = createAsyncThunk(
     }
 );
 
-export const fetchAChat = createAsyncThunk(
-    'chat/fetchAChat',
-    async (friendId: string, { getState, dispatch }) => {
+export const getChatById = createAsyncThunk(
+    'chat/getChatById',
+    async (chatId: number, { getState, dispatch }) => {
         try {
             const response = await fetch(GET_CHAT_BY_ID, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify(friendId),
+                body: JSON.stringify(chatId),
                 credentials: "include",
             });
 
             if (response.ok) {
                 const data = await response.json();
                 dispatch(chatSlice.actions.setChat(data));
+                console.log(data);
             }
         } catch (error) {
             console.log(error);
