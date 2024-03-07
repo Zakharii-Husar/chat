@@ -67,6 +67,10 @@ namespace API.Data
             modelBuilder.Entity<ChatMember>()
                 .Property(cm => cm.EnteredChat)
                 .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+            modelBuilder.Entity<Message>()
+                .Property(m => m.SentAt)
+                .HasDefaultValueSql("CURRENT_TIMESTAMP");
         }
 
     }

@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useParams, useLocation, useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../hooks/useAppSelectorAndDispatch";
-import { fetchAChat, setRecieverId, setMessageContent, sendMessageAsync, getChatIdAsync, setCurrentChatId } from "./chatSlice";
+import { fetchAChat, setMessageContent, sendMessageAsync, getChatIdAsync, setCurrentChatId } from "./chatSlice";
 
 
 import Container from 'react-bootstrap/Container';
@@ -23,7 +23,7 @@ const navigate = useNavigate();
 
     const { friendNickname } = useParams();
 
-    const { ReceiverId, Content } = useAppSelector(state => state.chat.messageToSend);
+    const { Content } = useAppSelector(state => state.chat.messageToSend);
 
     const chatId = useAppSelector(state => state.chat.chatId);
 

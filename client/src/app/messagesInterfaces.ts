@@ -15,7 +15,6 @@ export interface IChats {
 
 }
 export interface IMessageToSend {
-    ReceiverId: string | null,
     Content: string | null,
     RepliedTo: number | null
 }

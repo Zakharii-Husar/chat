@@ -2,8 +2,9 @@
 {
     public class SendMessageModel
     {
-        public string ReceiverId { get; set; }
+        public int ChatId { get; set; }
         public string Content { get; set; }
-        public int? RepliedTo { get; set; }
+        public int? RepliedTo { get; set; } = null;
+
     }
 }

@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import { GET_CHAT, GET_CHAT_ID, SEND_MESSAGE } from '../../app/APIEndpoints';
+import { GET_CHAT_BY_ID, GET_CHAT_ID, SEND_MESSAGE } from '../../app/APIEndpoints';
 import type { RootState } from "../../app/store";
 
 import { IChat, IMessage } from '../../app/messagesInterfaces';
@@ -10,7 +10,6 @@ const initialState: IChat = {
     chatId: 0,
     chat: [],
     messageToSend: {
-        ReceiverId: null,
         Content: null,
         RepliedTo: null
     }
@@ -50,7 +49,7 @@ export const sendMessageAsync = createAsyncThunk(
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify(state.chat.messageToSend),
+                body: JSON.stringify({...state.chat.messageToSend, ChatId: state.chat.chatId}),
                 credentials: "include"
             });
 
@@ -68,7 +67,7 @@ export const fetchAChat = createAsyncThunk(
     'chat/fetchAChat',
     async (friendId: string, { getState, dispatch }) => {
         try {
-            const response = await fetch(GET_CHAT, {
+            const response = await fetch(GET_CHAT_BY_ID, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -102,15 +101,12 @@ export const chatSlice = createSlice({
         addToChat: (state, action: PayloadAction<IMessage>) => {
             state.chat.push(action.payload);
         },
-        setRecieverId: (state, action: PayloadAction<string>) => {
-            state.messageToSend.ReceiverId = action.payload;
-        },
         setMessageContent: (state, action: PayloadAction<string>) => {
             state.messageToSend.Content = action.payload;
         },
     },
 })
 
-export const { setRecieverId, setMessageContent, setCurrentChatId } = chatSlice.actions
+export const { setMessageContent, setCurrentChatId } = chatSlice.actions
 
 export default chatSlice.reducer

@@ -2,9 +2,12 @@
 using API.Data;
 using API.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.EntityFrameworkCore;
 
 namespace API.Controllers.Messages
 {
+    [Authorize]
     [Route("chat-api/[controller]")]
     [ApiController]
     public class SendMessage(AppDbContext dbContext, UserManager<AppUser> userManager) : ControllerBase
@@ -12,25 +15,32 @@ namespace API.Controllers.Messages
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] SendMessageModel messageModel)
         {
+            var currentUser = await userManager.GetUserAsync(User);
+            var senderId = currentUser?.Id;
+            var isValidChatId = await dbContext.Chats
+                .AnyAsync(chat => chat.ChatId == messageModel.ChatId);
+
+            Console.WriteLine("Running \n");
+
             if (!ModelState.IsValid)
             {
+                Console.WriteLine("Invalid Model");
                 return BadRequest(ModelState);
             }
 
-            var currentUser = await userManager.GetUserAsync(User);
             if (currentUser == null)
             {
+                Console.WriteLine("Unauth");
                 return Unauthorized();
-            }
 
-            var senderId = currentUser.Id;
+            }
 
             var newMessage = new Message
             {
-                SenderId = senderId,
-                //ReceiverId = messageModel.ReceiverId,
+                ChatId = messageModel.ChatId,
                 Content = messageModel.Content,
-                RepliedTo = messageModel.RepliedTo
+                RepliedTo = messageModel.RepliedTo ?? null,
+                SenderId = senderId!
             };
 
 

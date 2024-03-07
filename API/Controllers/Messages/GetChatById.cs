@@ -17,14 +17,15 @@ namespace API.Controllers.Messages
         public async Task<IActionResult> Get([FromBody] int chatId)
         {
             var currentUser = await userManager.GetUserAsync(User);
-            if (currentUser == null) { return Unauthorized(); }
-            var currentUserId = currentUser.Id;
+            var currentUserId = currentUser?.Id;
 
 
-            var chat = await dbContext.Chats
-                .Where(chat => chat.ChatId == chatId)
-                .Where(chat => chat.ChatMembers.Any(member => member.MemberId == currentUserId))
+            var chat = await dbContext.Messages
+                .Where(message => message.ChatId == chatId)
                 .ToListAsync();
+            //.Where(chat => chat.ChatId == chatId)
+            //.Where(chat => chat.ChatMembers.Any(member => member.MemberId == currentUserId))
+            //.ToListAsync();
             return Ok(chat);
 
         }
