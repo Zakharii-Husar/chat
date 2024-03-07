@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { mockAPI } from '../../app/mockAPI';
-import { GET_ALL_USERS } from '../../app/APIEndpoints';
+import { GET_ALL_USERS, SEARCH_USERS } from '../../app/APIEndpoints';
 import { IUserModel, IUsersModel } from '../../app/userInterfaces';
 
 const initialState: IUsersModel = {
@@ -11,8 +11,8 @@ const initialState: IUsersModel = {
 };
 
 
-export const fetchAllUsersThunk = createAsyncThunk(
-    'users/fetchAllUsersThunk',
+export const fetchAllUsersAsync = createAsyncThunk(
+    'users/fetchAllUsersAsync',
     async (_, { getState, dispatch }) => {
         try {
             const response = await fetch(GET_ALL_USERS, {
@@ -38,9 +38,17 @@ export const searchUsers = createAsyncThunk(
     async (searchQuery: string, { getState, dispatch }) => {
 
         try {
-            const response = JSON.stringify(mockAPI.users);
-            const data = await JSON.parse(response);
-            dispatch(findUser(data));
+            const response = await fetch(`${SEARCH_USERS}/${encodeURIComponent(searchQuery)}`, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                credentials: "include"
+            });
+            if (response.ok) {
+                const filteredUsers = await response.json();
+                dispatch(findUser(filteredUsers));
+            }
         } catch (error) {
             console.error('Error searching users:', error);
             throw error;

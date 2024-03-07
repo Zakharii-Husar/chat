@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useAppSelector, useAppDispatch } from '../../hooks/useAppSelectorAndDispatch';
-import { fetchAllUsersThunk, searchUsers, updateSearchedUser } from '../users/usersSlice';
+import { fetchAllUsersAsync, searchUsers, updateSearchedUser } from '../users/usersSlice';
 import { IUserModel } from '../../app/userInterfaces';
 import { Link } from 'react-router-dom';
 
@@ -24,19 +24,19 @@ const Users: React.FC = () => {
     } = useAppSelector(state => state.users);
 
     useEffect(() => {
-        dispatch(fetchAllUsersThunk());
-    }, [dispatch]);
+        dispatch(fetchAllUsersAsync());
+    }, []);
 
-    //useEffect(() => {
-    //    if (searchedUser) dispatch(searchUsers(searchedUser));
-    //}, [searchedUser]);
+    useEffect(() => {
+       if (searchedUser) dispatch(searchUsers(searchedUser));
+    }, [searchedUser]);
 
-    //const search = (e: React.ChangeEvent<HTMLInputElement>) => {
-    //    const input = e.target.value;
-    //    dispatch(updateSearchedUser(input !== '' ? input : null));
-    //};
+    const search = (e: React.ChangeEvent<HTMLInputElement>) => {
+       const input = e.target.value;
+       dispatch(updateSearchedUser(input !== '' ? input : null));
+    };
 
-    //const currentList = searchedUser === null ? allUsers : filteredUsers;
+    const currentList = searchedUser === null ? allUsers : filteredUsers;
 
     return (
         <Container fluid className="d-flex vw-100">
@@ -45,11 +45,11 @@ const Users: React.FC = () => {
                     <Form.Control
                         type="text"
                         placeholder="Search users..."
-                    //onInput={search}
+                    onInput={search}
                     />
 
                     <ListGroup>
-                        {allUsers?.map((user: IUserModel, i) => (
+                        {currentList?.map((user: IUserModel, i) => (
                             <Link key={user.id} to={`/chats/*`} state={{ recipientId: user.id }}>
                                 <ListGroup.Item
                                     className="d-flex align-items-center justify-content-between py-1">

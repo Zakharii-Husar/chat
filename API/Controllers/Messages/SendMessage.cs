@@ -24,13 +24,11 @@ namespace API.Controllers.Messages
 
             if (!ModelState.IsValid)
             {
-                Console.WriteLine("Invalid Model");
                 return BadRequest(ModelState);
             }
 
             if (currentUser == null)
             {
-                Console.WriteLine("Unauth");
                 return Unauthorized();
 
             }

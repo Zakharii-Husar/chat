@@ -12,17 +12,21 @@ namespace API.Controllers
     [Authorize]
     public class GetUsers(UserManager<AppUser> userManager) : ControllerBase
     {
-        private readonly UserManager<AppUser> _userManager = userManager;
-
         [HttpGet]
         public async Task<IActionResult> GetAllUsers()
         {
-            var users = await _userManager.Users
+            var currentUser = await userManager.GetUserAsync(User);
+            var currentUserId = currentUser?.Id;
+
+            var users = await userManager.Users
     .Select(user => new
     {
         id = user.Id,
-        nickname = user.UserName
+        nickname = user.UserName,
+        email = user.Email,
+        fullName = user.FullName
     })
+    .Where(user => user.id != currentUserId)
     .ToListAsync();
             return Ok(users);
         }
