@@ -8,13 +8,6 @@ export const Chats: React.FC = () => {
 
     const dispatch = useAppDispatch();
 
-    const {
-        chats,
-        loading,
-        error } = useAppSelector(state => state.chats);
-
-    const loggedInUserId = "1";
-
 
     useEffect(() => {
         dispatch(fetchAllChats());

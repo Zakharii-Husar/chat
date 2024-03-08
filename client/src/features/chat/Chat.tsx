@@ -84,13 +84,13 @@ const navigate = useNavigate();
                             const alignSelf = `align-self-${message.senderId === loggedInUserId ?
                                 "end" : "start"}`
                             return (
-                                <ListGroup.Item style={{ backgroundColor: "blue" }} key={message.id || i}
+                                <ListGroup.Item style={{ backgroundColor: "blue" }} key={message.messageId || i}
                                     className={`d-flex flex-column ${alignSelf}
                                      align-items-start justify-content-between py-1
                                       w-50`}>
                                     <div className="d-flex flex-column w-100">
                                         <p>{message.content}</p>
-                                        <p style={{ backgroundColor: "grey" }} className={`d-flex ${alignSelf}`}>{message.time}</p>
+                                        <p style={{ backgroundColor: "grey" }} className={`d-flex ${alignSelf}`}>{message.sentAt}</p>
                                     </div>
                                 </ListGroup.Item>
                             )

@@ -78,7 +78,6 @@ export const getChatById = createAsyncThunk(
             if (response.ok) {
                 const data = await response.json();
                 dispatch(chatSlice.actions.setChat(data));
-                console.log(data);
             }
         } catch (error) {
             console.log(error);

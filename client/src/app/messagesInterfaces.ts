@@ -1,17 +1,17 @@
 export interface IMessage {
-    "id": string
-    "senderId": string
-    "recieverId": string
-    "content": string
-    "time": string
-    "isRead": boolean
-    "replyToMsg": null | number
+    messageId: number,
+    senderId: string,
+    userName: string,
+    chatId: number,
+    chatName: string | null,
+    content: string,
+    sentAt: string,
+    likes: string[] | []
+
 };
 
 export interface IChats {
-    chats: IMessage[][],
-    loading: 'idle' | 'pending' | 'succeeded' | 'failed',
-    error: string | null;
+    chats: IMessage[]
 
 }
 export interface IMessageToSend {

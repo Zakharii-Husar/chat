@@ -21,6 +21,17 @@ namespace API.Controllers.Messages
 
             var chat = await dbContext.Messages
                 .Where(message => message.ChatId == chatId)
+                .Select(m => new MessageDto()
+                {
+                    MessageId = m.MessageId,
+                    SenderId = m.SenderId,
+                    SenderUserName = m.Sender.UserName,
+                    ChatId = m.ChatId,
+                    ChatName = m.Chat.ChatName,
+                    Content = !m.IsDeleted ? m.Content : "Deleted",
+                    SentAt = m.SentAt,
+                    Likes = m.Likes.Select(like => like.User.UserName).ToList()
+                })
                 .ToListAsync();
             //.Where(chat => chat.ChatId == chatId)
             //.Where(chat => chat.ChatMembers.Any(member => member.MemberId == currentUserId))

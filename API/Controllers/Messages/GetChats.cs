@@ -24,22 +24,23 @@ namespace API.Controllers.Messages
 
             var latestMessages = await dbContext.Messages
                 .Include(m => m.Chat)
+                .Include(m => m.Likes)
                 .Where(m => allChatsIds.Contains(m.ChatId))
                 .GroupBy(m => m.ChatId)
                 .Select(g => g.OrderByDescending(m => m.SentAt).FirstOrDefault())
                 .ToListAsync();
 
             var chats = latestMessages
-                .Select(m => new
+                .Select(m => new MessageDto()
                 {
-                    m.MessageId,
-                    m.SenderId,
-                    m.Sender.UserName,
-                    m.ChatId,
+                    MessageId = m.MessageId,
+                    SenderId = m.SenderId,
+                    SenderUserName = m.Sender.UserName,
+                    ChatId = m.ChatId,
                     ChatName = m.Chat.ChatName,
                     Content = !m.IsDeleted ? m.Content : "Deleted",
-                    m.SentAt
-                    // Include other properties as needed
+                    SentAt = m.SentAt,
+                    Likes = m.Likes.Select(like => like.User.UserName).ToList()
                 })
                 .ToList();
 
