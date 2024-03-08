@@ -33,18 +33,21 @@ const navigate = useNavigate();
 
     //set chatId if present
     useEffect(()=>{
-        dispatch(setCurrentChatId(locationStateChatId));
+        if(locationStateChatId)dispatch(setCurrentChatId(locationStateChatId));
     }, [locationStateChatId])
 
 
     //fetch chat id
     useEffect(()=>{
-        if (chatId === 0 && recipientId !== null){
+        if (!chatId && recipientId){
             dispatch(getChatIdAsync([recipientId, loggedInUserId]))
-        }else{
-            dispatch(getChatById(chatId));
         }
-    }, [recipientId])
+    }, [chatId, recipientId])
+
+    //fetch chat itself
+    useEffect(()=>{
+        if(chatId) dispatch(getChatById(chatId));
+    }, [chatId])
 
     //update url to chatid
     useEffect(()=>{

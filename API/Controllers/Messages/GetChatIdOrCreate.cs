@@ -18,14 +18,6 @@ namespace API.Controllers.Messages
         [HttpPost]
         public async Task<IActionResult> Get([FromBody] List<string> participantUserIds)
         {
-            List<string> myList =
-[
-    "b5478f7f-7478-4e72-81ea-788916ab2294",
-    "dd175fb3-b059-4d4d-90d6-eb9f988ad13b",
-    "799b0730-84d4-4e9a-af9d-38c17a817a99"
-];
-
-
             //VALIDATE PARTICIPANTS ARRAY IDS:
             if (participantUserIds.Count is < 2 or > 30)
             {

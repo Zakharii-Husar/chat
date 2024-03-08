@@ -22,7 +22,7 @@ function App() {
             <Route path="/" element={<Root />}>
                 <Route path="/" element={<Home />} />
                 <Route path="/chats" element={<Chats />} />
-                <Route path="/chats/:id" element={<Chat />} />
+                <Route path="/chats/:id" element={<Chat />} loader={()=>"api_loader_request"} />
                 <Route path="/login" element={<Auth />} />
                 <Route path="/register" element={<Register />} />
             </Route>
