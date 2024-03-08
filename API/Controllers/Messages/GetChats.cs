@@ -23,6 +23,7 @@ namespace API.Controllers.Messages
                 .ToListAsync();
 
             var latestMessages = await dbContext.Messages
+                .Include(m => m.Chat)
                 .Where(m => allChatsIds.Contains(m.ChatId))
                 .GroupBy(m => m.ChatId)
                 .Select(g => g.OrderByDescending(m => m.SentAt).FirstOrDefault())
@@ -33,7 +34,9 @@ namespace API.Controllers.Messages
                 {
                     m.MessageId,
                     m.SenderId,
+                    m.Sender.UserName,
                     m.ChatId,
+                    ChatName = m.Chat.ChatName,
                     Content = !m.IsDeleted ? m.Content : "Deleted",
                     m.SentAt
                     // Include other properties as needed

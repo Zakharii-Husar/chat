@@ -25,23 +25,8 @@ export const fetchAllChats = createAsyncThunk(
 export const chatsSlice = createSlice({
     name: 'chatsSlice',
     initialState,
-    reducers: {},
-    extraReducers: (builder) => {
-        builder
-            //FETCH ALL USERS
-            .addCase(fetchAllChats.pending, (state) => {
-                state.loading = 'pending';
-                state.error = null;
-            })
-            .addCase(fetchAllChats.fulfilled, (state, action) => {
-                state.loading = 'succeeded';
-                state.chats = action.payload as IMessage[][];
-            })
-            .addCase(fetchAllChats.rejected, (state, action) => {
-                state.loading = 'failed';
-                state.error = action.error.message ?? null;
-            })
-
+    reducers: {
+        
     },
 })
 
