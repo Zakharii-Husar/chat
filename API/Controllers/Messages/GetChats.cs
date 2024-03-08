@@ -22,13 +22,27 @@ namespace API.Controllers.Messages
                 .Distinct()
                 .ToListAsync();
 
-            var chats = await dbContext.Messages
+            var latestMessages = await dbContext.Messages
                 .Where(m => allChatsIds.Contains(m.ChatId))
                 .GroupBy(m => m.ChatId)
-                .Select(g => g.OrderByDescending(m => m.SentAt).First())
+                .Select(g => g.OrderByDescending(m => m.SentAt).FirstOrDefault())
                 .ToListAsync();
 
-            return Ok(allChatsIds);
+            var chats = latestMessages
+                .Select(m => new
+                {
+                    m.MessageId,
+                    m.SenderId,
+                    m.ChatId,
+                    Content = !m.IsDeleted ? m.Content : "Deleted",
+                    m.SentAt
+                    // Include other properties as needed
+                })
+                .ToList();
+
+            return Ok(chats);
+
+
         }
     }
 }
