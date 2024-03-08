@@ -10,10 +10,8 @@ export interface IMessage {
 
 };
 
-export interface IChats {
-    chats: IMessage[]
+export interface IChats extends Array<IMessage> {}
 
-}
 export interface IMessageToSend {
     Content: string | null,
     RepliedTo: number | null

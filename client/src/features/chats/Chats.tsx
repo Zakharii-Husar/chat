@@ -7,27 +7,34 @@ import { Link } from "react-router-dom";
 export const Chats: React.FC = () => {
 
     const dispatch = useAppDispatch();
+    const allChats = useAppSelector(state => state.chats);
 
 
     useEffect(() => {
         dispatch(fetchAllChats());
-    }, [dispatch])
+        
+    }, [])
+
+    useEffect(()=>{
+        console.log(allChats)
+    }, [allChats])
 
     return (
         <>
             <h1>Chats</h1>
             <div>
-                {/*{chats.map((chat, i) => {*/}
-                {/*    return (*/}
-                {/*        <ul key={i}>*/}
-                {/*            <Link to={i.toString()}>*/}
-                {/*                <li>*/}
-                {/*                <li>{chat[0].content}</li>*/}
-                {/*            </Link>*/}
-                {/*        </ul>*/}
-                {/*    )*/}
-                {/*})*/}
-                {/*}*/}
+                {allChats.map((chat, i) => {
+                    return (
+                        <ul key={i}>
+                            <Link to={chat.chatId.toString()} state={{ chatId: chat.chatId }}>
+                                <li>{chat.userName}</li>
+                                <li>{chat.content}</li>
+                                <li>{chat.sentAt}</li>
+                            </Link>
+                        </ul>
+                    )
+                })
+                }
             </div>
         </>)
 }

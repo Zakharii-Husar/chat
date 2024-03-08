@@ -15,6 +15,7 @@ export const Chat: React.FC = () => {
 
     const { state: locationState } = useLocation();
     const recipientId = locationState?.recipientId;
+    const locationStateChatId = locationState?.chatId;
 
     const { id: loggedInUserId } = useAppSelector(state => state.auth.response);
     const dispatch = useAppDispatch();
@@ -30,11 +31,10 @@ const navigate = useNavigate();
 
     const { chat } = useAppSelector(state => state.chat);
 
-    //GETTING EXISTING MESSAGES & SETTING MESSAGE RECIEVER
-    // useEffect(() => {
-    //     if (recipientId) {
-    //     }
-    // }, [dispatch, recipientId])
+    //set chatId if present
+    useEffect(()=>{
+        dispatch(setCurrentChatId(locationStateChatId));
+    }, [locationStateChatId])
 
 
     //fetch chat id
@@ -48,7 +48,7 @@ const navigate = useNavigate();
 
     //update url to chatid
     useEffect(()=>{
-        const url = `/chats/${chatId.toString()}`;
+        const url = `/chats/${chatId?.toString()}`;
         if(chatId !== 0) navigate(url, { replace: true });
 
     }, [chatId])
