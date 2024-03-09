@@ -12,4 +12,5 @@ export const GET_ALL_CHATS = `${API_URL}/GetChats`;
 export const GET_CHAT_ID = `${API_URL}/GetChatIdOrCreate`;
 export const GET_CHAT_BY_ID = `${API_URL}/GetChatById`;
 export const SEND_MESSAGE = `${API_URL}/SendMessage`;
+export const LIKE_MESSAGE = `${API_URL}/LikeMessage`;
 

@@ -8,7 +8,7 @@ import { IChat, IMessage } from '../../app/messagesInterfaces';
 
 const initialState: IChat = {
     chatId: 0,
-    chat: [],
+    messages: [],
     messageToSend: {
         Content: null,
         RepliedTo: null
@@ -85,6 +85,31 @@ export const getChatById = createAsyncThunk(
     }
 );
 
+export const toggleLike = createAsyncThunk(
+    'chat/toggleLike',
+    async (messageId: number, { getState, dispatch }) => {
+        try {
+            const response = await fetch(GET_CHAT_BY_ID, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(messageId),
+                credentials: "include",
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                if(data === "liked"){
+                    dispatch(chatSlice.actions.likeMessage(messageId));
+                }
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
+);
+
 
 export const chatSlice = createSlice({
     name: 'chatSlice',
@@ -95,13 +120,16 @@ export const chatSlice = createSlice({
             state.chatId = action.payload;
         },
         setChat: (state, action: PayloadAction<IMessage[]>) => {
-            state.chat = action.payload;
+            state.messages = action.payload;
         },
         addToChat: (state, action: PayloadAction<IMessage>) => {
-            state.chat.push(action.payload);
+            state.messages.push(action.payload);
         },
         setMessageContent: (state, action: PayloadAction<string>) => {
             state.messageToSend.Content = action.payload;
+        },
+        likeMessage: (state, action: PayloadAction<number>) => {
+            //state.messageToSend.Content = action.payload;
         },
     },
 })

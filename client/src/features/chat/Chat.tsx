@@ -1,7 +1,8 @@
 import { useEffect } from "react";
 import { useParams, useLocation, useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../hooks/useAppSelectorAndDispatch";
-import { getChatById, setMessageContent, sendMessageAsync, getChatIdAsync, setCurrentChatId } from "./chatSlice";
+import { getChatById, setMessageContent, sendMessageAsync, getChatIdAsync, setCurrentChatId, toggleLike } from "./chatSlice";
+import { FaHeart } from "react-icons/fa";
 
 
 import Container from 'react-bootstrap/Container';
@@ -27,9 +28,7 @@ const navigate = useNavigate();
 
     const chatId = useAppSelector(state => state.chat.chatId);
 
-
-
-    const { chat } = useAppSelector(state => state.chat);
+    const messages = useAppSelector(state => state.chat.messages);
 
     //set chatId if present
     useEffect(()=>{
@@ -71,7 +70,11 @@ const navigate = useNavigate();
     const sendMessage = () => {
         if(msgContent && msgContent.length > 0)dispatch(sendMessageAsync());
         dispatch(setMessageContent(""));
-    }
+    };
+
+    const handleLike = (messageId: number) =>{
+        dispatch(toggleLike(messageId));
+    };
 
 
     return (
@@ -83,7 +86,7 @@ const navigate = useNavigate();
 
 
                     <ListGroup className="">
-                        {chat?.map((message, i) => {
+                        {messages?.map((message, i) => {
                             const alignSelf = `align-self-${message.senderId === loggedInUserId ?
                                 "end" : "start"}`
                             return (
@@ -91,8 +94,9 @@ const navigate = useNavigate();
                                     className={`d-flex flex-column ${alignSelf}
                                      align-items-start justify-content-between py-1
                                       w-50`}>
-                                    <div className="d-flex flex-column w-100">
+                                    <div className="d-flex flex-column w-100" onClick={()=>handleLike(message.messageId)}>
                                         <p>{message.content}</p>
+                                        {message.likes.length > 0 ? <FaHeart /> : null}
                                         <p style={{ backgroundColor: "grey" }} className={`d-flex ${alignSelf}`}>{message.sentAt}</p>
                                     </div>
                                 </ListGroup.Item>

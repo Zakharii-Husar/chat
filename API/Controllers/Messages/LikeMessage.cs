@@ -18,16 +18,25 @@ namespace API.Controllers.Messages
             var currentUser = await userManager.GetUserAsync(User);
             var currentUserId = currentUser?.Id;
 
-            var chatId = await dbContext.Chats
-                .Where(chat => chat.ChatId == messageId)
-                .Select(chat => chat.ChatId)
+            var chatId = await dbContext.Messages
+                .Where(message => message.MessageId == messageId)
+                .Select(message => message.ChatId)
                 .FirstOrDefaultAsync();
 
             var isAuthorizedToLike = await dbContext.ChatMembers
                 .AnyAsync(member => member.MemberId == currentUserId && member.ChatId == chatId);
 
+            if (!isAuthorizedToLike) return Ok(chatId);
+
             var existingLike = await dbContext.Likes
                 .FirstOrDefaultAsync(like => like.MessageId == messageId && like.UserId == currentUserId);
+
+            if (existingLike != null)
+            {
+                dbContext.Likes.Remove(existingLike);
+                await dbContext.SaveChangesAsync();
+                return Ok("unliked");
+            }
 
             var newLike = new Like
             {
@@ -35,20 +44,11 @@ namespace API.Controllers.Messages
                 UserId = currentUserId!
             };
 
-            if (!isAuthorizedToLike) return Unauthorized();
-
-            if (existingLike != null)
-            {
-                dbContext.Likes.Remove(existingLike);
-                await dbContext.SaveChangesAsync();
-                return Ok();
-            }
-
 
             dbContext.Likes.Add(newLike);
             await dbContext.SaveChangesAsync();
 
-            return Ok();
+            return Ok("liked");
         }
     }
 }
