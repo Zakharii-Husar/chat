@@ -1,14 +1,22 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import { GET_CHAT_BY_ID, GET_CHAT_ID, SEND_MESSAGE } from '../../app/APIEndpoints';
+import { GET_CHAT_BY_ID, GET_CHAT_ID, LIKE_MESSAGE, SEND_MESSAGE } from '../../app/APIEndpoints';
 import type { RootState } from "../../app/store";
-
 import { IChat, IMessage } from '../../app/messagesInterfaces';
 
 
 const initialState: IChat = {
     chatId: 0,
-    messages: [],
+    messages: [{
+        messageId: 0,
+        senderId: "",
+        userName: "",
+        chatId: 0,
+        chatName: "",
+        content: "",
+        sentAt: "",
+        likes: []
+    }],
     messageToSend: {
         Content: null,
         RepliedTo: null
@@ -87,22 +95,21 @@ export const getChatById = createAsyncThunk(
 
 export const toggleLike = createAsyncThunk(
     'chat/toggleLike',
-    async (messageId: number, { getState, dispatch }) => {
+    async (props: {messageId: number, userName: string}, { getState, dispatch }) => {
+        const state = getState() as RootState;
         try {
-            const response = await fetch(GET_CHAT_BY_ID, {
+            const response = await fetch(LIKE_MESSAGE, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify(messageId),
+                body: JSON.stringify(props.messageId),
                 credentials: "include",
             });
 
             if (response.ok) {
                 const data = await response.json();
-                if(data === "liked"){
-                    dispatch(chatSlice.actions.likeMessage(messageId));
-                }
+                    dispatch(chatSlice.actions.likeOrUnlike({ id: props.messageId, name: props.userName }));
             }
         } catch (error) {
             console.log(error);
@@ -128,8 +135,15 @@ export const chatSlice = createSlice({
         setMessageContent: (state, action: PayloadAction<string>) => {
             state.messageToSend.Content = action.payload;
         },
-        likeMessage: (state, action: PayloadAction<number>) => {
-            //state.messageToSend.Content = action.payload;
+        likeOrUnlike: (state, action: PayloadAction<{id: number, name: string}>) => {
+            const index = state.messages.findIndex(msg => msg.messageId === action.payload.id);
+            const likes = state.messages[index].likes;
+
+            if (likes.includes(action.payload.name)) {
+                state.messages[index].likes = likes.filter(name => name !== action.payload.name);
+            }else{
+                likes.push(action.payload.name);
+            }
         },
     },
 })

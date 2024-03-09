@@ -15,12 +15,14 @@ import { Button } from "react-bootstrap";
 export const Chat: React.FC = () => {
 
     const { state: locationState } = useLocation();
-    const recipientId = locationState?.recipientId;
-    const locationStateChatId = locationState?.chatId;
+    const recipientId = locationState?.recipientId ?? null;
+    const locationStateChatId = locationState?.chatId ?? null;
 
     const { id: loggedInUserId } = useAppSelector(state => state.auth.response);
+    const userName = useAppSelector(state => state.auth.response.nickname);
+
     const dispatch = useAppDispatch();
-const navigate = useNavigate();
+    const navigate = useNavigate();
 
     const { friendNickname } = useParams();
 
@@ -73,7 +75,7 @@ const navigate = useNavigate();
     };
 
     const handleLike = (messageId: number) =>{
-        dispatch(toggleLike(messageId));
+        dispatch(toggleLike({messageId: messageId, userName: userName ?? ""}));
     };
 
 

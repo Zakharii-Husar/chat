@@ -35,7 +35,7 @@ namespace API.Controllers.Messages
             {
                 dbContext.Likes.Remove(existingLike);
                 await dbContext.SaveChangesAsync();
-                return Ok("unliked");
+                return Ok(new { status = "unliked" });
             }
 
             var newLike = new Like
@@ -48,7 +48,7 @@ namespace API.Controllers.Messages
             dbContext.Likes.Add(newLike);
             await dbContext.SaveChangesAsync();
 
-            return Ok("liked");
+            return Ok(new { status = "liked" });
         }
     }
 }

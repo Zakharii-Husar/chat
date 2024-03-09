@@ -6,7 +6,7 @@ export interface IMessage {
     chatName: string | null,
     content: string,
     sentAt: string,
-    likes: string[] | []
+    likes: string[]
 
 };
 
