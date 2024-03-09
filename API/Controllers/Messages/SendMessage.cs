@@ -20,8 +20,6 @@ namespace API.Controllers.Messages
             var isValidChatId = await dbContext.Chats
                 .AnyAsync(chat => chat.ChatId == messageModel.ChatId);
 
-            Console.WriteLine("Running \n");
-
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
