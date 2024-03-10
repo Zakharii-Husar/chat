@@ -1,8 +1,9 @@
+import ListGroup from 'react-bootstrap/ListGroup';
 import { fetchAllChats } from "./chatsSlice";
 import { useAppDispatch, useAppSelector } from "../../hooks/useAppSelectorAndDispatch";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
-
+import AddGroupChat from './AddGroupChat';
 
 export const Chats: React.FC = () => {
 
@@ -15,23 +16,23 @@ export const Chats: React.FC = () => {
         
     }, [])
 
-    useEffect(()=>{
-        console.log(allChats)
-    }, [allChats])
 
     return (
         <>
             <h1>Chats</h1>
-            <div>
+            <AddGroupChat/>
+            <div className="list-group-info">
                 {allChats.map((chat, i) => {
+                    console.log(chat.chatName);
                     return (
-                        <ul key={i}>
-                            <Link to={chat.chatId.toString()} state={{ chatId: chat.chatId }}>
-                                <li>{chat.userName}</li>
-                                <li>{chat.content}</li>
-                                <li>{chat.sentAt}</li>
+                        
+                        <ListGroup key={i} variant="info">
+                            <Link  to={chat.chatId.toString()} state={{ chatId: chat.chatId }}>
+                                 <ListGroup.Item >{chat.chatName}</ListGroup.Item>
+                                 <ListGroup.Item>{chat.content}</ListGroup.Item>
+                                 <ListGroup.Item>{chat.sentAt}</ListGroup.Item>
                             </Link>
-                        </ul>
+                        </ListGroup>
                     )
                 })
                 }

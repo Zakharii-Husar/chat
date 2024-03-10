@@ -7,32 +7,31 @@ import { IChat, IMessage } from '../../app/messagesInterfaces';
 
 const initialState: IChat = {
     chatId: 0,
-    messages: [{
-        messageId: 0,
-        senderId: "",
-        userName: "",
-        chatId: 0,
-        chatName: "",
-        content: "",
-        sentAt: "",
-        likes: []
-    }],
+    messages: [],
+    participantsIds: [],
     messageToSend: {
         Content: null,
         RepliedTo: null
     }
 };
 
-export const getChatIdAsync = createAsyncThunk(
-    'chat/getChatIdAsync',
-    async (participantsIds: string[], { getState, dispatch }) => {
+export const createChatOrGetIdAsync = createAsyncThunk(
+    'chat/createChatOrGetIdAsync',
+    async (_, { getState, dispatch }) => {
+        const state = getState() as RootState;
+        //preventing duplicates
+        const uniqueArr = state.chat.participantsIds
+        .filter((value, index, self) => self
+        .indexOf(value) === index);
+
+        console.log(uniqueArr);
         try {
             const response = await fetch(GET_CHAT_ID, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify(participantsIds),
+                body: JSON.stringify(uniqueArr),
                 credentials: "include",
             });
 
@@ -95,8 +94,7 @@ export const getChatById = createAsyncThunk(
 
 export const toggleLike = createAsyncThunk(
     'chat/toggleLike',
-    async (props: {messageId: number, userName: string}, { getState, dispatch }) => {
-        const state = getState() as RootState;
+    async (props: {messageId: number, userName: string}, { dispatch }) => {
         try {
             const response = await fetch(LIKE_MESSAGE, {
                 method: "POST",
@@ -108,7 +106,6 @@ export const toggleLike = createAsyncThunk(
             });
 
             if (response.ok) {
-                const data = await response.json();
                     dispatch(chatSlice.actions.likeOrUnlike({ id: props.messageId, name: props.userName }));
             }
         } catch (error) {
@@ -135,6 +132,13 @@ export const chatSlice = createSlice({
         setMessageContent: (state, action: PayloadAction<string>) => {
             state.messageToSend.Content = action.payload;
         },
+        addChatParticipants: (state, action: PayloadAction<string>) => {
+            if (state.participantsIds.includes(action.payload)) return;
+            state.participantsIds.push(action.payload);
+        },
+        resetChatParticipants: (state) => {
+            state.participantsIds = [];
+        } ,
         likeOrUnlike: (state, action: PayloadAction<{id: number, name: string}>) => {
             const index = state.messages.findIndex(msg => msg.messageId === action.payload.id);
             const likes = state.messages[index].likes;
@@ -148,6 +152,6 @@ export const chatSlice = createSlice({
     },
 })
 
-export const { setMessageContent, setCurrentChatId } = chatSlice.actions
+export const { setMessageContent, setCurrentChatId, addChatParticipants, resetChatParticipants } = chatSlice.actions
 
 export default chatSlice.reducer

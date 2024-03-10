@@ -19,12 +19,16 @@ namespace API.Controllers.Messages
         public async Task<IActionResult> Get([FromBody] List<string> participantUserIds)
         {
             //VALIDATE PARTICIPANTS ARRAY IDS:
-            if (participantUserIds.Count is < 2 or > 30)
+            if (participantUserIds.Count is < 1 or > 30)
             {
-                return BadRequest("Invalid participant count. Must be between 2 and 30.");
+                return BadRequest("Invalid participant count. Must be between 1 and 30.");
             }
 
-            foreach (var userId in participantUserIds)
+            //check sure there are no duplicates
+            var participants = participantUserIds.Distinct().ToList();
+
+            //check Ids are valid
+            foreach (var userId in participants)
             {
                 var user = await userManager.FindByIdAsync(userId);
 
@@ -33,6 +37,10 @@ namespace API.Controllers.Messages
                     return BadRequest($"Invalid user ID: {userId}");
                 }
             }
+
+            //adding sender to participants
+            var currentUserId = (await userManager.GetUserAsync(User)).Id;
+            if (currentUserId != null) participants.Add(currentUserId);
 
 
 
@@ -43,7 +51,7 @@ namespace API.Controllers.Messages
                 //query ChatMembers table
                 //has to return possible chats ids only
                 var matchingChatsIds = await dbContext.ChatMembers
-                    .Where(cm => participantUserIds.Contains(cm.MemberId))
+                    .Where(cm => participants.Contains(cm.MemberId))
                     .GroupBy(cm => cm.ChatId)
                     .Select(chat => chat.Key)
                     .ToListAsync();
@@ -51,15 +59,14 @@ namespace API.Controllers.Messages
                 //has to find the chat id that all participants have in common or null
                 var exactMatch = await dbContext.Chats
                     .Where(c => matchingChatsIds.Contains(c.ChatId))
-                    .Where(c => c.ChatMembers.Count() == participantUserIds.Count)
-                    .Where(c => c.ChatMembers.All(m => participantUserIds.Contains(m.MemberId)))
+                    .Where(c => c.ChatMembers.Count() == participants.Count)
+                    .Where(c => c.ChatMembers.All(m => participants.Contains(m.MemberId)))
                     .Select(c => c.ChatId)
                     .FirstOrDefaultAsync();
 
-                //CHAT DOESN'T EXIST CREATE A NEW CHAT:
-
                 if (exactMatch != 0) return Ok(exactMatch);
 
+                //CHAT DOESN'T EXIST CREATE A NEW CHAT:
                 var newChat = new Chat
                 {
                     ChatName = "Example Chat"
@@ -72,7 +79,7 @@ namespace API.Controllers.Messages
                 var userIdentity = User?.Identity?.IsAuthenticated;
 
                 // Insert Participants
-                var members = participantUserIds.Select(userId => new ChatMember()
+                var members = participants.Select(userId => new ChatMember()
                 {
                     ChatId = chatId,
                     MemberId = userId,

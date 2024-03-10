@@ -1,6 +1,4 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-
-import { mockAPI } from '../../app/mockAPI';
 import { IChat, IMessage } from '../../app/messagesInterfaces';
 import { GET_ALL_CHATS } from '../../app/APIEndpoints';
 
