@@ -35,12 +35,12 @@ namespace API.Controllers.Messages
                 {
                     MessageId = m.MessageId,
                     SenderId = m.SenderId,
-                    SenderUserName = m.Sender.UserName,
+                    SenderUserName = m.Sender?.UserName ?? "Unknown",
                     ChatId = m.ChatId,
-                    ChatName = m.Chat.ChatName ?? m.Sender.UserName,
+                    ChatName = m.Chat?.ChatName ?? m.Sender?.UserName ?? "Unknown",
                     Content = !m.IsDeleted ? m.Content : "Deleted",
                     SentAt = m.SentAt,
-                    Likes = m.Likes.Select(like => like.User.UserName).ToList()
+                    Likes = m.Likes?.Select(like => like.User?.UserName).ToList() ?? new List<string?>()
                 })
                 .ToList();
 

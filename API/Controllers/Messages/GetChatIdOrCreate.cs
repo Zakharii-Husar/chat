@@ -104,7 +104,7 @@ namespace API.Controllers.Messages
                 var newMessage = new Message
                 {
                     ChatId = chatId,
-                    Content = currentUsername + "created chat.",
+                    Content = currentUsername + " created chat.",
                     RepliedTo = null,
                     SenderId = currentUserId!
                 };
