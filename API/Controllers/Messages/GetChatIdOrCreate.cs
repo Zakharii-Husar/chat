@@ -99,7 +99,7 @@ namespace API.Controllers.Messages
 
                 var currentUsername = (await userManager.FindByIdAsync(currentUserId!))?.UserName;
 
-                if (participantUserIds.Count == 2) return Ok(chatId);
+                if (participants.Count == 2) return Ok(chatId);
 
                 var newMessage = new Message
                 {
