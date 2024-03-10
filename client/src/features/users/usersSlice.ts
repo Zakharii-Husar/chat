@@ -48,7 +48,6 @@ export const searchUsers = createAsyncThunk(
       if (response.ok) {
         const filteredUsers = await response.json();
         dispatch(findUser(filteredUsers));
-        console.log(filteredUsers);
       }
     } catch (error) {
       console.error("Error searching users:", error);

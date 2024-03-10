@@ -18,17 +18,31 @@ import {
   updateSearchedUser,
 } from "../users/usersSlice";
 
+import {
+  createChatOrGetIdAsync,
+  addChatParticipantsId,
+  addChatParticipantsUserName,
+  removeParticipant,
+  resetChatParticipants,
+  setChatName
+} from "../chat/chatSlice";
+
 const AddGroupChat = () => {
   const [showForm, setShowForm] = useState(false);
-  const handleShowForm = () => setShowForm(!showForm);
+  const handleShowForm = () =>{
+    dispatch(resetChatParticipants());
+    setShowForm(!showForm);
+  } ;
+
   const dispatch = useAppDispatch();
   const { allUsers, filteredUsers, searchedUser } = useAppSelector(
     (state) => state.users
   );
 
-  useEffect(() => {
-    console.log(filteredUsers);
-  }, [console.log]);
+  const { participantsIds, participantsUserNames, chatName } = useAppSelector(
+    (state) => state.chat
+  );
+
   useEffect(() => {
     dispatch(fetchAllUsersAsync());
   }, []);
@@ -37,10 +51,38 @@ const AddGroupChat = () => {
     if (searchedUser) dispatch(searchUsers(searchedUser));
   }, [searchedUser]);
 
+  //reset participants on exit
+  useEffect(()=>{
+    return(()=>{
+      dispatch(resetChatParticipants());
+    })
+  }, [])
+
   const search = (e: React.ChangeEvent<HTMLInputElement>) => {
     const input = e.target.value;
     dispatch(updateSearchedUser(input !== "" ? input : null));
   };
+
+  const addParticipant = (id: string, userName: string) => {
+    dispatch(addChatParticipantsId(id));
+    dispatch(addChatParticipantsUserName(userName));
+  };
+
+  const remove = (index: number) =>{
+    dispatch(removeParticipant(index));
+  };
+
+  const setName = (e: React.ChangeEvent<HTMLInputElement>) => {
+    dispatch(setChatName(e.target.value));
+  };
+
+  const createGroup = () => {
+    if (!chatName || chatName.length < 4){
+      alert("Provide at least 3 characters long chat name!");
+    }else{
+      dispatch(createChatOrGetIdAsync());
+    }
+  }
 
   const currentList = searchedUser ? filteredUsers : allUsers;
 
@@ -58,38 +100,48 @@ const AddGroupChat = () => {
         </Modal.Header>
         <Modal.Body>
           <div className="d-flex flex-wrap mb-3">
-            <ListGroup.Item
-              className="d-flex justify-content-between align-items-center"
-              style={{
-                margin: 0,
-                padding: "0.5rem",
-                border: "1px solid #dee2e6",
-              }}
-            >
-              <span>
-                User 1 <span style={{ cursor: "pointer" }}>×</span>
-              </span>
-            </ListGroup.Item>
+            {participantsUserNames.map((name) => {
+              return (
+                <ListGroup.Item
+                  key={name}
+                  className="d-flex justify-content-between align-items-center"
+                  style={{
+                    margin: 0,
+                    padding: "0.5rem",
+                    border: "1px solid #dee2e6",
+                  }}
+                >
+                  <span onClick={()=> remove(participantsUserNames.indexOf(name))}>
+                    {name} <span style={{ cursor: "pointer" }}>×</span>
+                  </span>
+                </ListGroup.Item>
+              );
+            })}
           </div>
+
           <Form>
             <InputGroup className="mb-3">
               <FormControl placeholder="Search users" onInput={search} />
             </InputGroup>
 
             {currentList.map((user) => {
-              return (
+              return participantsIds.includes(user.id) ? null : (
                 <Form.Group key={user.id}>
-                  <ListGroup.Item>{user.nickname}</ListGroup.Item>
+                  <ListGroup.Item
+                    onClick={() => addParticipant(user.id, user.nickname)}
+                  >
+                    {user.nickname}
+                  </ListGroup.Item>
                 </Form.Group>
               );
             })}
 
             <Form.Group className="mb-3" controlId="chatName">
               <Form.Label>Chat Name</Form.Label>
-              <Form.Control type="text" placeholder="Enter chat name" />
+              <Form.Control type="text" placeholder="Enter chat name" onChange={setName}/>
             </Form.Group>
 
-            <Button variant="primary" type="submit">
+            <Button variant="primary" onClick={createGroup}>
               Create Group Chat
             </Button>
           </Form>

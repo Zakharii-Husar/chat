@@ -23,7 +23,6 @@ export const Chats: React.FC = () => {
             <AddGroupChat/>
             <div className="list-group-info">
                 {allChats.map((chat, i) => {
-                    console.log(chat.chatName);
                     return (
                         
                         <ListGroup key={i} variant="info">

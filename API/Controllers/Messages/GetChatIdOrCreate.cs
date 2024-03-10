@@ -16,12 +16,20 @@ namespace API.Controllers.Messages
     {
 
         [HttpPost]
-        public async Task<IActionResult> Get([FromBody] List<string> participantUserIds)
+        public async Task<IActionResult> Get([FromBody] NewChatModel payload)
         {
-            //VALIDATE PARTICIPANTS ARRAY IDS:
+            var participantUserIds = payload.ParticipantUserIds;
+            var chatName = payload.ChatName;
+            //validate participants list ids:
             if (participantUserIds.Count is < 1 or > 30)
             {
                 return BadRequest("Invalid participant count. Must be between 1 and 30.");
+            }
+
+            //validate chat name
+            if (participantUserIds.Count > 2 && chatName?.Length < 4)
+            {
+                return BadRequest("Invalid group chat name.");
             }
 
             //check sure there are no duplicates
@@ -69,7 +77,7 @@ namespace API.Controllers.Messages
                 //CHAT DOESN'T EXIST CREATE A NEW CHAT:
                 var newChat = new Chat
                 {
-                    ChatName = "Example Chat"
+                    ChatName = participantUserIds.Count > 2 ? chatName : null
                 };
 
                 dbContext.Chats.Add(newChat);
@@ -87,6 +95,22 @@ namespace API.Controllers.Messages
                 });
 
                 dbContext.ChatMembers.AddRange(members);
+                await dbContext.SaveChangesAsync();
+
+                var currentUsername = (await userManager.FindByIdAsync(currentUserId!))?.UserName;
+
+                if (participantUserIds.Count == 2) return Ok(chatId);
+
+                var newMessage = new Message
+                {
+                    ChatId = chatId,
+                    Content = currentUsername + "created chat.",
+                    RepliedTo = null,
+                    SenderId = currentUserId!
+                };
+
+
+                dbContext.Messages.Add(newMessage);
                 await dbContext.SaveChangesAsync();
 
                 return Ok(chatId);

@@ -11,7 +11,7 @@ import {
   createChatOrGetIdAsync,
   setCurrentChatId,
   toggleLike,
-  addChatParticipants,
+  addChatParticipantsId,
   resetChatParticipants,
 } from "./chatSlice";
 import { FaHeart } from "react-icons/fa";
@@ -51,7 +51,7 @@ export const Chat: React.FC = () => {
   //add recipient id to participants
   useEffect(() => {
     if (recipientId) {
-      dispatch(addChatParticipants(recipientId));
+      dispatch(addChatParticipantsId(recipientId));
     }
   }, [recipientId]);
   //fetch chat id
