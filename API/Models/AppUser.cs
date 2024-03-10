@@ -10,7 +10,8 @@ namespace API.Models
     public class AppUser : IdentityUser
     {
         [Required(ErrorMessage = "User name is required.")]
-        [RegularExpression(@"^[^\d]\w{3,12}$", ErrorMessage = "Invalid username.")]
+
+        [RegularExpression(@"^[a-zA-Z][\w\-#$\._]{4,20}$", ErrorMessage = "Invalid username.")]
         public override string? UserName { get; set; }
 
         [Required(ErrorMessage = "Email address is required.")]
@@ -23,7 +24,7 @@ namespace API.Models
         public override string? PasswordHash { get; set; }
 
         [Required(ErrorMessage = "Full name is required.")]
-        [StringLength(20, MinimumLength = 3, ErrorMessage = "Full name must be between 3 and 20 characters.")]
+        [StringLength(30, MinimumLength = 3, ErrorMessage = "Full name must be between 3 and 20 characters.")]
         [RegularExpression(@"^[a-zA-Z ]+$", ErrorMessage = "Full name can only consist of letters and spaces.")]
         public string FullName { get; set; } = null!;
 
