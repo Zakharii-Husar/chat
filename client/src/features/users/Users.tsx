@@ -58,7 +58,7 @@ const Users: React.FC = () => {
               <Link
                 key={user.id}
                 to={`/chats/*`}
-                state={{ recipientId: user.id }}
+                state={{ recipientId: user.id, recipientUsername: user.nickname }}
               >
                 <ListGroup.Item className="d-flex align-items-center justify-content-between py-1">
                   <FaUserCircle size={25} className="ms-2" />

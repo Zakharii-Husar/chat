@@ -19,12 +19,14 @@ export interface IMessageToSend {
 
 
 export interface IChat {
-    chatId: number,
     chatName: string | null,
-    messages: IMessage[],
     participantsIds: string[],
     participantsUserNames: string[],
     messageToSend: IMessageToSend
 
 }
 
+export interface IGetChat{
+    id: number | null,
+    messages: IMessage[]
+}

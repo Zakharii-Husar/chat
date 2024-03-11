@@ -5,15 +5,14 @@ import {
   useAppSelector,
 } from "../../hooks/useAppSelectorAndDispatch";
 import {
-  getChatById,
   setMessageContent,
   sendMessageAsync,
   createChatOrGetIdAsync,
-  setCurrentChatId,
-  toggleLike,
-  addChatParticipantsId,
   resetChatParticipants,
-} from "./chatSlice";
+  addChatParticipants
+} from "./newChatSlice";
+
+import { setCurrentChatId, getChatById, toggleLike  } from "./existingChatSlice";
 import { FaHeart } from "react-icons/fa";
 
 import Container from "react-bootstrap/Container";
@@ -26,40 +25,47 @@ import { Button } from "react-bootstrap";
 export const Chat: React.FC = () => {
   const { state: locationState } = useLocation();
   const recipientId = locationState?.recipientId ?? null;
+  const recipientUsername = locationState?.recipientUsername ?? null;
   const locationStateChatId = locationState?.chatId ?? null;
 
   const { id: loggedInUserId } = useAppSelector((state) => state.auth.response);
   const userName = useAppSelector((state) => state.auth.response.nickname);
-  const participants = useAppSelector((state) => state.chat.participantsIds);
+  const { participantsIds, participantsUserNames } = useAppSelector(
+    (state) => state.newChat
+  );
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   const { Content: msgContent } = useAppSelector(
-    (state) => state.chat.messageToSend
+    (state) => state.newChat.messageToSend
   );
 
-  const chatId = useAppSelector((state) => state.chat.chatId);
+  const chatId = useAppSelector((state) => state.existingChat.id);
 
-  const messages = useAppSelector((state) => state.chat.messages);
+  const messages = useAppSelector((state) => state.existingChat.messages);
+
+  useEffect(() => {
+    console.log(participantsUserNames);
+  }, [participantsUserNames]);
 
   //set chatId if present
   useEffect(() => {
     if (locationStateChatId) dispatch(setCurrentChatId(locationStateChatId));
   }, [locationStateChatId]);
 
-  //add recipient id to participants
+  //add recipient id to participantsIds
   useEffect(() => {
     if (recipientId) {
-      dispatch(addChatParticipantsId(recipientId));
+      dispatch(addChatParticipants({id: recipientId, name: recipientUsername}));
     }
   }, [recipientId]);
   //fetch chat id
   useEffect(() => {
-    if (!chatId && participants.length > 0) {
+    if (!chatId && participantsIds.length > 0) {
       dispatch(createChatOrGetIdAsync());
     }
-  }, [chatId, participants]);
+  }, [chatId, participantsIds]);
 
   //fetch chat itself
   useEffect(() => {

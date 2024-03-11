@@ -20,12 +20,11 @@ import {
 
 import {
   createChatOrGetIdAsync,
-  addChatParticipantsId,
-  addChatParticipantsUserName,
+  addChatParticipants,
   removeParticipant,
   resetChatParticipants,
   setChatName
-} from "../chat/chatSlice";
+} from "../chat/newChatSlice";
 
 const AddGroupChat = () => {
   const [showForm, setShowForm] = useState(false);
@@ -40,7 +39,7 @@ const AddGroupChat = () => {
   );
 
   const { participantsIds, participantsUserNames, chatName } = useAppSelector(
-    (state) => state.chat
+    (state) => state.newChat
   );
 
   useEffect(() => {
@@ -64,8 +63,7 @@ const AddGroupChat = () => {
   };
 
   const addParticipant = (id: string, userName: string) => {
-    dispatch(addChatParticipantsId(id));
-    dispatch(addChatParticipantsUserName(userName));
+    dispatch(addChatParticipants({id: id, name: userName}));
   };
 
   const remove = (index: number) =>{
