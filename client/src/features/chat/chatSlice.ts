@@ -30,7 +30,6 @@ export const createChatOrGetIdAsync = createAsyncThunk(
       (value, index, self) => self.indexOf(value) === index
     );
 
-    console.log(JSON.stringify(uniqueArr));
     try {
       const response = await fetch(GET_CHAT_ID, {
         method: "POST",

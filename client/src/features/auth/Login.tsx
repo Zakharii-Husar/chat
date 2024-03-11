@@ -1,71 +1,87 @@
-import { useAppSelector, useAppDispatch } from '../../hooks/useAppSelectorAndDispatch';
-import { setLogin, setPassword } from './loginSlice';
-import { SyntheticEvent, useEffect } from 'react';
-import { loginAsync } from './loginSlice';
-import { useNavigate } from 'react-router';
+import {
+  useAppSelector,
+  useAppDispatch,
+} from "../../hooks/useAppSelectorAndDispatch";
+import { setLogin, setPassword } from "./loginSlice";
+import { SyntheticEvent, useEffect } from "react";
+import { loginAsync } from "./loginSlice";
+import { useNavigate } from "react-router";
 
-import Form from 'react-bootstrap/Form';
-import Col from 'react-bootstrap/Col';
-import Button from 'react-bootstrap/Button';
-import Container from 'react-bootstrap/Container';
+import {
+  MDBContainer,
+  MDBInput,
+  MDBBtn,
+  MDBCard,
+  MDBCardBody
+} from "mdb-react-ui-kit";
 
 import { useCheckAuth } from "../../hooks/useCheckAuth";
 
-export function Auth() {
-    useCheckAuth();
-    const navigate = useNavigate();
+export function Login() {
+  useCheckAuth();
+  const navigate = useNavigate();
 
-    const { id: loggedInUserId, nickname } = useAppSelector(state => state.auth.response);
+  const { id: loggedInUserId, nickname } = useAppSelector(
+    (state) => state.auth.response
+  );
 
-    const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch();
 
-    const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-        if (e.target.name === "login") dispatch(setLogin(e.target.value));
-        if (e.target.name === "password") dispatch(setPassword(e.target.value));
-    };
+  const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.name === "login") dispatch(setLogin(e.target.value));
+    if (e.target.name === "password") dispatch(setPassword(e.target.value));
+  };
 
-    useEffect(() => {
-        if (loggedInUserId) navigate("/");
-    }, [loggedInUserId, navigate])
+  useEffect(() => {
+    if (loggedInUserId) navigate("/");
+  }, [loggedInUserId, navigate]);
 
-    const handleSubmit = (e: SyntheticEvent) => {
-        e.preventDefault();
-        dispatch(loginAsync());
-    };
+  const handleSubmit = (e: SyntheticEvent) => {
+    e.preventDefault();
+    dispatch(loginAsync());
+  };
 
-    return (
-        <Container className="d-flex align-items-center justify-content-center" style={{ minHeight: '100vh' }}>
-            <form onSubmit={handleSubmit}>
-                <Col xs={12} style={{ flexShrink: 0 }}>
-                    <Form.Label htmlFor="inputEmail">Email or Nickname</Form.Label>
-                    <Form.Control
-                        onInput={handleInput}
-                        type="text"
-                        name="login"
-                        id="inputEmail"
-                        aria-describedby="passwordHelpBlock"
-                        className="mb-4"
-                    />
-                    <Form.Label htmlFor="inputPassword">Password</Form.Label>
-                    <Form.Control
-                        onInput={handleInput}
-                        type="password"
-                        name="password"
-                        id="inputPassword"
-                        aria-describedby="passwordHelpBlock"
-                        className="mb-4"
-                    />
+  return (
+    <MDBContainer
+      fluid
+      className="d-flex align-items-center justify-content-center bg-image"
+      style={{
+        backgroundImage:
+          "url(https://mdbcdn.b-cdn.net/img/Photos/new-templates/search-box/img4.webp)",
+      }}
+    >
+      <div className="mask gradient-custom-3"></div>
+      <MDBCard className="m-5" style={{ maxWidth: "600px" }}>
+        <MDBCardBody className="px-5">
+          <h2 className="text-uppercase text-center mb-5">Sign in</h2>
 
-                    <Form.Check
-                        id="captcha"
-                        type="checkbox"
-                        label="I'm not a robot"
-                        className="mb-4" />
-                    <Button variant="primary" type="submit">
-                        Log in
-                    </Button>
-                </Col>
-            </form>
-        </Container>
-    )
+          <MDBInput
+            onInput={handleInput}
+            type="text"
+            name="login"
+            wrapperClass="mb-4"
+            label="Nickname or email"
+            size="lg"
+          />
+
+          <MDBInput
+            onInput={handleInput}
+            name="password"
+            wrapperClass="mb-4"
+            label="Password"
+            size="lg"
+            id="form3"
+            type="password"
+          />
+          <MDBBtn
+            className="mb-4 w-100 gradient-custom-4"
+            size="lg"
+            onClick={handleSubmit}
+          >
+            Sign in
+          </MDBBtn>
+        </MDBCardBody>
+      </MDBCard>
+    </MDBContainer>
+  );
 }

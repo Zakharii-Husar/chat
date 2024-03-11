@@ -2,7 +2,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { Chats } from "./features/chats/Chats";
 import { Chat } from "./features/chat/Chat";
 import { Home } from "./features/home/Home";
-import { Auth } from "./features/auth/Login";
+import { Login } from "./features/auth/Login";
 import { Register } from "./features/auth/Register";
 import { Root } from "./features/root/Root";
 import {
@@ -24,7 +24,7 @@ function App() {
           element={<Chat />}
           loader={() => "api_loader_request"}
         />
-        <Route path="/login" element={<Auth />} />
+        <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
       </Route>
     )
