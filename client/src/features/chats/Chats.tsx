@@ -19,6 +19,7 @@ export function Chats() {
   return (
     <MDBListGroup style={{ minWidth: "22rem" }} light>
         <AddGroupChat/>
+        <Link to="/chats/test">ChatTest</Link>
       {allChats.map((chat) => {
         return (
           <MDBListGroupItem

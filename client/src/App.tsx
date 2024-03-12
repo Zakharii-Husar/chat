@@ -5,6 +5,7 @@ import { Home } from "./features/home/Home";
 import { Login } from "./features/auth/Login";
 import { Register } from "./features/auth/Register";
 import { Root } from "./features/root/Root";
+import { ChatTest } from "./features/chat/ChatTest";
 import {
   Route,
   createBrowserRouter,
@@ -19,6 +20,7 @@ function App() {
       <Route path="/" element={<Root />}>
         <Route path="/" element={<Home />} />
         <Route path="/chats" element={<Chats />} />
+        <Route path="/chats/test" element={<ChatTest/>}/>
         <Route
           path="/chats/:id"
           element={<Chat />}
