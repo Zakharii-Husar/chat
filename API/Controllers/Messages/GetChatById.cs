@@ -18,8 +18,18 @@ namespace API.Controllers.Messages
             var currentUser = await userManager.GetUserAsync(User);
             var currentUserId = currentUser?.Id;
 
+            var chatName = await dbContext.Chats
+                .Where(chat => chat.ChatId == chatId)
+                .Select(chat => chat.ChatName)
+                .FirstOrDefaultAsync();
 
-            var chat = await dbContext.Messages
+            var membersNames = await dbContext.ChatMembers
+                .Where(member => member.ChatId == chatId)
+                .Select(member => member.Member.UserName)
+                .ToListAsync();
+
+
+            var messages = await dbContext.Messages
                 .Where(message => message.ChatId == chatId)
                 .Select(m => new MessageDto()
                 {
@@ -28,15 +38,20 @@ namespace API.Controllers.Messages
                     SenderUserName = m.Sender.UserName,
                     ChatId = m.ChatId,
                     ChatName = m.Chat.ChatName,
-                    Content = !m.IsDeleted ? m.Content : "Deleted",
+                    Content = !m.IsDeleted ? m.Content : m.Sender.UserName + " deleted message.",
                     SentAt = m.SentAt,
                     Likes = m.Likes.Select(like => like.User.UserName).ToList()
                 })
                 .ToListAsync();
-            //.Where(chat => chat.ChatId == chatId)
-            //.Where(chat => chat.ChatMembers.Any(member => member.MemberId == currentUserId))
-            //.ToListAsync();
-            return Ok(chat);
+
+            return Ok(new
+            {
+                id = chatId,
+                chatName,
+                membersNicknames = membersNames,
+                messages
+            });
+
 
         }
 

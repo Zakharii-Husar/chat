@@ -20,16 +20,14 @@ namespace API.Controllers.Messages
         {
             var participantUserIds = payload.ParticipantUserIds;
             var chatName = payload.ChatName;
-            //validate participants list ids:
-            if (participantUserIds.Count is < 1 or > 30)
+            switch (participantUserIds.Count)
             {
-                return BadRequest("Invalid participant count. Must be between 1 and 30.");
-            }
-
-            //validate chat name
-            if (participantUserIds.Count > 2 && chatName?.Length < 4)
-            {
-                return BadRequest("Invalid group chat name.");
+                //validate participants list ids:
+                case < 1 or > 30:
+                    return BadRequest("Invalid participant count. Must be between 1 and 30.");
+                //validate chat name
+                case > 2 when chatName?.Length < 4:
+                    return BadRequest("Invalid group chat name.");
             }
 
             //check sure there are no duplicates
@@ -77,7 +75,7 @@ namespace API.Controllers.Messages
                 //CHAT DOESN'T EXIST CREATE A NEW CHAT:
                 var newChat = new Chat
                 {
-                    ChatName = participantUserIds.Count > 2 ? chatName : null
+                    ChatName = participants.Count > 2 ? chatName : null
                 };
 
                 dbContext.Chats.Add(newChat);

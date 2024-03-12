@@ -26,7 +26,12 @@ import {
   setChatName
 } from "../chat/newChatSlice";
 
+import { useNavigate } from "react-router";
+
 const AddGroupChat = () => {
+
+  const navigate = useNavigate();
+
   const [showForm, setShowForm] = useState(false);
   const handleShowForm = () =>{
     dispatch(resetChatParticipants());
@@ -42,6 +47,8 @@ const AddGroupChat = () => {
     (state) => state.newChat
   );
 
+  const createdGroupId = useAppSelector(state => state.existingChat.id);
+
   useEffect(() => {
     dispatch(fetchAllUsersAsync());
   }, []);
@@ -56,6 +63,12 @@ const AddGroupChat = () => {
       dispatch(resetChatParticipants());
     })
   }, [])
+
+  useEffect(()=>{
+    if(createdGroupId){
+      navigate("/chats/" + createdGroupId.toString(),  {state: { chatId: createdGroupId }});
+    }
+  }, [createdGroupId])
 
   const search = (e: React.ChangeEvent<HTMLInputElement>) => {
     const input = e.target.value;

@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { IChat, IMessage } from '../../app/messagesInterfaces';
+import { IMessage } from '../../app/messagesInterfaces';
 import { GET_ALL_CHATS } from '../../app/APIEndpoints';
 
 const initialState: IMessage[] | null = [];

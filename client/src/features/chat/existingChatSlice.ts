@@ -2,10 +2,12 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { GET_CHAT_BY_ID, LIKE_MESSAGE } from "../../app/APIEndpoints";
 import type { RootState } from "../../app/store";
-import { IGetChat, IMessage } from "../../app/messagesInterfaces";
+import { IExistingChat, IMessage } from "../../app/messagesInterfaces";
 
-const initialState: IGetChat = {
+const initialState: IExistingChat = {
   id: null,
+  chatName: null,
+  membersNicknames: [],
   messages: [],
 };
 
@@ -24,7 +26,8 @@ export const getChatById = createAsyncThunk(
 
       if (response.ok) {
         const data = await response.json();
-        dispatch(existingChatSlice.actions.setChat(data));
+        console.log(data);
+        dispatch(setChat(data));
       }
     } catch (error) {
       console.log(error);
@@ -60,19 +63,19 @@ export const toggleLike = createAsyncThunk(
 );
 
 export const existingChatSlice = createSlice({
-    name: "chatSlice",
+    name: "existingChatSlice",
     initialState,
     reducers: {
-      setCurrentChatId: (state, action: PayloadAction<number>) => {
+      setCurrentChatId: (state, action: PayloadAction<number | null>) => {
         state.id = action.payload;
       },
-      setChat: (state, action: PayloadAction<[]>) => {
-        state.messages = action.payload;
+      setChat: (state, action: PayloadAction<IExistingChat>) => {
+        return action.payload;
       },
       addToChat: (state, action: PayloadAction<IMessage>) => {
         state.messages.push(action.payload);
       },
-      likeOrUnlike: (
+      likeOrUnlike:(
         state,
         action: PayloadAction<{ id: number; name: string }>
       ) => {

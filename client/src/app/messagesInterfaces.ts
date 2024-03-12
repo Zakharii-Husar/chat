@@ -18,15 +18,16 @@ export interface IMessageToSend {
 }
 
 
-export interface IChat {
+export interface INewChat {
     chatName: string | null,
     participantsIds: string[],
     participantsUserNames: string[],
     messageToSend: IMessageToSend
-
 }
 
-export interface IGetChat{
+export interface IExistingChat{
     id: number | null,
+    chatName: string | null
+    membersNicknames: string [],
     messages: IMessage[]
 }

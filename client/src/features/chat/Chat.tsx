@@ -43,7 +43,11 @@ export const Chat: React.FC = () => {
 
   const chatId = useAppSelector((state) => state.existingChat.id);
 
-  const messages = useAppSelector((state) => state.existingChat.messages);
+  const { messages, chatName, membersNicknames } = useAppSelector((state) => state.existingChat);
+
+  useEffect(()=>{
+    console.log(messages);
+  }, [messages])
 
   useEffect(() => {
     console.log(participantsUserNames);
@@ -82,7 +86,7 @@ export const Chat: React.FC = () => {
   useEffect(() => {
     return () => {
       dispatch(resetChatParticipants());
-      dispatch(setCurrentChatId(0));
+      dispatch(setCurrentChatId(null));
     };
   }, []);
 
@@ -105,6 +109,7 @@ export const Chat: React.FC = () => {
       fluid
       className="d-flex flex-column vw-100"
     >
+      <h1>Chatname: {chatName ?? membersNicknames[0]}</h1>
       <Row
         style={{ height: "70vh", overflowY: "auto" }}
         className="d-flex flex-column align-items-center justify-content-center w-100 mt-3"

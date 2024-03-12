@@ -1,16 +1,11 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import {
-  GET_CHAT_BY_ID,
-  GET_CHAT_ID,
-  LIKE_MESSAGE,
-  SEND_MESSAGE,
-} from "../../app/APIEndpoints";
+import { GET_CHAT_ID, SEND_MESSAGE } from "../../app/APIEndpoints";
 import type { RootState } from "../../app/store";
-import { IChat, IMessage } from "../../app/messagesInterfaces";
+import { INewChat, IMessage } from "../../app/messagesInterfaces";
 import { addToChat, setCurrentChatId } from "./existingChatSlice";
 
-const initialState: IChat = {
+const initialState: INewChat = {
   chatName: null,
   participantsIds: [],
   participantsUserNames: [],
@@ -36,8 +31,8 @@ export const createChatOrGetIdAsync = createAsyncThunk(
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-            ParticipantUserIds: uniqueArr,
-            ChatName: state.newChat.chatName
+          ParticipantUserIds: uniqueArr,
+          ChatName: state.newChat.chatName,
         }),
         credentials: "include",
       });
@@ -86,7 +81,10 @@ export const newChatSlice = createSlice({
     setMessageContent: (state, action: PayloadAction<string>) => {
       state.messageToSend.Content = action.payload;
     },
-    addChatParticipants: (state, action: PayloadAction<{id: string, name: string}>) => {
+    addChatParticipants: (
+      state,
+      action: PayloadAction<{ id: string; name: string }>
+    ) => {
       if (state.participantsIds.includes(action.payload.id)) return;
       state.participantsIds.push(action.payload.id);
       state.participantsUserNames.push(action.payload.name);
@@ -100,7 +98,7 @@ export const newChatSlice = createSlice({
       state.participantsUserNames = [];
     },
     setChatName: (state, action: PayloadAction<string>) => {
-        state.chatName = action.payload
+      state.chatName = action.payload;
     },
   },
 });
@@ -110,7 +108,7 @@ export const {
   addChatParticipants,
   resetChatParticipants,
   removeParticipant,
-  setChatName
+  setChatName,
 } = newChatSlice.actions;
 
 export default newChatSlice.reducer;
