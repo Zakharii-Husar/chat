@@ -23,7 +23,7 @@ import {
   addChatParticipants,
   removeParticipant,
   resetChatParticipants,
-  setChatName
+  setChatName,
 } from "../chat/newChatSlice";
 
 import { useNavigate } from "react-router";
@@ -64,11 +64,6 @@ const AddGroupChat = () => {
     })
   }, [])
 
-  useEffect(()=>{
-    if(createdGroupId){
-      navigate("/chats/" + createdGroupId.toString(),  {state: { chatId: createdGroupId }});
-    }
-  }, [createdGroupId])
 
   const search = (e: React.ChangeEvent<HTMLInputElement>) => {
     const input = e.target.value;
@@ -91,7 +86,9 @@ const AddGroupChat = () => {
     if (!chatName || chatName.length < 4){
       alert("Provide at least 3 characters long chat name!");
     }else{
-      dispatch(createChatOrGetIdAsync());
+      dispatch(createChatOrGetIdAsync()).then(() => {
+        navigate("/chats/" + createdGroupId?.toString(), { state: { chatId: createdGroupId }});
+      })
     }
   }
 

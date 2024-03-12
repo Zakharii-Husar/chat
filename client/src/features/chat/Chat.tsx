@@ -33,6 +33,10 @@ export const Chat: React.FC = () => {
   const existingChat = useAppSelector((state) => state.existingChat);
   const newChat = useAppSelector((state) => state.newChat);
 
+  const filteredParticipants = existingChat.membersNicknames.filter(member => member !== loggedInUserName);
+
+
+
   //set chatId when transfered from Chats.tsx
   useEffect(() => {
     if (locationState?.chatId) dispatch(setCurrentChatId(locationState?.chatId));
@@ -100,7 +104,7 @@ export const Chat: React.FC = () => {
       className="d-flex flex-column vw-100"
     >
       <h1>
-        Chatname: {existingChat.chatName ?? existingChat.membersNicknames[0]}
+        Chatname: {existingChat.chatName ?? filteredParticipants[0]}
       </h1>
       <Row
         style={{ height: "70vh", overflowY: "auto" }}
