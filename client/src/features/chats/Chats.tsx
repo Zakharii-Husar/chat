@@ -15,6 +15,7 @@ export function Chats() {
   useEffect(() => {
     dispatch(fetchAllChats());
   }, []);
+  
   return (
     <MDBListGroup style={{ minWidth: "22rem" }} light>
         <AddGroupChat/>

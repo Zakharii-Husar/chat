@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useParams, useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import {
   useAppDispatch,
   useAppSelector,
@@ -9,10 +9,10 @@ import {
   sendMessageAsync,
   createChatOrGetIdAsync,
   resetChatParticipants,
-  addChatParticipants
+  addChatParticipants,
 } from "./newChatSlice";
 
-import { setCurrentChatId, getChatById, toggleLike  } from "./existingChatSlice";
+import { setCurrentChatId, getChatById, toggleLike } from "./existingChatSlice";
 import { FaHeart } from "react-icons/fa";
 
 import Container from "react-bootstrap/Container";
@@ -23,64 +23,50 @@ import Form from "react-bootstrap/Form";
 import { Button } from "react-bootstrap";
 
 export const Chat: React.FC = () => {
-  const { state: locationState } = useLocation();
-  const recipientId = locationState?.recipientId ?? null;
-  const recipientUsername = locationState?.recipientUsername ?? null;
-  const locationStateChatId = locationState?.chatId ?? null;
-
-  const { id: loggedInUserId } = useAppSelector((state) => state.auth.response);
-  const userName = useAppSelector((state) => state.auth.response.nickname);
-  const { participantsIds, participantsUserNames } = useAppSelector(
-    (state) => state.newChat
-  );
-
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const { Content: msgContent } = useAppSelector(
-    (state) => state.newChat.messageToSend
+  const { state: locationState } = useLocation();
+  const { id: loggedInUserId, nickname: loggedInUserName } = useAppSelector(
+    (state) => state.auth.response
   );
+  const existingChat = useAppSelector((state) => state.existingChat);
+  const newChat = useAppSelector((state) => state.newChat);
 
-  const chatId = useAppSelector((state) => state.existingChat.id);
-
-  const { messages, chatName, membersNicknames } = useAppSelector((state) => state.existingChat);
-
-  useEffect(()=>{
-    console.log(messages);
-  }, [messages])
-
+  //set chatId when transfered from Chats.tsx
   useEffect(() => {
-    console.log(participantsUserNames);
-  }, [participantsUserNames]);
+    if (locationState?.chatId) dispatch(setCurrentChatId(locationState?.chatId));
+  }, [locationState?.chatId]);
 
-  //set chatId if present
+  //add recipient id to participantsIds when transfered from Users.tsx
   useEffect(() => {
-    if (locationStateChatId) dispatch(setCurrentChatId(locationStateChatId));
-  }, [locationStateChatId]);
-
-  //add recipient id to participantsIds
-  useEffect(() => {
-    if (recipientId) {
-      dispatch(addChatParticipants({id: recipientId, name: recipientUsername}));
+    if (locationState?.recipientId) {
+      dispatch(
+        addChatParticipants({
+          id: locationState?.recipientId,
+          name: locationState?.recipientUsername,
+        })
+      );
     }
-  }, [recipientId]);
-  //fetch chat id
+  }, [locationState?.recipientId]);
+
+  //When transfered from Users.tsx fetch chatId based on participant
   useEffect(() => {
-    if (!chatId && participantsIds.length > 0) {
+    if (!existingChat.id && newChat.participantsIds.length > 0) {
       dispatch(createChatOrGetIdAsync());
     }
-  }, [chatId, participantsIds]);
+  }, [existingChat.id, newChat.participantsIds]);
 
-  //fetch chat itself
+  //fetch chat itself by having chatId
   useEffect(() => {
-    if (chatId) dispatch(getChatById(chatId));
-  }, [chatId]);
+    if (existingChat.id) dispatch(getChatById(existingChat.id));
+  }, [existingChat.id]);
 
   //update url to chatid
   useEffect(() => {
-    const url = `/chats/${chatId?.toString()}`;
-    if (chatId !== 0) navigate(url, { replace: true });
-  }, [chatId]);
+    const url = `/chats/${existingChat.id?.toString()}`;
+    if (existingChat.id !== 0) navigate(url, { replace: true });
+  }, [existingChat.id]);
 
   //reset currentChatId and chatParticipants on exit
   useEffect(() => {
@@ -95,12 +81,16 @@ export const Chat: React.FC = () => {
   };
 
   const sendMessage = () => {
-    if (msgContent && msgContent.length > 0) dispatch(sendMessageAsync());
+    if (
+      newChat.messageToSend.Content &&
+      newChat.messageToSend.Content.length > 0
+    )
+      dispatch(sendMessageAsync());
     dispatch(setMessageContent(""));
   };
 
   const handleLike = (messageId: number) => {
-    dispatch(toggleLike({ messageId: messageId, userName: userName ?? "" }));
+    dispatch(toggleLike({ messageId: messageId, userName: loggedInUserName! }));
   };
 
   return (
@@ -109,14 +99,16 @@ export const Chat: React.FC = () => {
       fluid
       className="d-flex flex-column vw-100"
     >
-      <h1>Chatname: {chatName ?? membersNicknames[0]}</h1>
+      <h1>
+        Chatname: {existingChat.chatName ?? existingChat.membersNicknames[0]}
+      </h1>
       <Row
         style={{ height: "70vh", overflowY: "auto" }}
         className="d-flex flex-column align-items-center justify-content-center w-100 mt-3"
       >
         <Col xs={12} md={8} lg={4} xl={2}>
           <ListGroup className="">
-            {messages?.map((message, i) => {
+            {existingChat.messages?.map((message, i) => {
               const alignSelf = `align-self-${
                 message.senderId === loggedInUserId ? "end" : "start"
               }`;
@@ -153,7 +145,7 @@ export const Chat: React.FC = () => {
             onChange={handleMessageInput}
             type="text"
             placeholder="Type message..."
-            value={msgContent ?? ""}
+            value={newChat.messageToSend.Content ?? ""}
           />
           <Button onClick={sendMessage}>Send</Button>
         </Col>
