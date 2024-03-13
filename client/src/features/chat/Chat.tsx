@@ -1,4 +1,4 @@
-import { formatDistanceToNow } from 'date-fns';
+import { formatDistanceToNow } from "date-fns";
 import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import {
@@ -28,6 +28,7 @@ import {
   MDBTextArea,
   MDBCardHeader,
 } from "mdb-react-ui-kit";
+import "./Chat.css";
 
 export const Chat: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -110,43 +111,45 @@ export const Chat: React.FC = () => {
   };
 
   return (
-    <MDBContainer className="py-5" style={{ backgroundColor: "#eee" }}>
-      <MDBRow>
-        <MDBCol md="6" lg="9" xl="12">
-        <h5 className="font-weight-bold mb-3 text-center text-lg-start">
+    <MDBContainer
+      fluid
+      className="d-flex py-5"
+      style={{ backgroundColor: "#black" }}
+    >
+      <MDBRow className="d-flex">
+        <MDBCol sm={12}>
+          <h5 className="font-weight-bold mb-3 text-center text-lg-start">
             Member
           </h5>
-          <MDBTypography className="d-flex-column" listUnStyled>
+          <MDBTypography listUnStyled>
             {existingChat.messages.map((message) => {
               const isSender = loggedInUserId === message.senderId;
               const time = getTimeAgo(message.sentAt);
+              
               return (
-                <li
-                  className={`d-flex ${
-                    isSender ? "flex-row-reverse" : ""
-                  } mb-4`}
-                >
-                  <img
-                    src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/avatar-6.webp"
-                    alt="avatar"
-                    className="rounded-circle d-flex align-self-start mx-3 shadow-1-strong"
-                    width="60"
-                  />
-                  <MDBCard style={{maxWidth: "50%", minWidth: "25%"}}>
-                    <MDBCardHeader className="d-flex justify-content-between p-3">
-                      <p className="fw-bold mb-0">{message.userName}</p>
-                      <p className="text-muted small mb-0">
-                        <MDBIcon far icon="clock" />{time}
-                      </p>
+                <li  className={"msg d-flex mb-4" + (isSender ? " flex-row-reverse" : "")} key={message.messageId}>
+                  <MDBCard>
+                    <MDBCardHeader className={"d-flex justify-content-end p-3"  + (isSender ? "" : " flex-row-reverse")}>
+                      <p className="fw-bold mb-0">{message.senderUserName}</p>
+                      <img
+                        src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/avatar-6.webp"
+                        alt="avatar"
+                        className="rounded-circle d-flex align-self-start mx-3 shadow-1-strong"
+                        width="40"
+                      />
                     </MDBCardHeader>
                     <MDBCardBody>
                       <p className="mb-0">{message.content}</p>
                     </MDBCardBody>
+                    <p className="text-muted small mb-0">
+                      <MDBIcon far icon="clock" />
+                      {" " + time}
+                    </p>
                   </MDBCard>
                 </li>
               );
             })}
-            <li className="bg-white mb-3">
+            <li className="d-flex bg-white mb-3">
               <MDBTextArea
                 onChange={handleMessageInput}
                 placeholder="Type message..."

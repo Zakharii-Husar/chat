@@ -16,7 +16,7 @@ export const Root = () => {
 
     return (
         <Container fluid className="d-flex flex-column align-items-center vw-100 vh-100"
-            style={{ backgroundColor: "grey" }} >
+            style={{ backgroundColor: "black" }} >
             <Row>
                 <Col>
                     <div>
@@ -25,7 +25,7 @@ export const Root = () => {
                 </Col>
 
                 <Col className="d-flex flex-column justify-content-around align-items-center h-100" >
-                    <div>
+                    <div className="d-flex justify-content-around w-100">
                         <Outlet />
                     </div>
                 </Col>

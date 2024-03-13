@@ -1,6 +1,7 @@
 import reportWebVitals from './reportWebVitals';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import "./index.css";
 
 import 'mdb-react-ui-kit/dist/css/mdb.min.css';
 

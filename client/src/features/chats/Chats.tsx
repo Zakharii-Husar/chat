@@ -34,9 +34,8 @@ export function Chats() {
   };
 
   return (
-    <MDBContainer fluid className="py-5" style={{ backgroundColor: "#eee" }}>
+    <MDBContainer className="py-5" style={{ backgroundColor: "#eee" }}>
       <AddGroupChat/>
-      <Link to="/chats/test">Chat test</Link>
       <MDBRow>
         <MDBCol className="mb-4 mb-md-0">
           <MDBCard>

@@ -1,7 +1,7 @@
 export interface IMessage {
     messageId: number,
     senderId: string,
-    userName: string,
+    senderUserName: string,
     chatId: number,
     chatName: string | null,
     content: string,
