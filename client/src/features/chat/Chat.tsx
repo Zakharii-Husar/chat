@@ -1,3 +1,4 @@
+import { formatDistanceToNow } from 'date-fns';
 import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import {
@@ -104,6 +105,10 @@ export const Chat: React.FC = () => {
     dispatch(toggleLike({ messageId: messageId, userName: loggedInUserName! }));
   };
 
+  const getTimeAgo = (timestamp: string) => {
+    return formatDistanceToNow(new Date(timestamp), { addSuffix: true });
+  };
+
   return (
     <MDBContainer className="py-5" style={{ backgroundColor: "#eee" }}>
       <MDBRow>
@@ -114,6 +119,7 @@ export const Chat: React.FC = () => {
           <MDBTypography className="d-flex-column" listUnStyled>
             {existingChat.messages.map((message) => {
               const isSender = loggedInUserId === message.senderId;
+              const time = getTimeAgo(message.sentAt);
               return (
                 <li
                   className={`d-flex ${
@@ -126,11 +132,11 @@ export const Chat: React.FC = () => {
                     className="rounded-circle d-flex align-self-start mx-3 shadow-1-strong"
                     width="60"
                   />
-                  <MDBCard style={{maxWidth: "50%"}}>
+                  <MDBCard style={{maxWidth: "50%", minWidth: "25%"}}>
                     <MDBCardHeader className="d-flex justify-content-between p-3">
                       <p className="fw-bold mb-0">{message.userName}</p>
                       <p className="text-muted small mb-0">
-                        <MDBIcon far icon="clock" /> 12 mins ago
+                        <MDBIcon far icon="clock" />{time}
                       </p>
                     </MDBCardHeader>
                     <MDBCardBody>

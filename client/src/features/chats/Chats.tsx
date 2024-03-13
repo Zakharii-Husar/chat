@@ -1,4 +1,5 @@
 import React from "react";
+import { formatDistanceToNow } from 'date-fns';
 import {
   MDBContainer,
   MDBRow,
@@ -28,6 +29,10 @@ export function Chats() {
     dispatch(fetchAllChats());
   }, []);
 
+  const getTimeAgo = (timestamp: string) => {
+    return formatDistanceToNow(new Date(timestamp), { addSuffix: true });
+  };
+
   return (
     <MDBContainer fluid className="py-5" style={{ backgroundColor: "#eee" }}>
       <AddGroupChat/>
@@ -38,6 +43,7 @@ export function Chats() {
             <MDBCardBody>
               <MDBTypography listUnStyled className="mb-0">
                 {allChats.map((chat) => {
+                  const time = getTimeAgo(chat.sentAt);
                   return (
                     <li className="p-2" key={chat.chatId}>
                       <Link to={chat.chatId.toString()} state={{ chatId: chat.chatId }} className="d-flex justify-content-between">
@@ -51,12 +57,12 @@ export function Chats() {
                           <div className="pt-1">
                             <p className="fw-bold mb-0">{chat.chatName}</p>
                             <p className="small text-muted">
-                            {chat.content}
+                            { chat.content.substring(0, 10) + "..."}
                             </p>
                           </div>
                         </div>
                         <div className="pt-1">
-                          <p className="small text-muted mb-1">5 mins ago</p>
+                          <p className="small text-muted mb-1">{time}</p>
                           <span className="text-muted float-end">
                             <MDBIcon fas icon="check" />
                           </span>
