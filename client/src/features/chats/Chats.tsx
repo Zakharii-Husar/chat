@@ -1,4 +1,16 @@
-import { MDBBadge, MDBListGroup, MDBListGroupItem } from "mdb-react-ui-kit";
+import React from "react";
+import {
+  MDBContainer,
+  MDBRow,
+  MDBCol,
+  MDBCard,
+  MDBCardBody,
+  MDBIcon,
+  MDBBtn,
+  MDBTypography,
+  MDBTextArea,
+  MDBCardHeader,
+} from "mdb-react-ui-kit";
 import { fetchAllChats } from "./chatsSlice";
 import {
   useAppDispatch,
@@ -15,75 +27,49 @@ export function Chats() {
   useEffect(() => {
     dispatch(fetchAllChats());
   }, []);
-  
+
   return (
-    <MDBListGroup style={{ minWidth: "22rem" }} light>
-        <AddGroupChat/>
-        <Link to="/chats/test">ChatTest</Link>
-      {allChats.map((chat) => {
-        return (
-          <MDBListGroupItem
-            key={chat.chatId}
-            className="d-flex justify-content-between align-items-center"
-          >
-            <Link to={chat.chatId.toString()} state={{ chatId: chat.chatId }}>
-              <div className="d-flex align-items-center">
-                <img
-                  src="https://mdbootstrap.com/img/new/avatars/8.jpg"
-                  alt=""
-                  style={{ width: "45px", height: "45px" }}
-                  className="rounded-circle"
-                />
-                <div className="ms-3">
-                  <p className="fw-bold mb-1">{chat.chatName}</p>
-                  <p className="text-muted mb-0">{chat.content}</p>
-                </div>
-              </div>
-              <MDBBadge pill light color="success">
-                Active
-              </MDBBadge>
-            </Link>
-          </MDBListGroupItem>
-        );
-      })}
-    </MDBListGroup>
+    <MDBContainer fluid className="py-5" style={{ backgroundColor: "#eee" }}>
+      <AddGroupChat/>
+      <Link to="/chats/test">Chat test</Link>
+      <MDBRow>
+        <MDBCol className="mb-4 mb-md-0">
+          <MDBCard>
+            <MDBCardBody>
+              <MDBTypography listUnStyled className="mb-0">
+                {allChats.map((chat) => {
+                  return (
+                    <li className="p-2" key={chat.chatId}>
+                      <Link to={chat.chatId.toString()} state={{ chatId: chat.chatId }} className="d-flex justify-content-between">
+                        <div className="d-flex flex-row">
+                          <img
+                            src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/avatar-6.webp"
+                            alt="avatar"
+                            className="rounded-circle d-flex align-self-center me-3 shadow-1-strong"
+                            width="60"
+                          />
+                          <div className="pt-1">
+                            <p className="fw-bold mb-0">{chat.chatName}</p>
+                            <p className="small text-muted">
+                            {chat.content}
+                            </p>
+                          </div>
+                        </div>
+                        <div className="pt-1">
+                          <p className="small text-muted mb-1">5 mins ago</p>
+                          <span className="text-muted float-end">
+                            <MDBIcon fas icon="check" />
+                          </span>
+                        </div>
+                        </Link>
+                    </li>
+                  );
+                })}
+              </MDBTypography>
+            </MDBCardBody>
+          </MDBCard>
+        </MDBCol>
+      </MDBRow>
+    </MDBContainer>
   );
 }
-// import ListGroup from 'react-bootstrap/ListGroup';
-// import { fetchAllChats } from "./chatsSlice";
-// import { useAppDispatch, useAppSelector } from "../../hooks/useAppSelectorAndDispatch";
-// import { useEffect } from "react";
-// import { Link } from "react-router-dom";
-// import AddGroupChat from './AddGroupChat';
-
-// export const Chats: React.FC = () => {
-
-//     const dispatch = useAppDispatch();
-//     const allChats = useAppSelector(state => state.chats);
-
-//     useEffect(() => {
-//         dispatch(fetchAllChats());
-
-//     }, [])
-
-//     return (
-//         <>
-//             <h1>Chats</h1>
-//             <AddGroupChat/>
-//             <div className="list-group-info">
-//                 {allChats.map((chat, i) => {
-//                     return (
-
-//                         <ListGroup key={i} variant="info">
-//                             <Link  to={chat.chatId.toString()} state={{ chatId: chat.chatId }}>
-//                                  <ListGroup.Item >{chat.chatName}</ListGroup.Item>
-//                                  <ListGroup.Item>{chat.content}</ListGroup.Item>
-//                                  <ListGroup.Item>{chat.sentAt}</ListGroup.Item>
-//                             </Link>
-//                         </ListGroup>
-//                     )
-//                 })
-//                 }
-//             </div>
-//         </>)
-//

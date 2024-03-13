@@ -15,12 +15,18 @@ import {
 import { setCurrentChatId, getChatById, toggleLike } from "./existingChatSlice";
 import { FaHeart } from "react-icons/fa";
 
-import Container from "react-bootstrap/Container";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
-import ListGroup from "react-bootstrap/ListGroup";
-import Form from "react-bootstrap/Form";
-import { Button } from "react-bootstrap";
+import {
+  MDBContainer,
+  MDBRow,
+  MDBCol,
+  MDBCard,
+  MDBCardBody,
+  MDBIcon,
+  MDBBtn,
+  MDBTypography,
+  MDBTextArea,
+  MDBCardHeader,
+} from "mdb-react-ui-kit";
 
 export const Chat: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -33,13 +39,14 @@ export const Chat: React.FC = () => {
   const existingChat = useAppSelector((state) => state.existingChat);
   const newChat = useAppSelector((state) => state.newChat);
 
-  const filteredParticipants = existingChat.membersNicknames.filter(member => member !== loggedInUserName);
-
-
+  const filteredParticipants = existingChat.membersNicknames.filter(
+    (member) => member !== loggedInUserName
+  );
 
   //set chatId when transfered from Chats.tsx
   useEffect(() => {
-    if (locationState?.chatId) dispatch(setCurrentChatId(locationState?.chatId));
+    if (locationState?.chatId)
+      dispatch(setCurrentChatId(locationState?.chatId));
   }, [locationState?.chatId]);
 
   //add recipient id to participantsIds when transfered from Users.tsx
@@ -80,7 +87,7 @@ export const Chat: React.FC = () => {
     };
   }, []);
 
-  const handleMessageInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleMessageInput = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     dispatch(setMessageContent(e.target.value));
   };
 
@@ -98,62 +105,62 @@ export const Chat: React.FC = () => {
   };
 
   return (
-    <Container
-      style={{ backgroundColor: "yellow" }}
-      fluid
-      className="d-flex flex-column vw-100"
-    >
-      <h1>
-        Chatname: {existingChat.chatName ?? filteredParticipants[0]}
-      </h1>
-      <Row
-        style={{ height: "70vh", overflowY: "auto" }}
-        className="d-flex flex-column align-items-center justify-content-center w-100 mt-3"
-      >
-        <Col xs={12} md={8} lg={4} xl={2}>
-          <ListGroup className="">
-            {existingChat.messages?.map((message, i) => {
-              const alignSelf = `align-self-${
-                message.senderId === loggedInUserId ? "end" : "start"
-              }`;
+    <MDBContainer className="py-5" style={{ backgroundColor: "#eee" }}>
+      <MDBRow>
+        <MDBCol md="6" lg="9" xl="12">
+        <h5 className="font-weight-bold mb-3 text-center text-lg-start">
+            Member
+          </h5>
+          <MDBTypography className="d-flex-column" listUnStyled>
+            {existingChat.messages.map((message) => {
+              const isSender = loggedInUserId === message.senderId;
               return (
-                <ListGroup.Item
-                  style={{ backgroundColor: "blue" }}
-                  key={message.messageId || i}
-                  className={`d-flex flex-column ${alignSelf}
-                                     align-items-start justify-content-between py-1
-                                      w-50`}
+                <li
+                  className={`d-flex ${
+                    isSender ? "flex-row-reverse" : ""
+                  } mb-4`}
                 >
-                  <div
-                    className="d-flex flex-column w-100"
-                    onClick={() => handleLike(message.messageId)}
-                  >
-                    <p>{message.content}</p>
-                    {message.likes.length > 0 ? <FaHeart /> : null}
-                    <p
-                      style={{ backgroundColor: "grey" }}
-                      className={`d-flex ${alignSelf}`}
-                    >
-                      {message.sentAt}
-                    </p>
-                  </div>
-                </ListGroup.Item>
+                  <img
+                    src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/avatar-6.webp"
+                    alt="avatar"
+                    className="rounded-circle d-flex align-self-start mx-3 shadow-1-strong"
+                    width="60"
+                  />
+                  <MDBCard style={{maxWidth: "50%"}}>
+                    <MDBCardHeader className="d-flex justify-content-between p-3">
+                      <p className="fw-bold mb-0">{message.userName}</p>
+                      <p className="text-muted small mb-0">
+                        <MDBIcon far icon="clock" /> 12 mins ago
+                      </p>
+                    </MDBCardHeader>
+                    <MDBCardBody>
+                      <p className="mb-0">{message.content}</p>
+                    </MDBCardBody>
+                  </MDBCard>
+                </li>
               );
             })}
-          </ListGroup>
-        </Col>
-      </Row>
-      <Row>
-        <Col>
-          <Form.Control
-            onChange={handleMessageInput}
-            type="text"
-            placeholder="Type message..."
-            value={newChat.messageToSend.Content ?? ""}
-          />
-          <Button onClick={sendMessage}>Send</Button>
-        </Col>
-      </Row>
-    </Container>
+            <li className="bg-white mb-3">
+              <MDBTextArea
+                onChange={handleMessageInput}
+                placeholder="Type message..."
+                value={newChat.messageToSend.Content ?? ""}
+                label="Message"
+                id="textAreaExample"
+                rows={4}
+              />
+            </li>
+            <MDBBtn
+              onClick={sendMessage}
+              color="info"
+              rounded
+              className="float-end"
+            >
+              Send
+            </MDBBtn>
+          </MDBTypography>
+        </MDBCol>
+      </MDBRow>
+    </MDBContainer>
   );
 };
