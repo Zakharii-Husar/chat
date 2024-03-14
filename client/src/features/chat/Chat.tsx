@@ -1,4 +1,3 @@
-
 import { useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
@@ -7,8 +6,9 @@ import {
 } from "../../hooks/useAppSelectorAndDispatch";
 
 import { MessagesList } from "./MessagesList";
+import { MessageInput } from "./MessageInput";
+import { ChatHeader } from "./ChatHeader";
 
-import { ManageGroupChat } from "./ManageGroupChat";
 import {
   setMessageContent,
   sendMessageAsync,
@@ -20,18 +20,7 @@ import {
 import { setCurrentChatId, getChatById, toggleLike } from "./existingChatSlice";
 import { FaHeart } from "react-icons/fa";
 
-import {
-  MDBContainer,
-  MDBRow,
-  MDBCol,
-  MDBCard,
-  MDBCardBody,
-  MDBIcon,
-  MDBBtn,
-  MDBTypography,
-  MDBTextArea,
-  MDBCardHeader,
-} from "mdb-react-ui-kit";
+import { MDBContainer, MDBRow, MDBCol } from "mdb-react-ui-kit";
 import "./Chat.css";
 
 export const Chat: React.FC = () => {
@@ -39,18 +28,10 @@ export const Chat: React.FC = () => {
   const navigate = useNavigate();
 
   const { state: locationState } = useLocation();
-  const { id: loggedInUserId, nickname: loggedInUserName } = useAppSelector(
-    (state) => state.auth.response
-  );
   const existingChat = useAppSelector((state) => state.existingChat);
   const newChat = useAppSelector((state) => state.newChat);
 
-  const filteredParticipants = existingChat.membersNicknames.filter(
-    (member) => member !== loggedInUserName
-  );
-
-  const isAgroupChat = filteredParticipants.length !== 1;
-  const chatHeader = isAgroupChat && existingChat.chatName ? existingChat.chatName : filteredParticipants[0];
+      
   //set chatId when transfered from Chats.tsx
   useEffect(() => {
     if (locationState?.chatId)
@@ -95,20 +76,6 @@ export const Chat: React.FC = () => {
     };
   }, []);
 
-  const handleMessageInput = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    dispatch(setMessageContent(e.target.value));
-  };
-
-  const sendMessage = () => {
-    if (
-      newChat.messageToSend.Content &&
-      newChat.messageToSend.Content.length > 0
-    )
-      dispatch(sendMessageAsync());
-    dispatch(setMessageContent(""));
-  };
-
-
   return (
     <MDBContainer
       fluid
@@ -117,31 +84,9 @@ export const Chat: React.FC = () => {
     >
       <MDBRow className="bg-danger d-flex w-100 m-0 justify-content-center">
         <MDBCol className="bg-warning" sm={11} md={9} lg={6} xl={6}>
-          <h3 className="font-weight-bold mb-3 text-center text-lg-center p-2">
-            {!isAgroupChat ? <Link to={"/users/" + chatHeader}>{chatHeader}</Link> :
-            <ManageGroupChat/>}
-          </h3>
-          
-          <MessagesList/>
-
-          <div className="d-flex bg-white mb-3">
-            <MDBTextArea
-              onChange={handleMessageInput}
-              placeholder="Type message..."
-              value={newChat.messageToSend.Content ?? ""}
-              label="Message"
-              id="textAreaExample"
-              rows={4}
-            />
-          </div>
-          <MDBBtn
-            onClick={sendMessage}
-            color="info"
-            rounded
-            className="float-end"
-          >
-            Send
-          </MDBBtn>
+          <ChatHeader />
+          <MessagesList />
+          <MessageInput />
         </MDBCol>
       </MDBRow>
     </MDBContainer>

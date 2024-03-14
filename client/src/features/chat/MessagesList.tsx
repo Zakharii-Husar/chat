@@ -16,7 +16,7 @@ import {
 import "./Chat.css";
 import { toggleLike } from "./existingChatSlice";
 
-export const MessagesList = () => {
+export const MessagesList: React.FC = () => {
     const dispatch = useAppDispatch();
 
   const existingChat = useAppSelector((state) => state.existingChat);
