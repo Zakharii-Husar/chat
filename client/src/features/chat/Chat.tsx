@@ -21,7 +21,6 @@ import { setCurrentChatId, getChatById, toggleLike } from "./existingChatSlice";
 import { FaHeart } from "react-icons/fa";
 
 import { MDBContainer, MDBRow, MDBCol } from "mdb-react-ui-kit";
-import "./Chat.css";
 
 export const Chat: React.FC = () => {
   const dispatch = useAppDispatch();

@@ -7,7 +7,12 @@ import { IExistingChat, IMessage } from "../../app/messagesInterfaces";
 const initialState: IExistingChat = {
   id: null,
   chatName: null,
-  membersNicknames: [],
+  members: [
+    {
+      userName: null,
+      memberId: null
+    }
+  ],
   messages: [],
 };
 

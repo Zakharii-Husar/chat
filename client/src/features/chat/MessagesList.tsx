@@ -13,7 +13,7 @@ import {
   useAppSelector,
   useAppDispatch,
 } from "../../hooks/useAppSelectorAndDispatch";
-import "./Chat.css";
+import "./MessagesList.css";
 import { toggleLike } from "./existingChatSlice";
 
 export const MessagesList: React.FC = () => {

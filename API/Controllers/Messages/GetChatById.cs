@@ -23,9 +23,9 @@ namespace API.Controllers.Messages
                 .Select(chat => chat.ChatName)
                 .FirstOrDefaultAsync();
 
-            var membersNames = await dbContext.ChatMembers
+            var members = await dbContext.ChatMembers
                 .Where(member => member.ChatId == chatId)
-                .Select(member => member.Member.UserName)
+                .Select(member => new { member.Member.UserName, member.MemberId })
                 .ToListAsync();
 
 
@@ -48,7 +48,7 @@ namespace API.Controllers.Messages
             {
                 id = chatId,
                 chatName,
-                membersNicknames = membersNames,
+                members,
                 messages
             });
 
