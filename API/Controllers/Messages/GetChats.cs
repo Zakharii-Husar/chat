@@ -16,6 +16,7 @@ namespace API.Controllers.Messages
         {
             var currentUser = await userManager.GetUserAsync(User);
             var currentUserId = currentUser?.Id;
+
             var allChatsIds = await dbContext.ChatMembers
                 .Where(cm => cm.MemberId == currentUserId)
                 .Select(chat => chat.ChatId)
@@ -30,6 +31,7 @@ namespace API.Controllers.Messages
                 .Select(g => g.OrderByDescending(m => m.SentAt).FirstOrDefault())
                 .ToListAsync();
 
+
             var chats = latestMessages
                 .Select(m => new MessageDto()
                 {
@@ -42,6 +44,7 @@ namespace API.Controllers.Messages
                     SentAt = m.SentAt,
                     Likes = m.Likes?.Select(like => like.User?.UserName).ToList() ?? new List<string?>()
                 })
+                .OrderByDescending(m => m.SentAt)
                 .ToList();
 
             return Ok(chats);

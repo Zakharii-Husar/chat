@@ -75,6 +75,7 @@ export const Chat: React.FC = () => {
   //fetch chat itself by having chatId
   useEffect(() => {
     if (existingChat.id) dispatch(getChatById(existingChat.id));
+    console.log(loggedInUserName)
     console.log(existingChat.membersNicknames)
   }, [existingChat.id]);
 
@@ -134,13 +135,14 @@ export const Chat: React.FC = () => {
               const time = getTimeAgo(message.sentAt);
               return (
                 <MDBRow
+                key={message.messageId}
                   className={
                     "d-flex w-100 m-0 justify-content-" +
                     (isSender ? "end" : "start")
                   }
                 >
                   <MDBCol sm={6} md={6} lg={6} xl={6}>
-                    <li className={"d-flex w-100 mb-2"} key={message.messageId}>
+                    <li className={"d-flex w-100 mb-2"}>
                       <MDBCard className="d-flex w-100">
                         <MDBCardHeader
                           className={
