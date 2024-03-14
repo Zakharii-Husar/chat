@@ -89,7 +89,7 @@ namespace API.Controllers.Messages
                 {
                     ChatId = chatId,
                     MemberId = userId,
-                    IsCreator = userIdentity ?? false
+                    IsCreator = userId == currentUserId ? true : false
                 });
 
                 dbContext.ChatMembers.AddRange(members);

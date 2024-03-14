@@ -3,7 +3,7 @@ import type { PayloadAction } from "@reduxjs/toolkit";
 import { GET_CHAT_ID, SEND_MESSAGE } from "../../app/APIEndpoints";
 import type { RootState } from "../../app/store";
 import { INewChat, IMessage } from "../../app/messagesInterfaces";
-import { addToChat, setCurrentChatId } from "./existingChatSlice";
+import { addMessageToChat, setCurrentChatId } from "./existingChatSlice";
 
 const initialState: INewChat = {
   chatName: null,
@@ -66,7 +66,7 @@ export const sendMessageAsync = createAsyncThunk(
 
       if (response.ok) {
         const messageResponse = await response.json();
-        dispatch(addToChat(messageResponse));
+        dispatch(addMessageToChat(messageResponse));
       }
     } catch (error) {
       console.log(error);

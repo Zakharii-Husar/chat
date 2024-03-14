@@ -1,6 +1,6 @@
 import { formatDistanceToNow } from "date-fns";
 import { useEffect } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   useAppDispatch,
   useAppSelector,
@@ -45,6 +45,8 @@ export const Chat: React.FC = () => {
     (member) => member !== loggedInUserName
   );
 
+  const isAgroupChat = filteredParticipants.length !== 1;
+  const chatHeader = isAgroupChat && existingChat.chatName ? existingChat.chatName : filteredParticipants[0];
   //set chatId when transfered from Chats.tsx
   useEffect(() => {
     if (locationState?.chatId)
@@ -73,6 +75,7 @@ export const Chat: React.FC = () => {
   //fetch chat itself by having chatId
   useEffect(() => {
     if (existingChat.id) dispatch(getChatById(existingChat.id));
+    console.log(existingChat.membersNicknames)
   }, [existingChat.id]);
 
   //update url to chatid
@@ -117,10 +120,11 @@ export const Chat: React.FC = () => {
       style={{ backgroundColor: "#black" }}
     >
       <MDBRow className="bg-danger d-flex w-100 m-0 justify-content-center">
-        <MDBCol className="bg-warning" sm={6} md={6} lg={6} xl={6}>
-          <h5 className="font-weight-bold mb-3 text-center text-lg-start">
-            Member
-          </h5>
+        <MDBCol className="bg-warning" sm={11} md={9} lg={6} xl={6}>
+          <h3 className="font-weight-bold mb-3 text-center text-lg-center p-2">
+            {!isAgroupChat ? <Link to={"/users/" + chatHeader}>{chatHeader}</Link> :
+            <div>Group chat</div>}
+          </h3>
           <MDBTypography
             className="scrollable d-flex flex-column justify-content-centre w-100"
             listUnStyled
@@ -145,7 +149,7 @@ export const Chat: React.FC = () => {
                           }
                         >
                           <p className="fw-bold mb-0">
-                            {message.senderUserName}
+                            {loggedInUserName === message.senderUserName ? "You" : message.senderUserName}
                           </p>
                           <img
                             src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/avatar-6.webp"

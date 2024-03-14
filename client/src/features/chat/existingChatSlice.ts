@@ -71,7 +71,7 @@ export const existingChatSlice = createSlice({
       setChat: (state, action: PayloadAction<IExistingChat>) => {
         return action.payload;
       },
-      addToChat: (state, action: PayloadAction<IMessage>) => {
+      addMessageToChat: (state, action: PayloadAction<IMessage>) => {
         state.messages.push(action.payload);
       },
       likeOrUnlike:(
@@ -96,7 +96,7 @@ export const existingChatSlice = createSlice({
 
 export const {
     setChat,
-    addToChat,
+    addMessageToChat,
     setCurrentChatId
 } = existingChatSlice.actions;
   
