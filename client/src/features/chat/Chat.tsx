@@ -113,61 +113,79 @@ export const Chat: React.FC = () => {
   return (
     <MDBContainer
       fluid
-      className="d-flex py-5"
+      className="d-flex m-0 p-0 w-100"
       style={{ backgroundColor: "#black" }}
     >
-      <MDBRow className="d-flex">
-        <MDBCol sm={12}>
+      <MDBRow className="bg-danger d-flex w-100 m-0 justify-content-center">
+        <MDBCol className="bg-warning" sm={6} md={6} lg={6} xl={6}>
           <h5 className="font-weight-bold mb-3 text-center text-lg-start">
             Member
           </h5>
-          <MDBTypography listUnStyled>
+          <MDBTypography
+            className="scrollable d-flex flex-column justify-content-centre w-100"
+            listUnStyled
+          >
             {existingChat.messages.map((message) => {
               const isSender = loggedInUserId === message.senderId;
               const time = getTimeAgo(message.sentAt);
-              
               return (
-                <li  className={"msg d-flex mb-4" + (isSender ? " flex-row-reverse" : "")} key={message.messageId}>
-                  <MDBCard>
-                    <MDBCardHeader className={"d-flex justify-content-end p-3"  + (isSender ? "" : " flex-row-reverse")}>
-                      <p className="fw-bold mb-0">{message.senderUserName}</p>
-                      <img
-                        src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/avatar-6.webp"
-                        alt="avatar"
-                        className="rounded-circle d-flex align-self-start mx-3 shadow-1-strong"
-                        width="40"
-                      />
-                    </MDBCardHeader>
-                    <MDBCardBody>
-                      <p className="mb-0">{message.content}</p>
-                    </MDBCardBody>
-                    <p className="text-muted small mb-0">
-                      <MDBIcon far icon="clock" />
-                      {" " + time}
-                    </p>
-                  </MDBCard>
-                </li>
+                <MDBRow
+                  className={
+                    "d-flex w-100 m-0 justify-content-" +
+                    (isSender ? "end" : "start")
+                  }
+                >
+                  <MDBCol sm={6} md={6} lg={6} xl={6}>
+                    <li className={"d-flex w-100 mb-2"} key={message.messageId}>
+                      <MDBCard className="d-flex w-100">
+                        <MDBCardHeader
+                          className={
+                            "d-flex justify-content-end" +
+                            (isSender ? "" : " flex-row-reverse")
+                          }
+                        >
+                          <p className="fw-bold mb-0">
+                            {message.senderUserName}
+                          </p>
+                          <img
+                            src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/avatar-6.webp"
+                            alt="avatar"
+                            className="rounded-circle d-flex align-self-start mx-3 shadow-1-strong"
+                            width="40"
+                          />
+                        </MDBCardHeader>
+                        <MDBCardBody>
+                          <p className="mb-0">{message.content}</p>
+                        </MDBCardBody>
+                        <p className="text-muted small mb-0">
+                          <MDBIcon far icon="clock" />
+                          {" " + time}
+                        </p>
+                      </MDBCard>
+                    </li>
+                  </MDBCol>
+                </MDBRow>
               );
             })}
-            <li className="d-flex bg-white mb-3">
-              <MDBTextArea
-                onChange={handleMessageInput}
-                placeholder="Type message..."
-                value={newChat.messageToSend.Content ?? ""}
-                label="Message"
-                id="textAreaExample"
-                rows={4}
-              />
-            </li>
-            <MDBBtn
-              onClick={sendMessage}
-              color="info"
-              rounded
-              className="float-end"
-            >
-              Send
-            </MDBBtn>
           </MDBTypography>
+          <div className="d-flex bg-white mb-3">
+            <MDBTextArea
+              onChange={handleMessageInput}
+              placeholder="Type message..."
+              value={newChat.messageToSend.Content ?? ""}
+              label="Message"
+              id="textAreaExample"
+              rows={4}
+            />
+          </div>
+          <MDBBtn
+            onClick={sendMessage}
+            color="info"
+            rounded
+            className="float-end"
+          >
+            Send
+          </MDBBtn>
         </MDBCol>
       </MDBRow>
     </MDBContainer>

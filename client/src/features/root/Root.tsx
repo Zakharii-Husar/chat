@@ -1,35 +1,20 @@
 import { useCheckAuth } from "../../hooks/useCheckAuth";
 import { Outlet } from "react-router-dom";
-import { MainHeader } from "./MainHeader";
+import { MainHeader } from "./Header";
 
-import Container from "react-bootstrap/Container";
-import Col from "react-bootstrap/Col";
-import Row from "react-bootstrap/Row";
-
-
-
+import { MDBContainer, MDBRow, MDBCol } from "mdb-react-ui-kit";
 
 export const Root = () => {
+  useCheckAuth();
 
-
-    useCheckAuth()
-
-    return (
-        <Container fluid className="d-flex flex-column align-items-center vw-100 vh-100"
-            style={{ backgroundColor: "black" }} >
-            <Row>
-                <Col>
-                    <div>
-                        <MainHeader />
-                    </div>
-                </Col>
-
-                <Col className="d-flex flex-column justify-content-around align-items-center h-100" >
-                    <div className="d-flex justify-content-around w-100">
-                        <Outlet />
-                    </div>
-                </Col>
-            </Row>
-        </Container>
-    )
-}
+  return (
+    <MDBContainer fluid className="d-flex w-100">
+      <MDBRow>
+        <MDBCol className="d-flex flex-column w-100 bg-secondary p-0">
+          <MainHeader />
+            <Outlet />
+        </MDBCol>
+      </MDBRow>
+    </MDBContainer>
+  );
+};
