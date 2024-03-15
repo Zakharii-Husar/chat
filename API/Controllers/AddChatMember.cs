@@ -2,10 +2,12 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using API.Data;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 
 namespace API.Controllers
 {
+    [Authorize]
     [Route("chat-api/[controller]")]
     [ApiController]
     public class AddChatMember(AppDbContext dbContext, UserManager<AppUser> userManager) : ControllerBase
@@ -43,7 +45,22 @@ namespace API.Controllers
             dbContext.ChatMembers.Add(member);
             await dbContext.SaveChangesAsync();
 
-            return Ok();
+            var currentUsername = (await userManager.FindByIdAsync(currentUserId!))?.UserName;
+            var addedUsername = (await userManager.FindByIdAsync(request.UserId))?.UserName;
+
+            var newMessage = new Message
+            {
+                ChatId = request.ChatId,
+                Content = $"{currentUsername} added {addedUsername} to chat.",
+                RepliedTo = null,
+                SenderId = currentUserId!
+            };
+
+
+            dbContext.Messages.Add(newMessage);
+            await dbContext.SaveChangesAsync();
+
+            return Ok(newMessage);
         }
     }
 }
