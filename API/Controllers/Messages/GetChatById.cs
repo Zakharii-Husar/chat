@@ -40,7 +40,7 @@ namespace API.Controllers.Messages
                 .Where(message => message.SentAt > currentMember.EnteredChat);
 
             //making sure user gets only messages sent before he left chat
-            if (currentMember != null)
+            if (currentMember?.LeftChat != null)
             {
                 messagesQuery = messagesQuery
                     .Where(message => message.SentAt < currentMember.LeftChat);

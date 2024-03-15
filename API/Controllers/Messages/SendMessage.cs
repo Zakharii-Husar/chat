@@ -17,19 +17,17 @@ namespace API.Controllers.Messages
         {
             var currentUser = await userManager.GetUserAsync(User);
             var senderId = currentUser?.Id;
-            var isValidChatId = await dbContext.Chats
-                .AnyAsync(chat => chat.ChatId == messageModel.ChatId);
 
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
 
-            if (currentUser == null)
-            {
-                return Unauthorized();
+            var isValidChatMember = await dbContext.ChatMembers
+                .Where(member => member.MemberId == senderId && member.ChatId == messageModel.ChatId)
+                .Where(member => member.LeftChat == null)
+                .AnyAsync();
 
-            }
+            if (!isValidChatMember) return Unauthorized();
+
+
+            if (!ModelState.IsValid) return BadRequest(ModelState);
 
             var newMessage = new Message
             {
