@@ -29,10 +29,25 @@ namespace API.Controllers.Messages
                 .Select(member => new { member.Member.UserName, member.MemberId })
                 .ToListAsync();
 
+            var currentMember = await dbContext.ChatMembers
+                .Where(member => member.MemberId == currentUserId && member.ChatId == chatId)
+                .Select(member => member)
+                .FirstOrDefaultAsync();
 
-            var messages = await dbContext.Messages
+            var messagesQuery = dbContext.Messages
                 .Where(message => message.ChatId == chatId)
-                .Select(m => new MessageDto()
+                //making sure user gets only the messages sent after he joined chat
+                .Where(message => message.SentAt > currentMember.EnteredChat);
+
+            //making sure user gets only messages sent before he left chat
+            if (currentMember != null)
+            {
+                messagesQuery = messagesQuery
+                    .Where(message => message.SentAt < currentMember.LeftChat);
+            }
+
+            var messages = await messagesQuery
+                .Select(m => new MessageDto
                 {
                     MessageId = m.MessageId,
                     SenderId = m.SenderId,
@@ -44,6 +59,10 @@ namespace API.Controllers.Messages
                     Likes = m.Likes.Select(like => like.User.UserName).ToList()
                 })
                 .ToListAsync();
+
+            Console.WriteLine(currentMember);
+            Console.WriteLine(messages);
+
 
             return Ok(new
             {

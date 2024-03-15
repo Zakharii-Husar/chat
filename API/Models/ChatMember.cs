@@ -20,6 +20,7 @@ namespace API.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public DateTime EnteredChat { get; set; }
 
+
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public DateTime? LeftChat { get; set; } = null;
 

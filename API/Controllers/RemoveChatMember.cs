@@ -33,7 +33,7 @@ namespace API.Controllers
             if (!isChatAdmin && memberToRemove.MemberId != currentUserId)
                 return Unauthorized("You can remove only yourself if you're not admin.");
 
-            memberToRemove.LeftChat = DateTime.UtcNow;
+            memberToRemove.LeftChat = DateTime.Now;
             dbContext.ChatMembers.Update(memberToRemove);
             await dbContext.SaveChangesAsync();
 
