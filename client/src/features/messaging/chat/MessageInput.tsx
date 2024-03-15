@@ -2,7 +2,7 @@ import { MDBTextArea, MDBBtn } from "mdb-react-ui-kit";
 import {
   useAppSelector,
   useAppDispatch,
-} from "../../hooks/useAppSelectorAndDispatch";
+} from "../../../hooks/useAppSelectorAndDispatch";
 
 import { setMessageContent, sendMessageAsync } from "./newChatSlice";
 

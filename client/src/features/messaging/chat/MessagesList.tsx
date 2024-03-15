@@ -12,11 +12,11 @@ import {
 import {
   useAppSelector,
   useAppDispatch,
-} from "../../hooks/useAppSelectorAndDispatch";
-import "./MessagesList.css";
+} from "../../../hooks/useAppSelectorAndDispatch";
+import "./Chat.css";
 import { toggleLike } from "./existingChatSlice";
 
-export const MessagesList: React.FC = () => {
+export const MessagesList = () => {
     const dispatch = useAppDispatch();
 
   const existingChat = useAppSelector((state) => state.existingChat);

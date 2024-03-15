@@ -1,8 +1,8 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import { GET_CHAT_ID, SEND_MESSAGE } from "../../app/APIEndpoints";
-import type { RootState } from "../../app/store";
-import { INewChat, IMessage } from "../../app/messagesInterfaces";
+import { GET_CHAT_ID, SEND_MESSAGE } from "../../../app/APIEndpoints";
+import type { RootState } from "../../../app/store";
+import { INewChat, IMessage } from "../../../app/messagesInterfaces";
 import { addMessageToChat, setCurrentChatId } from "./existingChatSlice";
 
 const initialState: INewChat = {

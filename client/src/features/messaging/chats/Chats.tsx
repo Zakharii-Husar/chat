@@ -16,10 +16,10 @@ import { fetchAllChats } from "./chatsSlice";
 import {
   useAppDispatch,
   useAppSelector,
-} from "../../hooks/useAppSelectorAndDispatch";
+} from "../../../hooks/useAppSelectorAndDispatch";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
-import AddGroupChat from "./AddGroupChat";
+import ManageGroupChat from "../manageGroupChat/ManageGroup";
 
 export function Chats() {
   const dispatch = useAppDispatch();
@@ -35,7 +35,7 @@ export function Chats() {
 
   return (
     <MDBContainer className="py-5" style={{ backgroundColor: "#eee" }}>
-      <AddGroupChat/>
+      <ManageGroupChat isNewChat={true}/>
       <MDBRow>
         <MDBCol className="mb-4 mb-md-0">
           <MDBCard>

@@ -3,7 +3,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   useAppDispatch,
   useAppSelector,
-} from "../../hooks/useAppSelectorAndDispatch";
+} from "../../../hooks/useAppSelectorAndDispatch";
 
 import { MessagesList } from "./MessagesList";
 import { MessageInput } from "./MessageInput";
