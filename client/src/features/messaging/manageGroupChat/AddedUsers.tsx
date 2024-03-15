@@ -8,7 +8,7 @@ import { removeMember } from "../chat/existingChatSlice";
 
 import { IChatMember } from "../../../app/userInterfaces";
 
-const AddedUsers: React.FC<{ isNewChat: boolean }> = ({isNewChat}) => {
+const AddedUsers: React.FC<{ isNewGroup: boolean }> = ({isNewGroup}) => {
   const dispatch = useAppDispatch();
   const newChat = useAppSelector((state) => state.newChat);
   const existingChat = useAppSelector(state=> state.existingChat)
@@ -25,7 +25,7 @@ const AddedUsers: React.FC<{ isNewChat: boolean }> = ({isNewChat}) => {
 
   //Making deletion choice depending if Group is being created or edited
   const remove = (member: IChatMember) =>{
-    if(isNewChat){
+    if(isNewGroup){
         rmCandidat(newChat.members.indexOf(member));
     }else{
         rmMember(member)
@@ -33,10 +33,10 @@ const AddedUsers: React.FC<{ isNewChat: boolean }> = ({isNewChat}) => {
   };
   
 
-  const currentList = isNewChat ? newChat : existingChat;
+  const currentMembersList = isNewGroup ? newChat : existingChat;
   return (
     <div className="d-flex flex-wrap mb-3">
-      {currentList.members.map((member, i) => {
+      {currentMembersList.members.map((member, i) => {
         return (
           <ListGroup.Item
             key={i}

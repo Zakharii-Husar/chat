@@ -7,17 +7,20 @@ import {
 } from "../../users/usersSlice";
 
 import { addChatCandidats } from "../chat/newChatSlice";
+import { addChatMember } from "../chat/existingChatSlice";
 
 import {
   useAppSelector,
   useAppDispatch,
 } from "../../../hooks/useAppSelectorAndDispatch";
+import { IChatMember } from "../../../app/userInterfaces";
 
-const SearchUsers = () => {
+const SearchUsers: React.FC<{ isNewGroup: boolean }> = ({isNewGroup}) => {
   const { allUsers, filteredUsers, searchedUser } = useAppSelector(
     (state) => state.users
   );
   const newChat = useAppSelector((state) => state.newChat);
+  const existingChat = useAppSelector(state=> state.existingChat)
   const currentUsersList = searchedUser ? filteredUsers : allUsers;
   const dispatch = useAppDispatch();
 
@@ -34,10 +37,22 @@ const SearchUsers = () => {
     dispatch(updateSearchedUser(input !== "" ? input : null));
   };
 
-  const addParticipant = (id: string, userName: string) => {
-    dispatch(addChatCandidats({ userName: userName, memberId: id }));
+  const addCandidat = (member: IChatMember) =>{
+    dispatch(addChatCandidats(member));
   };
 
+  const addMember = (member: IChatMember) =>{
+    dispatch(addChatMember(member))
+  }
+
+  const add = (member: IChatMember) => {
+    if(isNewGroup){
+        addCandidat(member);
+    }else{
+        addMember(member);
+    }
+  };
+  const currentMembersList = isNewGroup ? newChat : existingChat;
   return (
     <Form>
       <InputGroup className="mb-3">
@@ -45,10 +60,10 @@ const SearchUsers = () => {
       </InputGroup>
 
       {currentUsersList.map((user) => {
-       return newChat.members.some(member => member.memberId === user.id) ? null : (
+       return currentMembersList.members.some(member => member.memberId === user.id) ? null : (
           <Form.Group key={user.id}>
             <ListGroup.Item
-              onClick={() => addParticipant(user.id, user.nickname)}
+              onClick={() => add({userName:user.nickname, memberId: user.id})}
             >
               {user.nickname}
             </ListGroup.Item>

@@ -1,3 +1,4 @@
+import { IChatMember } from "../../app/userInterfaces";
 export interface IMessage {
   messageId: number;
   senderId: string;
@@ -18,22 +19,19 @@ export interface IMessageToSend {
 
 export interface INewChat {
   chatName: string | null;
-  members:
-    {
-      userName: string | null;
-      memberId: string | null;
-    }[];
+  members: {
+    userName: string | null;
+    memberId: string | null;
+  }[];
   messageToSend: IMessageToSend;
 }
 
 export interface IExistingChat {
   id: number | null;
   chatName: string | null;
-  members: [
-    {
-      userName: string | null;
-      memberId: string | null;
-    }
-  ];
+  members: {
+    userName: string | null;
+    memberId: string | null;
+  }[];
   messages: IMessage[];
 }

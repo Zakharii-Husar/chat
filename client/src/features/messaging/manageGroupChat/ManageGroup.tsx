@@ -66,8 +66,8 @@ const ManageGroupChat: React.FC<{ isNewGroup: boolean }> = ({ isNewGroup }) => {
           <Modal.Title>Add Group Chat</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <AddedUsers isNewChat={isNewGroup}/>
-          <SearchUsers />
+          <AddedUsers isNewGroup={isNewGroup}/>
+          <SearchUsers isNewGroup={isNewGroup}/>
           <GroupName />
           <Button variant="primary" onClick={createGroup}>
             Create Group Chat

@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import { GET_CHAT_BY_ID, LIKE_MESSAGE, REMOVE_CHAT_MEMBER } from "../../../app/APIEndpoints";
+import { GET_CHAT_BY_ID, LIKE_MESSAGE, REMOVE_CHAT_MEMBER, ADD_CHAT_MEMBER } from "../../../app/APIEndpoints";
 import type { RootState } from "../../../app/store";
 import { IExistingChat, IMessage } from "../messagesInterfaces";
 import { IChatMember } from "../../../app/userInterfaces";
@@ -8,14 +8,32 @@ import { IChatMember } from "../../../app/userInterfaces";
 const initialState: IExistingChat = {
   id: null,
   chatName: null,
-  members: [
-    {
-      userName: null,
-      memberId: null
-    }
-  ],
+  members: [],
   messages: [],
 };
+
+export const addChatMember = createAsyncThunk(
+  "existingChat/addChatMember",
+  async (member: IChatMember, { getState, dispatch }) => {
+    const state = getState() as RootState;
+    try {
+      const response = await fetch(ADD_CHAT_MEMBER, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ChatId: state.existingChat.id, UserId: member.memberId}),
+        credentials: "include",
+      });
+
+      if (response.ok) {
+        dispatch(existingChatSlice.actions.addMember(member));
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+);
 
 export const removeMember = createAsyncThunk(
   "existingChat/removeMember",
@@ -30,10 +48,8 @@ export const removeMember = createAsyncThunk(
         body: JSON.stringify({ChatId: state.existingChat.id, UserId: member.memberId}),
         credentials: "include",
       });
-      console.log(response);
 
       if (response.ok) {
-       // const data = await response.json();
         dispatch(existingChatSlice.actions.rmMember(member));
       }
     } catch (error) {
@@ -104,6 +120,9 @@ export const existingChatSlice = createSlice({
       },
       addMessageToChat: (state, action: PayloadAction<IMessage>) => {
         state.messages.push(action.payload);
+      },
+      addMember: (state, action: PayloadAction<IChatMember>) => {
+        state.members.push(action.payload);
       },
       rmMember: (state, action: PayloadAction<IChatMember>) => {
         const index = state.members.indexOf(action.payload);

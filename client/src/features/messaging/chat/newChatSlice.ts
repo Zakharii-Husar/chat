@@ -4,6 +4,7 @@ import { GET_CHAT_ID, SEND_MESSAGE } from "../../../app/APIEndpoints";
 import type { RootState } from "../../../app/store";
 import { INewChat, IMessage } from "../messagesInterfaces";
 import { addMessageToChat, setCurrentChatId } from "./existingChatSlice";
+import { IChatMember } from "../../../app/userInterfaces";
 
 const initialState: INewChat = {
   chatName: null,
@@ -85,7 +86,7 @@ export const newChatSlice = createSlice({
     },
     addChatCandidats: (
       state,
-      action: PayloadAction<{ userName: string; memberId: string }>
+      action: PayloadAction<IChatMember>
     ) => {
       if (state.members.some(member => 
         member.userName === action.payload.userName && 
