@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { GET_CHAT_BY_ID, LIKE_MESSAGE } from "../../../app/APIEndpoints";
 import type { RootState } from "../../../app/store";
-import { IExistingChat, IMessage } from "../../../app/messagesInterfaces";
+import { IExistingChat, IMessage } from "../messagesInterfaces";
 
 const initialState: IExistingChat = {
   id: null,

@@ -15,10 +15,10 @@ const AddedUsers = () => {
 
   return (
     <div className="d-flex flex-wrap mb-3">
-      {newChat.participantsUserNames.map((name) => {
+      {newChat.members.map((member, i) => {
         return (
           <ListGroup.Item
-            key={name}
+            key={i}
             className="d-flex justify-content-between align-items-center"
             style={{
               margin: 0,
@@ -28,10 +28,10 @@ const AddedUsers = () => {
           >
             <span
               onClick={() =>
-                remove(newChat.participantsUserNames.indexOf(name))
+                remove(newChat.members.indexOf(member))
               }
             >
-              {name} <span style={{ cursor: "pointer" }}>×</span>
+              {member.userName} <span style={{ cursor: "pointer" }}>×</span>
             </span>
           </ListGroup.Item>
         );

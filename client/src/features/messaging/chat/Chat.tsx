@@ -39,22 +39,22 @@ export const Chat: React.FC = () => {
 
   //add recipient id to participantsIds when transfered from Users.tsx
   useEffect(() => {
-    if (locationState?.recipientId) {
+    if (locationState?.recipientId && locationState?.recipientUsername) {
       dispatch(
         addChatParticipants({
-          id: locationState?.recipientId,
-          name: locationState?.recipientUsername,
+          userName: locationState?.recipientUsername,
+          memberId: locationState?.recipientId,
         })
       );
     }
-  }, [locationState?.recipientId]);
+  }, [locationState?.recipientId, locationState?.recipientUsername]);
 
   //When transfered from Users.tsx fetch chatId based on participant
   useEffect(() => {
-    if (!existingChat.id && newChat.participantsIds.length > 0) {
+    if (!existingChat.id && newChat.members.length > 0) {
       dispatch(createChatOrGetIdAsync());
     }
-  }, [existingChat.id, newChat.participantsIds]);
+  }, [existingChat.id, newChat.members]);
 
   //fetch chat itself by having chatId
   useEffect(() => {

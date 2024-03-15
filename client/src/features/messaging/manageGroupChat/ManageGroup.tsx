@@ -30,20 +30,14 @@ const ManageGroupChat: React.FC<{ isNewChat: boolean }> = ({ isNewChat }) => {
   const navigate = useNavigate();
 
   const [showForm, setShowForm] = useState(false);
-  const handleShowForm = () => {
-    dispatch(resetChatParticipants());
-    setShowForm(!showForm);
-  };
 
   const dispatch = useAppDispatch();
-  const { allUsers, filteredUsers, searchedUser } = useAppSelector(
-    (state) => state.users
-  );
 
   const newChat = useAppSelector((state) => state.newChat);
 
   const createdGroupId = useAppSelector((state) => state.existingChat.id);
 
+  
 
   //reset participants on exit
   useEffect(() => {
@@ -52,14 +46,11 @@ const ManageGroupChat: React.FC<{ isNewChat: boolean }> = ({ isNewChat }) => {
     };
   }, []);
 
-  const search = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const input = e.target.value;
-    dispatch(updateSearchedUser(input !== "" ? input : null));
+  const handleShowForm = () => {
+    dispatch(resetChatParticipants());
+    setShowForm(!showForm);
   };
 
-  const addParticipant = (id: string, userName: string) => {
-    dispatch(addChatParticipants({ id: id, name: userName }));
-  };
 
   const setName = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(setChatName(e.target.value));

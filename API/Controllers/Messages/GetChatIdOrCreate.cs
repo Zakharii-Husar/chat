@@ -20,14 +20,14 @@ namespace API.Controllers.Messages
         {
             var participantUserIds = payload.ParticipantUserIds;
             var chatName = payload.ChatName;
-            switch (participantUserIds.Count)
+            if (participantUserIds.Count < 1 || participantUserIds.Count > 30)
             {
-                //validate participants list ids:
-                case < 1 or > 30:
-                    return BadRequest("Invalid participant count. Must be between 1 and 30.");
-                //validate chat name
-                case > 2 when chatName?.Length < 4:
-                    return BadRequest("Invalid group chat name.");
+                return BadRequest("Invalid participant count. Must be between 1 and 30.");
+            }
+
+            if (chatName?.Length < 4)
+            {
+                return BadRequest("Invalid group chat name.");
             }
 
             //check sure there are no duplicates

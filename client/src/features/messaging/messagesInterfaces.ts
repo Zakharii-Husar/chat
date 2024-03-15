@@ -18,8 +18,11 @@ export interface IMessageToSend {
 
 export interface INewChat {
   chatName: string | null;
-  participantsIds: string[];
-  participantsUserNames: string[];
+  members:
+    {
+      userName: string | null;
+      memberId: string | null;
+    }[];
   messageToSend: IMessageToSend;
 }
 

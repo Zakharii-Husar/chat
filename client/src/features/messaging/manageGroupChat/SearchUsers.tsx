@@ -35,7 +35,7 @@ const SearchUsers = () => {
   };
 
   const addParticipant = (id: string, userName: string) => {
-    dispatch(addChatParticipants({ id: id, name: userName }));
+    dispatch(addChatParticipants({ userName: userName, memberId: id }));
   };
 
   return (
@@ -45,7 +45,7 @@ const SearchUsers = () => {
       </InputGroup>
 
       {currentUsersList.map((user) => {
-        return newChat.participantsIds.includes(user.id) ? null : (
+       return newChat.members.some(member => member.memberId === user.id) ? null : (
           <Form.Group key={user.id}>
             <ListGroup.Item
               onClick={() => addParticipant(user.id, user.nickname)}
