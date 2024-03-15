@@ -27,6 +27,8 @@ export const addChatMember = createAsyncThunk(
       });
 
       if (response.ok) {
+        const data = await response.json();
+        dispatch(addMessageToChat(data))
         dispatch(existingChatSlice.actions.addMember(member));
       }
     } catch (error) {
