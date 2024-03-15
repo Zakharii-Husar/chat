@@ -20,7 +20,7 @@ const AddedUsers: React.FC<{ isNewChat: boolean }> = ({isNewChat}) => {
 
   //Sends request to the server to delete member from existing group
   const rmMember = (member: IChatMember) => {
-    console.log(member);
+    dispatch(removeMember(member))
   };
 
   //Making deletion choice depending if Group is being created or edited

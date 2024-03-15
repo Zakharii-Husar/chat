@@ -12,13 +12,13 @@ namespace API.Controllers
     {
 
         [HttpPost]
-        public async Task<IActionResult> Get([FromBody] EditMembershipRequest request)
+        public async Task<IActionResult> Post([FromBody] EditMembershipRequest request)
         {
             var currentUser = await userManager.GetUserAsync(User);
             var currentUserId = currentUser?.Id;
 
             var userExists = await dbContext.Users
-                .AnyAsync(User => User.Id == currentUserId);
+                .AnyAsync(user => user.Id == request.UserId);
             if (!userExists) return BadRequest("Invalid user to insert.");
 
             var isChatAdmin = await dbContext.ChatMembers
@@ -30,8 +30,8 @@ namespace API.Controllers
             if (!isChatAdmin) return Unauthorized("Only chat admin can add participants.");
 
             var memberExists = await dbContext.ChatMembers
-                .AnyAsync(member => member.MemberId == request.UserId);
-            if (!memberExists) return BadRequest("Member already exists.");
+                .AnyAsync(member => member.MemberId == request.UserId && member.ChatId == request.ChatId);
+            if (memberExists) return BadRequest("Member already exists.");
 
 
             var member = new ChatMember()
@@ -42,7 +42,8 @@ namespace API.Controllers
 
             dbContext.ChatMembers.Add(member);
             await dbContext.SaveChangesAsync();
-            return Ok(isChatAdmin);
+
+            return Ok();
         }
     }
 }

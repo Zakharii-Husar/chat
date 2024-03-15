@@ -25,6 +25,7 @@ namespace API.Controllers.Messages
 
             var members = await dbContext.ChatMembers
                 .Where(member => member.ChatId == chatId)
+                .Where(member => member.LeftChat == null)
                 .Select(member => new { member.Member.UserName, member.MemberId })
                 .ToListAsync();
 
