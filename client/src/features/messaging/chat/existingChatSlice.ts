@@ -75,7 +75,6 @@ export const getChatById = createAsyncThunk(
 
       if (response.ok) {
         const data = await response.json();
-        console.log(data)
         dispatch(setChat(data));
       }
     } catch (error) {
@@ -128,8 +127,8 @@ export const existingChatSlice = createSlice({
         state.members.push(action.payload);
       },
       rmMember: (state, action: PayloadAction<IChatMember>) => {
-        const index = state.members.indexOf(action.payload);
-        state.members.splice(index, 1);
+        const index = state.members.findIndex(member=>member.memberId === action.payload.memberId);
+        if(index !== -1)state.members.splice(index, 1);
       },
 
       likeOrUnlike:(
