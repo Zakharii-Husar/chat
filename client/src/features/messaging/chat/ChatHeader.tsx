@@ -22,7 +22,7 @@ export const ChatHeader: React.FC = () => {
       {!isAgroupChat ? (
         <Link to={"/users/" + chatHeader}>{chatHeader}</Link>
       ) : (
-        <ManageGroupChat isNewChat={false}/>
+        <ManageGroupChat isNewGroup={false}/>
       )}
     </h3>
   );

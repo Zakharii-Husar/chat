@@ -13,8 +13,8 @@ import {
   setMessageContent,
   sendMessageAsync,
   createChatOrGetIdAsync,
-  resetChatParticipants,
-  addChatParticipants,
+  resetChatCandidats,
+  addChatCandidats,
 } from "./newChatSlice";
 
 import { setCurrentChatId, getChatById, toggleLike } from "./existingChatSlice";
@@ -41,7 +41,7 @@ export const Chat: React.FC = () => {
   useEffect(() => {
     if (locationState?.recipientId && locationState?.recipientUsername) {
       dispatch(
-        addChatParticipants({
+        addChatCandidats({
           userName: locationState?.recipientUsername,
           memberId: locationState?.recipientId,
         })
@@ -70,7 +70,7 @@ export const Chat: React.FC = () => {
   //reset currentChatId and chatParticipants on exit
   useEffect(() => {
     return () => {
-      dispatch(resetChatParticipants());
+      dispatch(resetChatCandidats());
       dispatch(setCurrentChatId(null));
     };
   }, []);

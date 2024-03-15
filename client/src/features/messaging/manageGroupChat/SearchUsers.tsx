@@ -6,7 +6,7 @@ import {
   updateSearchedUser,
 } from "../../users/usersSlice";
 
-import { addChatParticipants } from "../chat/newChatSlice";
+import { addChatCandidats } from "../chat/newChatSlice";
 
 import {
   useAppSelector,
@@ -35,7 +35,7 @@ const SearchUsers = () => {
   };
 
   const addParticipant = (id: string, userName: string) => {
-    dispatch(addChatParticipants({ userName: userName, memberId: id }));
+    dispatch(addChatCandidats({ userName: userName, memberId: id }));
   };
 
   return (

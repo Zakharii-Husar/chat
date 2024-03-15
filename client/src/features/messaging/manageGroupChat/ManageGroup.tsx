@@ -1,32 +1,24 @@
 import { useState, useEffect } from "react";
 import AddedUsers from "./AddedUsers";
 import SearchUsers from "./SearchUsers";
-import {
-  Card,
-  Modal,
-  Button,
-  Form
-} from "react-bootstrap";
+import GroupName from "./GroupName";
+
+import { Card, Modal, Button } from "react-bootstrap";
 import {
   useAppSelector,
   useAppDispatch,
 } from "../../../hooks/useAppSelectorAndDispatch";
-import {
-  fetchAllUsersAsync,
-  searchUsers,
-  updateSearchedUser,
-} from "../../users/usersSlice";
 
 import {
   createChatOrGetIdAsync,
-  addChatParticipants,
-  resetChatParticipants,
+  addChatCandidats,
+  resetChatCandidats,
   setChatName,
 } from "../chat/newChatSlice";
 
 import { useNavigate } from "react-router";
 
-const ManageGroupChat: React.FC<{ isNewChat: boolean }> = ({ isNewChat }) => {
+const ManageGroupChat: React.FC<{ isNewGroup: boolean }> = ({ isNewGroup }) => {
   const navigate = useNavigate();
 
   const [showForm, setShowForm] = useState(false);
@@ -37,23 +29,16 @@ const ManageGroupChat: React.FC<{ isNewChat: boolean }> = ({ isNewChat }) => {
 
   const createdGroupId = useAppSelector((state) => state.existingChat.id);
 
-  
-
   //reset participants on exit
   useEffect(() => {
     return () => {
-      dispatch(resetChatParticipants());
+      dispatch(resetChatCandidats());
     };
   }, []);
 
-  const handleShowForm = () => {
-    dispatch(resetChatParticipants());
-    setShowForm(!showForm);
-  };
-
-
-  const setName = (e: React.ChangeEvent<HTMLInputElement>) => {
-    dispatch(setChatName(e.target.value));
+  const handleShowForm = (status: boolean) => {
+    dispatch(resetChatCandidats());
+    setShowForm(status);
   };
 
   const createGroup = () => {
@@ -71,28 +56,19 @@ const ManageGroupChat: React.FC<{ isNewChat: boolean }> = ({ isNewChat }) => {
   return (
     <Card>
       <Card.Header>
-        <Button variant="primary" onClick={handleShowForm}>
-          {isNewChat ? "Add Group Chat" : "Manage Group Chat"}
+        <Button variant="primary" onClick={()=>handleShowForm(true)}>
+          {isNewGroup ? "Add Group Chat" : "Manage Group Chat"}
         </Button>
       </Card.Header>
 
-      <Modal show={showForm} onHide={handleShowForm}>
+      <Modal show={showForm} onHide={()=>handleShowForm(false)}>
         <Modal.Header closeButton>
           <Modal.Title>Add Group Chat</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <AddedUsers />
-          <SearchUsers/>
-
-          <Form.Group className="mb-3" controlId="chatName">
-            <Form.Label>Chat Name</Form.Label>
-            <Form.Control
-              type="text"
-              placeholder="Enter chat name"
-              onChange={setName}
-            />
-          </Form.Group>
-
+          <AddedUsers isNewChat={isNewGroup}/>
+          <SearchUsers />
+          <GroupName />
           <Button variant="primary" onClick={createGroup}>
             Create Group Chat
           </Button>

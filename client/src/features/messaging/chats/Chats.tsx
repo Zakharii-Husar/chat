@@ -35,7 +35,7 @@ export function Chats() {
 
   return (
     <MDBContainer className="py-5" style={{ backgroundColor: "#eee" }}>
-      <ManageGroupChat isNewChat={true}/>
+      <ManageGroupChat isNewGroup={true}/>
       <MDBRow>
         <MDBCol className="mb-4 mb-md-0">
           <MDBCard>

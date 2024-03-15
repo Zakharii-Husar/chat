@@ -3,19 +3,40 @@ import {
   useAppDispatch,
 } from "../../../hooks/useAppSelectorAndDispatch";
 import { ListGroup } from "react-bootstrap";
-import { removeParticipant } from "../chat/newChatSlice";
+import { removeCandidat } from "../chat/newChatSlice";
+import { removeMember } from "../chat/existingChatSlice";
 
-const AddedUsers = () => {
+import { IChatMember } from "../../../app/userInterfaces";
+
+const AddedUsers: React.FC<{ isNewChat: boolean }> = ({isNewChat}) => {
   const dispatch = useAppDispatch();
   const newChat = useAppSelector((state) => state.newChat);
+  const existingChat = useAppSelector(state=> state.existingChat)
 
-  const remove = (index: number) => {
-    dispatch(removeParticipant(index));
+  //Removes only on the client side during creation of new group
+  const rmCandidat = (index: number) => {
+    dispatch(removeCandidat(index));
   };
 
+  //Sends request to the server to delete member from existing group
+  const rmMember = (member: IChatMember) => {
+    console.log(member);
+  };
+
+  //Making deletion choice depending if Group is being created or edited
+  const remove = (member: IChatMember) =>{
+    if(isNewChat){
+        rmCandidat(newChat.members.indexOf(member));
+    }else{
+        rmMember(member)
+    }
+  };
+  
+
+  const currentList = isNewChat ? newChat : existingChat;
   return (
     <div className="d-flex flex-wrap mb-3">
-      {newChat.members.map((member, i) => {
+      {currentList.members.map((member, i) => {
         return (
           <ListGroup.Item
             key={i}
@@ -28,7 +49,7 @@ const AddedUsers = () => {
           >
             <span
               onClick={() =>
-                remove(newChat.members.indexOf(member))
+                remove(member)
               }
             >
               {member.userName} <span style={{ cursor: "pointer" }}>×</span>

@@ -83,7 +83,7 @@ export const newChatSlice = createSlice({
     setMessageContent: (state, action: PayloadAction<string>) => {
       state.messageToSend.Content = action.payload;
     },
-    addChatParticipants: (
+    addChatCandidats: (
       state,
       action: PayloadAction<{ userName: string; memberId: string }>
     ) => {
@@ -93,10 +93,10 @@ export const newChatSlice = createSlice({
     )) return;
       state.members.push(action.payload);
     },
-    removeParticipant: (state, action: PayloadAction<number>) => {
+    removeCandidat: (state, action: PayloadAction<number>) => {
       state.members.splice(action.payload, 1);
     },
-    resetChatParticipants: (state) => {
+    resetChatCandidats: (state) => {
       state.members = [];
     },
     setChatName: (state, action: PayloadAction<string>) => {
@@ -107,9 +107,9 @@ export const newChatSlice = createSlice({
 
 export const {
   setMessageContent,
-  addChatParticipants,
-  resetChatParticipants,
-  removeParticipant,
+  addChatCandidats,
+  resetChatCandidats,
+  removeCandidat,
   setChatName,
 } = newChatSlice.actions;
 

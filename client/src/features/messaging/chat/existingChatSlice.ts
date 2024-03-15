@@ -1,8 +1,9 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import { GET_CHAT_BY_ID, LIKE_MESSAGE } from "../../../app/APIEndpoints";
+import { GET_CHAT_BY_ID, LIKE_MESSAGE, REMOVE_MEMBER_BY_ID } from "../../../app/APIEndpoints";
 import type { RootState } from "../../../app/store";
 import { IExistingChat, IMessage } from "../messagesInterfaces";
+import { IChatMember } from "../../../app/userInterfaces";
 
 const initialState: IExistingChat = {
   id: null,
@@ -15,6 +16,29 @@ const initialState: IExistingChat = {
   ],
   messages: [],
 };
+
+export const removeMember = createAsyncThunk(
+  "existingChat/removeMember",
+  async (member: IChatMember, { getState, dispatch }) => {
+    try {
+      const response = await fetch(REMOVE_MEMBER_BY_ID, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(member.memberId),
+        credentials: "include",
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        dispatch(existingChatSlice.actions.rmMember(member));
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+);
 
 export const getChatById = createAsyncThunk(
   "existingChat/getChatById",
@@ -79,6 +103,11 @@ export const existingChatSlice = createSlice({
       addMessageToChat: (state, action: PayloadAction<IMessage>) => {
         state.messages.push(action.payload);
       },
+      rmMember: (state, action: PayloadAction<IChatMember>) => {
+        const index = state.members.indexOf(action.payload);
+        state.members.splice(index, 1);
+      },
+
       likeOrUnlike:(
         state,
         action: PayloadAction<{ id: number; name: string }>
