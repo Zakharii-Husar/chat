@@ -33,11 +33,33 @@ namespace API.Controllers
             if (!isChatAdmin && memberToRemove.MemberId != currentUserId)
                 return Unauthorized("You can remove only yourself if you're not admin.");
 
+            var memberToRmUserName = await dbContext.Users
+                .Where(user => user.Id == request.UserId)
+                .Select(user => user.UserName)
+                .FirstOrDefaultAsync();
+
+            var removedMsg = $"{currentUser?.UserName} removed {memberToRmUserName} from chat.";
+            var leftMsg = $"{currentUser?.UserName} left chat.";
+
+            var newMessage = new Message
+            {
+                ChatId = request.ChatId,
+                Content = (currentUserId == memberToRemove.MemberId ? leftMsg : removedMsg),
+                RepliedTo = null,
+                SenderId = currentUserId!
+            };
+
+
+            dbContext.Messages.Add(newMessage);
+            await dbContext.SaveChangesAsync();
+
             memberToRemove.LeftChat = DateTime.Now;
             dbContext.ChatMembers.Update(memberToRemove);
             await dbContext.SaveChangesAsync();
 
-            return Ok();
+
+
+            return Ok(newMessage);
 
         }
     }

@@ -11,9 +11,9 @@ namespace API.Controllers.Messages
     [ApiController]
     public class GetChatById(AppDbContext dbContext, UserManager<AppUser> userManager) : ControllerBase
     {
-        [HttpPost]
+        [HttpGet]
         [Authorize]
-        public async Task<IActionResult> Get([FromBody] int chatId)
+        public async Task<IActionResult> Get([FromQuery] int chatId)
         {
             var currentUser = await userManager.GetUserAsync(User);
             var currentUserId = currentUser?.Id;

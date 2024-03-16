@@ -10,6 +10,8 @@ const initialState: IExistingChat = {
   chatName: null,
   members: [],
   messages: [],
+  paginationCurrent: 1,
+  paginationMax: 1
 };
 
 export const addChatMember = createAsyncThunk(
@@ -51,7 +53,11 @@ export const removeMember = createAsyncThunk(
         credentials: "include",
       });
 
+      console.log(response);
       if (response.ok) {
+        const data = await response.json();
+        console.log(data);
+        dispatch(addMessageToChat(data))
         dispatch(existingChatSlice.actions.rmMember(member));
       }
     } catch (error) {
@@ -64,12 +70,11 @@ export const getChatById = createAsyncThunk(
   "existingChat/getChatById",
   async (chatId: number, { getState, dispatch }) => {
     try {
-      const response = await fetch(GET_CHAT_BY_ID, {
-        method: "POST",
+      const response = await fetch(GET_CHAT_BY_ID + chatId, {
+        method: "GET",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(chatId),
         credentials: "include",
       });
 

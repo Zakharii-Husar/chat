@@ -34,4 +34,6 @@ export interface IExistingChat {
     memberId: string | null;
   }[];
   messages: IMessage[];
+  paginationCurrent: number;
+  paginationMax: number;
 }

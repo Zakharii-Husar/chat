@@ -7,10 +7,7 @@ import {
   MDBCard,
   MDBCardBody,
   MDBIcon,
-  MDBBtn,
-  MDBTypography,
-  MDBTextArea,
-  MDBCardHeader,
+  MDBTypography
 } from "mdb-react-ui-kit";
 import { fetchAllChats } from "./chatsSlice";
 import {
