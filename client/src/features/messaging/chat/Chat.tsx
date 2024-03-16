@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import {
   useAppDispatch,
   useAppSelector,
@@ -10,8 +10,6 @@ import { MessageInput } from "./MessageInput";
 import { ChatHeader } from "./ChatHeader";
 
 import {
-  setMessageContent,
-  sendMessageAsync,
   createChatOrGetIdAsync,
   resetChatCandidats,
   addChatCandidats,
@@ -25,10 +23,13 @@ import { MDBContainer, MDBRow, MDBCol } from "mdb-react-ui-kit";
 export const Chat: React.FC = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-
   const { state: locationState } = useLocation();
   const existingChat = useAppSelector((state) => state.existingChat);
   const newChat = useAppSelector((state) => state.newChat);
+
+  const { chatId } = useParams();
+  const parsedChatId = parseInt(chatId || '0', 10);
+
 
       
   //set chatId when transfered from Chats.tsx
@@ -58,14 +59,9 @@ export const Chat: React.FC = () => {
 
   //fetch chat itself by having chatId
   useEffect(() => {
-    if (existingChat.id) dispatch(getChatById(existingChat.id));
-  }, [existingChat.id]);
+    if (parsedChatId) dispatch(getChatById(parsedChatId));
+  }, [parsedChatId]);
 
-  //update url to chatid
-  useEffect(() => {
-    const url = `/chats/${existingChat.id?.toString()}`;
-    if (existingChat.id !== 0) navigate(url, { replace: true });
-  }, [existingChat.id]);
 
   //reset currentChatId and chatParticipants on exit
   useEffect(() => {
@@ -75,7 +71,7 @@ export const Chat: React.FC = () => {
     };
   }, []);
 
-  return (
+  return !parsedChatId ?<h1>LOADING...</h1> : (
     <MDBContainer
       fluid
       className="d-flex m-0 p-0 w-100"
@@ -89,5 +85,6 @@ export const Chat: React.FC = () => {
         </MDBCol>
       </MDBRow>
     </MDBContainer>
+  
   );
 };

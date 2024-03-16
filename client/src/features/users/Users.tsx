@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   useAppSelector,
   useAppDispatch,
@@ -7,6 +8,7 @@ import {
   fetchAllUsersAsync,
   searchUsers,
   updateSearchedUser,
+  getChatIdByUsername
 } from "../users/usersSlice";
 import { IUserModel } from "../../app/userInterfaces";
 import { Link } from "react-router-dom";
@@ -24,6 +26,7 @@ import { useCheckAuth } from "../../hooks/useCheckAuth";
 const Users: React.FC = () => {
   useCheckAuth();
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const { allUsers, filteredUsers, searchedUser } = useAppSelector(
     (state) => state.users
   );
@@ -41,6 +44,17 @@ const Users: React.FC = () => {
     dispatch(updateSearchedUser(input !== "" ? input : null));
   };
 
+  const navToChat = async (username: string) => {
+    try {
+      const action = await dispatch(getChatIdByUsername(username));
+      const chatId = action.payload;
+      navigate("/chats/" + chatId);
+    } catch (error) {
+      // Handle errors here
+      console.error("Error:", error);
+    }
+  };
+
   const currentList = searchedUser === null ? allUsers : filteredUsers;
 
   return (
@@ -55,19 +69,16 @@ const Users: React.FC = () => {
 
           <ListGroup>
             {currentList?.map((user: IUserModel, i) => (
-              <Link
-                key={user.id}
-                to={`/chats/*`}
-                state={{ recipientId: user.id, recipientUsername: user.nickname }}
+              <ListGroup.Item
+                className="d-flex align-items-center justify-content-between py-1"
+                onClick={()=> navToChat(user.nickname)}
               >
-                <ListGroup.Item className="d-flex align-items-center justify-content-between py-1">
-                  <FaUserCircle size={25} className="ms-2" />
+                <FaUserCircle size={25} className="ms-2" />
 
-                  <h5>{`${user.nickname}`}</h5>
+                <h5>{`${user.nickname}`}</h5>
 
-                  <BsFillSendFill size={25} className="me-2" />
-                </ListGroup.Item>
-              </Link>
+                <BsFillSendFill size={25} className="me-2" />
+              </ListGroup.Item>
             ))}
           </ListGroup>
         </Col>

@@ -1,7 +1,8 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import { GET_ALL_USERS, SEARCH_USERS } from "../../app/APIEndpoints";
+import { GET_ALL_USERS, GET_CHAT_BY_USERNAME, SEARCH_USERS } from "../../app/APIEndpoints";
 import { IUserModel, IUsersModel } from "../../app/userInterfaces";
+import { setCurrentChatId } from "../messaging/chat/existingChatSlice";
 
 const initialState: IUsersModel = {
   allUsers: [],
@@ -48,6 +49,32 @@ export const searchUsers = createAsyncThunk(
       if (response.ok) {
         const filteredUsers = await response.json();
         dispatch(findUser(filteredUsers));
+      }
+    } catch (error) {
+      console.error("Error searching users:", error);
+      throw error;
+    }
+  }
+);
+
+export const getChatIdByUsername = createAsyncThunk(
+  "users/getChatIdByUsername",
+  async (userName: string, { getState, dispatch }) => {
+    try {
+      const response = await fetch(
+        `${GET_CHAT_BY_USERNAME}${encodeURIComponent(userName)}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+        }
+      );
+      if (response.ok) {
+        const chatId = await response.json();
+        dispatch(setCurrentChatId(chatId));
+        return chatId;
       }
     } catch (error) {
       console.error("Error searching users:", error);
