@@ -25,20 +25,20 @@ import {
 import "./Register.css";
 
 export function Register() {
- // const navigate = useNavigate();
+ const navigate = useNavigate();
 
   const validationErrors = useAppSelector(
     (state) => state.register.validationErrors
   );
 
- // const { id: loggedInUserId } = useAppSelector((state) => state.auth.response);
+ const { id: loggedInUserId } = useAppSelector((state) => state.auth.response);
 
   const dispatch = useAppDispatch();
   useRegValidation();
 
-  // useEffect(() => {
-  //   if (loggedInUserId) navigate("/");
-  // }, [loggedInUserId]);
+  useEffect(() => {
+    if (loggedInUserId) navigate("/");
+  }, [loggedInUserId]);
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const name = e.target.name;

@@ -10,6 +10,8 @@ namespace API.Models
         public int ChatId { get; set; }
         public string? ChatName { get; set; }
 
+        public bool IsGroupChat { get; set; } = false;
+
         public ICollection<ChatMember> ChatMembers { get; set; } = new List<ChatMember>();
     }
 }

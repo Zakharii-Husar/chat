@@ -24,8 +24,6 @@ namespace API.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public DateTime? LeftChat { get; set; } = null;
 
-        public bool IsGroupChat { get; set; } = false;
-
         public bool IsCreator { get; set; } = false;
     }
 }

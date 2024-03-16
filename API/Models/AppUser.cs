@@ -11,7 +11,7 @@ namespace API.Models
     {
         [Required(ErrorMessage = "User name is required.")]
 
-        [RegularExpression(@"^[a-zA-Z][\w\-#$\._]{4,20}$", ErrorMessage = "Invalid username.")]
+        [RegularExpression(@"^[a-zA-Z][\w\-#$\._]{3,20}$", ErrorMessage = "Invalid username.")]
         public override string? UserName { get; set; }
 
         [Required(ErrorMessage = "Email address is required.")]
