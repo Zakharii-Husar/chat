@@ -8,7 +8,7 @@ import {
   fetchAllUsersAsync,
   searchUsers,
   updateSearchedUser,
-  getChatIdByUsername
+  getChatIdByUsername,
 } from "../users/usersSlice";
 import { IUserModel } from "../../app/userInterfaces";
 import { Link } from "react-router-dom";
@@ -70,8 +70,9 @@ const Users: React.FC = () => {
           <ListGroup>
             {currentList?.map((user: IUserModel, i) => (
               <ListGroup.Item
+                key={user.id}
                 className="d-flex align-items-center justify-content-between py-1"
-                onClick={()=> navToChat(user.nickname)}
+                onClick={() => navToChat(user.nickname)}
               >
                 <FaUserCircle size={25} className="ms-2" />
 

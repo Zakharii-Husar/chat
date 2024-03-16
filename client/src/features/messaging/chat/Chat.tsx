@@ -15,7 +15,7 @@ import {
   addChatCandidats,
 } from "./newChatSlice";
 
-import { setCurrentChatId, getChatById, toggleLike } from "./existingChatSlice";
+import { setCurrentChatId, getChatById } from "./existingChatSlice";
 import { FaHeart } from "react-icons/fa";
 
 import { MDBContainer, MDBRow, MDBCol } from "mdb-react-ui-kit";
@@ -28,50 +28,19 @@ export const Chat: React.FC = () => {
   const newChat = useAppSelector((state) => state.newChat);
 
   const { chatId } = useParams();
-  const parsedChatId = parseInt(chatId || '0', 10);
+  const parsedChatId = parseInt(chatId || "0", 10);
 
 
-      
-  //set chatId when transfered from Chats.tsx
-  useEffect(() => {
-    if (locationState?.chatId)
-      dispatch(setCurrentChatId(locationState?.chatId));
-  }, [locationState?.chatId]);
-
-  //add recipient id to participantsIds when transfered from Users.tsx
-  useEffect(() => {
-    if (locationState?.recipientId && locationState?.recipientUsername) {
-      dispatch(
-        addChatCandidats({
-          userName: locationState?.recipientUsername,
-          memberId: locationState?.recipientId,
-        })
-      );
-    }
-  }, [locationState?.recipientId, locationState?.recipientUsername]);
-
-  //When transfered from Users.tsx fetch chatId based on participant
-  useEffect(() => {
-    if (!existingChat.id && newChat.members.length > 0) {
-      dispatch(createChatOrGetIdAsync());
-    }
-  }, [existingChat.id, newChat.members]);
-
-  //fetch chat itself by having chatId
+  //fetch chat by id
   useEffect(() => {
     if (parsedChatId) dispatch(getChatById(parsedChatId));
+    console.log(parsedChatId);
   }, [parsedChatId]);
 
 
-  //reset currentChatId and chatParticipants on exit
-  useEffect(() => {
-    return () => {
-      dispatch(resetChatCandidats());
-      dispatch(setCurrentChatId(null));
-    };
-  }, []);
-
-  return !parsedChatId ?<h1>LOADING...</h1> : (
+  return !parsedChatId ? (
+    <h1>LOADING...</h1>
+  ) : (
     <MDBContainer
       fluid
       className="d-flex m-0 p-0 w-100"
@@ -85,6 +54,5 @@ export const Chat: React.FC = () => {
         </MDBCol>
       </MDBRow>
     </MDBContainer>
-  
   );
 };
