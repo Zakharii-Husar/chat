@@ -1,42 +1,25 @@
 import { useEffect } from "react";
-import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
-import {
-  useAppDispatch,
-  useAppSelector,
-} from "../../../hooks/useAppSelectorAndDispatch";
+import { useParams } from "react-router-dom";
+import { useAppDispatch } from "../../../hooks/useAppSelectorAndDispatch";
 
 import { MessagesList } from "./MessagesList";
 import { MessageInput } from "./MessageInput";
 import { ChatHeader } from "./ChatHeader";
 
-import {
-  createChatOrGetIdAsync,
-  resetChatCandidats,
-  addChatCandidats,
-} from "./newChatSlice";
-
-import { setCurrentChatId, getChatById } from "./existingChatSlice";
-import { FaHeart } from "react-icons/fa";
+import { getChatById } from "./existingChatSlice";
 
 import { MDBContainer, MDBRow, MDBCol } from "mdb-react-ui-kit";
 
 export const Chat: React.FC = () => {
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
-  const { state: locationState } = useLocation();
-  const existingChat = useAppSelector((state) => state.existingChat);
-  const newChat = useAppSelector((state) => state.newChat);
 
   const { chatId } = useParams();
   const parsedChatId = parseInt(chatId || "0", 10);
 
-
   //fetch chat by id
   useEffect(() => {
     if (parsedChatId) dispatch(getChatById(parsedChatId));
-    console.log(parsedChatId);
   }, [parsedChatId]);
-
 
   return !parsedChatId ? (
     <h1>LOADING...</h1>

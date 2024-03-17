@@ -15,6 +15,7 @@ import {
 } from "../../../hooks/useAppSelectorAndDispatch";
 import "./Chat.css";
 import { toggleLike } from "./existingChatSlice";
+import { FaHeart } from "react-icons/fa";
 
 export const MessagesList = () => {
     const dispatch = useAppDispatch();
