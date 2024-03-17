@@ -85,7 +85,6 @@ namespace API.Controllers.Messages
             }
             catch (Exception e)
             {
-                // Log or return the details of the inner exception
                 var errorMessage = $"An error occurred: {e.Message}";
 
                 if (e.InnerException != null)
