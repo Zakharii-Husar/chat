@@ -7,7 +7,7 @@ import { addMessageToChat, setCurrentChatId } from "./existingChatSlice";
 import { IChatMember } from "../../../features/messaging/messagesInterfaces";
 
 const initialState: INewChat = {
-  chatName: null,
+  chatName: "",
   members: [],
   messageToSend: {
     Content: null,

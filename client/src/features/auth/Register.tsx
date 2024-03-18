@@ -89,7 +89,7 @@ export function Register() {
         <MDBCardBody className="px-5">
           <h2 className="text-uppercase text-center mb-5">Create an account</h2>
           <MDBInput
-            onInput={handleInput}
+            onChange={handleInput}
             name="email"
             wrapperClass="mb-4"
             label={"Email " + validationErrors.email}
@@ -107,7 +107,7 @@ export function Register() {
           />
 
           <MDBInput
-            onInput={handleInput}
+            onChange={handleInput}
             name="nickName"
             wrapperClass="mb-4"
             label={"Nickname " + validationErrors.nickName}

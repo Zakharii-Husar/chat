@@ -3,7 +3,11 @@ import RemoveUsers from "./RemoveUsers";
 import AddUsers from "./AddUsers";
 import GroupName from "./GroupName";
 
-import { Card, Modal, Button } from "react-bootstrap";
+import Card from "react-bootstrap/Card";
+import Modal from "react-bootstrap/Modal";
+import Button from "react-bootstrap/Button";
+
+
 import {
   useAppSelector,
   useAppDispatch,
@@ -71,7 +75,7 @@ const ManageGroupChat: React.FC<{ isNewGroup: boolean }> = ({ isNewGroup }) => {
         <Modal.Body>
             <RemoveUsers isNewGroup={isNewGroup} />
           <AddUsers isNewGroup={isNewGroup} />
-          <GroupName />
+          <GroupName isNewGroup={isNewGroup}/>
 
           <Button className={"d-" + (isNewGroup ? "flex" : "none")} variant="primary" onClick={createGroup}>
             Create Group Chat
