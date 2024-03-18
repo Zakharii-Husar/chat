@@ -26,7 +26,6 @@ const ManageGroupChat: React.FC<{ isNewGroup: boolean }> = ({ isNewGroup }) => {
   const dispatch = useAppDispatch();
   const newChat = useAppSelector((state) => state.newChat);
   const existingChat = useAppSelector((state) => state.existingChat);
-  const createdGroupId = useAppSelector((state) => state.existingChat.chatId);
 
   //reset participants on exit
   useEffect(() => {
@@ -73,7 +72,8 @@ const ManageGroupChat: React.FC<{ isNewGroup: boolean }> = ({ isNewGroup }) => {
             <RemoveUsers isNewGroup={isNewGroup} />
           <AddUsers isNewGroup={isNewGroup} />
           <GroupName />
-          <Button variant="primary" onClick={createGroup}>
+
+          <Button className={"d-" + (isNewGroup ? "flex" : "none")} variant="primary" onClick={createGroup}>
             Create Group Chat
           </Button>
         </Modal.Body>
