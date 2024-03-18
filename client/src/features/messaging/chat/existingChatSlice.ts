@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import { GET_CHAT_BY_ID, LIKE_MESSAGE, REMOVE_CHAT_MEMBER, ADD_CHAT_MEMBER } from "../../../app/APIEndpoints";
+import { GET_CHAT_BY_ID, LIKE_MESSAGE, REMOVE_CHAT_MEMBER, ADD_CHAT_MEMBER, RENAME_GROUP_CHAT } from "../../../app/APIEndpoints";
 import type { RootState } from "../../../app/store";
 import { IExistingChat, IMessage } from "../messagesInterfaces";
 import { IChatMember } from "../../../features/messaging/messagesInterfaces";
@@ -114,6 +114,33 @@ export const toggleLike = createAsyncThunk(
   }
 );
 
+
+export const renameChat = createAsyncThunk(
+  "chat/renameChat",
+  async (_, { dispatch, getState }) => {
+    const state = getState() as RootState;
+    console.log(JSON.stringify({ChatId: state.existingChat.chatId, NewChatName: state.newChat.chatName}))
+    try {
+      const response = await fetch(RENAME_GROUP_CHAT, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ChatId: state.existingChat.chatId, NewChatName: state.newChat.chatName}),
+        credentials: "include",
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        dispatch(addMessageToChat(data))
+        dispatch(existingChatSlice.actions.rename(state.newChat.chatName ?? ""));
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+);
+
 export const existingChatSlice = createSlice({
     name: "existingChatSlice",
     initialState,
@@ -133,6 +160,9 @@ export const existingChatSlice = createSlice({
       rmMember: (state, action: PayloadAction<string>) => {
         const index = state.members.findIndex(member=>member.memberId === action.payload);
         if(index !== -1)state.members.splice(index, 1);
+      },
+      rename: (state, action: PayloadAction<string>) => {
+        state.chatName = action.payload;
       },
 
       likeOrUnlike:(

@@ -11,6 +11,7 @@ import {
   useAppSelector,
 } from "../../../hooks/useAppSelectorAndDispatch";
 import { setChatName } from "../chat/newChatSlice";
+import { renameChat } from "../chat/existingChatSlice";
 import { useEffect, useState } from "react";
 
 const GroupName: React.FC<{ isNewGroup: boolean }> = ({ isNewGroup }) => {
@@ -31,10 +32,20 @@ const GroupName: React.FC<{ isNewGroup: boolean }> = ({ isNewGroup }) => {
   const setName = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(setChatName(e.target.value));
   };
+
+  const rename = () => {
+    if (newChatName && newChatName?.length >= 4 && newChatName?.length <= 20) {
+      dispatch(renameChat());
+      setShowForm(false);
+    }else{
+      alert("Group chat name should be 4-20 characters long!")
+    }
+  };
+
   return (
     <Container>
       <Row className={"d-" + isNewGroup ? "none" : "flex"}>
-        <Button onClick={()=>setShowForm(!showForm)}>Rename Group</Button>
+        <Button onClick={() => setShowForm(!showForm)}>Rename Group</Button>
       </Row>
       <Row>
         <Collapse in={showForm || isNewGroup}>
@@ -46,6 +57,7 @@ const GroupName: React.FC<{ isNewGroup: boolean }> = ({ isNewGroup }) => {
               value={newChatName ?? ""}
               onChange={setName}
             />
+            <Button onClick={rename}>Rename</Button>
           </Form.Group>
         </Collapse>
       </Row>
