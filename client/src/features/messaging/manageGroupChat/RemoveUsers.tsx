@@ -3,6 +3,8 @@ import {
   useAppDispatch,
 } from "../../../hooks/useAppSelectorAndDispatch";
 
+import Confirmation from "./Confirmation";
+
 import ListGroup from "react-bootstrap/ListGroup";
 import Button from "react-bootstrap/Button";
 import Collapse from "react-bootstrap/Collapse";
@@ -20,8 +22,10 @@ const RemoveUsers: React.FC<{ isNewGroup: boolean }> = ({ isNewGroup }) => {
   const dispatch = useAppDispatch();
   const newChat = useAppSelector((state) => state.newChat);
   const existingChat = useAppSelector((state) => state.existingChat);
-  const currentUserId = useAppSelector(state => state.auth.response.id);
-  const isCreator = existingChat.members.find(member => member.memberId === currentUserId)?.isCreator;
+  const currentUserId = useAppSelector((state) => state.auth.response.id);
+  const isCreator = existingChat.members.find(
+    (member) => member.memberId === currentUserId
+  )?.isCreator;
 
   const [showList, setShowList] = useState(false);
 
@@ -44,17 +48,17 @@ const RemoveUsers: React.FC<{ isNewGroup: boolean }> = ({ isNewGroup }) => {
     }
   };
 
-  const leaveGroup = () =>{
+  const leaveGroup = () => {
     rmMember(currentUserId!);
-  }
+  };
 
   const currentMembersList = isNewGroup ? newChat : existingChat;
   return (
     <Container fluid className="d-flex mb-3">
       <Col>
-      <Row className={"mb-3 d-" + (isNewGroup ? "none" : "flex")}>
-          <Button onClick={leaveGroup} className="d-flex">
-            Leave group
+        <Row className={"mb-3 d-" + (isNewGroup ? "none" : "flex")}>
+          <Button>
+            <Confirmation buttonText="Leave group" titleText="Do you wanna leave this group?" proceed={leaveGroup} />
           </Button>
         </Row>
         <Row className={"d-" + (!isNewGroup && isCreator ? "flex" : "none")}>
@@ -63,10 +67,10 @@ const RemoveUsers: React.FC<{ isNewGroup: boolean }> = ({ isNewGroup }) => {
           </Button>
         </Row>
         <Row className="d-flex ">
-          <Collapse in={(showList || isNewGroup)}>
+          <Collapse in={showList || isNewGroup}>
             <div>
               {currentMembersList.members.map((member, i) => {
-                return member.memberId === currentUserId ? null :(
+                return member.memberId === currentUserId ? null : (
                   <ListGroup.Item
                     key={i}
                     className="d-flex flex-row justify-content-between align-items-center"
@@ -76,9 +80,9 @@ const RemoveUsers: React.FC<{ isNewGroup: boolean }> = ({ isNewGroup }) => {
                       border: "1px solid #dee2e6",
                     }}
                   >
-                    <span>{member.userName}{" "}</span>
-                    <span onClick={() => remove(member)}>
-                      <span style={{ cursor: "pointer" }}>×</span>
+                    <span>{member.userName} </span>
+                    <span style={{ cursor: "pointer" }}>
+                      <Confirmation buttonText="x" titleText={`Remove ${member.userName} from the chaat?`} proceed={() => remove(member)} />
                     </span>
                   </ListGroup.Item>
                 );

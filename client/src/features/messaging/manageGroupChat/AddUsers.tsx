@@ -18,6 +18,8 @@ import {
 import { addChatCandidats } from "../chat/newChatSlice";
 import { addChatMember } from "../chat/existingChatSlice";
 
+import Confirmation from "./Confirmation";
+
 import {
   useAppSelector,
   useAppDispatch,
@@ -94,16 +96,18 @@ const AddUsers: React.FC<{ isNewGroup: boolean }> = ({ isNewGroup }) => {
                 ) ? null : (
                   //show candidats
                   <Form.Group key={user.id}>
-                    <ListGroup.Item
-                      onClick={() =>
-                        add({
-                          userName: user.nickname,
-                          memberId: user.id,
-                          isCreator: false,
-                        })
-                      }
-                    >
-                      {user.nickname}
+                    <ListGroup.Item>
+                      <Confirmation
+                        buttonText={user.nickname}
+                        titleText={`Add ${user.nickname} to chat?`}
+                        proceed={() =>
+                          add({
+                            userName: user.nickname,
+                            memberId: user.id,
+                            isCreator: false,
+                          })
+                        }
+                      />
                     </ListGroup.Item>
                   </Form.Group>
                 );
