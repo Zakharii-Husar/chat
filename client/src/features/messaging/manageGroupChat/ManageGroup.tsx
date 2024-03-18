@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import AddedUsers from "./AddedUsers";
-import SearchUsers from "./SearchUsers";
+import RemoveUsers from "./RemoveUsers";
+import AddUsers from "./AddUsers";
 import GroupName from "./GroupName";
 
 import { Card, Modal, Button } from "react-bootstrap";
@@ -10,7 +10,7 @@ import {
 } from "../../../hooks/useAppSelectorAndDispatch";
 
 import {
-  createChatOrGetIdAsync,
+  createGroupChat,
   addChatCandidats,
   resetChatCandidats,
   setChatName,
@@ -24,10 +24,9 @@ const ManageGroupChat: React.FC<{ isNewGroup: boolean }> = ({ isNewGroup }) => {
   const [showForm, setShowForm] = useState(false);
 
   const dispatch = useAppDispatch();
-
   const newChat = useAppSelector((state) => state.newChat);
-
-  const createdGroupId = useAppSelector((state) => state.existingChat.id);
+  const existingChat = useAppSelector((state) => state.existingChat);
+  const createdGroupId = useAppSelector((state) => state.existingChat.chatId);
 
   //reset participants on exit
   useEffect(() => {
@@ -41,33 +40,38 @@ const ManageGroupChat: React.FC<{ isNewGroup: boolean }> = ({ isNewGroup }) => {
     setShowForm(status);
   };
 
-  const createGroup = () => {
+  const createGroup = async () => {
     if (!newChat.chatName || newChat.chatName.length < 4) {
       alert("Provide at least 3 characters long chat name!");
     } else {
-      dispatch(createChatOrGetIdAsync()).then(() => {
-        navigate("/chats/" + createdGroupId?.toString(), {
-          state: { chatId: createdGroupId },
-        });
-      });
+      try {
+        const action = await dispatch(createGroupChat());
+        const chatId = action.payload;
+
+        navigate("/chats/" + chatId);
+      } catch (error) {
+        console.error("Error creating group chat:", error);
+      }
     }
   };
 
   return (
     <Card>
       <Card.Header>
-        <Button variant="primary" onClick={()=>handleShowForm(true)}>
+        <Button variant="primary" onClick={() => handleShowForm(true)}>
           {isNewGroup ? "Add Group Chat" : "Manage Group Chat"}
         </Button>
       </Card.Header>
 
-      <Modal show={showForm} onHide={()=>handleShowForm(false)}>
+      <Modal show={showForm} onHide={() => handleShowForm(false)}>
         <Modal.Header closeButton>
-          <Modal.Title>Add Group Chat</Modal.Title>
+          <Modal.Title>
+            {isNewGroup ? "Add Group Chat" : existingChat.chatName}{" "}
+          </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <AddedUsers isNewGroup={isNewGroup}/>
-          <SearchUsers isNewGroup={isNewGroup}/>
+            <RemoveUsers isNewGroup={isNewGroup} />
+          <AddUsers isNewGroup={isNewGroup} />
           <GroupName />
           <Button variant="primary" onClick={createGroup}>
             Create Group Chat

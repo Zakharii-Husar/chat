@@ -26,7 +26,7 @@ namespace API.Controllers.Messages
             var members = await dbContext.ChatMembers
                 .Where(member => member.ChatId == chatId)
                 .Where(member => member.LeftChat == null)
-                .Select(member => new { member.Member.UserName, member.MemberId })
+                .Select(member => new { member.Member.UserName, member.MemberId, member.IsCreator })
                 .ToListAsync();
 
             var currentMember = await dbContext.ChatMembers
@@ -60,13 +60,11 @@ namespace API.Controllers.Messages
                 })
                 .ToListAsync();
 
-            Console.WriteLine(currentMember);
-            Console.WriteLine(messages);
 
 
             return Ok(new
             {
-                id = chatId,
+                chatId,
                 chatName,
                 members,
                 messages

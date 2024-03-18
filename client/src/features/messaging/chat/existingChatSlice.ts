@@ -3,10 +3,10 @@ import type { PayloadAction } from "@reduxjs/toolkit";
 import { GET_CHAT_BY_ID, LIKE_MESSAGE, REMOVE_CHAT_MEMBER, ADD_CHAT_MEMBER } from "../../../app/APIEndpoints";
 import type { RootState } from "../../../app/store";
 import { IExistingChat, IMessage } from "../messagesInterfaces";
-import { IChatMember } from "../../../app/userInterfaces";
+import { IChatMember } from "../../../features/messaging/messagesInterfaces";
 
 const initialState: IExistingChat = {
-  id: null,
+  chatId: null,
   chatName: null,
   members: [],
   messages: [],
@@ -24,7 +24,7 @@ export const addChatMember = createAsyncThunk(
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ChatId: state.existingChat.id, UserId: member.memberId}),
+        body: JSON.stringify({ChatId: state.existingChat.chatId, UserId: member.memberId}),
         credentials: "include",
       });
 
@@ -41,24 +41,23 @@ export const addChatMember = createAsyncThunk(
 
 export const removeMember = createAsyncThunk(
   "existingChat/removeMember",
-  async (member: IChatMember, { getState, dispatch }) => {
+  async (memberId: string, { getState, dispatch }) => {
     const state = getState() as RootState;
+
     try {
       const response = await fetch(REMOVE_CHAT_MEMBER, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ChatId: state.existingChat.id, UserId: member.memberId}),
+        body: JSON.stringify({ChatId: state.existingChat.chatId, UserId: memberId}),
         credentials: "include",
       });
 
-      console.log(response);
       if (response.ok) {
         const data = await response.json();
-        console.log(data);
         dispatch(addMessageToChat(data))
-        dispatch(existingChatSlice.actions.rmMember(member));
+        dispatch(existingChatSlice.actions.rmMember(memberId));
       }
     } catch (error) {
       console.log(error);
@@ -120,7 +119,7 @@ export const existingChatSlice = createSlice({
     initialState,
     reducers: {
       setCurrentChatId: (state, action: PayloadAction<number | null>) => {
-        state.id = action.payload;
+        state.chatId = action.payload;
       },
       setChat: (state, action: PayloadAction<IExistingChat>) => {
         return action.payload;
@@ -131,8 +130,8 @@ export const existingChatSlice = createSlice({
       addMember: (state, action: PayloadAction<IChatMember>) => {
         state.members.push(action.payload);
       },
-      rmMember: (state, action: PayloadAction<IChatMember>) => {
-        const index = state.members.findIndex(member=>member.memberId === action.payload.memberId);
+      rmMember: (state, action: PayloadAction<string>) => {
+        const index = state.members.findIndex(member=>member.memberId === action.payload);
         if(index !== -1)state.members.splice(index, 1);
       },
 

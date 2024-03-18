@@ -8,8 +8,3 @@ export interface IUsersModel {
   filteredUsers: IUserModel[];
   searchedUser: string | null;
 }
-
-export interface IChatMember {
-  userName: string | null;
-  memberId: string | null;
-}

@@ -1,10 +1,10 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import { GET_CHAT_ID, SEND_MESSAGE } from "../../../app/APIEndpoints";
+import { CREATE_GROUP_CHAT, SEND_MESSAGE } from "../../../app/APIEndpoints";
 import type { RootState } from "../../../app/store";
 import { INewChat, IMessage } from "../messagesInterfaces";
 import { addMessageToChat, setCurrentChatId } from "./existingChatSlice";
-import { IChatMember } from "../../../app/userInterfaces";
+import { IChatMember } from "../../../features/messaging/messagesInterfaces";
 
 const initialState: INewChat = {
   chatName: null,
@@ -15,8 +15,8 @@ const initialState: INewChat = {
   },
 };
 
-export const createChatOrGetIdAsync = createAsyncThunk(
-  "newChat/createChatOrGetIdAsync",
+export const createGroupChat = createAsyncThunk(
+  "newChat/createGroupChat",
   async (_, { getState, dispatch }) => {
     const state = getState() as RootState;
     //extracting only ID's
@@ -27,8 +27,12 @@ export const createChatOrGetIdAsync = createAsyncThunk(
     );
 
 
+    console.log(JSON.stringify({
+      ParticipantUserIds: uniqueArr,
+      ChatName: state.newChat.chatName,
+    }));
     try {
-      const response = await fetch(GET_CHAT_ID, {
+      const response = await fetch(CREATE_GROUP_CHAT, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -43,6 +47,8 @@ export const createChatOrGetIdAsync = createAsyncThunk(
       if (response.ok) {
         const data = await response.json();
         dispatch(setCurrentChatId(data));
+        console.log("Thunk returned" + data)
+        return data;
       }
     } catch (error) {
       console.log(error);
@@ -62,7 +68,7 @@ export const sendMessageAsync = createAsyncThunk(
         },
         body: JSON.stringify({
           ...state.newChat.messageToSend,
-          ChatId: state.existingChat.id,
+          ChatId: state.existingChat.chatId,
         }),
         credentials: "include",
       });

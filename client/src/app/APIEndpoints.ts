@@ -9,9 +9,9 @@ export const GET_ALL_USERS = `${API_URL}/GetUsers`;
 export const SEARCH_USERS = `${API_URL}/SearchUsers`;
 
 export const GET_ALL_CHATS = `${API_URL}/GetChats`;
-export const GET_CHAT_ID = `${API_URL}/GetChatIdOrCreate`;
 export const GET_CHAT_BY_ID = `${API_URL}/GetChatById?chatId=`;
 export const GET_CHAT_BY_USERNAME = `${API_URL}/GetChatIdByUsername?userName=`;
+export const CREATE_GROUP_CHAT = `${API_URL}/CreateGroupChat`;
 
 
 export const SEND_MESSAGE = `${API_URL}/SendMessage`;
