@@ -4,6 +4,7 @@ import {
 } from "../../../hooks/useAppSelectorAndDispatch";
 
 import Confirmation from "./Confirmation";
+import { RxExit } from "react-icons/rx";
 
 import ListGroup from "react-bootstrap/ListGroup";
 import Button from "react-bootstrap/Button";
@@ -57,9 +58,14 @@ const RemoveUsers: React.FC<{ isNewGroup: boolean }> = ({ isNewGroup }) => {
     <Container fluid className="d-flex mb-3">
       <Col>
         <Row className={"mb-3 d-" + (isNewGroup ? "none" : "flex")}>
-          <Button>
-            <Confirmation buttonText="Leave group" titleText="Do you wanna leave this group?" proceed={leaveGroup} />
-          </Button>
+          <span className="d-flex flex-row justify-content-left">
+            <Confirmation
+              buttonText="Leave group"
+              titleText="Do you wanna leave this group?"
+              proceed={() => leaveGroup()}
+            />
+            <RxExit />
+          </span>
         </Row>
         <Row className={"d-" + (!isNewGroup && isCreator ? "flex" : "none")}>
           <Button onClick={() => setShowList(!showList)}>
@@ -82,7 +88,11 @@ const RemoveUsers: React.FC<{ isNewGroup: boolean }> = ({ isNewGroup }) => {
                   >
                     <span>{member.userName} </span>
                     <span style={{ cursor: "pointer" }}>
-                      <Confirmation buttonText="x" titleText={`Remove ${member.userName} from the chaat?`} proceed={() => remove(member)} />
+                      <Confirmation
+                        buttonText="x"
+                        titleText={`Remove ${member.userName} from the chaat?`}
+                        proceed={() => remove(member)}
+                      />
                     </span>
                   </ListGroup.Item>
                 );

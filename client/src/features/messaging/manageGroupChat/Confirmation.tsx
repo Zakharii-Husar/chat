@@ -1,7 +1,7 @@
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const Confirmation: React.FC<{ buttonText: string; titleText: string; proceed: () => void }> = ({
   buttonText,
@@ -20,9 +20,14 @@ const Confirmation: React.FC<{ buttonText: string; titleText: string; proceed: (
     setShow(false);
   };
 
+  const visibility = () => {
+    setShow(true);
+    console.log("click")
+  }
+
   return (
-    <Container fluid className="z-5 static-modal w-100">
-      <span onClick={()=>setShow(true)}>{buttonText}</span>
+    <Container fluid className="static-modal w-100">
+      <span onClick={visibility}>{buttonText}</span>
       <Modal show={show} animation={false} backdrop={true} keyboard={true}>
         <Modal.Header>
           <Modal.Title>{titleText}</Modal.Title>
