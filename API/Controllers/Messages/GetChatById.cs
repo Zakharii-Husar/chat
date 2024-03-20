@@ -50,6 +50,7 @@ namespace API.Controllers.Messages
             var messagesToSkip = paginationOffset;
 
             messagesQuery = messagesQuery.Skip(messagesToSkip);
+            messagesQuery = messagesQuery.Take(5);
 
             var messages = await messagesQuery
                 .Select(m => new MessageDto
@@ -73,7 +74,7 @@ namespace API.Controllers.Messages
                 chatName,
                 members,
                 messages,
-                paginationOffset = paginationOffset + 1,
+                paginationOffset = paginationOffset + 5,
                 hasMoreMessages = true
             });
 

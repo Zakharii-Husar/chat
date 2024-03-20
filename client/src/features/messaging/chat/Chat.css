@@ -1,13 +1,13 @@
 .scrollable{
+    overflow-y: auto;
     display: flex;
-    height: 50vh;
-    overflow-x: auto;
+    flex-direction: column-reverse;
+    width: 100%;
     background-color:pink;
     margin:auto;
     padding:5px;
  }
  .scrollable::-webkit-scrollbar {
-    flex-direction: column-reverse;
     width: 5px; /* Set the width of the scrollbar */
     background-color: #F5F5F5; /* Set the background color of the scrollbar */
     position: absolute;
@@ -19,4 +19,9 @@
  }
  ::-webkit-scrollbar-track {
 border-radius: 5px;
+ }
+
+ .InfiniteScroll::-webkit-scrollbar-thumb{
+   overflow-y: hidden;
+   background-color: blue;
  }

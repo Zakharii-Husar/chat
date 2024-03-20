@@ -16,9 +16,37 @@ const initialState: IExistingChat = {
   chatName: null,
   members: [],
   messages: [],
-  paginationOffset: 1,
-  hasMoreMessages: true
+  paginationOffset: 0,
+  hasMoreMessages: true,
+  isLoading: false
 };
+
+export const getChatById = createAsyncThunk(
+  "existingChat/getChatById",
+  async (chatId: number, { getState, dispatch }) => {
+    const state = getState() as  RootState;
+    try {
+      dispatch(existingChatSlice.actions.setLoading(true))
+      const response = await fetch(
+        `${GET_CHAT_BY_ID}?chatId=${chatId}&paginationOffset=${state.existingChat.paginationOffset}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        dispatch(setChat(data));
+      }
+    } catch (error) {
+      console.log(error);
+    } finally{
+      dispatch(existingChatSlice.actions.setLoading(false))
+    }
+  }
+);
 
 export const addChatMember = createAsyncThunk(
   "existingChat/addChatMember",
@@ -77,31 +105,6 @@ export const removeMember = createAsyncThunk(
   }
 );
 
-export const getChatById = createAsyncThunk(
-  "existingChat/getChatById",
-  async (chatId: number, { getState, dispatch }) => {
-    const state = getState() as  RootState;
-    try {
-      const response = await fetch(
-        `${GET_CHAT_BY_ID}?chatId=${chatId}&paginationOffset=${state.existingChat.paginationOffset}`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        console.log(data);
-        dispatch(setChat(data));
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  }
-);
-
 export const toggleLike = createAsyncThunk(
   "chat/toggleLike",
   async (props: { messageId: number; userName: string }, { dispatch }) => {
@@ -133,12 +136,7 @@ export const renameChat = createAsyncThunk(
   "chat/renameChat",
   async (_, { dispatch, getState }) => {
     const state = getState() as RootState;
-    console.log(
-      JSON.stringify({
-        ChatId: state.existingChat.chatId,
-        NewChatName: state.newChat.chatName,
-      })
-    );
+
     try {
       const response = await fetch(RENAME_GROUP_CHAT, {
         method: "POST",
@@ -169,6 +167,9 @@ export const existingChatSlice = createSlice({
   name: "existingChatSlice",
   initialState,
   reducers: {
+    setLoading: (state, action: PayloadAction<boolean>) => {
+      state.isLoading = action.payload;
+    },
     setCurrentChatId: (state, action: PayloadAction<number | null>) => {
       state.chatId = action.payload;
     },

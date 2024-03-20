@@ -35,4 +35,5 @@ export interface IExistingChat {
   messages: IMessage[];
   paginationOffset: number;
   hasMoreMessages: boolean;
+  isLoading: boolean;
 }
