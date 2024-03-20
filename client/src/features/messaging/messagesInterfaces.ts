@@ -33,6 +33,6 @@ export interface IExistingChat {
   chatName: string | null;
   members: IChatMember[];
   messages: IMessage[];
-  paginationCurrent: number;
-  paginationMax: number;
+  paginationOffset: number;
+  hasMoreMessages: boolean;
 }

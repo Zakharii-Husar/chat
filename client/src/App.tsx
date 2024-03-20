@@ -4,6 +4,7 @@ import { Chat } from "./features/messaging/chat/Chat";
 import { Home } from "./features/home/Home";
 import { Login } from "./features/auth/Login";
 import { Register } from "./features/auth/Register";
+import User from "./features/users/User";
 import { Root } from "./features/root/Root";
 import {
   Route,
@@ -19,6 +20,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/chats" element={<Chats />} />
         <Route path="/chats/:chatId" element={<Chat />} />
+        <Route path="/users/:userName" element={<User />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
       </Route>

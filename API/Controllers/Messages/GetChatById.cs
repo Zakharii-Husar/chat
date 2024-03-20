@@ -13,7 +13,7 @@ namespace API.Controllers.Messages
     {
         [HttpGet]
         [Authorize]
-        public async Task<IActionResult> Get([FromQuery] int chatId)
+        public async Task<IActionResult> Get([FromQuery] int chatId, int paginationOffset)
         {
             var currentUser = await userManager.GetUserAsync(User);
             var currentUserId = currentUser?.Id;
@@ -46,6 +46,11 @@ namespace API.Controllers.Messages
                     .Where(message => message.SentAt < currentMember.LeftChat);
             }
 
+            // Calculate the number of messages to skip based on paginationOffset
+            var messagesToSkip = paginationOffset;
+
+            messagesQuery = messagesQuery.Skip(messagesToSkip);
+
             var messages = await messagesQuery
                 .Select(m => new MessageDto
                 {
@@ -67,7 +72,9 @@ namespace API.Controllers.Messages
                 chatId,
                 chatName,
                 members,
-                messages
+                messages,
+                paginationOffset = paginationOffset + 1,
+                hasMoreMessages = true
             });
 
 

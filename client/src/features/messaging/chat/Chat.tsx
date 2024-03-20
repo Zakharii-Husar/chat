@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { useAppDispatch } from "../../../hooks/useAppSelectorAndDispatch";
+import { useAppSelector, useAppDispatch } from "../../../hooks/useAppSelectorAndDispatch";
 
 import { MessagesList } from "./MessagesList";
 import { MessageInput } from "./MessageInput";
@@ -12,14 +12,15 @@ import { MDBContainer, MDBRow, MDBCol } from "mdb-react-ui-kit";
 
 export const Chat: React.FC = () => {
   const dispatch = useAppDispatch();
+  const existingChat = useAppSelector(data=>data.existingChat)
 
   const { chatId } = useParams();
   const parsedChatId = parseInt(chatId || "0", 10);
 
   //fetch chat by id
   useEffect(() => {
-    if (parsedChatId) dispatch(getChatById(parsedChatId));
-  }, [parsedChatId]);
+    if (parsedChatId && !existingChat.chatId) dispatch(getChatById(parsedChatId));
+  }, []);
 
   return !parsedChatId ? (
     <h1>LOADING...</h1>
