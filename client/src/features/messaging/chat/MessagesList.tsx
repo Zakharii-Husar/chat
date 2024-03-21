@@ -45,12 +45,10 @@ export const MessagesList = () => {
   };
 
   return (
-    <div className="d-flex flex-column-reverse w-100 h-50 overflow-hidden">
       <InfiniteScroll
-        inverse={true}
-        scrollThreshold={5}
-        className="d-flex flex-column-reverse"
+        className="scrollable"
         height={300}
+        inverse={true}
         dataLength={existingChat.messages.length}
         next={() =>{if (!isLaoding) dispatch(getChatById(existingChat.chatId!))}}
         hasMore={true}
@@ -109,6 +107,5 @@ export const MessagesList = () => {
           })}
         </MDBTypography>
       </InfiniteScroll>
-    </div>
   );
 };

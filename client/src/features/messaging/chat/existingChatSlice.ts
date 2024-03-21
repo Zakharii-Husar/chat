@@ -186,7 +186,7 @@ export const existingChatSlice = createSlice({
       );
 
       // Append only unique messages to the existing messages array
-      newState.messages = [...state.messages, ...uniqueMessages];
+      newState.messages = [...uniqueMessages, ...state.messages];
 
       return newState;
     },

@@ -1,3 +1,6 @@
+.container{
+   height: 300px;
+}
 .scrollable{
     overflow-y: auto;
     display: flex;
