@@ -1,6 +1,5 @@
 ﻿using API.Data;
 using API.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -17,19 +16,41 @@ namespace API.Controllers.Messages
             var currentUser = await userManager.GetUserAsync(User);
             var currentUserId = currentUser?.Id;
 
-            var allChatsIds = await dbContext.ChatMembers
+            var userMemberships = await dbContext.ChatMembers
                 .Where(cm => cm.MemberId == currentUserId)
-                .Select(chat => chat.ChatId)
-                .Distinct()
+                .Select(chat => new { chat.ChatId, chat.EnteredChat, chat.LeftChat })
                 .ToListAsync();
 
-            var latestMessages = await dbContext.Messages
-                .Include(m => m.Chat)
-                .Include(m => m.Likes)
-                .Where(m => allChatsIds.Contains(m.ChatId))
+            var latestMessages = dbContext.Messages
+                .Include(message => message.Chat)
+                .Include(message => message.Likes)
+                .AsEnumerable()
+                .Where(message => userMemberships
+                    .Any(cm =>
+                    cm.ChatId == message.ChatId &&
+                    (cm.LeftChat == null || cm.LeftChat > message.SentAt) &&
+                    (cm.EnteredChat <= message.SentAt)))
                 .GroupBy(m => m.ChatId)
                 .Select(g => g.OrderByDescending(m => m.SentAt).FirstOrDefault())
-                .ToListAsync();
+                .ToList();
+
+
+
+
+
+            //var userMembershipsIds = await dbContext.ChatMembers
+            //    .Where(cm => cm.MemberId == currentUserId)
+            //    .Select(chat => chat.ChatId)
+            //    .Distinct()
+            //    .ToListAsync();
+
+            //var latestMessages = await dbContext.Messages
+            //    .Include(m => m.Chat)
+            //    .Include(m => m.Likes)
+            //    .Where(m => userMembershipsIds.Contains(m.ChatId))
+            //    .GroupBy(m => m.ChatId)
+            //    .Select(g => g.OrderByDescending(m => m.SentAt).FirstOrDefault())
+            //    .ToListAsync();
 
 
             var chats = latestMessages

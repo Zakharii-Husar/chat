@@ -32,7 +32,7 @@ export const MessagesList = () => {
     (state) => state.auth.response
   );
   useEffect(() => {
-    console.log(existingChat.chatId);
+    console.log(existingChat.messages.length);
   }, [existingChat]);
 
 

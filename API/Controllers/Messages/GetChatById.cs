@@ -64,8 +64,9 @@ namespace API.Controllers.Messages
                 .ToListAsync();
 
             // Calculate the number of messages to skip based on paginationOffset
+            var paginationStep = 5;
             var messagesLeft = messages.Count - paginationOffset;
-            var messagesToTake = messagesLeft < 5 ? messagesLeft : 5;
+            var messagesToTake = messagesLeft < paginationStep ? messagesLeft : paginationStep;
 
             var finalList = messages
                 .Skip(paginationOffset)
@@ -80,8 +81,8 @@ namespace API.Controllers.Messages
                 chatName,
                 members,
                 messages = finalList,
-                paginationOffset = paginationOffset + 5,
-                hasMoreMessages = messagesLeft <= 5 ? false : true
+                paginationOffset = paginationOffset + paginationStep,
+                hasMoreMessages = messagesLeft <= paginationStep ? false : true
             });
 
 

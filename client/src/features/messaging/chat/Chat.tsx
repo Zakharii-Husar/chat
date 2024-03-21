@@ -20,7 +20,7 @@ export const Chat: React.FC = () => {
   //fetch chat by id
   useEffect(() => {
     const setChatStateOnLoad = () => {
-      if (parsedChatId && !existingChat.chatId) dispatch(getChatById(parsedChatId));
+      if (parsedChatId) dispatch(getChatById(parsedChatId));
     };
     setChatStateOnLoad();
 
@@ -31,7 +31,7 @@ export const Chat: React.FC = () => {
     return(()=>{
       resetChatStateOnExit();
     })
-  }, []);
+  }, [chatId, parsedChatId]);
 
 
 
