@@ -6,7 +6,7 @@ import { MessagesList } from "./MessagesList";
 import { MessageInput } from "./MessageInput";
 import { ChatHeader } from "./ChatHeader";
 
-import { getChatById } from "./existingChatSlice";
+import { getChatById, resetChat } from "./existingChatSlice";
 
 import { MDBContainer, MDBRow, MDBCol } from "mdb-react-ui-kit";
 
@@ -19,8 +19,21 @@ export const Chat: React.FC = () => {
 
   //fetch chat by id
   useEffect(() => {
-    if (parsedChatId && !existingChat.chatId) dispatch(getChatById(parsedChatId));
+    const setChatStateOnLoad = () => {
+      if (parsedChatId && !existingChat.chatId) dispatch(getChatById(parsedChatId));
+    };
+    setChatStateOnLoad();
+
+    const resetChatStateOnExit = () =>{
+      dispatch(resetChat());
+    };
+
+    return(()=>{
+      resetChatStateOnExit();
+    })
   }, []);
+
+
 
   return !parsedChatId ? (
     <h1>LOADING...</h1>

@@ -65,11 +65,11 @@ namespace API.Controllers.Messages
 
             // Calculate the number of messages to skip based on paginationOffset
             var messagesLeft = messages.Count - paginationOffset;
-            var messagesToSkip = paginationOffset > messagesLeft ? messagesLeft : paginationOffset;
+            var messagesToTake = messagesLeft < 5 ? messagesLeft : 5;
 
             var finalList = messages
-                .Skip(messagesToSkip)
-                .Take(5)
+                .Skip(paginationOffset)
+                .Take(messagesToTake)
                 .OrderBy(m => m.SentAt);
 
 
@@ -81,7 +81,7 @@ namespace API.Controllers.Messages
                 members,
                 messages = finalList,
                 paginationOffset = paginationOffset + 5,
-                hasMoreMessages = paginationOffset > messagesLeft
+                hasMoreMessages = messagesLeft <= 5 ? false : true
             });
 
 

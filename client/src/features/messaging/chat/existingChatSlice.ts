@@ -190,6 +190,15 @@ export const existingChatSlice = createSlice({
 
       return newState;
     },
+    resetChat: (state) => {
+        state.chatId = null;
+        state.chatName = null;
+        state.hasMoreMessages = true;
+        state.isLoading = false;
+        state.members = [];
+        state.messages = [];
+        state.paginationOffset = 0;
+    },
     addMessageToChat: (state, action: PayloadAction<IMessage>) => {
       state.messages.push(action.payload);
     },
@@ -226,7 +235,7 @@ export const existingChatSlice = createSlice({
   },
 });
 
-export const { setChat, addMessageToChat, setCurrentChatId } =
+export const { setChat, resetChat, addMessageToChat, setCurrentChatId } =
   existingChatSlice.actions;
 
 export default existingChatSlice.reducer;

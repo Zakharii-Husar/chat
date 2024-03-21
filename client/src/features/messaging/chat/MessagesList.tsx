@@ -32,9 +32,9 @@ export const MessagesList = () => {
     (state) => state.auth.response
   );
   useEffect(() => {
-    console.log(existingChat.messages.length);
-    console.log(existingChat.isLoading)
+    console.log(existingChat.chatId);
   }, [existingChat]);
+
 
   const handleLike = (messageId: number) => {
     dispatch(toggleLike({ messageId: messageId, userName: loggedInUserName! }));
@@ -51,11 +51,11 @@ export const MessagesList = () => {
         inverse={true}
         dataLength={existingChat.messages.length}
         next={() =>{if (!isLaoding) dispatch(getChatById(existingChat.chatId!))}}
-        hasMore={true}
-        loader={<h4>Loading messages...</h4>}
+        hasMore={existingChat.hasMoreMessages}
+        loader={<h4>Loading...</h4>}
         endMessage={
           <p style={{ textAlign: "center" }}>
-            <b>Yay! You have seen it all</b>
+            <b>Beginning of the chat:</b>
           </p>
         }
       >
