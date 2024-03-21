@@ -46,11 +46,8 @@ namespace API.Controllers.Messages
                     .Where(message => message.SentAt < currentMember.LeftChat);
             }
 
-            // Calculate the number of messages to skip based on paginationOffset
-            var messagesToSkip = paginationOffset;
-
-            messagesQuery = messagesQuery.Skip(messagesToSkip);
-            messagesQuery = messagesQuery.Take(5);
+            // Sort the messages by Time
+            messagesQuery = messagesQuery.OrderByDescending(message => message.SentAt);
 
             var messages = await messagesQuery
                 .Select(m => new MessageDto
@@ -66,6 +63,15 @@ namespace API.Controllers.Messages
                 })
                 .ToListAsync();
 
+            // Calculate the number of messages to skip based on paginationOffset
+            var messagesLeft = messages.Count - paginationOffset;
+            var messagesToSkip = paginationOffset > messagesLeft ? messagesLeft : paginationOffset;
+
+            var finalList = messages
+                .Skip(messagesToSkip)
+                .Take(5)
+                .OrderBy(m => m.SentAt);
+
 
 
             return Ok(new
@@ -73,9 +79,9 @@ namespace API.Controllers.Messages
                 chatId,
                 chatName,
                 members,
-                messages,
+                messages = finalList,
                 paginationOffset = paginationOffset + 5,
-                hasMoreMessages = true
+                hasMoreMessages = paginationOffset > messagesLeft
             });
 
 
