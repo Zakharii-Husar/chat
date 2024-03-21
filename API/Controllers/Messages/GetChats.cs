@@ -11,7 +11,7 @@ namespace API.Controllers.Messages
     public class GetChats(AppDbContext dbContext, UserManager<AppUser> userManager) : ControllerBase
     {
         [HttpGet]
-        public async Task<IActionResult> Get()
+        public async Task<IActionResult> Get([FromQuery] int paginationOffset)
         {
             var currentUser = await userManager.GetUserAsync(User);
             var currentUserId = currentUser?.Id;
@@ -35,24 +35,6 @@ namespace API.Controllers.Messages
                 .ToList();
 
 
-
-
-
-            //var userMembershipsIds = await dbContext.ChatMembers
-            //    .Where(cm => cm.MemberId == currentUserId)
-            //    .Select(chat => chat.ChatId)
-            //    .Distinct()
-            //    .ToListAsync();
-
-            //var latestMessages = await dbContext.Messages
-            //    .Include(m => m.Chat)
-            //    .Include(m => m.Likes)
-            //    .Where(m => userMembershipsIds.Contains(m.ChatId))
-            //    .GroupBy(m => m.ChatId)
-            //    .Select(g => g.OrderByDescending(m => m.SentAt).FirstOrDefault())
-            //    .ToListAsync();
-
-
             var chats = latestMessages
                 .Select(m => new MessageDto()
                 {
@@ -68,7 +50,21 @@ namespace API.Controllers.Messages
                 .OrderByDescending(m => m.SentAt)
                 .ToList();
 
-            return Ok(chats);
+            const int paginationStep = 5;
+            var chatsLeft = chats.Count - paginationOffset;
+            var chatsToTake = chatsLeft < paginationStep ? chatsLeft : paginationStep;
+
+            var paginatedChats = chats
+                .Skip(paginationOffset)
+                .Take(chatsToTake)
+                .OrderBy(m => m.SentAt);
+
+            return Ok(new
+            {
+                chats = paginatedChats,
+                paginationOffset = paginationOffset + paginationStep,
+                hasMore = chatsLeft > paginationStep
+            });
 
 
         }

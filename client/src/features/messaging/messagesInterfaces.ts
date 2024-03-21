@@ -37,3 +37,10 @@ export interface IExistingChat {
   hasMoreMessages: boolean;
   isLoading: boolean;
 }
+
+export interface IChatsOverview {
+  chats: IMessage[],
+  paginationOffset: number,
+  hasMore: boolean,
+  isLoading: boolean
+}

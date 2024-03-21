@@ -174,10 +174,9 @@ export const existingChatSlice = createSlice({
       state.chatId = action.payload;
     },
     setChat: (state, action: PayloadAction<IExistingChat>) => {
-      // Spread the existing state and overwrite all properties with the payload
+
       const newState = { ...state, ...action.payload };
 
-      // Filter out duplicates from the messages array
       const uniqueMessages = action.payload.messages.filter(
         (newMessage) =>
           !state.messages.some(
@@ -185,7 +184,6 @@ export const existingChatSlice = createSlice({
           )
       );
 
-      // Append only unique messages to the existing messages array
       newState.messages = [...uniqueMessages, ...state.messages];
 
       return newState;

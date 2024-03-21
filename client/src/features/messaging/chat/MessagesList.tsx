@@ -1,5 +1,4 @@
 import { formatDistanceToNow } from "date-fns";
-import { MutableRefObject } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import {
   MDBRow,
@@ -19,8 +18,7 @@ import "./Chat.css";
 import { toggleLike, getChatById } from "./existingChatSlice";
 import { FaHeart } from "react-icons/fa";
 
-import { useEffect, useRef } from "react";
-import { useParams } from "react-router";
+import { useEffect } from "react";
 
 export const MessagesList = () => {
   const dispatch = useAppDispatch();
