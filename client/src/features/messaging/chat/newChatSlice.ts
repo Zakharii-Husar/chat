@@ -4,8 +4,8 @@ import { INewChat } from "../messagesInterfaces";
 import { IChatMember } from "../../../features/messaging/messagesInterfaces";
 
 const initialState: INewChat = {
-  chatName: "", 
-  members: [],
+  chatName: "",
+  candidates: [],
   messageToSend: {
     Content: null,
     RepliedTo: null,
@@ -19,21 +19,20 @@ export const newChatSlice = createSlice({
     setMessageContent: (state, action: PayloadAction<string>) => {
       state.messageToSend.Content = action.payload;
     },
-    addChatCandidats: (
-      state,
-      action: PayloadAction<IChatMember>
-    ) => {
-      if (state.members.some(member => 
-        member.userName === action.payload.userName && 
-        member.memberId === action.payload.memberId
-    )) return;
-      state.members.push(action.payload);
+    addChatCandidates: (state, action: PayloadAction<IChatMember>) => {
+      const alreadyAdded = state.candidates.some(
+        (member) =>
+          member.userName === action.payload.userName &&
+          member.memberId === action.payload.memberId
+      );
+      if (alreadyAdded) return;
+      state.candidates.push(action.payload);
     },
-    removeCandidat: (state, action: PayloadAction<number>) => {
-      state.members.splice(action.payload, 1);
+    removeCandidate: (state, action: PayloadAction<number>) => {
+      state.candidates.splice(action.payload, 1);
     },
-    resetChatCandidats: (state) => {
-      state.members = [];
+    resetChatCandidates: (state) => {
+      state.candidates = [];
     },
     setChatName: (state, action: PayloadAction<string>) => {
       state.chatName = action.payload;
@@ -43,9 +42,9 @@ export const newChatSlice = createSlice({
 
 export const {
   setMessageContent,
-  addChatCandidats,
-  resetChatCandidats,
-  removeCandidat,
+  addChatCandidates,
+  resetChatCandidates,
+  removeCandidate,
   setChatName,
 } = newChatSlice.actions;
 

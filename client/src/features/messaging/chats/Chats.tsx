@@ -17,7 +17,7 @@ import {
 } from "../../../hooks/useAppSelectorAndDispatch";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
-import ManageGroupChat from "../manageGroupChat/ManageGroup";
+import CreateGroup from "../createGroupChat/CreateGroup";
 
 export function Chats() {
   const dispatch = useAppDispatch();
@@ -37,7 +37,7 @@ export function Chats() {
 
   return (
     <MDBContainer fluid className="py-5" style={{ backgroundColor: "#eee" }}>
-      <ManageGroupChat isNewGroup={true} />
+      <CreateGroup/>
       <MDBRow className="d-flex w-100 justify-content-center">
         <MDBCol className="d-flex w-100">
           <MDBCard className="d-flex w-100">

@@ -24,7 +24,7 @@ export interface IMessageToSend {
 
 export interface INewChat {
   chatName: string | null;
-  members: IChatMember[];
+  candidates: IChatMember[];
   messageToSend: IMessageToSend;
 }
 

@@ -9,17 +9,14 @@ import {
 } from "../../../hooks/useAppSelectorAndDispatch";
 import { setChatName } from "../chat/newChatSlice";
 import renameChatThunk from "../chat/existingChatThunks/renameChatThunk";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
-const GroupName: React.FC<{ isNewGroup: boolean }> = ({ isNewGroup }) => {
+const RenameGroup: React.FC = () => {
   const dispatch = useAppDispatch();
 
   const [showForm, setShowForm] = useState(false);
 
   const newChatName = useAppSelector((state) => state.newChat.chatName);
-  const existingChatName = useAppSelector(
-    (state) => state.existingChat.chatName
-  );
 
   const setName = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(setChatName(e.target.value));
@@ -36,22 +33,22 @@ const GroupName: React.FC<{ isNewGroup: boolean }> = ({ isNewGroup }) => {
 
   return (
     <Container>
-      {!isNewGroup && (
-        <Row className={"d-" + isNewGroup ? "none" : "flex"}>
-          <Button onClick={() => setShowForm(!showForm)}>{showForm ? "Cancel" : "Rename Group"}</Button>
-        </Row>
-      )}
       <Row>
-        <Collapse in={showForm || isNewGroup}>
+        <Button onClick={() => setShowForm(!showForm)}>
+          {showForm ? "Cancel" : "Rename Group"}
+        </Button>
+      </Row>
+      <Row>
+        <Collapse in={showForm}>
           <Form.Group className="mb-3" controlId="chatName">
-            <Form.Label>Chat Name</Form.Label>
+            <Form.Label>Rename Chat</Form.Label>
             <Form.Control
               type="text"
-              placeholder="Enter chat name"
+              placeholder="Enter new name"
               value={newChatName ?? ""}
               onChange={setName}
             />
-            {!isNewGroup && <Button onClick={rename}>Rename</Button>}
+            <Button onClick={rename}>Rename</Button>
           </Form.Group>
         </Collapse>
       </Row>
@@ -59,4 +56,4 @@ const GroupName: React.FC<{ isNewGroup: boolean }> = ({ isNewGroup }) => {
   );
 };
 
-export default GroupName;
+export default RenameGroup;

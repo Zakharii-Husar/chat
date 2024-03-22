@@ -8,7 +8,7 @@ const createGroupThunk = createAsyncThunk(
     async (_, { getState, dispatch }) => {
       const state = getState() as RootState;
       //extracting only ID's
-      const membersIdsArray = state.newChat.members.map(obj => obj.memberId);
+      const membersIdsArray = state.newChat.candidates.map(obj => obj.memberId);
       //preventing duplicates
       const uniqueArr = membersIdsArray.filter(
         (value, index, self) => value !== null && self.indexOf(value) === index

@@ -1,8 +1,7 @@
 import { useState, useEffect } from "react";
-import RemoveMembers from "./RemoveMembers";
-import AddMembers from "./AddMembers";
-import RenameGroup from "./RenameGroup";
-import LeaveGroup from "./LeaveGroup";
+import RemoveCandidates from "./RemoveCandidates";
+import AddCandidates from "./AddCandidates";
+import NewGroupName from "./NewGroupName";
 
 import Card from "react-bootstrap/Card";
 import Modal from "react-bootstrap/Modal";
@@ -19,7 +18,7 @@ import createGroupThunk from "../chat/newChatThunks/createGroupThunk";
 
 import { useNavigate } from "react-router";
 
-const ManageGroupChat: React.FC<{ isNewGroup: boolean }> = ({ isNewGroup }) => {
+const CreateGroup: React.FC = () => {
   const navigate = useNavigate();
 
   const [showForm, setShowForm] = useState(false);
@@ -59,25 +58,26 @@ const ManageGroupChat: React.FC<{ isNewGroup: boolean }> = ({ isNewGroup }) => {
     <Card>
       <Card.Header>
         <Button variant="primary" onClick={() => handleShowForm(true)}>
-          {isNewGroup ? "Add Group Chat" : "Manage Group Chat"}
+          Create Group Chat
         </Button>
       </Card.Header>
 
       <Modal show={showForm} onHide={() => handleShowForm(false)}>
         <Modal.Header closeButton>
-          <Modal.Title>
-            {isNewGroup ? "Add Group Chat" : existingChat.chatName}{" "}
-          </Modal.Title>
+          <Modal.Title>Create Group Chat</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <LeaveGroup/>
-          <RemoveMembers />
-          <AddMembers  />
-          <RenameGroup />
+          <RemoveCandidates />
+          <AddCandidates />
+          <NewGroupName />
+
+          <Button variant="primary" onClick={createGroup}>
+            Create Group Chat
+          </Button>
         </Modal.Body>
       </Modal>
     </Card>
   );
 };
 
-export default ManageGroupChat;
+export default CreateGroup;

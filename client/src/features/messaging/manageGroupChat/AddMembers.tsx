@@ -15,7 +15,6 @@ import {
   updateSearchedUser,
 } from "../../users/usersSlice";
 
-import { addChatCandidats } from "../chat/newChatSlice";
 import addChatMemberThunk from "../chat/existingChatThunks/addChatMemberThunk";
 
 import Confirmation from "./Confirmation";
@@ -24,9 +23,9 @@ import {
   useAppSelector,
   useAppDispatch,
 } from "../../../hooks/useAppSelectorAndDispatch";
-import { IChatMember } from "../../../features/messaging/messagesInterfaces";
+import { IChatMember } from "../messagesInterfaces";
 
-const AddUsers: React.FC<{ isNewGroup: boolean }> = ({ isNewGroup }) => {
+const AddMembers: React.FC = () => {
   const { allUsers, filteredUsers, searchedUser } = useAppSelector(
     (state) => state.users
   );
@@ -36,6 +35,7 @@ const AddUsers: React.FC<{ isNewGroup: boolean }> = ({ isNewGroup }) => {
   const isCreator = existingChat.members.find(
     (member) => member.memberId === currentUserId
   )?.isCreator;
+  
   const newChat = useAppSelector((state) => state.newChat);
   const currentUsersList = searchedUser ? filteredUsers : allUsers;
   const dispatch = useAppDispatch();
@@ -52,47 +52,32 @@ const AddUsers: React.FC<{ isNewGroup: boolean }> = ({ isNewGroup }) => {
 
   const search = (e: React.ChangeEvent<HTMLInputElement>) => {
     const input = e.target.value;
-    dispatch(updateSearchedUser(input !== "" ? input : null));
-  };
-
-  const addCandidat = (member: IChatMember) => {
-    dispatch(addChatCandidats(member));
-  };
-
-  const addMember = (member: IChatMember) => {
-    dispatch(addChatMemberThunk(member));
+    dispatch(updateSearchedUser(input ?? null));
   };
 
   const add = (member: IChatMember) => {
-    if (isNewGroup) {
-      addCandidat(member);
-    } else {
-      addMember(member);
-    }
+    dispatch(addChatMemberThunk(member));
   };
-  const currentMembersList = isNewGroup ? newChat : existingChat;
+
   return (
     <Container fluid className="d-flex mb-3">
       <Col>
-        <Row className={"d-" + (!isNewGroup && isCreator ? "flex" : "none")}>
-          <Button
-            className={"d-" + (isNewGroup ? "none" : "flex")}
-            onClick={() => setShowForm(!showForm)}
-          >
+        <Row className={"d-" + (isCreator ? "flex" : "none")}>
+          <Button onClick={() => setShowForm(!showForm)}>
             {showForm ? "Cancel" : "Add Members"}
           </Button>
         </Row>
         <Row>
-          <Collapse in={showForm || isNewGroup}>
+          <Collapse in={showForm}>
             <Form>
               <InputGroup className="mb-3">
                 <FormControl placeholder="Search users" onInput={search} />
               </InputGroup>
 
               {currentUsersList.map((user) => {
-                //prevent showing already added users
-                return currentMembersList.members.some(
-                  (member) => member.memberId === user.id
+                //prevent showing already added users and current user
+                return existingChat.members.some(
+                  (member) => member.memberId === user.id || user.id === currentUserId
                 ) ? null : (
                   //show candidats
                   <Form.Group key={user.id}>
@@ -120,4 +105,4 @@ const AddUsers: React.FC<{ isNewGroup: boolean }> = ({ isNewGroup }) => {
   );
 };
 
-export default AddUsers;
+export default AddMembers;
