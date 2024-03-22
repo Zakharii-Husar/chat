@@ -7,18 +7,14 @@ import Card from "react-bootstrap/Card";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 
-
 import {
   useAppSelector,
   useAppDispatch,
 } from "../../../hooks/useAppSelectorAndDispatch";
 
-import {
-  createGroupChat,
-  addChatCandidats,
-  resetChatCandidats,
-  setChatName,
-} from "../chat/newChatSlice";
+import { resetChatCandidats } from "../chat/newChatSlice";
+
+import createGroupThunk from "../chat/newChatThunks/createGroupThunk";
 
 import { useNavigate } from "react-router";
 
@@ -48,7 +44,7 @@ const ManageGroupChat: React.FC<{ isNewGroup: boolean }> = ({ isNewGroup }) => {
       alert("Provide at least 3 characters long chat name!");
     } else {
       try {
-        const action = await dispatch(createGroupChat());
+        const action = await dispatch(createGroupThunk());
         const chatId = action.payload;
 
         navigate("/chats/" + chatId);
@@ -73,11 +69,15 @@ const ManageGroupChat: React.FC<{ isNewGroup: boolean }> = ({ isNewGroup }) => {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-            <RemoveUsers isNewGroup={isNewGroup} />
+          <RemoveUsers isNewGroup={isNewGroup} />
           <AddUsers isNewGroup={isNewGroup} />
-          <GroupName isNewGroup={isNewGroup}/>
+          <GroupName isNewGroup={isNewGroup} />
 
-          <Button className={"d-" + (isNewGroup ? "flex" : "none")} variant="primary" onClick={createGroup}>
+          <Button
+            className={"d-" + (isNewGroup ? "flex" : "none")}
+            variant="primary"
+            onClick={createGroup}
+          >
             Create Group Chat
           </Button>
         </Modal.Body>

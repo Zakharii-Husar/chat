@@ -8,7 +8,7 @@ import {
   useAppSelector,
 } from "../../../hooks/useAppSelectorAndDispatch";
 import { setChatName } from "../chat/newChatSlice";
-import { renameChat } from "../chat/existingChatSlice";
+import renameChatThunk from "../chat/existingChatThunks/renameChatThunk";
 import { useEffect, useState } from "react";
 
 const GroupName: React.FC<{ isNewGroup: boolean }> = ({ isNewGroup }) => {
@@ -27,7 +27,7 @@ const GroupName: React.FC<{ isNewGroup: boolean }> = ({ isNewGroup }) => {
 
   const rename = () => {
     if (newChatName && newChatName?.length >= 4 && newChatName?.length <= 20) {
-      dispatch(renameChat());
+      dispatch(renameChatThunk());
       setShowForm(false);
     } else {
       alert("Group chat name should be 4-20 characters long!");

@@ -15,7 +15,8 @@ import {
   useAppDispatch,
 } from "../../../hooks/useAppSelectorAndDispatch";
 import "./Chat.css";
-import { toggleLike, getChatById } from "./existingChatSlice";
+import toggleLikeThunk from "./existingChatThunks/toggleLikeThunk";
+import getChatByIdThunk from "./existingChatThunks/getChatByIdThunk";
 import { FaHeart } from "react-icons/fa";
 
 import { useEffect } from "react";
@@ -35,7 +36,7 @@ export const MessagesList = () => {
 
 
   const handleLike = (messageId: number) => {
-    dispatch(toggleLike({ messageId: messageId, userName: loggedInUserName! }));
+    dispatch(toggleLikeThunk({ messageId: messageId, userName: loggedInUserName! }));
   };
 
   const getTimeAgo = (timestamp: string) => {
@@ -48,7 +49,7 @@ export const MessagesList = () => {
         height={300}
         inverse={true}
         dataLength={existingChat.messages.length}
-        next={() =>{if (!isLaoding) dispatch(getChatById(existingChat.chatId!))}}
+        next={() =>{if (!isLaoding) dispatch(getChatByIdThunk(existingChat.chatId!))}}
         hasMore={existingChat.hasMoreMessages}
         loader={<h4>Loading...</h4>}
         endMessage={

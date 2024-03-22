@@ -16,7 +16,7 @@ import {
 } from "../../users/usersSlice";
 
 import { addChatCandidats } from "../chat/newChatSlice";
-import { addChatMember } from "../chat/existingChatSlice";
+import addChatMemberThunk from "../chat/existingChatThunks/addChatMemberThunk";
 
 import Confirmation from "./Confirmation";
 
@@ -60,7 +60,7 @@ const AddUsers: React.FC<{ isNewGroup: boolean }> = ({ isNewGroup }) => {
   };
 
   const addMember = (member: IChatMember) => {
-    dispatch(addChatMember(member));
+    dispatch(addChatMemberThunk(member));
   };
 
   const add = (member: IChatMember) => {

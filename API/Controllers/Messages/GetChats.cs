@@ -57,7 +57,8 @@ namespace API.Controllers.Messages
             var paginatedChats = chats
                 .Skip(paginationOffset)
                 .Take(chatsToTake)
-                .OrderBy(m => m.SentAt);
+                .OrderByDescending(m => m.SentAt);
+
 
             return Ok(new
             {

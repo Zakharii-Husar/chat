@@ -14,10 +14,11 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
 import { removeCandidat } from "../chat/newChatSlice";
-import { removeMember } from "../chat/existingChatSlice";
+import rmMemberThunk from "../chat/existingChatSlice";
 
 import { IChatMember } from "../../../features/messaging/messagesInterfaces";
 import { useState } from "react";
+import rmChatMemberThunk from "../chat/existingChatThunks/rmChatMemberThunk";
 
 const RemoveUsers: React.FC<{ isNewGroup: boolean }> = ({ isNewGroup }) => {
   const dispatch = useAppDispatch();
@@ -37,7 +38,7 @@ const RemoveUsers: React.FC<{ isNewGroup: boolean }> = ({ isNewGroup }) => {
 
   //Sends request to the server to delete member from existing group
   const rmMember = (memberId: string) => {
-    dispatch(removeMember(memberId));
+    dispatch(rmChatMemberThunk(memberId));
   };
 
   //Making deletion choice depending if Group is being created or edited

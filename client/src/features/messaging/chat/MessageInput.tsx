@@ -4,7 +4,8 @@ import {
   useAppDispatch,
 } from "../../../hooks/useAppSelectorAndDispatch";
 
-import { setMessageContent, sendMessageAsync } from "./newChatSlice";
+import { setMessageContent } from "./newChatSlice";
+import sendMessageThunk from "./newChatThunks/sendMessageThunk";
 
 export const MessageInput: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -19,7 +20,7 @@ export const MessageInput: React.FC = () => {
       newChat.messageToSend.Content &&
       newChat.messageToSend.Content.length > 0
     )
-      dispatch(sendMessageAsync());
+      dispatch(sendMessageThunk());
     dispatch(setMessageContent(""));
   };
   return (

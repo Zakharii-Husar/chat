@@ -6,21 +6,20 @@ import { MessagesList } from "./MessagesList";
 import { MessageInput } from "./MessageInput";
 import { ChatHeader } from "./ChatHeader";
 
-import { getChatById, resetChat } from "./existingChatSlice";
+import { resetChat } from "./existingChatSlice";
+import getChatByIdThunk from "./existingChatThunks/getChatByIdThunk";
 
 import { MDBContainer, MDBRow, MDBCol } from "mdb-react-ui-kit";
 
 export const Chat: React.FC = () => {
   const dispatch = useAppDispatch();
-  const existingChat = useAppSelector(data=>data.existingChat)
 
   const { chatId } = useParams();
   const parsedChatId = parseInt(chatId || "0", 10);
 
-  //fetch chat by id
   useEffect(() => {
     const setChatStateOnLoad = () => {
-      if (parsedChatId) dispatch(getChatById(parsedChatId));
+      if (parsedChatId) dispatch(getChatByIdThunk(parsedChatId));
     };
     setChatStateOnLoad();
 
@@ -31,7 +30,7 @@ export const Chat: React.FC = () => {
     return(()=>{
       resetChatStateOnExit();
     })
-  }, [chatId, parsedChatId]);
+  }, []);
 
 
 
