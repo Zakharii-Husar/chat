@@ -10,11 +10,11 @@ import Button from "react-bootstrap/Button";
 import {
   useAppSelector,
   useAppDispatch,
-} from "../../../hooks/useAppSelectorAndDispatch";
+} from "../../../../hooks/useAppSelectorAndDispatch";
 
-import { resetChatCandidates } from "../chat/newChatSlice";
+import { resetChatCandidates } from "../../currentChat/newChatSlice";
 
-import createGroupThunk from "../chat/newChatThunks/createGroupThunk";
+import createGroupThunk from "../../thunks/createGroupThunk";
 
 import { useNavigate } from "react-router";
 

@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { INewChat } from "../messagesInterfaces";
-import { IChatMember } from "../../../features/messaging/messagesInterfaces";
+import { IChatMember } from "../messagesInterfaces";
 
 const initialState: INewChat = {
   chatName: "",
@@ -12,7 +12,8 @@ const initialState: INewChat = {
   },
 };
 
-export const newChatSlice = createSlice({
+//export 
+const newChatSlice = createSlice({
   name: "newChatSlice",
   initialState,
   reducers: {
@@ -40,12 +41,12 @@ export const newChatSlice = createSlice({
   },
 });
 
-export const {
-  setMessageContent,
-  addChatCandidates,
-  resetChatCandidates,
-  removeCandidate,
-  setChatName,
-} = newChatSlice.actions;
+// export const {
+//   setMessageContent,
+//   addChatCandidates,
+//   resetChatCandidates,
+//   removeCandidate,
+//   setChatName,
+// } = newChatSlice.actions;
 
-export default newChatSlice.reducer;
+//export default newChatSlice.reducer;

@@ -13,15 +13,15 @@ import {
 import {
   useAppSelector,
   useAppDispatch,
-} from "../../../hooks/useAppSelectorAndDispatch";
+} from "../../../../hooks/useAppSelectorAndDispatch";
 import "./Chat.css";
-import toggleLikeThunk from "./existingChatThunks/toggleLikeThunk";
-import getChatByIdThunk from "./existingChatThunks/getChatByIdThunk";
+import toggleLikeThunk from "../../thunks/toggleLikeThunk";
+import getChatByIdThunk from "../../thunks/getChatByIdThunk";
 import { FaHeart } from "react-icons/fa";
 
 import { useEffect } from "react";
 
-export const MessagesList = () => {
+export const DisplayMessages = () => {
   const dispatch = useAppDispatch();
   const isLaoding = useAppSelector((state) => state.existingChat.isLoading);
 
@@ -30,9 +30,6 @@ export const MessagesList = () => {
   const { id: loggedInUserId, nickname: loggedInUserName } = useAppSelector(
     (state) => state.auth.response
   );
-  useEffect(() => {
-    console.log(existingChat.messages.length);
-  }, [existingChat]);
 
 
   const handleLike = (messageId: number) => {

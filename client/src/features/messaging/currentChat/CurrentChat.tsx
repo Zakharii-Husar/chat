@@ -2,16 +2,16 @@ import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useAppSelector, useAppDispatch } from "../../../hooks/useAppSelectorAndDispatch";
 
-import { MessagesList } from "./MessagesList";
-import { MessageInput } from "./MessageInput";
-import { ChatHeader } from "./ChatHeader";
+import { DisplayMessages } from "./displayMessages/DisplayMessages";
+import { SendMessage } from "./sendMessage/SendMessage";
+import { DisplayHeader } from "./displayHeader/DisplayHeader";
 
-import { resetChat } from "./existingChatSlice";
-import getChatByIdThunk from "./existingChatThunks/getChatByIdThunk";
+import { resetChat } from "./currentChatSlice";
+import getChatByIdThunk from "../thunks/getChatByIdThunk";
 
 import { MDBContainer, MDBRow, MDBCol } from "mdb-react-ui-kit";
 
-export const Chat: React.FC = () => {
+export const CurrentChat: React.FC = () => {
   const dispatch = useAppDispatch();
 
   const { chatId } = useParams();
@@ -44,9 +44,9 @@ export const Chat: React.FC = () => {
     >
       <MDBRow className="bg-danger d-flex w-100 m-0 justify-content-center">
         <MDBCol className="bg-warning" sm={11} md={9} lg={6} xl={6}>
-          <ChatHeader />
-          <MessagesList />
-          <MessageInput />
+          <DisplayHeader />
+          <DisplayMessages />
+          <SendMessage />
         </MDBCol>
       </MDBRow>
     </MDBContainer>

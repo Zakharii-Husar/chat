@@ -1,6 +1,6 @@
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Chats } from "./features/messaging/chats/Chats";
-import { Chat } from "./features/messaging/chat/Chat";
+import { ChatsOverview } from "./features/messaging/chatsOverview/ChatsOverview";
+import { CurrentChat } from "./features/messaging/currentChat/CurrentChat";
 import { Home } from "./features/home/Home";
 import { Login } from "./features/auth/Login";
 import { Register } from "./features/auth/Register";
@@ -18,8 +18,8 @@ function App() {
     createRoutesFromElements(
       <Route path="/" element={<Root />}>
         <Route path="/" element={<Home />} />
-        <Route path="/chats" element={<Chats />} />
-        <Route path="/chats/:chatId" element={<Chat />} />
+        <Route path="/chats" element={<ChatsOverview />} />                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
+        <Route path="/chats/:chatId" element={<CurrentChat />} />
         <Route path="/users/:userName" element={<User />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />

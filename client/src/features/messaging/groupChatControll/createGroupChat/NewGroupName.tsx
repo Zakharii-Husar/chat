@@ -4,8 +4,8 @@ import Row from "react-bootstrap/Row";
 import {
   useAppDispatch,
   useAppSelector,
-} from "../../../hooks/useAppSelectorAndDispatch";
-import { setChatName } from "../chat/newChatSlice";
+} from "../../../../hooks/useAppSelectorAndDispatch";
+import { setChatName } from "../../currentChat/newChatSlice";
 
 const NewGroupName: React.FC = () => {
   const dispatch = useAppDispatch();

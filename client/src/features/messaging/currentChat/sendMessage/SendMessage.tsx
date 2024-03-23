@@ -2,14 +2,18 @@ import { MDBTextArea, MDBBtn } from "mdb-react-ui-kit";
 import {
   useAppSelector,
   useAppDispatch,
-} from "../../../hooks/useAppSelectorAndDispatch";
+} from "../../../../hooks/useAppSelectorAndDispatch";
 
-import { setMessageContent } from "./newChatSlice";
-import sendMessageThunk from "./newChatThunks/sendMessageThunk";
+import { setMessageContent } from "../newChatSlice";
+import sendMessageThunk from "../../thunks/sendMessageThunk";
 
-export const MessageInput: React.FC = () => {
+export const SendMessage: React.FC = () => {
   const dispatch = useAppDispatch();
   const newChat = useAppSelector((state) => state.newChat);
+  const existingChat = useAppSelector((state)=> state.existingChat);
+  const currentUserId = useAppSelector((state)=>state.auth.response.id);
+
+  const isStillMember = existingChat.members.some(member=> member.memberId === currentUserId);
 
   const handleMessageInput = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     dispatch(setMessageContent(e.target.value));
@@ -23,7 +27,8 @@ export const MessageInput: React.FC = () => {
       dispatch(sendMessageThunk());
     dispatch(setMessageContent(""));
   };
-  return (
+  
+  return !isStillMember ? null : (
     <div>
       <div className="d-flex bg-white mb-3">
         <MDBTextArea

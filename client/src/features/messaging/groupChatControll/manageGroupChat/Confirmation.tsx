@@ -1,7 +1,7 @@
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 const Confirmation: React.FC<{ buttonText: string; titleText: string; proceed: () => void }> = ({
   buttonText,

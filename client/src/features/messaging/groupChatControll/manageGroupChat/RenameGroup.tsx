@@ -6,9 +6,9 @@ import Row from "react-bootstrap/Row";
 import {
   useAppDispatch,
   useAppSelector,
-} from "../../../hooks/useAppSelectorAndDispatch";
-import { setChatName } from "../chat/newChatSlice";
-import renameChatThunk from "../chat/existingChatThunks/renameChatThunk";
+} from "../../../../hooks/useAppSelectorAndDispatch";
+import { setChatName } from "../../currentChat/newChatSlice";
+import renameChatThunk from "../../thunks/renameChatThunk";
 import { useState } from "react";
 
 const RenameGroup: React.FC = () => {

@@ -1,8 +1,8 @@
-import ManageGroupChat from "../manageGroupChat/ManageGroup";
+import ManageGroupChat from "../../groupChatControll/manageGroupChat/ManageGroup";
 import { Link } from "react-router-dom";
-import { useAppSelector } from "../../../hooks/useAppSelectorAndDispatch";
+import { useAppSelector } from "../../../../hooks/useAppSelectorAndDispatch";
 
-export const ChatHeader: React.FC = () => {
+export const DisplayHeader: React.FC = () => {
   const { nickname: loggedInUserName } = useAppSelector(
     (state) => state.auth.response
   );
@@ -22,7 +22,7 @@ export const ChatHeader: React.FC = () => {
         <Link to={"/users/" + chatHeader}>{chatHeader}</Link>
       ) : (
         <div>
-          <ManageGroupChat isNewGroup={false} />
+          <ManageGroupChat/>
           <h3>{chatHeader}</h3>
         </div>
       )}

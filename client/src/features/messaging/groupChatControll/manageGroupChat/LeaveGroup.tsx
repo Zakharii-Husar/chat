@@ -1,13 +1,13 @@
 import {
   useAppDispatch,
   useAppSelector,
-} from "../../../hooks/useAppSelectorAndDispatch";
+} from "../../../../hooks/useAppSelectorAndDispatch";
 import { RxExit } from "react-icons/rx";
 import Confirmation from "./Confirmation";
 import Container from "react-bootstrap/Container";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
-import rmChatMemberThunk from "../chat/existingChatThunks/rmChatMemberThunk";
+import rmChatMemberThunk from "../../thunks/rmChatMemberThunk";
 
 const LeaveGroup: React.FC = () => {
   const dispatch = useAppDispatch();

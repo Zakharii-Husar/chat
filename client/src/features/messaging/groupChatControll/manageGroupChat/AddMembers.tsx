@@ -13,17 +13,17 @@ import {
   fetchAllUsersAsync,
   searchUsers,
   updateSearchedUser,
-} from "../../users/usersSlice";
+} from "../../../users/usersSlice";
 
-import addChatMemberThunk from "../chat/existingChatThunks/addChatMemberThunk";
+import addChatMemberThunk from "../../thunks/addChatMemberThunk";
 
 import Confirmation from "./Confirmation";
 
 import {
   useAppSelector,
   useAppDispatch,
-} from "../../../hooks/useAppSelectorAndDispatch";
-import { IChatMember } from "../messagesInterfaces";
+} from "../../../../hooks/useAppSelectorAndDispatch";
+import { IChatMember } from "../../messagesInterfaces";
 
 const AddMembers: React.FC = () => {
   const { allUsers, filteredUsers, searchedUser } = useAppSelector(

@@ -1,8 +1,8 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { ADD_CHAT_MEMBER } from "../../../../app/APIEndpoints";
-import type { RootState } from "../../../../app/store";
-import { IChatMember } from "../../messagesInterfaces";
-import { addMessageToChat, addMember } from "../existingChatSlice";
+import { ADD_CHAT_MEMBER } from "../../../app/APIEndpoints";
+import type { RootState } from "../../../app/store";
+import { IChatMember } from "../messagesInterfaces";
+import { addMessageToChat, addMember } from "../currentChat/currentChatSlice";
 
 const addChatMemberThunk = createAsyncThunk(
   "existingChat/addChatMemberThunk",

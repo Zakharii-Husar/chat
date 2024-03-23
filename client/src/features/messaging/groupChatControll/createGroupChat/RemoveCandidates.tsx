@@ -1,7 +1,7 @@
 import {
   useAppSelector,
   useAppDispatch,
-} from "../../../hooks/useAppSelectorAndDispatch";
+} from "../../../../hooks/useAppSelectorAndDispatch";
 
 
 import ListGroup from "react-bootstrap/ListGroup";
@@ -9,9 +9,9 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
-import { removeCandidate } from "../chat/newChatSlice";
+import { removeCandidate } from "../../currentChat/newChatSlice";
 
-import { IChatMember } from "../messagesInterfaces";
+import { IChatMember } from "../../messagesInterfaces";
 
 const RemoveCandidates: React.FC = () => {
   const dispatch = useAppDispatch();

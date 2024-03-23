@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { GET_ALL_USERS, GET_CHAT_BY_USERNAME, SEARCH_USERS } from "../../app/APIEndpoints";
 import { IUserModel, IUsersModel } from "../../app/userInterfaces";
-import { setCurrentChatId } from "../messaging/chat/existingChatSlice";
+import { setCurrentChatId } from "../messaging/currentChat/currentChatSlice";
 
 const initialState: IUsersModel = {
   allUsers: [],

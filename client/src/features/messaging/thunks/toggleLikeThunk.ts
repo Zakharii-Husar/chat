@@ -1,7 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { LIKE_MESSAGE } from "../../../../app/APIEndpoints";
-import type { RootState } from "../../../../app/store";
-import { likeOrUnlike } from "../existingChatSlice";
+import { LIKE_MESSAGE } from "../../../app/APIEndpoints";
+import type { RootState } from "../../../app/store";
+import { likeOrUnlike } from "../currentChat/currentChatSlice";
 
 const toggleLikeThunk = createAsyncThunk(
   "chat/toggleLikeThunk",

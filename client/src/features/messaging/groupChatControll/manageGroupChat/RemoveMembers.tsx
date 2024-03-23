@@ -1,7 +1,7 @@
 import {
   useAppSelector,
   useAppDispatch,
-} from "../../../hooks/useAppSelectorAndDispatch";
+} from "../../../../hooks/useAppSelectorAndDispatch";
 
 import Confirmation from "./Confirmation";
 
@@ -12,7 +12,7 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import { useState } from "react";
-import rmChatMemberThunk from "../chat/existingChatThunks/rmChatMemberThunk";
+import rmChatMemberThunk from "../../thunks/rmChatMemberThunk";
 
 const RemoveMembers: React.FC = () => {
   const dispatch = useAppDispatch();

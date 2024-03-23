@@ -11,15 +11,15 @@ import {
   fetchAllUsersAsync,
   searchUsers,
   updateSearchedUser,
-} from "../../users/usersSlice";
+} from "../../../users/usersSlice";
 
-import { addChatCandidates } from "../chat/newChatSlice";
+import { addChatCandidates } from "../../currentChat/newChatSlice";
 
 import {
   useAppSelector,
   useAppDispatch,
-} from "../../../hooks/useAppSelectorAndDispatch";
-import { IChatMember } from "../messagesInterfaces";
+} from "../../../../hooks/useAppSelectorAndDispatch";
+import { IChatMember } from "../../messagesInterfaces";
 
 const AddCandidates: React.FC = () => {
   const { allUsers, filteredUsers, searchedUser } = useAppSelector(

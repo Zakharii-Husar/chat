@@ -1,6 +1,6 @@
 import { formatDistanceToNow } from "date-fns";
 import InfiniteScroll from "react-infinite-scroll-component";
-import "./Chats.css";
+import "./ChatsOverview.css";
 import {
   MDBContainer,
   MDBRow,
@@ -10,16 +10,16 @@ import {
   MDBIcon,
   MDBTypography,
 } from "mdb-react-ui-kit";
-import { fetchAllChats } from "./chatsSlice";
+import { fetchAllChats } from "./chatsOverviewSlice";
 import {
   useAppDispatch,
   useAppSelector,
 } from "../../../hooks/useAppSelectorAndDispatch";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
-import CreateGroup from "../createGroupChat/CreateGroup";
+import CreateGroup from "../groupChatControll/createGroupChat/CreateGroup";
 
-export function Chats() {
+export function ChatsOverview() {
   const dispatch = useAppDispatch();
   const chatsOverviewState = useAppSelector((state) => state.chats);
 
