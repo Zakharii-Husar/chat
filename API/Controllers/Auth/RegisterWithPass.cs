@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using API.Models;
 using Microsoft.AspNetCore.Identity;
+using API.Data;
 
 namespace API.Controllers.Auth
 {

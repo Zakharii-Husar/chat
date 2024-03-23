@@ -1,21 +1,14 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import type { RootState } from "../../app/store";
-import { LOGIN_URL, CHECK_COOKIES_URL } from "../../app/APIEndpoints";
+import type { RootState } from "../app/store";
+import { LOGIN_URL, CHECK_COOKIES_URL } from "../app/APIEndpoints";
 
-import { IAuthState, IResponse } from '../../app/authInterfaces';
 
-const initialState: IAuthState = {
-    request: {
-        usernameOrEmail: null,
-        password: null,
-    },
-    response: {
+const initialState = {
         id: null,
         nickname: null,
         email: null,
         fullName: null
-    },
 };
 
 export const validateCookiesAsync = createAsyncThunk(
@@ -70,15 +63,9 @@ export const authSlice = createSlice({
     name: "authSlice",
     initialState,
     reducers: {
-        setLogin: (state, action: PayloadAction<string>) => {
-            state.request.usernameOrEmail = action.payload;
-        },
-        setPassword: (state, action: PayloadAction<string>) => {
-            state.request.password = action.payload;
-        },
         setResponse: (state, action: PayloadAction<IResponse>) => {
             state.response = action.payload;
-        },
+        }
     },
 
 });

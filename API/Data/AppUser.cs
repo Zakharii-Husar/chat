@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 
-namespace API.Models
+namespace API.Data
 {
     [Table("Users")]
 
@@ -32,6 +32,13 @@ namespace API.Models
         public DateTime CreatedAt { get; set; }
 
         public DateTime LastVisit { get; set; }
+
+        [RegularExpression(@"^[a-zA-Z][\w\-#$\._]{3,25}$", ErrorMessage = "Invalid avatar name.")]
+        public string? AvatarName { get; set; } = null;
+
+        [MinLength(1)]
+        [MaxLength(150)]
+        public string? Bio { get; set; } = null;
     }
 
 }

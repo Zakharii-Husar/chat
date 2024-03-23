@@ -11,8 +11,6 @@ export interface IResponse {
 }
 
 export interface IAuthState {
-    loading: 'idle' | 'pending' | 'succeeded' | 'failed' | 'rejected';
-    error: string | null;
     request: IRequest;
     response: IResponse;
 }
