@@ -30,7 +30,7 @@ export const useCheckAuth = () => {
         };
         const verifyUser = async () => {
             if (loggedInId) return;
-            await checkCookies();
+            checkCookies();
             if (!loggedInId) redirect();
         }
         verifyUser();
