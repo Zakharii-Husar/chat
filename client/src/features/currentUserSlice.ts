@@ -1,75 +1,37 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import type { RootState } from "../app/store";
-import { LOGIN_URL, CHECK_COOKIES_URL } from "../app/APIEndpoints";
 
 
-const initialState = {
-        id: null,
-        nickname: null,
-        email: null,
-        fullName: null
+interface ICurrentUser{
+    id: string | null;
+    userName: string | null;
+    email: string | null;
+    fullName: string | null;
+    avatarLink: string | null;
+    bio: string | null;
+
+}
+
+const initialState: ICurrentUser = {
+    id: null,
+    userName: null,
+    email: null,
+    fullName: null,
+    avatarLink: null,
+    bio: null
 };
 
-export const validateCookiesAsync = createAsyncThunk(
-    "auth/cookies",
-    async (_, { dispatch }) => {
-        try {
-            const response = await fetch(CHECK_COOKIES_URL, {
-                method: "GET",
-                credentials: "include",
-            });
-
-            if (response.ok) {
-                const data = await response.json();
-                dispatch(setResponse(data));
-            }
-
-        } catch (error) {
-            console.error(error);
-        }
-    }
-);
-
-export const loginAsync = createAsyncThunk(
-    "auth/login",
-    async (_, { getState, dispatch }) => {
-
-        const state = getState() as RootState;
-        try {
-            const response = await fetch(LOGIN_URL, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    UserNameOrEmail: state.auth.request.usernameOrEmail,
-                    Password: state.auth.request.password,
-                }),
-                credentials: "include",
-            });
-
-            if (response.ok) {
-                dispatch(validateCookiesAsync());
-            }
-
-        } catch (error) {
-            console.error(error);
-        }
-    }
-);
-
-export const authSlice = createSlice({
-    name: "authSlice",
+export const currentUserSlice = createSlice({
+    name: "currentUserSlice",
     initialState,
     reducers: {
-        setResponse: (state, action: PayloadAction<IResponse>) => {
-            state.response = action.payload;
+        setCurrentUser: (state, action: PayloadAction<ICurrentUser>) => {
+            return action.payload;
         }
     },
 
 });
 
-export const { setLogin, setPassword, setResponse } = authSlice.actions;
+export const { setCurrentUser } = currentUserSlice.actions;
 
-export default authSlice.reducer;
+export default currentUserSlice.reducer;

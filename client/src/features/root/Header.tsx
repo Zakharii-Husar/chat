@@ -8,12 +8,12 @@ import { IoIosMail } from "react-icons/io";
 export const MainHeader: React.FC = () => {
   useCheckAuth();
 
-  const nickname = useAppSelector((state) => state.auth.response.nickname);
+  const userName = useAppSelector((state) => state.currentUser.userName);
 
   return (
     <MDBContainer fluid className="d-flex justify-content-center vw-100 p-2">
       <MDBRow className="align-items-center">
-        {!nickname ? null : (
+        {!userName ? null : (
           <MDBCol>
             <img
               src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/avatar-6.webp"
@@ -34,7 +34,7 @@ export const MainHeader: React.FC = () => {
           </Link>
         </MDBCol>
 
-        {!nickname ? null : (
+        {!userName ? null : (
           <MDBCol>
             <div style={{ color: "blue" }}>
               <Link style={{ textDecoration: "none" }} to="/chats">

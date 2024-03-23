@@ -3,8 +3,8 @@ import type { RootState } from "../../../../app/store";
 import { RENAME_GROUP_CHAT } from "../../../../app/APIEndpoints";
 import { addMessageToChat, rename } from "../../currentChat/currentChatSlice";
 
-const renameChatThunk = createAsyncThunk(
-    "currentChat/renameChatThunk",
+const renameGroupThunk = createAsyncThunk(
+    "currentChat/renameGroupThunk",
     async (newName: string, { dispatch, getState }) => {
       const state = getState() as RootState;
   
@@ -32,4 +32,4 @@ const renameChatThunk = createAsyncThunk(
     }
   );
 
-  export default renameChatThunk;
+  export default renameGroupThunk;

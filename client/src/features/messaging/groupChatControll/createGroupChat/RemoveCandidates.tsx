@@ -16,7 +16,6 @@ import { IChatMember } from "../../messagesInterfaces";
 const RemoveCandidates: React.FC = () => {
   const dispatch = useAppDispatch();
   const createGroupState = useAppSelector((state) => state.createGroup);
-  const currentUserId = useAppSelector((state) => state.auth.response.id);
 
   const remove = (candidate: IChatMember) => {
     const index = createGroupState.candidates.indexOf(candidate);

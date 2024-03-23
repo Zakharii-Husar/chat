@@ -27,15 +27,15 @@ namespace API.Controllers.Auth
 
             if (result.Succeeded)
             {
-                var response = new
+                return Ok(new UserDetailsResponseDTO()
                 {
-                    user.Id,
-                    user.UserName,
-                    user.Email,
-                    user.FullName
-                };
-
-                return Ok(response);
+                    Id = user.Id,
+                    UserName = user.UserName,
+                    Email = user.Email,
+                    FullName = user.FullName,
+                    AvatarLink = user.AvatarName,
+                    Bio = user.Bio
+                });
             }
             else
             {

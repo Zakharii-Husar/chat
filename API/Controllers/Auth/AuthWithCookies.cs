@@ -1,4 +1,5 @@
 ﻿using API.Data;
+using API.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 // ...
@@ -19,12 +20,14 @@ namespace API.Controllers.Auth
 
             if (user != null)
             {
-                return Ok(new
+                return Ok(new UserDetailsResponseDTO()
                 {
-                    id = user.Id,
-                    nickname = user.UserName,
-                    email = user.Email,
-                    fullName = user.FullName
+                    Id = user.Id,
+                    UserName = user.UserName,
+                    Email = user.Email,
+                    FullName = user.FullName,
+                    AvatarLink = user.AvatarName,
+                    Bio = user.Bio
                 });
             }
 

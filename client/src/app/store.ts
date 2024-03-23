@@ -1,6 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
-import authReducer from '../features/auth/loginSlice';
-import registerReducer from '../features/auth/registerSlice';
+import loginReducer from '../features/auth/login/loginSlice';
+import registerReducer from '../features/auth/register/registerSlice';
+import currentUserReducer from '../features/currentUserSlice';
 import usersReducer from '../features/users/usersSlice';
 import chatsReducer from '../features/messaging/chatsOverview/chatsOverviewSlice';
 import sendMessageReducer from '../features/messaging/currentChat/sendMessageSlice';
@@ -9,9 +10,10 @@ import createGroupReducer from '../features/messaging/groupChatControll/createGr
 
 export const store = configureStore({
   reducer: {
-    auth: authReducer,
+    login: loginReducer,
     register: registerReducer,
     users: usersReducer,
+    currentUser: currentUserReducer,
     chats: chatsReducer,
     sendMessage: sendMessageReducer,
     createGroup: createGroupReducer, 

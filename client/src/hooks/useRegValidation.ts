@@ -11,7 +11,7 @@ import {
   setNickNameErr,
   setPasswordErr,
   setConfirmErr,
-} from "../features/auth/registerSlice";
+} from "../features/auth/register/registerSlice";
 import {
   EMAIL_AVAILABILITY_URL,
   NICKNAME_AVAILABILITY_URL,
@@ -113,7 +113,7 @@ export const useRegValidation = () => {
         dispatch(setPasswordErr(""));
       }
 
-      validator.equals(password, confirm)
+      validator.equals(password ?? "", confirm ?? "")
         ? dispatch(setConfirmErr(""))
         : dispatch(setConfirmErr("Passwords don't match"));
     };

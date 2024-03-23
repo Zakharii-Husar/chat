@@ -4,7 +4,7 @@ import Collapse from "react-bootstrap/Collapse";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import { useAppDispatch } from "../../../../hooks/useAppSelectorAndDispatch";
-import renameChatThunk from "./renameChatThunk";
+import renameChatThunk from "./renameGroupThunk";
 import { useState } from "react";
 
 const RenameGroup: React.FC = () => {

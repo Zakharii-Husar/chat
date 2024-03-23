@@ -1,29 +1,28 @@
 import {
   useAppSelector,
   useAppDispatch,
-} from "../../hooks/useAppSelectorAndDispatch";
+} from "../../../hooks/useAppSelectorAndDispatch";
 import { setLogin, setPassword } from "./loginSlice";
 import { SyntheticEvent, useEffect } from "react";
-import { loginAsync } from "./loginSlice";
 import { useNavigate } from "react-router";
+
+import { loginWithPasswordThunk } from "./loginWithPasswordThunk";
 
 import {
   MDBContainer,
   MDBInput,
   MDBBtn,
   MDBCard,
-  MDBCardBody
+  MDBCardBody,
 } from "mdb-react-ui-kit";
 
-import { useCheckAuth } from "../../hooks/useCheckAuth";
+import { useCheckAuth } from "../../../hooks/useCheckAuth";
 
 export function Login() {
   useCheckAuth();
   const navigate = useNavigate();
 
-  const { id: loggedInUserId, nickname } = useAppSelector(
-    (state) => state.auth.response
-  );
+  const currentUser = useAppSelector((state) => state.currentUser);
 
   const dispatch = useAppDispatch();
 
@@ -33,12 +32,12 @@ export function Login() {
   };
 
   useEffect(() => {
-    if (loggedInUserId) navigate("/");
-  }, [loggedInUserId, navigate]);
+    if (currentUser.id) navigate("/");
+  }, [currentUser, navigate]);
 
   const handleSubmit = (e: SyntheticEvent) => {
     e.preventDefault();
-    dispatch(loginAsync());
+    dispatch(loginWithPasswordThunk());
   };
 
   return (

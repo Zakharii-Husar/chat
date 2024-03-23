@@ -1,18 +1,18 @@
-import type { RootState } from "../../app/store";
+import type { RootState } from "../../../app/store";
 import {
   useAppSelector,
   useAppDispatch,
-} from "../../hooks/useAppSelectorAndDispatch";
+} from "../../../hooks/useAppSelectorAndDispatch";
 import {
   setEmail,
   setFullName,
   setNickName,
   setPassword,
   setConfirm,
-  registerAsync,
 } from "./registerSlice";
+import registerWithPasswordThunk from "./registerWithPasswordThunk";
 import { SyntheticEvent, useEffect } from "react";
-import { useRegValidation } from "../../hooks/useRegValidation";
+import { useRegValidation } from "../../../hooks/useRegValidation";
 import { useNavigate } from "react-router";
 import {
   MDBBtn,
@@ -25,20 +25,20 @@ import {
 import "./Register.css";
 
 export function Register() {
- const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const validationErrors = useAppSelector(
     (state) => state.register.validationErrors
   );
 
- const { id: loggedInUserId } = useAppSelector((state) => state.auth.response);
+  const currentUser = useAppSelector((state) => state.currentUser);
 
   const dispatch = useAppDispatch();
   useRegValidation();
 
   useEffect(() => {
-    if (loggedInUserId) navigate("/");
-  }, [loggedInUserId]);
+    if (currentUser.id) navigate("/");
+  }, [currentUser]);
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const name = e.target.name;
@@ -69,7 +69,7 @@ export function Register() {
       (err) => err === ""
     );
     if (inputIsOk) {
-      dispatch(registerAsync());
+      dispatch(registerWithPasswordThunk());
     } else {
       alert("YOU HAVE VALIDATION ERRORS!");
     }

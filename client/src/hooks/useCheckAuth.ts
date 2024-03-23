@@ -1,14 +1,14 @@
 import { useEffect } from "react";
 import { useNavigate, useLocation } from "react-router";
 import { useAppSelector, useAppDispatch } from "./useAppSelectorAndDispatch";
-import { validateCookiesAsync } from '../features/auth/loginSlice';
+import validateCookiesThunk from "../features/auth/login/validateCookiesThunk";
 
 
 export const useCheckAuth = () => {
 
     const dispatch = useAppDispatch();
     const location = useLocation();
-    const loggedInId = useAppSelector(state => state.auth.response?.id);
+    const loggedInId = useAppSelector(state => state.currentUser.id);
     const navigate = useNavigate();
 
 
@@ -17,7 +17,7 @@ export const useCheckAuth = () => {
     useEffect(() => {
 
         const checkCookies = () => {
-            dispatch(validateCookiesAsync());
+            dispatch(validateCookiesThunk());
         };
 
 

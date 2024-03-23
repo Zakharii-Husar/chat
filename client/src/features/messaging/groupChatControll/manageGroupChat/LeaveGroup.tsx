@@ -11,7 +11,7 @@ import rmChatMemberThunk from "./rmChatMemberThunk";
 
 const LeaveGroup: React.FC = () => {
   const dispatch = useAppDispatch();
-  const currentUserId = useAppSelector((state) => state.auth.response.id);
+  const currentUserId = useAppSelector((state) => state.currentUser.id);
 
   const leave = () => {
     dispatch(rmChatMemberThunk(currentUserId!));

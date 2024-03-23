@@ -3,12 +3,12 @@ import { Link } from "react-router-dom";
 import { useAppSelector } from "../../../../hooks/useAppSelectorAndDispatch";
 
 export const DisplayHeader: React.FC = () => {
-  const { nickname: loggedInUserName } = useAppSelector(
-    (state) => state.auth.response
+  const CurrentUser = useAppSelector(
+    (state) => state.currentUser
   );
   const currentChat = useAppSelector((state) => state.currentChat);
   const filteredParticipants = currentChat?.members?.filter(
-    (member) => member.userName !== loggedInUserName
+    (member) => member.userName !== CurrentUser.userName
   );
 
   const isAgroupChat = filteredParticipants.length !== 1;

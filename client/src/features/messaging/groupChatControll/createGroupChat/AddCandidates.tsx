@@ -25,7 +25,7 @@ const AddCandidates: React.FC = () => {
   const { allUsers, filteredUsers, searchedUser } = useAppSelector(
     (state) => state.users
   );
-  const currentUserId = useAppSelector((state) => state.auth.response.id);
+  const currentUserId = useAppSelector((state) => state.currentUser.id);
 
   const createGroupState = useAppSelector((state) => state.createGroup);
   const currentUsersList = searchedUser ? filteredUsers : allUsers;

@@ -2,8 +2,8 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { ChatsOverview } from "./features/messaging/chatsOverview/ChatsOverview";
 import { CurrentChat } from "./features/messaging/currentChat/CurrentChat";
 import { Home } from "./features/home/Home";
-import { Login } from "./features/auth/Login";
-import { Register } from "./features/auth/Register";
+import { Login } from "./features/auth/login/Login";
+import { Register } from "./features/auth/register/Register";
 import User from "./features/users/User";
 import { Root } from "./features/root/Root";
 import {
