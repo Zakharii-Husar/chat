@@ -13,7 +13,7 @@ import {
   updateSearchedUser,
 } from "../../../users/usersSlice";
 
-import { addChatCandidates } from "../../currentChat/newChatSlice";
+import { addChatCandidates } from "./createGroupSlice";
 
 import {
   useAppSelector,
@@ -27,7 +27,7 @@ const AddCandidates: React.FC = () => {
   );
   const currentUserId = useAppSelector((state) => state.auth.response.id);
 
-  const newChat = useAppSelector((state) => state.newChat);
+  const createGroupState = useAppSelector((state) => state.createGroup);
   const currentUsersList = searchedUser ? filteredUsers : allUsers;
   const dispatch = useAppDispatch();
 
@@ -59,7 +59,7 @@ const AddCandidates: React.FC = () => {
 
             {currentUsersList.map((user) => {
               //prevent showing current user and already added users
-              return newChat.candidates.some(
+              return createGroupState.candidates.some(
                 (member) => member.memberId === user.id || user.id === currentUserId
               ) ? null : (
                 //show candidats

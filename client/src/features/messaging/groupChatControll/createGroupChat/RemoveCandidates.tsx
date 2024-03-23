@@ -9,17 +9,17 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
-import { removeCandidate } from "../../currentChat/newChatSlice";
+import { removeCandidate } from "./createGroupSlice";
 
 import { IChatMember } from "../../messagesInterfaces";
 
 const RemoveCandidates: React.FC = () => {
   const dispatch = useAppDispatch();
-  const newChat = useAppSelector((state) => state.newChat);
+  const createGroupState = useAppSelector((state) => state.createGroup);
   const currentUserId = useAppSelector((state) => state.auth.response.id);
 
   const remove = (candidate: IChatMember) => {
-    const index = newChat.candidates.indexOf(candidate);
+    const index = createGroupState.candidates.indexOf(candidate);
       dispatch(removeCandidate(index));
   };
 
@@ -28,7 +28,7 @@ const RemoveCandidates: React.FC = () => {
       <Col>
         <Row className="d-flex ">
             <div>
-              {newChat.candidates.map((candidate, i) => {
+              {createGroupState.candidates.map((candidate, i) => {
                 return (
                   <ListGroup.Item
                     key={i}

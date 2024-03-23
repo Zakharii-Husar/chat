@@ -7,7 +7,7 @@ import Confirmation from "./Confirmation";
 import Container from "react-bootstrap/Container";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
-import rmChatMemberThunk from "../../thunks/rmChatMemberThunk";
+import rmChatMemberThunk from "./rmChatMemberThunk";
 
 const LeaveGroup: React.FC = () => {
   const dispatch = useAppDispatch();

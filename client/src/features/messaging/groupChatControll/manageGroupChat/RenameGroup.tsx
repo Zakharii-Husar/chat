@@ -3,28 +3,23 @@ import Button from "react-bootstrap/Button";
 import Collapse from "react-bootstrap/Collapse";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
-import {
-  useAppDispatch,
-  useAppSelector,
-} from "../../../../hooks/useAppSelectorAndDispatch";
-import { setChatName } from "../../currentChat/newChatSlice";
-import renameChatThunk from "../../thunks/renameChatThunk";
+import { useAppDispatch } from "../../../../hooks/useAppSelectorAndDispatch";
+import renameChatThunk from "./renameChatThunk";
 import { useState } from "react";
 
 const RenameGroup: React.FC = () => {
   const dispatch = useAppDispatch();
 
   const [showForm, setShowForm] = useState(false);
-
-  const newChatName = useAppSelector((state) => state.newChat.chatName);
+  const [newName, setNewName] = useState<string | null>(null);
 
   const setName = (e: React.ChangeEvent<HTMLInputElement>) => {
-    dispatch(setChatName(e.target.value));
+    setNewName(e.target.value);
   };
 
   const rename = () => {
-    if (newChatName && newChatName?.length >= 4 && newChatName?.length <= 20) {
-      dispatch(renameChatThunk());
+    if (newName && newName?.length >= 4 && newName?.length <= 20) {
+      dispatch(renameChatThunk(newName));
       setShowForm(false);
     } else {
       alert("Group chat name should be 4-20 characters long!");
@@ -45,7 +40,7 @@ const RenameGroup: React.FC = () => {
             <Form.Control
               type="text"
               placeholder="Enter new name"
-              value={newChatName ?? ""}
+              value={newName ?? ""}
               onChange={setName}
             />
             <Button onClick={rename}>Rename</Button>

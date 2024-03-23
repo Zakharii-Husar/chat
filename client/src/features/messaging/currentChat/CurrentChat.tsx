@@ -7,7 +7,7 @@ import { SendMessage } from "./sendMessage/SendMessage";
 import { DisplayHeader } from "./displayHeader/DisplayHeader";
 
 import { resetChat } from "./currentChatSlice";
-import getChatByIdThunk from "../thunks/getChatByIdThunk";
+import getChatByIdThunk from "./getChatByIdThunk";
 
 import { MDBContainer, MDBRow, MDBCol } from "mdb-react-ui-kit";
 

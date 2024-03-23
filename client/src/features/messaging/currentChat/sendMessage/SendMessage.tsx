@@ -4,25 +4,25 @@ import {
   useAppDispatch,
 } from "../../../../hooks/useAppSelectorAndDispatch";
 
-import { setMessageContent } from "../newChatSlice";
-import sendMessageThunk from "../../thunks/sendMessageThunk";
+import { setMessageContent } from "../sendMessageSlice";
+import sendMessageThunk from "../sendMessageThunk";
 
 export const SendMessage: React.FC = () => {
   const dispatch = useAppDispatch();
-  const newChat = useAppSelector((state) => state.newChat);
-  const existingChat = useAppSelector((state)=> state.existingChat);
+  const messageToSend = useAppSelector((state) => state.sendMessage);
+  const currentChat = useAppSelector((state)=> state.currentChat);
   const currentUserId = useAppSelector((state)=>state.auth.response.id);
 
-  const isStillMember = existingChat.members.some(member=> member.memberId === currentUserId);
+  const isStillMember = currentChat.members.some(member=> member.memberId === currentUserId);
 
   const handleMessageInput = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     dispatch(setMessageContent(e.target.value));
   };
 
-  const sendMessage = () => {
+  const send = () => {
     if (
-      newChat.messageToSend.Content &&
-      newChat.messageToSend.Content.length > 0
+      messageToSend.Content &&
+      messageToSend.Content.length > 0
     )
       dispatch(sendMessageThunk());
     dispatch(setMessageContent(""));
@@ -34,13 +34,13 @@ export const SendMessage: React.FC = () => {
         <MDBTextArea
           onChange={handleMessageInput}
           placeholder="Type message..."
-          value={newChat.messageToSend.Content ?? ""}
+          value={messageToSend.Content ?? ""}
           label="Message"
           id="textAreaExample"
           rows={4}
         />
       </div>
-      <MDBBtn onClick={sendMessage} color="info" rounded className="float-end">
+      <MDBBtn onClick={send} color="info" rounded className="float-end">
         Send
       </MDBBtn>
     </div>

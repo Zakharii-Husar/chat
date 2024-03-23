@@ -1,25 +1,25 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import { INewChat } from "../messagesInterfaces";
-import { IChatMember } from "../messagesInterfaces";
 
-const initialState: INewChat = {
-  chatName: "",
+export interface IChatMember {
+  userName: string | null;
+  memberId: string | null;
+  isCreator: boolean;
+}
+interface ICreateChat {
+  name: string | null;
+  candidates: IChatMember[];
+}
+const initialState: ICreateChat = {
+  name: null,
   candidates: [],
-  messageToSend: {
-    Content: null,
-    RepliedTo: null,
-  },
 };
 
-//export 
-const newChatSlice = createSlice({
-  name: "newChatSlice",
+//export
+const createGroupSlice = createSlice({
+  name: "createGroupSlice",
   initialState,
   reducers: {
-    setMessageContent: (state, action: PayloadAction<string>) => {
-      state.messageToSend.Content = action.payload;
-    },
     addChatCandidates: (state, action: PayloadAction<IChatMember>) => {
       const alreadyAdded = state.candidates.some(
         (member) =>
@@ -36,17 +36,16 @@ const newChatSlice = createSlice({
       state.candidates = [];
     },
     setChatName: (state, action: PayloadAction<string>) => {
-      state.chatName = action.payload;
+      state.name = action.payload;
     },
   },
 });
 
-// export const {
-//   setMessageContent,
-//   addChatCandidates,
-//   resetChatCandidates,
-//   removeCandidate,
-//   setChatName,
-// } = newChatSlice.actions;
+export const {
+  addChatCandidates,
+  resetChatCandidates,
+  removeCandidate,
+  setChatName,
+} = createGroupSlice.actions;
 
-//export default newChatSlice.reducer;
+export default createGroupSlice.reducer;

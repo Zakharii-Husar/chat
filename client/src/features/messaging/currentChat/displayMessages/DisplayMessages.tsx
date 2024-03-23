@@ -14,19 +14,17 @@ import {
   useAppSelector,
   useAppDispatch,
 } from "../../../../hooks/useAppSelectorAndDispatch";
-import "./Chat.css";
-import toggleLikeThunk from "../../thunks/toggleLikeThunk";
-import getChatByIdThunk from "../../thunks/getChatByIdThunk";
+import "../CurrentChat.css";
+import toggleLikeThunk from "../toggleLikeThunk";
+import getChatByIdThunk from "../getChatByIdThunk";
 import { FaHeart } from "react-icons/fa";
-
-import { useEffect } from "react";
 
 export const DisplayMessages = () => {
   const dispatch = useAppDispatch();
-  const isLaoding = useAppSelector((state) => state.existingChat.isLoading);
+  const isLaoding = useAppSelector((state) => state.currentChat.isLoading);
 
 
-  const existingChat = useAppSelector((state) => state.existingChat);
+  const currentChat = useAppSelector((state) => state.currentChat);
   const { id: loggedInUserId, nickname: loggedInUserName } = useAppSelector(
     (state) => state.auth.response
   );
@@ -45,9 +43,9 @@ export const DisplayMessages = () => {
         className="scrollable"
         height={300}
         inverse={true}
-        dataLength={existingChat.messages.length}
-        next={() =>{if (!isLaoding) dispatch(getChatByIdThunk(existingChat.chatId!))}}
-        hasMore={existingChat.hasMoreMessages}
+        dataLength={currentChat.messages.length}
+        next={() =>{if (!isLaoding) dispatch(getChatByIdThunk(currentChat.chatId!))}}
+        hasMore={currentChat.hasMoreMessages}
         loader={<h4>Loading...</h4>}
         endMessage={
           <p style={{ textAlign: "center" }}>
@@ -56,7 +54,7 @@ export const DisplayMessages = () => {
         }
       >
         <MDBTypography listUnStyled>
-          {existingChat.messages.map((message) => {
+          {currentChat.messages.map((message) => {
             const isSender = loggedInUserId === message.senderId;
             const time = getTimeAgo(message.sentAt);
             return (

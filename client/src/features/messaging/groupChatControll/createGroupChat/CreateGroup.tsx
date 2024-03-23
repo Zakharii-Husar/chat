@@ -12,9 +12,9 @@ import {
   useAppDispatch,
 } from "../../../../hooks/useAppSelectorAndDispatch";
 
-import { resetChatCandidates } from "../../currentChat/newChatSlice";
+import { resetChatCandidates } from "./createGroupSlice";
 
-import createGroupThunk from "../../thunks/createGroupThunk";
+import createGroupThunk from "./createGroupThunk";
 
 import { useNavigate } from "react-router";
 
@@ -24,8 +24,8 @@ const CreateGroup: React.FC = () => {
   const [showForm, setShowForm] = useState(false);
 
   const dispatch = useAppDispatch();
-  const newChat = useAppSelector((state) => state.newChat);
-  const existingChat = useAppSelector((state) => state.existingChat);
+  const createGroupState = useAppSelector((state) => state.createGroup);
+  const currentChatState = useAppSelector((state) => state.currentChat);
 
   //reset participants on exit
   useEffect(() => {
@@ -40,7 +40,7 @@ const CreateGroup: React.FC = () => {
   };
 
   const createGroup = async () => {
-    if (!newChat.chatName || newChat.chatName.length < 4) {
+    if (!createGroupState.name || createGroupState.name.length < 4) {
       alert("Provide at least 3 characters long chat name!");
     } else {
       try {

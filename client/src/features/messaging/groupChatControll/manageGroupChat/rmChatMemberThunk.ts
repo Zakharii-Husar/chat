@@ -1,10 +1,10 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { REMOVE_CHAT_MEMBER } from "../../../app/APIEndpoints";
-import type { RootState } from "../../../app/store";
-import { addMessageToChat, rmMember } from "../currentChat/currentChatSlice";
+import { REMOVE_CHAT_MEMBER } from "../../../../app/APIEndpoints";
+import type { RootState } from "../../../../app/store";
+import { addMessageToChat, rmMember } from "../../currentChat/currentChatSlice";
 
 const rmChatMemberThunk = createAsyncThunk(
-  "existingChat/rmChatMemberThunk",
+  "currentChat/rmChatMemberThunk",
   async (memberId: string, { getState, dispatch }) => {
     const state = getState() as RootState;
 
@@ -15,7 +15,7 @@ const rmChatMemberThunk = createAsyncThunk(
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          ChatId: state.existingChat.chatId,
+          ChatId: state.currentChat.chatId,
           UserId: memberId,
         }),
         credentials: "include",

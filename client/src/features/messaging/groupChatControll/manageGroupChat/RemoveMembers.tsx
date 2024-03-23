@@ -12,13 +12,13 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import { useState } from "react";
-import rmChatMemberThunk from "../../thunks/rmChatMemberThunk";
+import rmChatMemberThunk from "./rmChatMemberThunk";
 
 const RemoveMembers: React.FC = () => {
   const dispatch = useAppDispatch();
-  const existingChat = useAppSelector((state) => state.existingChat);
+  const currentChat = useAppSelector((state) => state.currentChat);
   const currentUserId = useAppSelector((state) => state.auth.response.id);
-  const isCreator = existingChat.members.find(
+  const isCreator = currentChat.members.find(
     (member) => member.memberId === currentUserId
   )?.isCreator;
 
@@ -39,7 +39,7 @@ const RemoveMembers: React.FC = () => {
         <Row className="d-flex ">
           <Collapse in={showList}>
             <div>
-              {existingChat.members.map((member, i) => {
+              {currentChat.members.map((member, i) => {
                 return member.memberId === currentUserId ? null : (
                   <ListGroup.Item
                     key={i}

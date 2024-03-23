@@ -1,16 +1,16 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { GET_CHAT_BY_ID } from "../../../app/APIEndpoints";
 import type { RootState } from "../../../app/store";
-import { setLoading, setChat } from "../currentChat/currentChatSlice";
+import { setLoading, setChat } from "./currentChatSlice";
 
 const getChatByIdThunk = createAsyncThunk(
-  "existingChat/getChatByIdThunk",
+  "currentChat/getChatByIdThunk",
   async (chatId: number, { getState, dispatch }) => {
     const state = getState() as RootState;
     try {
       dispatch(setLoading(true));
       const response = await fetch(
-        `${GET_CHAT_BY_ID}?chatId=${chatId}&paginationOffset=${state.existingChat.paginationOffset}`,
+        `${GET_CHAT_BY_ID}?chatId=${chatId}&paginationOffset=${state.currentChat.paginationOffset}`,
         {
           method: "GET",
           headers: {

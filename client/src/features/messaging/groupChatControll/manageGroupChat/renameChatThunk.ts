@@ -1,11 +1,11 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import type { RootState } from "../../../app/store";
-import { RENAME_GROUP_CHAT } from "../../../app/APIEndpoints";
-import { addMessageToChat, rename } from "../currentChat/currentChatSlice";
+import type { RootState } from "../../../../app/store";
+import { RENAME_GROUP_CHAT } from "../../../../app/APIEndpoints";
+import { addMessageToChat, rename } from "../../currentChat/currentChatSlice";
 
 const renameChatThunk = createAsyncThunk(
-    "chat/renameChatThunk",
-    async (_, { dispatch, getState }) => {
+    "currentChat/renameChatThunk",
+    async (newName: string, { dispatch, getState }) => {
       const state = getState() as RootState;
   
       try {
@@ -15,8 +15,8 @@ const renameChatThunk = createAsyncThunk(
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            ChatId: state.existingChat.chatId,
-            NewChatName: state.newChat.chatName,
+            ChatId: state.currentChat.chatId,
+            NewChatName: newName,
           }),
           credentials: "include",
         });
@@ -24,8 +24,7 @@ const renameChatThunk = createAsyncThunk(
         if (response.ok) {
           const data = await response.json();
           dispatch(addMessageToChat(data));
-          dispatch(rename(state.newChat.chatName!)
-          );
+          dispatch(rename(newName));
         }
       } catch (error) {
         console.log(error);

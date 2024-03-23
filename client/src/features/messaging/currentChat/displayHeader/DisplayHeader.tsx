@@ -6,15 +6,15 @@ export const DisplayHeader: React.FC = () => {
   const { nickname: loggedInUserName } = useAppSelector(
     (state) => state.auth.response
   );
-  const existingChat = useAppSelector((state) => state.existingChat);
-  const filteredParticipants = existingChat?.members?.filter(
+  const currentChat = useAppSelector((state) => state.currentChat);
+  const filteredParticipants = currentChat?.members?.filter(
     (member) => member.userName !== loggedInUserName
   );
 
   const isAgroupChat = filteredParticipants.length !== 1;
   const chatHeader =
-    isAgroupChat && existingChat.chatName
-      ? existingChat.chatName
+    isAgroupChat && currentChat.chatName
+      ? currentChat.chatName
       : filteredParticipants[0]?.userName;
   return (
     <h3 className="font-weight-bold mb-3 text-center text-lg-center p-2">

@@ -15,7 +15,7 @@ import {
   updateSearchedUser,
 } from "../../../users/usersSlice";
 
-import addChatMemberThunk from "../../thunks/addChatMemberThunk";
+import addChatMemberThunk from "./addChatMemberThunk";
 
 import Confirmation from "./Confirmation";
 
@@ -30,13 +30,12 @@ const AddMembers: React.FC = () => {
     (state) => state.users
   );
 
-  const existingChat = useAppSelector((state) => state.existingChat);
+  const currentChat = useAppSelector((state) => state.currentChat);
   const currentUserId = useAppSelector((state) => state.auth.response.id);
-  const isCreator = existingChat.members.find(
+  const isCreator = currentChat.members.find(
     (member) => member.memberId === currentUserId
   )?.isCreator;
   
-  const newChat = useAppSelector((state) => state.newChat);
   const currentUsersList = searchedUser ? filteredUsers : allUsers;
   const dispatch = useAppDispatch();
 
@@ -76,7 +75,7 @@ const AddMembers: React.FC = () => {
 
               {currentUsersList.map((user) => {
                 //prevent showing already added users and current user
-                return existingChat.members.some(
+                return currentChat.members.some(
                   (member) => member.memberId === user.id || user.id === currentUserId
                 ) ? null : (
                   //show candidats

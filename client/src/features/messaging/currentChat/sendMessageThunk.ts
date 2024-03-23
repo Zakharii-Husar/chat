@@ -1,11 +1,11 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import type { RootState } from "../../../app/store";
-import { addMessageToChat } from "../currentChat/currentChatSlice";
+import { addMessageToChat } from "./currentChatSlice";
 import { SEND_MESSAGE } from "../../../app/APIEndpoints";
 
 
 const sendMessageThunk = createAsyncThunk(
-    "newChat/sendMessageAsync",
+    "sendMessage/sendMessageAsync",
     async (_, { getState, dispatch }) => {
       const state = getState() as RootState;
       try {
@@ -15,9 +15,9 @@ const sendMessageThunk = createAsyncThunk(
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            ChatId: state.existingChat.chatId,
-            Content: ...state.newChat.messageToSend,
-            RepliedTo: null
+            ChatId: state.currentChat.chatId,
+            Content: state.sendMessage.Content,
+            RepliedTo: state.sendMessage.RepliedTo
           }),
           credentials: "include",
         });

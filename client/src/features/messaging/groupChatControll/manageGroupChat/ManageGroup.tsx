@@ -13,7 +13,7 @@ import { useAppSelector } from "../../../../hooks/useAppSelectorAndDispatch";
 const ManageGroupChat: React.FC = () => {
   const [showForm, setShowForm] = useState(false);
 
-  const existingChat = useAppSelector((state) => state.existingChat);
+  const currentChat = useAppSelector((state) => state.currentChat);
 
   const handleShowForm = (status: boolean) => {
     setShowForm(status);
@@ -30,7 +30,7 @@ const ManageGroupChat: React.FC = () => {
       <Modal show={showForm} onHide={() => handleShowForm(false)}>
         <Modal.Header closeButton>
           <Modal.Title>
-            {existingChat.chatName}
+            {currentChat.chatName}
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>

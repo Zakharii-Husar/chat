@@ -5,11 +5,11 @@ import {
   useAppDispatch,
   useAppSelector,
 } from "../../../../hooks/useAppSelectorAndDispatch";
-import { setChatName } from "../../currentChat/newChatSlice";
+import { setChatName } from "./createGroupSlice";
 
 const NewGroupName: React.FC = () => {
   const dispatch = useAppDispatch();
-  const newChatName = useAppSelector((state) => state.newChat.chatName);
+  const newChatName = useAppSelector((state) => state.createGroup.name);
 
   const setName = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(setChatName(e.target.value));

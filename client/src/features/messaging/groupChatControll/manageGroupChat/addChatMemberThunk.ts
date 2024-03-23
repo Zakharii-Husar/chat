@@ -1,11 +1,11 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { ADD_CHAT_MEMBER } from "../../../app/APIEndpoints";
-import type { RootState } from "../../../app/store";
-import { IChatMember } from "../messagesInterfaces";
-import { addMessageToChat, addMember } from "../currentChat/currentChatSlice";
+import { ADD_CHAT_MEMBER } from "../../../../app/APIEndpoints";
+import type { RootState } from "../../../../app/store";
+import { IChatMember } from "../../messagesInterfaces";
+import { addMessageToChat, addMember } from "../../currentChat/currentChatSlice";
 
 const addChatMemberThunk = createAsyncThunk(
-  "existingChat/addChatMemberThunk",
+  "currentChat/addChatMemberThunk",
   async (member: IChatMember, { getState, dispatch }) => {
     const state = getState() as RootState;
     try {
@@ -15,7 +15,7 @@ const addChatMemberThunk = createAsyncThunk(
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          ChatId: state.existingChat.chatId,
+          ChatId: state.currentChat.chatId,
           UserId: member.memberId,
         }),
         credentials: "include",
