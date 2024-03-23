@@ -1,10 +1,6 @@
-.container{
-   height: 300px;
-}
 .scrollable{
     overflow-y: auto;
     display: flex;
-    flex-direction: column-reverse;
     width: 100%;
     background-color:pink;
     margin:auto;
@@ -20,11 +16,11 @@
     background-color: #000000; /* Set the color of the thumb */
     
  }
- ::-webkit-scrollbar-track {
+ .scrollable::-webkit-scrollbar-track {
 border-radius: 5px;
  }
 
- .InfiniteScroll::-webkit-scrollbar-thumb{
+ .scrollable::-webkit-scrollbar-thumb{
    overflow-y: hidden;
    background-color: blue;
  }

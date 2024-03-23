@@ -1,6 +1,6 @@
 import { formatDistanceToNow } from "date-fns";
 import InfiniteScroll from "react-infinite-scroll-component";
-import "./ChatsOverview.css";
+import "../../../style/scrollable.css";
 import {
   MDBContainer,
   MDBRow,
@@ -42,7 +42,7 @@ export function ChatsOverview() {
         <MDBCol className="d-flex w-100">
           <MDBCard className="d-flex w-100">
             <InfiniteScroll
-              className="chatsScroll"
+              className="scrollable flex-column"
               height={300}
               dataLength={chatsOverviewState.chats.length}
               next={() => {

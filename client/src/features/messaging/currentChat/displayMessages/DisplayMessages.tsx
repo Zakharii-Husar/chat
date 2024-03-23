@@ -14,7 +14,7 @@ import {
   useAppSelector,
   useAppDispatch,
 } from "../../../../hooks/useAppSelectorAndDispatch";
-import "../CurrentChat.css";
+import "../../../../style/scrollable.css";
 import toggleLikeThunk from "../toggleLikeThunk";
 import getChatByIdThunk from "../getChatByIdThunk";
 import { FaHeart } from "react-icons/fa";
@@ -40,7 +40,7 @@ export const DisplayMessages = () => {
 
   return (
       <InfiniteScroll
-        className="scrollable"
+        className="scrollable flex-column-reverse"
         height={300}
         inverse={true}
         dataLength={currentChat.messages.length}
