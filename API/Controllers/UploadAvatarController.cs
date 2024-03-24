@@ -1,9 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Hosting;
-using System;
-using System.IO;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Mvc;
+
 
 namespace API.Controllers
 {
@@ -39,8 +35,8 @@ namespace API.Controllers
                 }
 
                 // Generate a unique avatar name (you can use GUID or other techniques)
-                string avatarName = Guid.NewGuid().ToString() + Path.GetExtension(avatar.FileName);
-                string avatarPath = Path.Combine(uploadsFolder, avatarName);
+                var avatarName = Guid.NewGuid().ToString() + Path.GetExtension(avatar.FileName);
+                var avatarPath = Path.Combine(uploadsFolder, avatarName);
 
                 // Save the avatar
                 using (var stream = new FileStream(avatarPath, FileMode.Create))
