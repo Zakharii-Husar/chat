@@ -32,7 +32,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="avatars\" />
+    <Folder Include="Avatars\" />
   </ItemGroup>
 
 </Project>
