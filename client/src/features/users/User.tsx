@@ -8,6 +8,7 @@ import {
   MDBBtn,
   MDBTypography,
 } from "mdb-react-ui-kit";
+import { MdModeEdit } from "react-icons/md";
 import UploadAvatar from "./UploadAvatar";
 
 import { FaUserSecret } from "react-icons/fa6";
@@ -34,7 +35,16 @@ export default function User() {
                   className="ms-4 mt-5 d-flex flex-column"
                   style={{ width: "150px" }}
                 >
-                  <div className="mt-4 mb-2" style={{ width: "150px", zIndex: "1", border: "3px solid white", borderRadius: "5px", background: "black" }}>
+                  <div
+                    className="mt-4 mb-2"
+                    style={{
+                      width: "150px",
+                      zIndex: "1",
+                      border: "3px solid white",
+                      borderRadius: "5px",
+                      background: "black",
+                    }}
+                  >
                     {!hasAvatar ? (
                       <span>
                         <FaUserSecret size={150} />
@@ -47,9 +57,10 @@ export default function User() {
                         style={{ width: "150px", zIndex: "1" }}
                       />
                     )}
-                    <UploadAvatar hasAvatar={hasAvatar} />
+                    <UploadAvatar />
                   </div>
                   <MDBBtn
+                    className="my-2"
                     outline
                     color="dark"
                     style={{ height: "36px", overflow: "visible" }}
@@ -73,6 +84,7 @@ export default function User() {
                       Photographer.
                     </MDBCardText>
                   </div>
+                  <MdModeEdit cursor="pointer"/>
                 </div>
               </div>
             </MDBCard>
