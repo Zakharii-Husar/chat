@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using API.Data;
+using API.Services;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -24,7 +26,7 @@ builder.Services.AddCors(options =>
 builder.Services.AddHttpContextAccessor();
 //ENTITY CONTEXT
 builder.Services.AddDbContext<AppDbContext>();
-//DATAPROTECTION
+//DATA PROTECTION
 builder.Services.AddDataProtection();
 //IDENTITY
 builder.Services.AddIdentityCore<AppUser>(options =>
@@ -58,6 +60,10 @@ builder.Services.AddAuthorization();
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+
+//Service for uploading user avatars to FS
+builder.Services.AddTransient<IImageUploadService, ImageUploadService>();
 
 var app = builder.Build();
 

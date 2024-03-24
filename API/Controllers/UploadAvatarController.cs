@@ -1,18 +1,18 @@
-﻿using Microsoft.AspNetCore.Mvc;
-
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using System;
+using System.IO;
+using System.Threading.Tasks;
+using API.Services;
 
 namespace API.Controllers
 {
     [Route("chat-api/[controller]")]
     [ApiController]
-    public class UploadAvatarController : ControllerBase
+    public class UploadAvatarController(IImageUploadService imageUploadService) : ControllerBase
     {
-        private readonly IWebHostEnvironment _hostingEnvironment;
 
-        public UploadAvatarController(IWebHostEnvironment hostingEnvironment)
-        {
-            _hostingEnvironment = hostingEnvironment;
-        }
 
         [HttpPost]
         public async Task<IActionResult> Post(IFormFile avatar)
@@ -25,26 +25,9 @@ namespace API.Controllers
                     return BadRequest("No avatar uploaded.");
                 }
 
-                // Get the path to the folder where you want to save the avatar
-                string uploadsFolder = Path.Combine(_hostingEnvironment.ContentRootPath, "Avatars");
+                var fileName = await imageUploadService.SaveAvatarAsync(avatar);
 
-                // Create the folder if it doesn't exist
-                if (!Directory.Exists(uploadsFolder))
-                {
-                    Directory.CreateDirectory(uploadsFolder);
-                }
-
-                // Generate a unique avatar name (you can use GUID or other techniques)
-                var avatarName = Guid.NewGuid().ToString() + Path.GetExtension(avatar.FileName);
-                var avatarPath = Path.Combine(uploadsFolder, avatarName);
-
-                // Save the avatar
-                using (var stream = new FileStream(avatarPath, FileMode.Create))
-                {
-                    await avatar.CopyToAsync(stream);
-                }
-
-                return Ok("File uploaded successfully.");
+                return Ok($"File '{fileName}' uploaded successfully.");
             }
             catch (Exception ex)
             {
@@ -53,3 +36,4 @@ namespace API.Controllers
         }
     }
 }
+
