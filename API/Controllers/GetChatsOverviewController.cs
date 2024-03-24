@@ -4,11 +4,11 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace API.Controllers.Messages
+namespace API.Controllers
 {
     [Route("chat-api/[controller]")]
     [ApiController]
-    public class GetChats(AppDbContext dbContext, UserManager<AppUser> userManager) : ControllerBase
+    public class GetChatsOverviewController(AppDbContext dbContext, UserManager<AppUser> userManager) : ControllerBase
     {
         [HttpGet]
         public async Task<IActionResult> Get([FromQuery] int paginationOffset)
@@ -29,7 +29,7 @@ namespace API.Controllers.Messages
                     .Any(cm =>
                     cm.ChatId == message.ChatId &&
                     (cm.LeftChat == null || cm.LeftChat > message.SentAt) &&
-                    (cm.EnteredChat <= message.SentAt)))
+                    cm.EnteredChat <= message.SentAt))
                 .GroupBy(m => m.ChatId)
                 .Select(g => g.OrderByDescending(m => m.SentAt).FirstOrDefault())
                 .ToList();

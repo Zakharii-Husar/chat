@@ -5,12 +5,12 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 
-namespace API.Controllers.Messages
+namespace API.Controllers
 {
     [Authorize]
     [Route("chat-api/[controller]")]
     [ApiController]
-    public class SendMessage(AppDbContext dbContext, UserManager<AppUser> userManager) : ControllerBase
+    public class SendMessageController(AppDbContext dbContext, UserManager<AppUser> userManager) : ControllerBase
     {
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] SendMessageModel messageModel)

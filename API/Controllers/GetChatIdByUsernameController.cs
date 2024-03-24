@@ -5,13 +5,13 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace API.Controllers.Messages
+namespace API.Controllers
 {
     [Authorize]
     [Route("chat-api/[controller]")]
     [ApiController]
 
-    public class GetChatIdByUsername(AppDbContext dbContext, UserManager<AppUser> userManager) : ControllerBase
+    public class GetChatIdByUsernameController(AppDbContext dbContext, UserManager<AppUser> userManager) : ControllerBase
     {
         [HttpGet]
         public async Task<IActionResult> Get([FromQuery] string userName)

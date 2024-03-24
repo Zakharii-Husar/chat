@@ -10,7 +10,7 @@ namespace API.Controllers
     [Route("chat-api/[controller]")]
     [ApiController]
     [Authorize]
-    public class GetUsers(UserManager<AppUser> userManager) : ControllerBase
+    public class GetUsersController(UserManager<AppUser> userManager) : ControllerBase
     {
         [HttpGet]
         public async Task<IActionResult> GetAllUsers()

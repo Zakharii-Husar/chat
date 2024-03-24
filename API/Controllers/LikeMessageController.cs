@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 
-namespace API.Controllers.Messages
+namespace API.Controllers
 {
     [Authorize]
     [Route("chat-api/[controller]")]

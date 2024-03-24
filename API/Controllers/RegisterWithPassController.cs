@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using API.Data;
 
-namespace API.Controllers.Auth
+namespace API.Controllers
 {
     [ApiController]
     [Route("chat-api/[controller]")]

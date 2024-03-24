@@ -8,7 +8,7 @@ namespace API.Controllers
 {
     [Route("chat-api/[controller]")]
     [ApiController]
-    public class RemoveChatMember(AppDbContext dbContext, UserManager<AppUser> userManager) : ControllerBase
+    public class RemoveChatMemberController(AppDbContext dbContext, UserManager<AppUser> userManager) : ControllerBase
     {
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] EditMembershipRequest request)

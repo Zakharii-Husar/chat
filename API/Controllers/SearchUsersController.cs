@@ -11,7 +11,7 @@ namespace API.Controllers
     [Route("chat-api/[controller]")]
     [ApiController]
 
-    public class SearchUsers(AppDbContext dbContext, UserManager<AppUser> userManager) : ControllerBase
+    public class SearchUsersController(AppDbContext dbContext, UserManager<AppUser> userManager) : ControllerBase
     {
         [HttpGet("{searchPhrase}")]
         public async Task<IActionResult> Get(string searchPhrase)

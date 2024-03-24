@@ -10,7 +10,7 @@ namespace API.Controllers
     [Authorize]
     [Route("chat-api/[controller]")]
     [ApiController]
-    public class AddChatMember(AppDbContext dbContext, UserManager<AppUser> userManager) : ControllerBase
+    public class AddChatMemberController(AppDbContext dbContext, UserManager<AppUser> userManager) : ControllerBase
     {
 
         [HttpPost]

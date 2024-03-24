@@ -10,7 +10,7 @@ namespace API.Controllers
     [Authorize]
     [Route("chat-api/[controller]")]
     [ApiController]
-    public class RenameGroupChat(AppDbContext dbContext, UserManager<AppUser> userManager) : ControllerBase
+    public class RenameGroupChatController(AppDbContext dbContext, UserManager<AppUser> userManager) : ControllerBase
     {
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] RenameChatRequest payload)

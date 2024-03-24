@@ -4,12 +4,12 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
-namespace API.Controllers.Messages
+namespace API.Controllers
 {
     [Authorize]
     [Route("chat-api/[controller]")]
     [ApiController]
-    public class CreateGroupChat(AppDbContext dbContext, UserManager<AppUser> userManager) : ControllerBase
+    public class CreateGroupChatController(AppDbContext dbContext, UserManager<AppUser> userManager) : ControllerBase
     {
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] NewChatModel payload)

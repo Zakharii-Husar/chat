@@ -5,11 +5,11 @@ using API.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
 
-namespace API.Controllers.Messages
+namespace API.Controllers
 {
     [Route("chat-api/[controller]")]
     [ApiController]
-    public class GetChatById(AppDbContext dbContext, UserManager<AppUser> userManager) : ControllerBase
+    public class GetChatByIdController(AppDbContext dbContext, UserManager<AppUser> userManager) : ControllerBase
     {
         [HttpGet]
         [Authorize]
