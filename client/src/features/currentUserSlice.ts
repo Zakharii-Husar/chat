@@ -7,7 +7,7 @@ interface ICurrentUser{
     userName: string | null;
     email: string | null;
     fullName: string | null;
-    avatarLink: string | null;
+    avatarName: string | null;
     bio: string | null;
 
 }
@@ -17,7 +17,7 @@ const initialState: ICurrentUser = {
     userName: null,
     email: null,
     fullName: null,
-    avatarLink: null,
+    avatarName: null,
     bio: null
 };
 
@@ -27,11 +27,14 @@ export const currentUserSlice = createSlice({
     reducers: {
         setCurrentUser: (state, action: PayloadAction<ICurrentUser>) => {
             return action.payload;
+        },
+        updateAvatarName: (state, action: PayloadAction<string>)=> {
+            state.avatarName = action.payload;
         }
     },
 
 });
 
-export const { setCurrentUser } = currentUserSlice.actions;
+export const { setCurrentUser, updateAvatarName } = currentUserSlice.actions;
 
 export default currentUserSlice.reducer;

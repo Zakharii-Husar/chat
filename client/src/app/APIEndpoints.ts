@@ -20,5 +20,7 @@ export const LIKE_MESSAGE = `${API_URL}/LikeMessage`;
 export const ADD_CHAT_MEMBER = `${API_URL}/AddChatMember`;
 export const REMOVE_CHAT_MEMBER = `${API_URL}/RemoveChatMember`;
 export const RENAME_GROUP_CHAT = `${API_URL}/RenameGroupChat`;
+
 export const UPLOAD_AVATAR = `${API_URL}/UploadAvatar`;
+export const GET_AVATAR = `${API_URL}/GetAvatar/`;
 

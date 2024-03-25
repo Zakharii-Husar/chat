@@ -2,8 +2,7 @@
 {
     public class ImageUploadService(IWebHostEnvironment hostingEnvironment) : IImageUploadService
     {
-
-        public async Task<string> SaveAvatarAsync(IFormFile avatar)
+        public async Task<string> SaveAvatarAsync(IFormFile? avatar)
         {
             // Check if an avatar was uploaded
             if (avatar == null || avatar.Length == 0)
@@ -18,7 +17,7 @@
             }
 
             // Get the path to the folder where you want to save the avatar
-            string uploadsFolder = Path.Combine(hostingEnvironment.ContentRootPath, "Avatars");
+            var uploadsFolder = Path.Combine(hostingEnvironment.ContentRootPath, "Avatars");
 
             // Create the folder if it doesn't exist
             if (!Directory.Exists(uploadsFolder))
@@ -26,33 +25,38 @@
                 Directory.CreateDirectory(uploadsFolder);
             }
 
-            // Generate a unique avatar name (you can use GUID or other techniques)
-            string avatarName = Guid.NewGuid().ToString() + Path.GetExtension(avatar.FileName);
-            string avatarPath = Path.Combine(uploadsFolder, avatarName);
 
-            // Save the avatar to disk
-            using (var stream = new FileStream(avatarPath, FileMode.Create))
-            {
-                await avatar.CopyToAsync(stream);
-            }
+            var avatarName = Guid.NewGuid().ToString() + Path.GetExtension(avatar.FileName);
+            var avatarPath = Path.Combine(uploadsFolder, avatarName);
 
-            // Return the file name for further processing if needed
+            await using var stream = new FileStream(avatarPath, FileMode.Create);
+            await avatar.CopyToAsync(stream);
+
             return avatarName;
         }
 
-        private bool IsSupportedFileType(string fileName)
+        private static bool IsSupportedFileType(string fileName)
         {
-            string extension = Path.GetExtension(fileName);
+            var extension = Path.GetExtension(fileName);
             if (string.IsNullOrEmpty(extension))
             {
                 return false;
             }
 
-            string[] supportedExtensions = { ".png", ".jpg", ".jpeg", ".gif" };
+            string[] supportedExtensions = [".png", ".jpg", ".jpeg", ".gif"];
             return Array.Exists(supportedExtensions, ext => ext.Equals(extension, StringComparison.OrdinalIgnoreCase));
         }
+
+        public async Task<bool> RmPreviousAvatar(string? previousAvatarName)
+        {
+            var uploadsFolder = Path.Combine(hostingEnvironment.ContentRootPath, "Avatars");
+            var previousAvatarPath = Path.Combine(uploadsFolder, previousAvatarName);
+            if (previousAvatarName == null) return true;
+
+            if (File.Exists(previousAvatarPath)) File.Delete(previousAvatarPath);
+
+            return true;
+        }
     }
-
-
 
 }

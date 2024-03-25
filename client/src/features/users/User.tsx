@@ -10,13 +10,14 @@ import {
 } from "mdb-react-ui-kit";
 import { MdModeEdit } from "react-icons/md";
 import UploadAvatar from "./UploadAvatar";
+import { GET_AVATAR } from "../../app/APIEndpoints";
 
 import { FaUserSecret } from "react-icons/fa6";
 import { useAppSelector } from "../../hooks/useAppSelectorAndDispatch";
 
 export default function User() {
   const currentUser = useAppSelector((state) => state.currentUser);
-  const hasAvatar = currentUser.avatarLink !== null;
+  const hasAvatar = currentUser.avatarName !== null;
 
   return (
     <div className="gradient-custom-2" style={{ backgroundColor: "#9de2ff" }}>
@@ -51,7 +52,9 @@ export default function User() {
                       </span>
                     ) : (
                       <MDBCardImage
-                        src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-profiles/avatar-1.webp"
+                    
+                      className="w-100"
+                        src={GET_AVATAR + currentUser.avatarName}
                         alt="Generic placeholder image"
                         fluid
                         style={{ width: "150px", zIndex: "1" }}

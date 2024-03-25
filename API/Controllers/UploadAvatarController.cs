@@ -1,33 +1,50 @@
-﻿using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using System;
-using System.IO;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Mvc;
 using API.Services;
+using API.Data;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 
 namespace API.Controllers
 {
+    [Authorize]
     [Route("chat-api/[controller]")]
     [ApiController]
-    public class UploadAvatarController(IImageUploadService imageUploadService) : ControllerBase
+    public class UploadAvatarController : ControllerBase
     {
+        private readonly IImageUploadService _imageUploadService;
+        private readonly AppDbContext _dbContext;
+        private readonly UserManager<AppUser> _userManager;
 
+        public UploadAvatarController(
+            IImageUploadService imageUploadService,
+            AppDbContext dbContext,
+            UserManager<AppUser> userManager)
+        {
+            _imageUploadService = imageUploadService;
+            _dbContext = dbContext;
+            _userManager = userManager;
+        }
 
         [HttpPost]
-        public async Task<IActionResult> Post(IFormFile avatar)
+        public async Task<IActionResult> Post(IFormFile? avatar)
         {
             try
             {
-                // Check if an avatar was uploaded
                 if (avatar == null || avatar.Length == 0)
                 {
                     return BadRequest("No avatar uploaded.");
                 }
 
-                var fileName = await imageUploadService.SaveAvatarAsync(avatar);
+                var avatarName = await _imageUploadService.SaveAvatarAsync(avatar);
 
-                return Ok($"File '{fileName}' uploaded successfully.");
+                var userId = _userManager.GetUserId(User)!;
+                var user = await _userManager.FindByIdAsync(userId);
+
+                await _imageUploadService.RmPreviousAvatar(user!.AvatarName);
+                user!.AvatarName = avatarName;
+                var result = await _userManager.UpdateAsync(user!);
+                if (!result.Succeeded) return BadRequest();
+                return Ok(avatarName);
             }
             catch (Exception ex)
             {
@@ -36,4 +53,3 @@ namespace API.Controllers
         }
     }
 }
-

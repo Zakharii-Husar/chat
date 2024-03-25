@@ -26,7 +26,7 @@ namespace API.Controllers
                     UserName = user.UserName,
                     Email = user.Email,
                     FullName = user.FullName,
-                    AvatarLink = user.AvatarName,
+                    AvatarName = user.AvatarName,
                     Bio = user.Bio
                 });
             }
