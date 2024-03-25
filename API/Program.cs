@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 using API.Data;
+using API.Hubs;
 using API.Services;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
@@ -21,6 +22,8 @@ builder.Services.AddCors(options =>
                                  .AllowCredentials();
                       });
 });
+
+builder.Services.AddSignalR();
 
 // Hosting doesn't add IHttpContextAccessor by default
 builder.Services.AddHttpContextAccessor();
@@ -75,6 +78,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.MapHub<OnlineHub>("/Hub");
 
 
 app.UseCors(MyAllowSpecificOrigins);
