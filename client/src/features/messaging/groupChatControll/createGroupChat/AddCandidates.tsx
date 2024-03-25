@@ -68,13 +68,13 @@ const AddCandidates: React.FC = () => {
                     <span
                       onClick={() =>
                         add({
-                          userName: user.nickname,
+                          userName: user.userName,
                           memberId: user.id,
                           isCreator: false,
                         })
                       }
                     >
-                      {user.nickname}
+                      {user.userName}
                     </span>
                   </ListGroup.Item>
                 </Form.Group>

@@ -34,6 +34,8 @@ namespace API.Data
         public DateTime LastVisit { get; set; }
 
         [RegularExpression(@"^[a-zA-Z][\w\-#$\._]{3,25}$", ErrorMessage = "Invalid avatar name.")]
+
+        [MaxLength(150)]
         public string? AvatarName { get; set; } = null;
 
         [MinLength(1)]

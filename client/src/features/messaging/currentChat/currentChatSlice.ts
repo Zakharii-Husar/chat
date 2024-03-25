@@ -1,8 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import { IExistingChat, IMessage, IChatMember } from "../messagesInterfaces";
+import { ICurrentChat, IMessage, IChatMember } from "../messagesInterfaces";
 
-const initialState: IExistingChat = {
+const initialState: ICurrentChat = {
   chatId: null,
   chatName: null,
   members: [],
@@ -22,7 +22,7 @@ export const existingChatSlice = createSlice({
     setCurrentChatId: (state, action: PayloadAction<number | null>) => {
       state.chatId = action.payload;
     },
-    setChat: (state, action: PayloadAction<IExistingChat>) => {
+    setChat: (state, action: PayloadAction<ICurrentChat>) => {
       const newState = { ...state, ...action.payload };
 
       const uniqueMessages = action.payload.messages.filter(

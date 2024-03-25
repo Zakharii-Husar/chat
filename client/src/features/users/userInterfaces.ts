@@ -1,6 +1,10 @@
 export interface IUserModel {
   id: string;
-  nickname: string;
+  userName: string;
+  email: string;
+  fullName: string;
+  avatarName: string | null;
+  bio: string | null;
 }
 
 export interface IUsersModel {

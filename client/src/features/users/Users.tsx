@@ -10,7 +10,7 @@ import {
   updateSearchedUser,
   getChatIdByUsername,
 } from "../users/usersSlice";
-import { IUserModel } from "../../app/userInterfaces";
+import { IUserModel } from "./userInterfaces";
 
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
@@ -55,7 +55,7 @@ const Users: React.FC = () => {
   };
 
   const currentList = searchedUser === null ? allUsers : filteredUsers;
-
+console.log(currentList)
   return (
     <Container fluid className="d-flex vw-100">
       <Row className="d-flex flex-column align-items-center justify-content-center w-100 mt-3">
@@ -67,15 +67,15 @@ const Users: React.FC = () => {
           />
 
           <ListGroup>
-            {currentList?.map((user: IUserModel, i) => (
+            {currentList?.map((user: IUserModel) => (
               <ListGroup.Item
                 key={user.id}
                 className="d-flex align-items-center justify-content-between py-1"
-                onClick={() => navToChat(user.nickname)}
+                onClick={() => navToChat(user.userName)}
               >
                 <FaUserCircle size={25} className="ms-2" />
 
-                <h5>{`${user.nickname}`}</h5>
+                <h5>{`${user.userName}`}</h5>
 
                 <BsFillSendFill size={25} className="me-2" />
               </ListGroup.Item>

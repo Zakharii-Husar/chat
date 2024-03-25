@@ -1,4 +1,5 @@
 ﻿using API.Data;
+using API.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -19,14 +20,17 @@ namespace API.Controllers
             var currentUserId = currentUser?.Id;
 
             var users = await userManager.Users
-    .Select(user => new
+    .Select(user => new UserDetailsResponseDTO()
     {
-        id = user.Id,
-        nickname = user.UserName,
-        email = user.Email,
-        fullName = user.FullName
+        Id = user.Id,
+        UserName = user.UserName,
+        Email = user.Email,
+        FullName = user.FullName,
+        AvatarName = user.AvatarName,
+        Bio = user.Bio
     })
-    .Where(user => user.id != currentUserId)
+
+    .Where(user => user.Id != currentUserId)
     .ToListAsync();
             return Ok(users);
         }

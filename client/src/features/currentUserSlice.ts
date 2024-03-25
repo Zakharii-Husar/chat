@@ -9,6 +9,7 @@ interface ICurrentUser{
     fullName: string | null;
     avatarName: string | null;
     bio: string | null;
+    lastVisit: Date | null;
 }
 
 const initialState: ICurrentUser = {
@@ -17,7 +18,8 @@ const initialState: ICurrentUser = {
     email: null,
     fullName: null,
     avatarName: null,
-    bio: null
+    bio: null,
+    lastVisit: null
 };
 
 export const currentUserSlice = createSlice({

@@ -55,8 +55,9 @@ namespace API.Controllers
                     MessageId = m.MessageId,
                     SenderId = m.SenderId,
                     SenderUserName = m.Sender.UserName,
+                    SenderAvatarName = m.Sender.AvatarName,
                     ChatId = m.ChatId,
-                    ChatName = m.Chat.ChatName,
+                    ChatName = null,
                     Content = !m.IsDeleted ? m.Content : m.Sender.UserName + " deleted message.",
                     SentAt = m.SentAt,
                     Likes = m.Likes.Select(like => like.User.UserName).ToList()

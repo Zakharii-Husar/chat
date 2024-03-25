@@ -82,11 +82,11 @@ const AddMembers: React.FC = () => {
                   <Form.Group key={user.id}>
                     <ListGroup.Item>
                       <Confirmation
-                        buttonText={user.nickname}
-                        titleText={`Add ${user.nickname} to chat?`}
+                        buttonText={user.userName}
+                        titleText={`Add ${user.userName} to chat?`}
                         proceed={() =>
                           add({
-                            userName: user.nickname,
+                            userName: user.userName,
                             memberId: user.id,
                             isCreator: false,
                           })

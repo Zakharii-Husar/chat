@@ -41,11 +41,11 @@ namespace API.Controllers
                     MessageId = m.MessageId,
                     SenderId = m.SenderId,
                     SenderUserName = m.Sender?.UserName ?? "Unknown",
-                    ChatId = m.ChatId,
+                    SenderAvatarName = m.Sender?.AvatarName,
                     ChatName = m.Chat?.ChatName ?? m.Sender?.UserName ?? "Unknown",
-                    Content = !m.IsDeleted ? m.Content : "Deleted",
-                    SentAt = m.SentAt,
-                    Likes = m.Likes?.Select(like => like.User?.UserName).ToList() ?? new List<string?>()
+                    ChatId = m.ChatId,
+                    Content = !m.IsDeleted ? m.Content : m.Sender?.UserName + "deleted message",
+                    SentAt = m.SentAt
                 })
                 .OrderByDescending(m => m.SentAt)
                 .ToList();

@@ -1,8 +1,15 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { IChatsOverview } from "../messagesInterfaces";
+import { IMessage } from "../messagesInterfaces";
 import { GET_ALL_CHATS } from "../../../app/APIEndpoints";
 import { RootState } from "../../../app/store";
 import type { PayloadAction } from "@reduxjs/toolkit";
+
+export interface IChatsOverview {
+  chats: IMessage[],
+  paginationOffset: number,
+  hasMore: boolean,
+  isLoading: boolean
+}
 
 const initialState: IChatsOverview = {
   chats: [],

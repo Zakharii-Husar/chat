@@ -8,6 +8,7 @@ export interface IMessage {
   messageId: number;
   senderId: string;
   senderUserName: string;
+  senderAvatarName: string | null;
   chatId: number;
   chatName: string | null;
   content: string;
@@ -17,18 +18,8 @@ export interface IMessage {
 
 export interface IChats extends Array<IMessage> {}
 
-export interface IMessageToSend {
-  Content: string | null;
-  RepliedTo: number | null;
-}
 
-export interface INewChat {
-  chatName: string | null;
-  candidates: IChatMember[];
-  messageToSend: IMessageToSend;
-}
-
-export interface IExistingChat {
+export interface ICurrentChat {
   chatId: number | null;
   chatName: string | null;
   members: IChatMember[];
@@ -38,9 +29,3 @@ export interface IExistingChat {
   isLoading: boolean;
 }
 
-export interface IChatsOverview {
-  chats: IMessage[],
-  paginationOffset: number,
-  hasMore: boolean,
-  isLoading: boolean
-}

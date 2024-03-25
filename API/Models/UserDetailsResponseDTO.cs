@@ -8,5 +8,6 @@
         public string FullName { get; set; }
         public string? AvatarName { get; set; } = null;
         public string? Bio { get; set; } = null;
+        public DateTime LastVisit { get; set; }
     }
 }
