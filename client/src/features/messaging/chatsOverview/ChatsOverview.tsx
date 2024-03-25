@@ -27,10 +27,6 @@ export function ChatsOverview() {
     dispatch(fetchAllChats());
   }, []);
 
-  useEffect(()=>{
-    console.log(chatsOverviewState);
-  }, [chatsOverviewState])
-
   const getTimeAgo = (timestamp: string) => {
     return formatDistanceToNow(new Date(timestamp), { addSuffix: true });
   };

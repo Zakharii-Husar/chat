@@ -24,7 +24,7 @@ export const DisplayMessages = () => {
   const isLaoding = useAppSelector((state) => state.currentChat.isLoading);
 
   const currentChat = useAppSelector((state) => state.currentChat);
-  const currentUser = useAppSelector((state) => state.currentUser);
+  const currentUser = useAppSelector((state) => state.loggedInUser);
 
   const handleLike = (messageId: number) => {
     dispatch(

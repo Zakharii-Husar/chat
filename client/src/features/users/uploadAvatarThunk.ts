@@ -1,7 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import type { RootState } from "../../app/store";
 import { UPLOAD_AVATAR } from "../../app/APIEndpoints";
-import { updateAvatarName } from "../currentUserSlice";
+import { updateAvatarName } from "../loggedInUserSlice";
 
 const uploadAvatarThunk = createAsyncThunk(
   "avatar/uploadAvatar",

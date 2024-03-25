@@ -22,7 +22,7 @@ export function Login() {
   useCheckAuth();
   const navigate = useNavigate();
 
-  const currentUser = useAppSelector((state) => state.currentUser);
+  const currentUser = useAppSelector((state) => state.loggedInUser);
 
   const dispatch = useAppDispatch();
 

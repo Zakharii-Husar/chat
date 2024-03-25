@@ -8,7 +8,7 @@ export const useCheckAuth = () => {
 
     const dispatch = useAppDispatch();
     const location = useLocation();
-    const loggedInId = useAppSelector(state => state.currentUser.id);
+    const loggedInId = useAppSelector(state => state.loggedInUser.id);
     const navigate = useNavigate();
 
 

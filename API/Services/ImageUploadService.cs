@@ -1,24 +1,36 @@
-﻿namespace API.Services
-{
-    public class ImageUploadService(IWebHostEnvironment hostingEnvironment) : IImageUploadService
-    {
-        public async Task<string> SaveAvatarAsync(IFormFile? avatar)
-        {
+﻿using Microsoft.AspNetCore.Hosting;
+using System;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 
+namespace API.Services
+{
+    public class ImageUploadService : IImageUploadService
+    {
+        private readonly IWebHostEnvironment _hostingEnvironment;
+
+        public ImageUploadService(IWebHostEnvironment hostingEnvironment)
+        {
+            _hostingEnvironment = hostingEnvironment ?? throw new ArgumentNullException(nameof(hostingEnvironment));
+        }
+
+        public async Task<string> SaveAvatarAsync(IFormFile avatar)
+        {
             if (avatar == null || !IsSupportedFileType(avatar))
             {
                 throw new ArgumentException("Unsupported file type. Only PNG, JPEG, and GIF are allowed.");
             }
 
             // Get the path to the folder where you want to save the avatar
-            var uploadsFolder = Path.Combine(hostingEnvironment.ContentRootPath, "Avatars");
+            var uploadsFolder = Path.Combine(_hostingEnvironment.ContentRootPath, "Avatars");
 
             // Create the folder if it doesn't exist
             if (!Directory.Exists(uploadsFolder))
             {
                 Directory.CreateDirectory(uploadsFolder);
             }
-
 
             var avatarName = Guid.NewGuid().ToString() + Path.GetExtension(avatar.FileName);
             var avatarPath = Path.Combine(uploadsFolder, avatarName);
@@ -54,17 +66,22 @@
             return true;
         }
 
-
-        public async Task<bool> RmPreviousAvatar(string? previousAvatarName)
+        public async Task<bool> RmPreviousAvatar(string previousAvatarName)
         {
-            var uploadsFolder = Path.Combine(hostingEnvironment.ContentRootPath, "Avatars");
-            var previousAvatarPath = Path.Combine(uploadsFolder, previousAvatarName);
-            if (previousAvatarName == null) return true;
+            if (string.IsNullOrEmpty(previousAvatarName))
+            {
+                return true; // No previous avatar to remove
+            }
 
-            if (File.Exists(previousAvatarPath)) File.Delete(previousAvatarPath);
+            var uploadsFolder = Path.Combine(_hostingEnvironment.ContentRootPath, "Avatars");
+            var previousAvatarPath = Path.Combine(uploadsFolder, previousAvatarName);
+
+            if (File.Exists(previousAvatarPath))
+            {
+                File.Delete(previousAvatarPath);
+            }
 
             return true;
         }
     }
-
 }

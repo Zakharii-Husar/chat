@@ -55,7 +55,6 @@ const Users: React.FC = () => {
   };
 
   const currentList = searchedUser === null ? allUsers : filteredUsers;
-console.log(currentList)
   return (
     <Container fluid className="d-flex vw-100">
       <Row className="d-flex flex-column align-items-center justify-content-center w-100 mt-3">

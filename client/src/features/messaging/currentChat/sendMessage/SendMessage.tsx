@@ -11,7 +11,7 @@ export const SendMessage: React.FC = () => {
   const dispatch = useAppDispatch();
   const messageToSend = useAppSelector((state) => state.sendMessage);
   const currentChat = useAppSelector((state)=> state.currentChat);
-  const currentUserId = useAppSelector((state)=>state.currentUser.id);
+  const currentUserId = useAppSelector((state)=>state.loggedInUser.id);
 
   const isStillMember = currentChat.members.some(member=> member.memberId === currentUserId);
 

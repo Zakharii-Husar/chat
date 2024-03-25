@@ -31,7 +31,7 @@ const AddMembers: React.FC = () => {
   );
 
   const currentChat = useAppSelector((state) => state.currentChat);
-  const currentUserId = useAppSelector((state) => state.currentUser.id);
+  const currentUserId = useAppSelector((state) => state.loggedInUser.id);
   const isCreator = currentChat.members.find(
     (member) => member.memberId === currentUserId
   )?.isCreator;

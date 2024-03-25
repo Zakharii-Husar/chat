@@ -4,7 +4,7 @@ import { useAppSelector } from "../../../../hooks/useAppSelectorAndDispatch";
 
 export const DisplayHeader: React.FC = () => {
   const CurrentUser = useAppSelector(
-    (state) => state.currentUser
+    (state) => state.loggedInUser
   );
   const currentChat = useAppSelector((state) => state.currentChat);
   const filteredParticipants = currentChat?.members?.filter(

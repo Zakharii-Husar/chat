@@ -12,20 +12,37 @@ import { MdModeEdit } from "react-icons/md";
 import UploadAvatar from "./UploadAvatar";
 import { GET_AVATAR } from "../../app/APIEndpoints";
 
-import { updateAvatarName } from "../currentUserSlice";
+import { updateAvatarName } from "../loggedInUserSlice";
 
 import { FaUserSecret } from "react-icons/fa6";
 import {
   useAppSelector,
   useAppDispatch,
 } from "../../hooks/useAppSelectorAndDispatch";
+import { useParams } from "react-router";
+import { useEffect } from "react";
+import getUserDetailsThunk from "./getUserDetailsThunk";
 
 export default function User() {
-  const dispatch = useAppDispatch();
-  const currentUser = useAppSelector((state) => state.currentUser);
-  const hasAvatar = currentUser.avatarName !== null;
+  const { userName } = useParams();
 
-  return (
+  const dispatch = useAppDispatch();
+  const loggedInUser = useAppSelector((state) => state.loggedInUser);
+  const anotherUser = useAppSelector((state)=> state.viewUser);
+  const isMyPofile = loggedInUser.userName === userName;
+  const currentProfile = isMyPofile ? loggedInUser : anotherUser;
+  const hasAvatar = currentProfile.avatarName !== null;
+
+  console.log(currentProfile)
+  useEffect(() => {
+    if (userName && !isMyPofile) {
+      dispatch(getUserDetailsThunk(userName));
+
+    }
+  }, [userName]);
+
+
+  return !currentProfile.id ? <h1>LOADING...</h1> : (
     <div className="gradient-custom-2" style={{ backgroundColor: "#9de2ff" }}>
       <MDBContainer className="py-5 h-100">
         <MDBRow className="justify-content-center align-items-center h-100">
@@ -36,7 +53,7 @@ export default function User() {
                 style={{ backgroundColor: "#000", height: "200px" }}
               >
                 <h3 className="d-flex position-absolute p-2">
-                  {"@" + currentUser.userName}
+                  {"@" + currentProfile.userName}
                 </h3>
                 <div
                   className="ms-4 mt-5 d-flex flex-column"
@@ -66,7 +83,7 @@ export default function User() {
                     ) : (
                       <MDBCardImage
                         className="w-100"
-                        src={GET_AVATAR + currentUser.avatarName}
+                        src={GET_AVATAR + currentProfile.avatarName}
                         onError={() => dispatch(updateAvatarName(null))}
                         alt="Generic placeholder image"
                         fluid
@@ -89,8 +106,10 @@ export default function User() {
                   </MDBBtn>
                 </div>
                 <div className="ms-3" style={{ marginTop: "130px" }}>
-                  <MDBTypography tag="h5">{currentUser.fullName}</MDBTypography>
-                  <MDBCardText>{currentUser.email}</MDBCardText>
+                  <MDBTypography tag="h5">
+                    {currentProfile.fullName}
+                  </MDBTypography>
+                  <MDBCardText>{currentProfile.email}</MDBCardText>
                 </div>
               </div>
               <div

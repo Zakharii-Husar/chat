@@ -24,3 +24,5 @@ export const RENAME_GROUP_CHAT = `${API_URL}/RenameGroupChat`;
 export const UPLOAD_AVATAR = `${API_URL}/UploadAvatar`;
 export const GET_AVATAR = `${API_URL}/GetAvatar/`;
 
+export const GET_USER_DETAILS = `${API_URL}/GetUserDetails`;
+

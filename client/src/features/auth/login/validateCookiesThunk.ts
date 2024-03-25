@@ -1,6 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { CHECK_COOKIES_URL } from "../../../app/APIEndpoints";
-import { setCurrentUser } from "../../currentUserSlice";
+import { setLoggedInUser } from "../../loggedInUserSlice";
 
 const validateCookiesThunk = createAsyncThunk(
     "login/validateCookies",
@@ -13,8 +13,7 @@ const validateCookiesThunk = createAsyncThunk(
 
             if (response.ok) {
                 const data = await response.json();
-                dispatch(setCurrentUser(data));
-                console.log(data)
+                dispatch(setLoggedInUser(data));
             }
 
         } catch (error) {

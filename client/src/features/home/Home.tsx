@@ -7,7 +7,7 @@ import { useCheckAuth } from "../../hooks/useCheckAuth";
 
 export const Home: React.FC = () => {
     useCheckAuth();
-    const loggedInId = useAppSelector(state => state.currentUser.id);
+    const loggedInId = useAppSelector(state => state.loggedInUser.id);
 
 
     return (
