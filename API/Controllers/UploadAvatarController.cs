@@ -12,16 +12,13 @@ namespace API.Controllers
     public class UploadAvatarController : ControllerBase
     {
         private readonly IImageUploadService _imageUploadService;
-        private readonly AppDbContext _dbContext;
         private readonly UserManager<AppUser> _userManager;
 
         public UploadAvatarController(
             IImageUploadService imageUploadService,
-            AppDbContext dbContext,
             UserManager<AppUser> userManager)
         {
             _imageUploadService = imageUploadService;
-            _dbContext = dbContext;
             _userManager = userManager;
         }
 

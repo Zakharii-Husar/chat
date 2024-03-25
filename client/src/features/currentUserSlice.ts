@@ -9,7 +9,6 @@ interface ICurrentUser{
     fullName: string | null;
     avatarName: string | null;
     bio: string | null;
-
 }
 
 const initialState: ICurrentUser = {
@@ -28,7 +27,7 @@ export const currentUserSlice = createSlice({
         setCurrentUser: (state, action: PayloadAction<ICurrentUser>) => {
             return action.payload;
         },
-        updateAvatarName: (state, action: PayloadAction<string>)=> {
+        updateAvatarName: (state, action: PayloadAction<string | null>)=> {
             state.avatarName = action.payload;
         }
     },

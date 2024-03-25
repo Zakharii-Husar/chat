@@ -4,14 +4,8 @@
     {
         public async Task<string> SaveAvatarAsync(IFormFile? avatar)
         {
-            // Check if an avatar was uploaded
-            if (avatar == null || avatar.Length == 0)
-            {
-                throw new ArgumentException("No avatar uploaded.");
-            }
 
-            // Validate file type
-            if (!IsSupportedFileType(avatar.FileName))
+            if (avatar == null || !IsSupportedFileType(avatar))
             {
                 throw new ArgumentException("Unsupported file type. Only PNG, JPEG, and GIF are allowed.");
             }
@@ -35,17 +29,31 @@
             return avatarName;
         }
 
-        private static bool IsSupportedFileType(string fileName)
+        private static bool IsSupportedFileType(IFormFile avatar)
         {
-            var extension = Path.GetExtension(fileName);
+            // Check file extension
+            var extension = Path.GetExtension(avatar.FileName);
             if (string.IsNullOrEmpty(extension))
             {
                 return false;
             }
 
-            string[] supportedExtensions = [".png", ".jpg", ".jpeg", ".gif"];
-            return Array.Exists(supportedExtensions, ext => ext.Equals(extension, StringComparison.OrdinalIgnoreCase));
+            string[] supportedExtensions = { ".png", ".jpg", ".jpeg", ".gif" };
+            if (!supportedExtensions.Contains(extension, StringComparer.OrdinalIgnoreCase))
+            {
+                return false;
+            }
+
+            // Check file size (5MB limit)
+            const int maxFileSize = 5 * 1024 * 1024; // 5MB in bytes
+            if (avatar.Length > maxFileSize)
+            {
+                return false;
+            }
+
+            return true;
         }
+
 
         public async Task<bool> RmPreviousAvatar(string? previousAvatarName)
         {

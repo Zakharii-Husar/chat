@@ -26,14 +26,41 @@ const UploadAvatar: React.FC = () => {
     }
   };
 
-  const handleUpload = () => {
-    if (selectedAvatar) {
-      const formData = new FormData();
-      formData.append("avatar", selectedAvatar);
-      dispatch(uploadAvatarThunk(formData));
-    }else{
-        alert("Select image!");
+  const isValidImage = (file: File | null): boolean => {
+    // Check if file exists
+    if (!file) {
+      alert("Please select an image!");
+      return false;
     }
+  
+    // Check file size (5MB limit)
+    const maxSizeInBytes = 5 * 1024 * 1024; // 5MB
+    if (file.size > maxSizeInBytes) {
+      alert("Image size exceeds 5MB limit!");
+      return false;
+    }
+  
+    // Check file format
+    const allowedFormats = ["image/png", "image/jpeg", "image/jpg", "image/gif"];
+    if (!allowedFormats.includes(file.type)) {
+      alert("Invalid file format! Only .png, .jpg, .jpeg, or .gif formats are allowed.");
+      return false;
+    }
+  
+    return true;
+  };
+
+  const handleUpload = () => {
+    if (isValidImage(selectedAvatar)) {
+      const formData = new FormData();
+      if (selectedAvatar) {
+        formData.append("avatar", selectedAvatar);
+        dispatch(uploadAvatarThunk(formData));
+      } else {
+        alert("Selected avatar is null!");
+      }
+    }
+    setShowForm(false);
   };
 
   return (
@@ -42,7 +69,7 @@ const UploadAvatar: React.FC = () => {
       className="d-flex justify-content-end align-items-center"
     >
       <MdAddCircle
-        className="position-absolute"
+        className="position-absolute bg-white rounded"
         onClick={() => setShowForm(true)}
         size={25}
         color="green"
@@ -56,7 +83,7 @@ const UploadAvatar: React.FC = () => {
             <h3>Choose avatar:</h3>
             <MDBFile
               onChange={handleFileChange}
-              label="Default file input example"
+              label="Allowed png, jpg, jpeg, gif up to 5MB"
               id="customFile"
             />
           </MDBCardBody>

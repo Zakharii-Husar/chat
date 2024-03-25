@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "2T/TpNuAzMTIumuVP+9MQVuXuJVV+17kVj7WdUvtj6daR8EL1b5wnGWSzDYTGsOx8Su1JfO6bAM/hA31cUOywQ==",
+  "dgSpecHash": "t6bc/e9h461UwglXAV/2j8liuEDWeOfQEpFXP8TFkDniN+P4eosDXNR5FsNzX2O6O8GlMEXmTWP7WIrEp0SWCA==",
   "success": true,
   "projectFilePath": "C:\\Users\\zakha\\repos\\chat\\API\\API.csproj",
   "expectedPackageFiles": [
@@ -55,7 +55,7 @@
     "C:\\Users\\zakha\\.nuget\\packages\\microsoft.netcore.targets\\1.1.0\\microsoft.netcore.targets.1.1.0.nupkg.sha512",
     "C:\\Users\\zakha\\.nuget\\packages\\microsoft.openapi\\1.2.3\\microsoft.openapi.1.2.3.nupkg.sha512",
     "C:\\Users\\zakha\\.nuget\\packages\\microsoft.sqlserver.server\\1.0.0\\microsoft.sqlserver.server.1.0.0.nupkg.sha512",
-    "C:\\Users\\zakha\\.nuget\\packages\\microsoft.win32.systemevents\\6.0.0\\microsoft.win32.systemevents.6.0.0.nupkg.sha512",
+    "C:\\Users\\zakha\\.nuget\\packages\\microsoft.win32.systemevents\\8.0.0\\microsoft.win32.systemevents.8.0.0.nupkg.sha512",
     "C:\\Users\\zakha\\.nuget\\packages\\mono.texttemplating\\2.2.1\\mono.texttemplating.2.2.1.nupkg.sha512",
     "C:\\Users\\zakha\\.nuget\\packages\\objectdumper.net\\4.1.15\\objectdumper.net.4.1.15.nupkg.sha512",
     "C:\\Users\\zakha\\.nuget\\packages\\swashbuckle.aspnetcore\\6.5.0\\swashbuckle.aspnetcore.6.5.0.nupkg.sha512",
@@ -72,7 +72,7 @@
     "C:\\Users\\zakha\\.nuget\\packages\\system.composition.typedparts\\6.0.0\\system.composition.typedparts.6.0.0.nupkg.sha512",
     "C:\\Users\\zakha\\.nuget\\packages\\system.configuration.configurationmanager\\6.0.1\\system.configuration.configurationmanager.6.0.1.nupkg.sha512",
     "C:\\Users\\zakha\\.nuget\\packages\\system.diagnostics.diagnosticsource\\6.0.1\\system.diagnostics.diagnosticsource.6.0.1.nupkg.sha512",
-    "C:\\Users\\zakha\\.nuget\\packages\\system.drawing.common\\6.0.0\\system.drawing.common.6.0.0.nupkg.sha512",
+    "C:\\Users\\zakha\\.nuget\\packages\\system.drawing.common\\8.0.3\\system.drawing.common.8.0.3.nupkg.sha512",
     "C:\\Users\\zakha\\.nuget\\packages\\system.formats.asn1\\5.0.0\\system.formats.asn1.5.0.0.nupkg.sha512",
     "C:\\Users\\zakha\\.nuget\\packages\\system.identitymodel.tokens.jwt\\6.24.0\\system.identitymodel.tokens.jwt.6.24.0.nupkg.sha512",
     "C:\\Users\\zakha\\.nuget\\packages\\system.io.filesystem.accesscontrol\\5.0.0\\system.io.filesystem.accesscontrol.5.0.0.nupkg.sha512",

@@ -12,10 +12,16 @@ import { MdModeEdit } from "react-icons/md";
 import UploadAvatar from "./UploadAvatar";
 import { GET_AVATAR } from "../../app/APIEndpoints";
 
+import { updateAvatarName } from "../currentUserSlice";
+
 import { FaUserSecret } from "react-icons/fa6";
-import { useAppSelector } from "../../hooks/useAppSelectorAndDispatch";
+import {
+  useAppSelector,
+  useAppDispatch,
+} from "../../hooks/useAppSelectorAndDispatch";
 
 export default function User() {
+  const dispatch = useAppDispatch();
   const currentUser = useAppSelector((state) => state.currentUser);
   const hasAvatar = currentUser.avatarName !== null;
 
@@ -40,6 +46,7 @@ export default function User() {
                     className="mt-4 mb-2"
                     style={{
                       width: "150px",
+                      height: "150px",
                       zIndex: "1",
                       border: "3px solid white",
                       borderRadius: "5px",
@@ -47,17 +54,27 @@ export default function User() {
                     }}
                   >
                     {!hasAvatar ? (
-                      <span>
+                      <span
+                        style={{
+                          width: "150px",
+                          minHeight: "150px",
+                          zIndex: "1",
+                        }}
+                      >
                         <FaUserSecret size={150} />
                       </span>
                     ) : (
                       <MDBCardImage
-                    
-                      className="w-100"
+                        className="w-100"
                         src={GET_AVATAR + currentUser.avatarName}
+                        onError={() => dispatch(updateAvatarName(null))}
                         alt="Generic placeholder image"
                         fluid
-                        style={{ width: "150px", zIndex: "1" }}
+                        style={{
+                          width: "150px",
+                          minHeight: "150px",
+                          zIndex: "1",
+                        }}
                       />
                     )}
                     <UploadAvatar />
@@ -87,7 +104,7 @@ export default function User() {
                       Photographer.
                     </MDBCardText>
                   </div>
-                  <MdModeEdit cursor="pointer"/>
+                  <MdModeEdit cursor="pointer" />
                 </div>
               </div>
             </MDBCard>
