@@ -4,9 +4,9 @@ namespace API.Hubs
 {
     public class OnlineHub : Hub
     {
-        public async Task SendMessage(string user, string message)
+        public async Task SendMessage(string message)
         {
-            await Clients.All.SendAsync("ReceiveMessage", user, message);
+            await Clients.All.SendAsync("isOnline", message);
         }
     }
 }

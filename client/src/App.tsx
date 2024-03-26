@@ -12,8 +12,24 @@ import {
   createRoutesFromElements,
   RouterProvider,
 } from "react-router-dom";
+import * as signalR from "@microsoft/signalr";
+import { useEffect } from "react";
+
 
 function App() {
+
+  const connection = new signalR.HubConnectionBuilder()
+  .withUrl("http://localhost:5190/Hub")
+  .build();
+
+connection.start().then(() => {
+  console.log("Connection established");
+}).catch(err => console.error(err));
+
+connection.on("isOnline", data => {
+  console.log(data);
+});
+
   const router = createBrowserRouter(
     createRoutesFromElements(
       <Route path="/" element={<Root />}>
