@@ -16,9 +16,9 @@ namespace API.Controllers
     {
         private readonly AppDbContext _dbContext;
         private readonly UserManager<AppUser> _userManager;
-        private IHubContext<OnlineHub> _hub;
+        private IHubContext<SendMessageHub> _hub;
 
-        public SendMessageController(AppDbContext dbContext, UserManager<AppUser> userManager, IHubContext<OnlineHub> hub)
+        public SendMessageController(AppDbContext dbContext, UserManager<AppUser> userManager, IHubContext<SendMessageHub> hub)
         {
             _dbContext = dbContext;
             _userManager = userManager;
@@ -54,7 +54,7 @@ namespace API.Controllers
             _dbContext.Messages.Add(newMessage);
             await _dbContext.SaveChangesAsync();
 
-            await _hub.Clients.All.SendAsync("isOnline", newMessage.Content);
+            await _hub.Clients.All.SendAsync("ReceiveMessage", newMessage);
 
             return Ok(newMessage);
         }

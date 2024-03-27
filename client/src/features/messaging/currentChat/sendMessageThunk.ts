@@ -23,8 +23,8 @@ const sendMessageThunk = createAsyncThunk(
         });
   
         if (response.ok) {
-          const messageResponse = await response.json();
-          dispatch(addMessageToChat(messageResponse));
+          // const messageResponse = await response.json();
+          // dispatch(addMessageToChat(messageResponse));
         }
       } catch (error) {
         console.log(error);

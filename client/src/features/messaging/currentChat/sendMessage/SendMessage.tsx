@@ -6,6 +6,7 @@ import {
 
 import { setMessageContent } from "../sendMessageSlice";
 import sendMessageThunk from "../sendMessageThunk";
+import { addMessageToChat } from "../currentChatSlice";
 
 export const SendMessage: React.FC = () => {
   const dispatch = useAppDispatch();

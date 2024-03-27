@@ -1,15 +1,10 @@
 ﻿namespace API.Services
 {
-    public class ImageUploadService : IImageUploadService
+    public class ImageUploadService(IWebHostEnvironment hostingEnvironment) : IImageUploadService
     {
-        private readonly IWebHostEnvironment _hostingEnvironment;
+        private readonly IWebHostEnvironment _hostingEnvironment = hostingEnvironment ?? throw new ArgumentNullException(nameof(hostingEnvironment));
 
-        public ImageUploadService(IWebHostEnvironment hostingEnvironment)
-        {
-            _hostingEnvironment = hostingEnvironment ?? throw new ArgumentNullException(nameof(hostingEnvironment));
-        }
-
-        public async Task<string> SaveAvatarAsync(IFormFile avatar)
+        public async Task<string> SaveAvatarAsync(IFormFile? avatar)
         {
             if (avatar == null || !IsSupportedFileType(avatar))
             {

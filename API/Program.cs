@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.Identity;
 using API.Data;
 using API.Hubs;
 using API.Services;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -22,8 +21,6 @@ builder.Services.AddCors(options =>
                                  .AllowCredentials();
                       });
 });
-
-builder.Services.AddSignalR();
 
 // Hosting doesn't add IHttpContextAccessor by default
 builder.Services.AddHttpContextAccessor();
@@ -45,6 +42,8 @@ builder.Services.AddIdentityCore<AppUser>(options =>
 .AddSignInManager<SignInManager<AppUser>>()
 .AddEntityFrameworkStores<AppDbContext>()
 .AddDefaultTokenProviders();
+
+builder.Services.AddSignalR();
 
 
 
@@ -79,7 +78,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.MapHub<OnlineHub>("/Hub");
+app.MapHub<SendMessageHub>("/Hub");
 
 
 app.UseCors(MyAllowSpecificOrigins);

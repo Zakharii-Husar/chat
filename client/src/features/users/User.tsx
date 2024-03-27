@@ -27,9 +27,11 @@ export default function User() {
   const { userName } = useParams();
 
   const dispatch = useAppDispatch();
+  
   const loggedInUser = useAppSelector((state) => state.loggedInUser);
   const anotherUser = useAppSelector((state)=> state.viewUser);
   const isMyPofile = loggedInUser.userName === userName;
+
   const currentProfile = isMyPofile ? loggedInUser : anotherUser;
   const hasAvatar = currentProfile.avatarName !== null;
 
