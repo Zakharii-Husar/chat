@@ -13,8 +13,41 @@ import {
   RouterProvider,
 } from "react-router-dom";
 
+import { useEffect } from "react";
+import { useAppDispatch, useAppSelector } from "./hooks/useAppSelectorAndDispatch";
+import { connection } from "./features/ws/wsConnection";
+
 
 function App() {
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    const connectWs = async () => {
+      try {
+        if (connection.state === 'Disconnected') {
+          await connection.start();
+          console.log("connected");
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    };
+  
+    connectWs();
+  
+    const disconnectWs = () => {
+      if (connection.state === 'Connected') {
+        connection.stop();
+      }
+    };
+  
+    window.addEventListener("beforeunload", disconnectWs);
+  
+    return () => {
+      window.removeEventListener("beforeunload", disconnectWs);
+    };
+  }, []);
+  
 
   const router = createBrowserRouter(
     createRoutesFromElements(

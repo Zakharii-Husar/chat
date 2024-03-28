@@ -78,7 +78,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.MapHub<SendMessageHub>("/Hub");
+app.MapHub<MainHub>("/Hub");
 
 
 app.UseCors(MyAllowSpecificOrigins);

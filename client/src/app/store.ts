@@ -1,7 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
 import loginReducer from '../features/auth/login/loginSlice';
 import registerReducer from '../features/auth/register/registerSlice';
-import loggedInUserReducer from '../features/loggedInUserSlice';
+import loggedInUserReducer from '../features/auth/loggedInUserSlice';
 import usersReducer from '../features/users/usersSlice';
 import chatsReducer from '../features/messaging/chatsOverview/chatsOverviewSlice';
 import sendMessageReducer from '../features/messaging/currentChat/sendMessageSlice';
@@ -17,9 +17,9 @@ export const store = configureStore({
     loggedInUser: loggedInUserReducer,
     viewUser: viewUserReducer,
     chats: chatsReducer,
+    currentChat: currentChatReducer,
     sendMessage: sendMessageReducer,
     createGroup: createGroupReducer, 
-    currentChat: currentChatReducer
   },
 
 })

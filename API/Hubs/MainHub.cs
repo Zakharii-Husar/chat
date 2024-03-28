@@ -5,20 +5,19 @@ using API.Models;
 
 namespace API.Hubs
 {
-    public class SendMessageHub : Hub
+    public class MainHub : Hub
     {
-
-        //private readonly ILogger<JoinHub> _logger;
-
-        //public JoinHub(ILogger<JoinHub> logger)
-        //{
-        //    _logger = logger;
-        //}
         public async Task JoinChat(int groupId)
         {
             await Groups.AddToGroupAsync(Context.ConnectionId, groupId.ToString());
 
         }
+
+        public async Task LeaveChat(int groupId)
+        {
+            await Groups.RemoveFromGroupAsync(Context.ConnectionId, groupId.ToString());
+        }
+
 
         public async Task ReceiveMessage(Message message)
         {

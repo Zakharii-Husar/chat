@@ -1,4 +1,5 @@
 export const API_URL = "http://localhost:5190/chat-api";
+export const WS_URL = "http://localhost:5190/Hub";
 export const LOGIN_URL = `${API_URL}/AuthWithPass`;
 export const CHECK_COOKIES_URL = `${API_URL}/AuthWithCookies`;
 export const REGISTER_URL = `${API_URL}/RegisterWithPass`;

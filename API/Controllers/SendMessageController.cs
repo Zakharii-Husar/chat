@@ -16,9 +16,9 @@ namespace API.Controllers
     {
         private readonly AppDbContext _dbContext;
         private readonly UserManager<AppUser> _userManager;
-        private IHubContext<SendMessageHub> _hub;
+        private IHubContext<MainHub> _hub;
 
-        public SendMessageController(AppDbContext dbContext, UserManager<AppUser> userManager, IHubContext<SendMessageHub> hub)
+        public SendMessageController(AppDbContext dbContext, UserManager<AppUser> userManager, IHubContext<MainHub> hub)
         {
             _dbContext = dbContext;
             _userManager = userManager;
@@ -54,7 +54,10 @@ namespace API.Controllers
             _dbContext.Messages.Add(newMessage);
             await _dbContext.SaveChangesAsync();
 
-            await _hub.Clients.All.SendAsync("ReceiveMessage", newMessage);
+            await _hub.Clients.Group(messageModel.ChatId.ToString())
+                .SendAsync("ReceiveMessage", newMessage);
+
+            //await _hub.Clients.All.SendAsync("ReceiveMessage", newMessage);
 
             return Ok(newMessage);
         }

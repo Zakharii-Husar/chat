@@ -12,7 +12,7 @@ import { MdModeEdit } from "react-icons/md";
 import UploadAvatar from "./UploadAvatar";
 import { GET_AVATAR } from "../../app/APIEndpoints";
 
-import { updateAvatarName } from "../loggedInUserSlice";
+import { updateAvatarName } from "../auth/loggedInUserSlice";
 
 import { FaUserSecret } from "react-icons/fa6";
 import {
