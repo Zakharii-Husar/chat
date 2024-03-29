@@ -57,7 +57,6 @@ namespace API.Controllers
             await _hub.Clients.Group(messageModel.ChatId.ToString())
                 .SendAsync("ReceiveMessage", newMessage);
 
-            //await _hub.Clients.All.SendAsync("ReceiveMessage", newMessage);
 
             return Ok(newMessage);
         }

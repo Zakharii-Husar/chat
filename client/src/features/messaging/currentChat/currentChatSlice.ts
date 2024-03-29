@@ -41,6 +41,10 @@ export const existingChatSlice = createSlice({
     resetChat: () => initialState,
 
     addMessageToChat: (state, action: PayloadAction<IMessage>) => {
+      if (
+        state.messages.some((obj) => obj.messageId === action.payload.messageId)
+      )
+        return;
       state.messages.push(action.payload);
     },
     addMember: (state, action: PayloadAction<IChatMember>) => {

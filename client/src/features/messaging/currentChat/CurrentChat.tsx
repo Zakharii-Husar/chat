@@ -40,20 +40,13 @@ export const CurrentChat: React.FC = () => {
     };
   
     connection.on("ReceiveMessage", receiveMessageHandler);
-  
-    // Clean up
+
     return () => {
       connection.off("ReceiveMessage", receiveMessageHandler);
       leaveChat();
     };
   }, [dispatch, parsedChatId, connection]);
   
-
-  connection?.on("SendMessage", (data) => {
-    console.log(data);
-  });
-
-  console.log("con2", connection);
 
   useEffect(() => {
     const setChatStateOnLoad = () => {
