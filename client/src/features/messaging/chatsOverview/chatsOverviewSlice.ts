@@ -20,11 +20,11 @@ const initialState: IChatsOverview = {
 
 export const fetchAllChats = createAsyncThunk(
   "chats/fetchChats",
-  async (_, { getState, dispatch }) => {
+  async (paginationOffset: number, { getState, dispatch }) => {
     const state = getState() as RootState;
     try {
       const response = await fetch(
-        `${GET_ALL_CHATS}?paginationOffset=${state.chats.paginationOffset}`,
+        `${GET_ALL_CHATS}?paginationOffset=${paginationOffset}`,
         {
           method: "GET",
           headers: {
@@ -36,7 +36,11 @@ export const fetchAllChats = createAsyncThunk(
 
       if (response.ok) {
         const data = await response.json();
-        dispatch(chatsSlice.actions.setChats(data));
+        if(paginationOffset === 0){
+          dispatch(setCchats(data))
+          return;
+        }
+        dispatch(updateChats(data));
       }
     } catch (error) {
       console.log(error);
@@ -48,7 +52,10 @@ export const chatsSlice = createSlice({
   name: "chatsSlice",
   initialState,
   reducers: {
-    setChats: (state, action: PayloadAction<IChatsOverview>) => {
+    setCchats: (state, action: PayloadAction<IChatsOverview>) => {
+      return action.payload;
+    },
+    updateChats: (state, action: PayloadAction<IChatsOverview>) => {
       const newState = { ...state, ...action.payload };
 
       const uniqueChats = action.payload.chats.filter(
@@ -64,5 +71,7 @@ export const chatsSlice = createSlice({
     },
   },
 });
+
+export const { setCchats, updateChats } = chatsSlice.actions;
 
 export default chatsSlice.reducer;

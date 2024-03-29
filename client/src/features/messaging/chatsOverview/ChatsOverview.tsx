@@ -10,7 +10,7 @@ import {
   MDBIcon,
   MDBTypography,
 } from "mdb-react-ui-kit";
-import { fetchAllChats } from "./chatsOverviewSlice";
+import chatsOverviewSlice, { fetchAllChats } from "./chatsOverviewSlice";
 import {
   useAppDispatch,
   useAppSelector,
@@ -24,7 +24,7 @@ export function ChatsOverview() {
   const chatsOverviewState = useAppSelector((state) => state.chats);
 
   useEffect(() => {
-    dispatch(fetchAllChats());
+    dispatch(fetchAllChats(0));
   }, []);
 
   const getTimeAgo = (timestamp: string) => {
@@ -42,7 +42,7 @@ export function ChatsOverview() {
               height={300}
               dataLength={chatsOverviewState.chats.length}
               next={() => {
-                if (!chatsOverviewState.isLoading) dispatch(fetchAllChats());
+                if (!chatsOverviewState.isLoading) dispatch(fetchAllChats(chatsOverviewState.paginationOffset));
               }}
               hasMore={chatsOverviewState.hasMore}
               loader={<h4>Loading...</h4>}
