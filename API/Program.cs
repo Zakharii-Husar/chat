@@ -66,8 +66,11 @@ builder.Services.AddSwaggerGen();
 
 //Service for uploading user avatars to FS
 builder.Services.AddTransient<IImageUploadService, ImageUploadService>();
+//Service for managing WS connections
+builder.Services.AddSingleton<IWSConManService, WSConManService>();
+
 //Service for reducing avatar size
-builder.Services.AddTransient<IImageCompressionService, ImageCompressionService>();
+///builder.Services.AddTransient<IImageCompressionService, ImageCompressionService>();
 
 var app = builder.Build();
 

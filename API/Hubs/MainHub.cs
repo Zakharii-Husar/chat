@@ -3,10 +3,12 @@ using Microsoft.AspNetCore.SignalR;
 using API.Models;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
+using API.Services;
 
 namespace API.Hubs
 {
-    public class MainHub : Hub
+    public class MainHub(IWSConManService conmanService) : Hub
     {
         private readonly Dictionary<int, List<string>> _typingUsersByGroup = new Dictionary<int, List<string>>();
 
@@ -34,7 +36,6 @@ namespace API.Hubs
 
         public async Task StartTyping(int groupId, string username)
         {
-            // Add the user to the list of typing users for the group if not already present
             if (!_typingUsersByGroup.ContainsKey(groupId))
             {
                 _typingUsersByGroup[groupId] = new List<string>();
@@ -67,8 +68,29 @@ namespace API.Hubs
 
         private async Task BroadcastTypingStatus(int groupId)
         {
-            // Broadcast the list of typing users for the group to all clients
+            // Broadcast the list of typing users for the group to all participants(or empty list if no one is typing).
             await Clients.Group(groupId.ToString()).SendAsync("TypingUsers", _typingUsersByGroup.ContainsKey(groupId) ? _typingUsersByGroup[groupId] : new List<string>());
+        }
+
+        public async Task Connect()
+        {
+            var identityId = Context.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var connectionId = Context.ConnectionId;
+
+            await conmanService.AddConnectionAsync(identityId, connectionId);
+
+            await Groups.AddToGroupAsync(Context.ConnectionId, "online");
+        }
+
+        public async Task Disconnect()
+        {
+            var identityId = Context.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var connectionId = Context.ConnectionId;
+
+            await conmanService.RemoveConnectionAsync(connectionId);
+
+            await Groups.RemoveFromGroupAsync(Context.ConnectionId, "online");
+
         }
     }
 }

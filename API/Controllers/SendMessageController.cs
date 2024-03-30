@@ -2,37 +2,33 @@
 using API.Data;
 using API.Models;
 using API.Hubs;
+using API.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.SignalR;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace API.Controllers
 {
     [Authorize]
     [Route("chat-api/[controller]")]
     [ApiController]
-    public class SendMessageController : ControllerBase
+    public class SendMessageController(
+        AppDbContext dbContext,
+        UserManager<AppUser> userManager,
+        IHubContext<MainHub> hub,
+        IWSConManService wsConManService)
+        : ControllerBase
     {
-        private readonly AppDbContext _dbContext;
-        private readonly UserManager<AppUser> _userManager;
-        private IHubContext<MainHub> _hub;
-
-        public SendMessageController(AppDbContext dbContext, UserManager<AppUser> userManager, IHubContext<MainHub> hub)
-        {
-            _dbContext = dbContext;
-            _userManager = userManager;
-            _hub = hub;
-        }
-
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] SendMessageModel messageModel)
         {
-            var currentUser = await _userManager.GetUserAsync(User);
+            var currentUser = await userManager.GetUserAsync(User);
             var senderId = currentUser?.Id;
 
 
-            var isValidChatMember = await _dbContext.ChatMembers
+            var isValidChatMember = await dbContext.ChatMembers
                 .Where(member => member.MemberId == senderId && member.ChatId == messageModel.ChatId)
                 .Where(member => member.LeftChat == null)
                 .AnyAsync();
@@ -51,11 +47,21 @@ namespace API.Controllers
             };
 
 
-            _dbContext.Messages.Add(newMessage);
-            await _dbContext.SaveChangesAsync();
+            dbContext.Messages.Add(newMessage);
+            await dbContext.SaveChangesAsync();
 
-            await _hub.Clients.Group(messageModel.ChatId.ToString())
-                .SendAsync("ReceiveMessage", newMessage);
+            var allRecipients = await dbContext.ChatMembers
+                .Where(member => member.ChatId == messageModel.ChatId)
+                .Select(member => member.MemberId)
+                .ToListAsync();
+
+            foreach (var recipient in allRecipients)
+            {
+                string recipientIsOnline = wsConManService.GetConnectionId(recipient);
+                if (recipientIsOnline == null) continue;
+                await hub.Clients.Client(recipientIsOnline).SendAsync("ReceiveNewMessage", newMessage);
+            }
+
 
 
             return Ok(newMessage);

@@ -19,14 +19,22 @@ import { connection } from "./features/ws/wsConnection";
 
 
 function App() {
-  const dispatch = useAppDispatch();
+
+  // const eventSource = new EventSource('http://localhost:5190/chat-api/SSEChatsStream', { withCredentials: true });
+
+  // eventSource.onmessage = function (event) {
+  //   const data = JSON.parse(event.data);
+  //   console.log(data);
+  // }
+  
+  
 
   useEffect(() => {
     const connectWs = async () => {
       try {
         if (connection.state === 'Disconnected') {
           await connection.start();
-          console.log("connected");
+          await connection.invoke("Connect");
         }
       } catch (err) {
         console.error(err);
@@ -35,11 +43,15 @@ function App() {
   
     connectWs();
   
-    const disconnectWs = () => {
+    const disconnectWs = async () => {
       if (connection.state === 'Connected') {
-        connection.stop();
+        await connection.stop();
+        await connection.invoke("Disconnect");
       }
     };
+
+    connection.on("ReceiveNewMessage", (data)=>console.log(data));
+
   
     window.addEventListener("beforeunload", disconnectWs);
   
