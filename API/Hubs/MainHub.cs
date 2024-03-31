@@ -8,7 +8,7 @@ using API.Services;
 
 namespace API.Hubs
 {
-    public class MainHub(IWSConManService conmanService) : Hub
+    public class MainHub(IWsConManService conmanService) : Hub
     {
         private readonly Dictionary<int, List<string>> _typingUsersByGroup = new Dictionary<int, List<string>>();
 

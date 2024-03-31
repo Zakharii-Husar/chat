@@ -1,23 +1,33 @@
-﻿using System.Collections.Concurrent;
+﻿using System;
+using System.Collections.Concurrent;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace API.Services
 {
-    public interface IWSConManService
+    public interface IWsConManService
     {
         Task AddConnectionAsync(string identityId, string connectionId);
         Task RemoveConnectionAsync(string connectionId);
-        string GetConnectionId(string? connectionId);
+        string? GetConnectionId(string identityId);
+        void PrintConnections();
     }
 
-    public class WSConManService : IWSConManService
+    public class WsConManService : IWsConManService
     {
-        private readonly ConcurrentDictionary<string, string> _userConnections =
-            new ConcurrentDictionary<string, string>();
+        private readonly ConcurrentDictionary<string, string> _userConnections = new();
 
         public async Task AddConnectionAsync(string identityId, string connectionId)
         {
-            _userConnections.AddOrUpdate(connectionId, identityId, (_, _) => identityId);
+            var existingConnection = _userConnections.FirstOrDefault(kvp => kvp.Key == identityId);
+            if (existingConnection.Key != null)
+            {
+                _userConnections.TryUpdate(identityId, connectionId, existingConnection.Value);
+            }
+            else
+            {
+                _userConnections.AddOrUpdate(identityId, connectionId, (_, _) => connectionId);
+            }
             await Task.CompletedTask;
         }
 
@@ -29,9 +39,16 @@ namespace API.Services
 
         public string? GetConnectionId(string identityId)
         {
-            return (from kvp in _userConnections where kvp.Value == identityId select kvp.Key).FirstOrDefault();
+            return _userConnections.TryGetValue(identityId, out string? connectionId) ? connectionId : null;
         }
 
+        public void PrintConnections()
+        {
+            Console.WriteLine("Current Connections:");
+            foreach (var kvp in _userConnections)
+            {
+                Console.WriteLine($"Identity ID: {kvp.Key}, Connection ID: {kvp.Value}");
+            }
+        }
     }
-
 }

@@ -18,7 +18,7 @@ namespace API.Controllers
         AppDbContext dbContext,
         UserManager<AppUser> userManager,
         IHubContext<MainHub> hub,
-        IWSConManService wsConManService)
+        IWsConManService wsConManService)
         : ControllerBase
     {
         [HttpPost]
@@ -62,7 +62,7 @@ namespace API.Controllers
                 await hub.Clients.Client(recipientIsOnline).SendAsync("ReceiveNewMessage", newMessage);
             }
 
-
+            wsConManService.PrintConnections();
 
             return Ok(newMessage);
         }

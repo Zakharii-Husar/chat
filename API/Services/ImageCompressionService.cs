@@ -1,10 +1,13 @@
-﻿using System;
-using System.Drawing;
+﻿using System.Drawing;
 using System.Drawing.Imaging;
-using System.IO;
 
 namespace API.Services
 {
+
+    public interface IImageCompressionService
+    {
+        byte[] CompressImage(byte[] imageData);
+    }
     public class ImageCompressionService : IImageCompressionService
     {
         public byte[] CompressImage(byte[] imageData)

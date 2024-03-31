@@ -50,13 +50,18 @@ function App() {
       }
     };
 
-    connection.on("ReceiveNewMessage", (data)=>console.log(data));
+    const logData = (data: any) => {
+      console.log(data);
+    }
+
+    connection.on("ReceiveNewMessage", logData);
 
   
     window.addEventListener("beforeunload", disconnectWs);
   
     return () => {
       window.removeEventListener("beforeunload", disconnectWs);
+      connection.off("ReceiveNewMessage", logData);
     };
   }, []);
   
