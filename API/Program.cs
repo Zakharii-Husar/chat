@@ -64,9 +64,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 
-//Service for uploading user avatars to FS
+builder.Services.AddTransient<IAddChatMemberService, AddChatMemberService>();
 builder.Services.AddTransient<IImageUploadService, ImageUploadService>();
-//Service for managing WS connections
 builder.Services.AddSingleton<IWsConManService, WsConManService>();
 
 //Service for reducing avatar size

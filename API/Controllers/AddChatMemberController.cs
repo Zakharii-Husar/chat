@@ -1,4 +1,5 @@
 ﻿using API.Models;
+using API.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using API.Data;
@@ -10,57 +11,29 @@ namespace API.Controllers
     [Authorize]
     [Route("chat-api/[controller]")]
     [ApiController]
-    public class AddChatMemberController(AppDbContext dbContext, UserManager<AppUser> userManager) : ControllerBase
+    public class AddChatMemberController(UserManager<AppUser> userManager, IAddChatMemberService service) : ControllerBase
     {
 
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] EditMembershipRequest request)
         {
             var currentUser = await userManager.GetUserAsync(User);
-            var currentUserId = currentUser?.Id;
 
-            var userExists = await dbContext.Users
-                .AnyAsync(user => user.Id == request.UserId);
-            if (!userExists) return BadRequest("Invalid user to insert.");
+            var isChatCreator = await service.IsAuthorizedToAdd(currentUser!, request.ChatId);
+            if (!isChatCreator) return Unauthorized("You're not allowed to add members. Only chat creator can do that.");
 
-            var isChatAdmin = await dbContext.ChatMembers
-                .Where(member => member.ChatId == request.ChatId)
-                .Where(member => member.MemberId == currentUserId)
-                .Select(member => member.IsCreator)
-                .FirstOrDefaultAsync();
+            var isValidUser = await service.ValidateNewMember(request.UserId);
+            if (!isValidUser) return BadRequest("You are trying to add invalid user to chat.");
 
-            if (!isChatAdmin) return Unauthorized("Only chat admin can add participants.");
+            var memberExists = await service.MemberAlreadyExists(request);
+            if (memberExists) return BadRequest("User already added to this chat.");
 
-            var memberExists = await dbContext.ChatMembers
-                .AnyAsync(member => member.MemberId == request.UserId && member.ChatId == request.ChatId);
-            if (memberExists) return BadRequest("Member already exists.");
+            var memberAdded = await service.AddNewMember(request, currentUser!);
+            if (!memberAdded) return StatusCode(500, "An error occurred while processing the request.");
 
+            var notification = await service.GenerateNotification(currentUser, request);
 
-            var member = new ChatMember()
-            {
-                ChatId = request.ChatId,
-                MemberId = request.UserId
-            };
-
-            dbContext.ChatMembers.Add(member);
-            await dbContext.SaveChangesAsync();
-
-            var currentUsername = (await userManager.FindByIdAsync(currentUserId!))?.UserName;
-            var addedUsername = (await userManager.FindByIdAsync(request.UserId))?.UserName;
-
-            var newMessage = new Message
-            {
-                ChatId = request.ChatId,
-                Content = $"{currentUsername} added {addedUsername} to chat.",
-                RepliedTo = null,
-                SenderId = currentUserId!
-            };
-
-
-            dbContext.Messages.Add(newMessage);
-            await dbContext.SaveChangesAsync();
-
-            return Ok(newMessage);
+            return Ok(notification);
         }
     }
 }

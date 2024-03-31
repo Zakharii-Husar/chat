@@ -36,15 +36,18 @@ export const DisplayMessages = () => {
     return formatDistanceToNow(new Date(timestamp), { addSuffix: true });
   };
 
+  const loadMore = () =>{
+      if (!isLaoding) dispatch(getChatByIdThunk(currentChat.chatId!));
+
+  };
+
   return (
     <InfiniteScroll
       className="scrollable flex-column-reverse"
       height={300}
       inverse={true}
       dataLength={currentChat.messages.length}
-      next={() => {
-        if (!isLaoding) dispatch(getChatByIdThunk(currentChat.chatId!));
-      }}
+      next={loadMore}
       hasMore={currentChat.hasMoreMessages}
       loader={<h4>Loading...</h4>}
       endMessage={
