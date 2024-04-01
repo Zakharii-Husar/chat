@@ -20,6 +20,7 @@ import { connection } from "./features/ws/wsConnection";
 
 function App() {
 
+  const currentUserId = useAppSelector(state => state.loggedInUser.id);
   // const eventSource = new EventSource('http://localhost:5190/chat-api/SSEChatsStream', { withCredentials: true });
 
   // eventSource.onmessage = function (event) {

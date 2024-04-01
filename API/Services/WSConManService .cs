@@ -1,4 +1,8 @@
-﻿using System;
+﻿using API.Data;
+using API.Hubs;
+using Microsoft.AspNetCore.SignalR;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Concurrent;
 using System.Linq;
 using System.Threading.Tasks;
@@ -11,9 +15,11 @@ namespace API.Services
         Task RemoveConnectionAsync(string connectionId);
         string? GetConnectionId(string identityId);
         void PrintConnections();
+
+        public Task BroadcastMessage(Message newMessage, List<string> allRecipients);
     }
 
-    public class WsConManService : IWsConManService
+    public class WsConManService(IHubContext<MainHub> hub) : IWsConManService
     {
         private readonly ConcurrentDictionary<string, string> _userConnections = new();
 
@@ -48,6 +54,17 @@ namespace API.Services
             foreach (var kvp in _userConnections)
             {
                 Console.WriteLine($"Identity ID: {kvp.Key}, Connection ID: {kvp.Value}");
+            }
+        }
+
+        public async Task BroadcastMessage(Message newMessage, List<string> allRecipients)
+        {
+
+            foreach (var recipient in allRecipients)
+            {
+                var recipientIsOnline = GetConnectionId(recipient);
+                if (recipientIsOnline == null) continue;
+                await hub.Clients.Client(recipientIsOnline).SendAsync("ReceiveNewMessage", newMessage);
             }
         }
     }

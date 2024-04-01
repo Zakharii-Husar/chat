@@ -5,12 +5,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using API.Services;
+using Microsoft.EntityFrameworkCore;
 
 namespace API.Hubs
 {
     public class MainHub(IWsConManService conmanService) : Hub
     {
-        private readonly Dictionary<int, List<string>> _typingUsersByGroup = new Dictionary<int, List<string>>();
+        private readonly Dictionary<int, List<string>> _typingUsersByGroup = new();
 
         public async Task JoinChat(int groupId)
         {
@@ -92,6 +93,7 @@ namespace API.Hubs
             await Groups.RemoveFromGroupAsync(Context.ConnectionId, "online");
 
         }
+
     }
 }
 

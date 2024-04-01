@@ -18,7 +18,7 @@ namespace API.Controllers
         AppDbContext dbContext,
         UserManager<AppUser> userManager,
         IHubContext<MainHub> hub,
-        IWsConManService wsConManService)
+        IWsConManService conmanService)
         : ControllerBase
     {
         [HttpPost]
@@ -50,19 +50,25 @@ namespace API.Controllers
             dbContext.Messages.Add(newMessage);
             await dbContext.SaveChangesAsync();
 
+            conmanService.PrintConnections();
             var allRecipients = await dbContext.ChatMembers
                 .Where(member => member.ChatId == messageModel.ChatId)
                 .Select(member => member.MemberId)
                 .ToListAsync();
 
-            foreach (var recipient in allRecipients)
-            {
-                string recipientIsOnline = wsConManService.GetConnectionId(recipient);
-                if (recipientIsOnline == null) continue;
-                await hub.Clients.Client(recipientIsOnline).SendAsync("ReceiveNewMessage", newMessage);
-            }
+            await conmanService.BroadcastMessage(newMessage, allRecipients);
+            //var allRecipients = await dbContext.ChatMembers
+            //    .Where(member => member.ChatId == messageModel.ChatId)
+            //    .Select(member => member.MemberId)
+            //    .ToListAsync();
 
-            wsConManService.PrintConnections();
+            //foreach (var recipient in allRecipients)
+            //{
+            //    var recipientIsOnline = wsConManService.GetConnectionId(recipient);
+            //    if (recipientIsOnline == null) continue;
+            //    await hub.Clients.Client(recipientIsOnline).SendAsync("ReceiveNewMessage", newMessage);
+            //}
+
 
             return Ok(newMessage);
         }

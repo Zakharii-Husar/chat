@@ -23,7 +23,7 @@ const addChatMemberThunk = createAsyncThunk(
 
       if (response.ok) {
         const data = await response.json();
-        dispatch(addMessageToChat(data));
+        // dispatch(addMessageToChat(data));
         dispatch(addMember(member));
       }
     } catch (error) {
