@@ -33,7 +33,7 @@ function App() {
   useEffect(() => {
     const connectWs = async () => {
       try {
-        if (connection.state === 'Disconnected') {
+        if (connection.state === 'Disconnected' && currentUserId) {
           await connection.start();
           await connection.invoke("Connect");
         }

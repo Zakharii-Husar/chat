@@ -57,17 +57,6 @@ namespace API.Controllers
                 .ToListAsync();
 
             await conmanService.BroadcastMessage(newMessage, allRecipients);
-            //var allRecipients = await dbContext.ChatMembers
-            //    .Where(member => member.ChatId == messageModel.ChatId)
-            //    .Select(member => member.MemberId)
-            //    .ToListAsync();
-
-            //foreach (var recipient in allRecipients)
-            //{
-            //    var recipientIsOnline = wsConManService.GetConnectionId(recipient);
-            //    if (recipientIsOnline == null) continue;
-            //    await hub.Clients.Client(recipientIsOnline).SendAsync("ReceiveNewMessage", newMessage);
-            //}
 
 
             return Ok(newMessage);

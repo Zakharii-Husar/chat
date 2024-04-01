@@ -35,7 +35,6 @@ export default function User() {
   const currentProfile = isMyPofile ? loggedInUser : anotherUser;
   const hasAvatar = currentProfile.avatarName !== null;
 
-  console.log(currentProfile)
   useEffect(() => {
     if (userName && !isMyPofile) {
       dispatch(getUserDetailsThunk(userName));

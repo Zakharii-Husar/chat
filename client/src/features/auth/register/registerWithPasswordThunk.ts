@@ -17,7 +17,7 @@ const registerWithPasswordThunk = createAsyncThunk(
                     UserName: state.register.nickName,
                     Email: state?.register?.email?.toLowerCase(),
                     FullName: state.register.fullName,
-                    PasswordHash: state.register.password
+                    Password: state.register.password
                 }),
                 credentials: "include"
             });

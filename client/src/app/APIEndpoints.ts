@@ -2,9 +2,9 @@ export const API_URL = "http://localhost:5190/chat-api";
 export const WS_URL = "http://localhost:5190/Hub";
 
 //AUTHORIZATION
-export const LOGIN_URL = `${API_URL}/AuthWithPass`;
-export const CHECK_COOKIES_URL = `${API_URL}/AuthWithCookies`;
-export const REGISTER_URL = `${API_URL}/RegisterWithPass`;
+export const LOGIN_URL = `${API_URL}/Auth/SignIn/WithPass`;
+export const CHECK_COOKIES_URL = `${API_URL}/Auth/SignIn/WithCookies`;
+export const REGISTER_URL = `${API_URL}/Auth/SignUp/WithPass`;
 
 //USERS
 export const GET_ALL_USERS = `${API_URL}/GetUsers`;
