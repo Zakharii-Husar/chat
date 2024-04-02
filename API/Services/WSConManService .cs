@@ -1,5 +1,6 @@
 ﻿using API.Data;
 using API.Hubs;
+using API.Models;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -16,7 +17,7 @@ namespace API.Services
         string? GetConnectionId(string identityId);
         void PrintConnections();
 
-        public Task BroadcastMessage(Message newMessage, List<string> allRecipients);
+        public Task BroadcastMessage(MessageDTO newMessage, List<string> allRecipients);
     }
 
     public class WsConManService(IHubContext<MainHub> hub) : IWsConManService
@@ -57,9 +58,9 @@ namespace API.Services
             }
         }
 
-        public async Task BroadcastMessage(Message newMessage, List<string> allRecipients)
+        public async Task BroadcastMessage(MessageDTO newMessage, List<string> allRecipients)
         {
-
+            PrintConnections();
             foreach (var recipient in allRecipients)
             {
                 var recipientIsOnline = GetConnectionId(recipient);

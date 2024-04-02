@@ -21,19 +21,14 @@ import { connection } from "./features/ws/wsConnection";
 function App() {
 
   const currentUserId = useAppSelector(state => state.loggedInUser.id);
-  // const eventSource = new EventSource('http://localhost:5190/chat-api/SSEChatsStream', { withCredentials: true });
-
-  // eventSource.onmessage = function (event) {
-  //   const data = JSON.parse(event.data);
-  //   console.log(data);
-  // }
   
   
 
   useEffect(() => {
     const connectWs = async () => {
+      if (!currentUserId) return;
       try {
-        if (connection.state === 'Disconnected' && currentUserId) {
+        if (connection.state === 'Disconnected') {
           await connection.start();
           await connection.invoke("Connect");
         }
@@ -51,20 +46,27 @@ function App() {
       }
     };
 
+  
+    //gives me error while reloading and doesn't do its job anyway
+   // window.addEventListener("beforeunload", disconnectWs);
+  
+    return () => {
+     // window.removeEventListener("beforeunload", disconnectWs);
+    };
+  }, [currentUserId]);
+
+  useEffect(()=>{
+    
     const logData = (data: any) => {
       console.log(data);
     }
 
     connection.on("ReceiveNewMessage", logData);
 
-  
-    window.addEventListener("beforeunload", disconnectWs);
-  
-    return () => {
-      window.removeEventListener("beforeunload", disconnectWs);
+    return(()=>{
       connection.off("ReceiveNewMessage", logData);
-    };
-  }, []);
+    })
+  }, [])
   
 
   const router = createBrowserRouter(

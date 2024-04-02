@@ -1,23 +1,14 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using API.Models;
 using API.Data;
-using API.Models;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc;
 
-namespace API.Controllers
+namespace API.Services.MessagesService
 {
-    [Authorize]
-    [Route("chat-api/[controller]")]
-    [ApiController]
-    public class LikeMessageController(AppDbContext dbContext, UserManager<AppUser> userManager) : ControllerBase
+    public partial class MessagesService
     {
-        [HttpPost]
-        public async Task<IActionResult> Post([FromBody] int messageId)
+        public async Task<bool> AddLike(int messageId, string currentUserId)
         {
-            var currentUser = await userManager.GetUserAsync(User);
-            var currentUserId = currentUser?.Id;
-
             var chatId = await dbContext.Messages
                 .Where(message => message.MessageId == messageId)
                 .Select(message => message.ChatId)
@@ -29,17 +20,12 @@ namespace API.Controllers
                 && member.ChatId == chatId
                 && member.LeftChat == null);
 
-            if (!isAuthorizedToLike) return Ok(chatId);
+            if (!isAuthorizedToLike) return false;
 
             var existingLike = await dbContext.Likes
                 .FirstOrDefaultAsync(like => like.MessageId == messageId && like.UserId == currentUserId);
 
-            if (existingLike != null)
-            {
-                dbContext.Likes.Remove(existingLike);
-                await dbContext.SaveChangesAsync();
-                return Ok(new { status = "unliked" });
-            }
+            if (existingLike != null) return true;
 
             var newLike = new Like
             {
@@ -50,8 +36,7 @@ namespace API.Controllers
 
             dbContext.Likes.Add(newLike);
             await dbContext.SaveChangesAsync();
-
-            return Ok(new { status = "liked" });
+            return true;
         }
     }
 }

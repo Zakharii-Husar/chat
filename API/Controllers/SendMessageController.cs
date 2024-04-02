@@ -56,7 +56,7 @@ namespace API.Controllers
                 .Select(member => member.MemberId)
                 .ToListAsync();
 
-            await conmanService.BroadcastMessage(newMessage, allRecipients);
+            //await conmanService.BroadcastMessage(newMessage, allRecipients);
 
 
             return Ok(newMessage);
