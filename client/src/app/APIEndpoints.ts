@@ -25,7 +25,7 @@ export const REMOVE_CHAT_MEMBER = `${API_URL}/RemoveChatMember`;
 export const RENAME_GROUP_CHAT = `${API_URL}/RenameGroupChat`;
 
 //MESSAGES
-export const SEND_MESSAGE = `${API_URL}/SendMessage`;
+export const SEND_MESSAGE = `${API_URL}/Messages/Send`;
 export const LIKE_MESSAGE = `${API_URL}/LikeMessage`;
 
 

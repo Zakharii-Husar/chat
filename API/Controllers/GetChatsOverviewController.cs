@@ -36,7 +36,7 @@ namespace API.Controllers
 
 
             var chats = latestMessages
-                .Select(m => new MessageDto()
+                .Select(m => new MessageDTO()
                 {
                     MessageId = m.MessageId,
                     SenderId = m.SenderId,

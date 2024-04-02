@@ -14,7 +14,6 @@ namespace API.Controllers
         [HttpPost("SignUp/WithPass")]
         public async Task<IActionResult> SignUpWithPassword([FromBody] SignUpReqModel model)
         {
-            Console.WriteLine("Password: " + model.Password);
             if (!ModelState.IsValid) return BadRequest("Invalid input");
             var newUser = new AppUser
             {

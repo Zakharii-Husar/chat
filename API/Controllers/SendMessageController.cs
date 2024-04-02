@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.SignalR;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace API.Controllers
 {
@@ -50,7 +49,8 @@ namespace API.Controllers
             dbContext.Messages.Add(newMessage);
             await dbContext.SaveChangesAsync();
 
-            conmanService.PrintConnections();
+            // conmanService.PrintConnections();
+
             var allRecipients = await dbContext.ChatMembers
                 .Where(member => member.ChatId == messageModel.ChatId)
                 .Select(member => member.MemberId)

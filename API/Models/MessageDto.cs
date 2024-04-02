@@ -1,6 +1,6 @@
 ﻿namespace API.Models
 {
-    public class MessageDto
+    public class MessageDTO
     {
         public int MessageId { get; set; }
         public string SenderId { get; set; }

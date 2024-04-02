@@ -50,7 +50,7 @@ namespace API.Controllers
             messagesQuery = messagesQuery.OrderByDescending(message => message.SentAt);
 
             var messages = await messagesQuery
-                .Select(m => new MessageDto
+                .Select(m => new MessageDTO
                 {
                     MessageId = m.MessageId,
                     SenderId = m.SenderId,
