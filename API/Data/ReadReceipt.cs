@@ -10,8 +10,8 @@ namespace API.Data
         public int RecordId { get; set; }
 
         [ForeignKey("Chat")]
-        public int ChatId { get; set; }
-        public Chat Chat { get; set; } = null!;
+        public int MessageId { get; set; }
+        public Message Message { get; set; } = null!;
 
         [ForeignKey("User")]
         public string UserId { get; set; } = null!;

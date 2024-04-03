@@ -13,8 +13,7 @@ namespace API.Repos
         public Task<bool> LikeExistsAsync(int messageId, string userId);
         public Task<bool> AddLikeAsync(int messageId, string userId);
         public Task<bool> RmLikeAsync(int messageId);
-
-
+        public Task<bool> MarkAsReadAsync(int messageId, string userId);
 
     }
     public partial class MessagesRepo(AppDbContext dbContext) : IMessagesRepo
@@ -33,7 +32,6 @@ namespace API.Repos
                 await dbContext.SaveChangesAsync();
             return rowsAffected > 0;
         }
-
         public async Task<bool> DeleteAsync(int id)
         {
             var message = await dbContext.Messages.FindAsync(id);
@@ -41,6 +39,20 @@ namespace API.Repos
 
             var rowsAffected =
              await dbContext.SaveChangesAsync();
+            return rowsAffected > 0;
+        }
+
+        public async Task<bool> MarkAsReadAsync(int messageId, string userId)
+        {
+            var newReceipt = new ReadReceipt()
+            {
+                MessageId = messageId,
+                UserId = userId
+            };
+            dbContext.ReadReceipts.Add(newReceipt);
+            var rowsAffected =
+                await dbContext.SaveChangesAsync();
+
             return rowsAffected > 0;
         }
 
