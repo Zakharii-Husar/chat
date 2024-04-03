@@ -37,13 +37,15 @@ namespace API.Controllers
         {
             var currentUser = await userManager.GetUserAsync(User);
             if (currentUser == null) return Unauthorized();
+            var isMember = await chatsService.CheckMembershipAsync(messageId, currentUser.Id);
+            if (!isMember) return Unauthorized();
             var result = await messagesService.AddLike(messageId, currentUser.Id);
             if (!result) return BadRequest();
             return Ok();
         }
 
         [HttpDelete("{messageId}/RmLike")]
-        public async Task<IActionResult> RmLike([FromBody] SendMessageModel model)
+        public async Task<IActionResult> RmLike(int messageId)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
             var currentUser = await userManager.GetUserAsync(User);
@@ -57,7 +59,7 @@ namespace API.Controllers
         }
 
         [HttpPatch("{messageId}/MarkAsDeleted")]
-        public async Task<IActionResult> MarkAsDeleted([FromBody] SendMessageModel model)
+        public async Task<IActionResult> MarkAsDeleted(int messageId)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
             var currentUser = await userManager.GetUserAsync(User);

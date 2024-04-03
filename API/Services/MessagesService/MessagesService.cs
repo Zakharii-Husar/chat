@@ -10,6 +10,7 @@ namespace API.Services.MessagesService
         public MessageDTO ConvertToDTO(Message message);
         public Task<MessageDTO> InsertAsync(SendMessageModel messageModel, string senderId);
         public Task<bool> AddLike(int messageId, string currentUserId);
+        public Task<bool> RmLike(int messageId, string currentUserId);
     }
     public partial class MessagesService(AppDbContext dbContext) : IMessagesService
     {

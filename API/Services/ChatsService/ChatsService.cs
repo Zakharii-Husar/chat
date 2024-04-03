@@ -7,7 +7,11 @@ namespace API.Services.MessagesService
 {
     public interface IChatsService
     {
-        public Task<List<string>> GetMembersIdsAsync(int Id);
+        public Task<List<string>> GetMembersIdsAsync(int id);
+
+        public Task<bool> CheckMembershipAsync(int chatId, string userId);
+
+        public Task<bool> CheckRoleAsync(int chatId, string userId);
     }
     public partial class ChatsService(AppDbContext dbContext) : IChatsService
     {
