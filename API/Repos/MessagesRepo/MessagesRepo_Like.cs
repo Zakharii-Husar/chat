@@ -16,15 +16,8 @@ namespace API.Repos
              .AnyAsync();
         }
 
-        public async Task<bool> AddLikeAsync(int messageId, string userId)
+        public async Task<bool> AddLikeAsync(Like newLike)
         {
-            var newLike = new Like
-            {
-                MessageId = messageId,
-                UserId = userId
-            };
-
-
             dbContext.Likes.Add(newLike);
             var rowsAffected =
                 await dbContext.SaveChangesAsync();
