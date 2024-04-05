@@ -3,6 +3,7 @@ using API.Data;
 using API.Hubs;
 using API.Services;
 using API.Services.MessagesService;
+using API.Services.AuthService;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -69,6 +70,7 @@ builder.Services.AddTransient<IAddChatMemberService, AddChatMemberService>();
 builder.Services.AddTransient<IImageUploadService, ImageUploadService>();
 builder.Services.AddSingleton<IWsConManService, WsConManService>();
 
+builder.Services.AddTransient<IAuthService, AuthService>();
 builder.Services.AddTransient<IChatsService, ChatsService>();
 builder.Services.AddTransient<IMessagesService, MessagesService>();
 

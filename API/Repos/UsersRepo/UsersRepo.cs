@@ -10,6 +10,8 @@ namespace API.Repos.UsersRepo
     {
         public Task<List<AppUser>> GetUsersAsync(int paginationOffset, int paginationStep);
         public Task<List<AppUser>> FindUsersAsync(string query);
+
+        public Task<AppUser?> GetUserByEmailAsync(string email);
         public Task<AppUser?> GetUserByUnameAsync(string uname);
         public Task<AppUser?> GetUserByIdAsync(string uId);
         public Task<AppUser?> CreateUserAsync(AppUser appUser, string password);
@@ -20,7 +22,7 @@ namespace API.Repos.UsersRepo
 
 
     }
-    public partial class UsersRepo(UserManager<AppUser> userManager) : IUsersRepo
+    public partial class UsersRepo(UserManager<AppUser> userManager, DbContext dbContext) : IUsersRepo
     {
         public async Task<List<AppUser>> GetUsersAsync(int paginationOffset, int paginationStep)
         {

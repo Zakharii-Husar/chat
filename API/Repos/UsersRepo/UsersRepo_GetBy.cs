@@ -1,9 +1,4 @@
 ﻿using API.Data;
-using API.Models;
-using System;
-using Microsoft.EntityFrameworkCore;
-using System.Security.Cryptography;
-using Microsoft.AspNetCore.Identity;
 
 namespace API.Repos.UsersRepo
 {
@@ -17,6 +12,11 @@ namespace API.Repos.UsersRepo
         public async Task<AppUser?> GetUserByUnameAsync(string uname)
         {
             return await userManager.FindByNameAsync(uname);
+        }
+
+        public async Task<AppUser?> GetUserByEmailAsync(string email)
+        {
+            return await userManager.FindByNameAsync(email);
         }
     }
 }
