@@ -8,9 +8,10 @@ namespace API.Repos.ChatsRepo
 {
     public interface IChatsRepo
     {
+        public Task<ChatMember?> GetChatMember(int chatId, string userId);
+        public Task<List<AppUser>> GetAllMembers(int chatId);
         public Task<List<int>> GetUserChatsIdsAsync(string userId, int itemsToSkip, int itemsToTake);
         public Task<string?> GetChatNameByIdAsync(int chatId);
-        public Task<List<UserDTO>> GetChatMembersByIdAsync(int chatId);
         //public Task<Chat> GetChatByIdAsync(int chatId);
         //public Task<int> GetIdByUNameAsync(string username);
         //public Task<bool> CreateChatAsync(Chat newChat);

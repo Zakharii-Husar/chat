@@ -14,6 +14,7 @@ namespace API.Services.ChatsService
             var chatsIds = await chatsRepo.GetUserChatsIdsAsync(userId, itemsToSkip, itemsToTake);
             var lastMessages = new List<MessageDTO>();
 
+            if (chatsIds.Count < 1) return lastMessages;
             foreach (var chatId in chatsIds)
             {
                 var msg = await messagesRepo.GetLastMessageAsync(chatId, userId);

@@ -1,13 +1,16 @@
 ﻿using API.Models;
 using API.Data;
 using API.Repos.ChatsRepo;
-using API.Repos;
+using API.Repos.MessagesRepo;
+using API.Services.UsersService;
 
 namespace API.Services.ChatsService
 {
     public interface IChatsService
     {
         public Task<List<MessageDTO>> GetChatsOverviewAsync(string userId, int itemsToSkip, int itemsToTake);
+
+        public Task<ChatDTO?> GetChatAsync(string userId, int chatId, int itemsToSkip, int itemsToTake);
         public Task<List<string>> GetMembersIdsAsync(int chatId);
 
         public Task<bool> CheckMembershipAsync(int chatId, string userId);
@@ -21,6 +24,7 @@ namespace API.Services.ChatsService
     }
     public partial class ChatsService(
         AppDbContext dbContext,
+        IUsersService usersService,
         IChatsRepo chatsRepo,
         IMessagesRepo messagesRepo) : IChatsService
     {

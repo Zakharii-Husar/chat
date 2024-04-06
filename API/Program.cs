@@ -2,7 +2,8 @@ using Microsoft.AspNetCore.Identity;
 using API.Data;
 using API.Hubs;
 using API.Services;
-using API.Services.MessagesService;
+using API.Services.UsersService;
+using API.Services.ChatsService;
 using API.Services.AuthService;
 
 
@@ -66,16 +67,10 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 
-builder.Services.AddTransient<IAddChatMemberService, AddChatMemberService>();
-builder.Services.AddTransient<IImageUploadService, ImageUploadService>();
-builder.Services.AddSingleton<IWsConManService, WsConManService>();
-
 builder.Services.AddTransient<IAuthService, AuthService>();
 builder.Services.AddTransient<IChatsService, ChatsService>();
-builder.Services.AddTransient<IMessagesService, MessagesService>();
+builder.Services.AddTransient<IUsersService, UsersService>();
 
-//Service for reducing avatar size
-///builder.Services.AddTransient<IImageCompressionService, ImageCompressionService>();
 
 var app = builder.Build();
 
