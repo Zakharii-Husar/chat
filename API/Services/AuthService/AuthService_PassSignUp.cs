@@ -5,7 +5,7 @@ namespace API.Services.AuthService
 {
     public partial class AuthService
     {
-        public async Task<UserDetailsResponseDTO?> SignUpWithPassword(SignUpReqModel model)
+        public async Task<UserDTO?> SignUpWithPassword(SignUpReqModel model)
         {
             var newUser = new AppUser
             {
@@ -18,7 +18,7 @@ namespace API.Services.AuthService
             if (registeredUser == null) return null;
             await signInManager.SignInAsync(registeredUser, isPersistent: true);
 
-            return new UserDetailsResponseDTO
+            return new UserDTO
             {
                 Id = registeredUser.Id,
                 UserName = registeredUser.UserName,

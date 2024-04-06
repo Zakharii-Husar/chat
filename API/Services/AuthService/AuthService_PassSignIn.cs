@@ -4,7 +4,7 @@ namespace API.Services.AuthService
 {
     public partial class AuthService
     {
-        public async Task<UserDetailsResponseDTO?> SignInWithPassword(SignInReqModel model)
+        public async Task<UserDTO?> SignInWithPassword(SignInReqModel model)
         {
             var user = await usersRepo.GetUserByUnameAsync(model.UsernameOrEmail)
            ?? await usersRepo.GetUserByEmailAsync(model.UsernameOrEmail);
@@ -13,7 +13,7 @@ namespace API.Services.AuthService
             var result = await signInManager.PasswordSignInAsync(user, model.Password, false, false);
             if (!result.Succeeded) return null;
 
-            return new UserDetailsResponseDTO()
+            return new UserDTO()
             {
                 Id = user.Id,
                 UserName = user.UserName,

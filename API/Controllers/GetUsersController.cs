@@ -20,7 +20,7 @@ namespace API.Controllers
             var currentUserId = currentUser?.Id;
 
             var users = await userManager.Users
-    .Select(user => new UserDetailsResponseDTO()
+    .Select(user => new UserDTO()
     {
         Id = user.Id,
         UserName = user.UserName,

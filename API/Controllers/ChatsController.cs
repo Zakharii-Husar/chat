@@ -18,5 +18,14 @@ namespace API.Controllers
             var chatsList = await chatsService.GetChatsOverviewAsync(currentUser!.Id, paginationOffset, 5);
             return Ok(chatsList);
         }
+
+        [HttpGet("GetChatById")]
+        public async Task<IActionResult> GetChatsOverview([FromQuery] int chatId, int paginationOffset)
+        {
+            var currentUser = await userManager.GetUserAsync(User);
+            var chatsList = await chatsService.GetChatsOverviewAsync(currentUser!.Id, paginationOffset, 5);
+            return Ok(chatsList);
+        }
+
     }
 }

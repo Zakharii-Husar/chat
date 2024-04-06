@@ -17,7 +17,7 @@ namespace API.Services.ChatsService
                 SenderAvatarName = message.Sender?.AvatarName,
                 ChatId = message.ChatId,
                 ChatName = message.Chat?.ChatName,
-                Content = message.Content,
+                Content = !message.IsDeleted ? message.Content : message.Sender.UserName + " deleted message.",
                 SentAt = message.SentAt,
                 Likes = message.Likes?.Select(like => like.User?.UserName).ToList()
             };

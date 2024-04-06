@@ -8,9 +8,9 @@ namespace API.Services.AuthService
 {
     public interface IAuthService
     {
-        public Task<UserDetailsResponseDTO?> SignUpWithPassword(SignUpReqModel model);
-        public Task<UserDetailsResponseDTO?> SignInWithPassword(SignInReqModel model);
-        public Task<UserDetailsResponseDTO?> SignInWithCookies(ClaimsPrincipal user);
+        public Task<UserDTO?> SignUpWithPassword(SignUpReqModel model);
+        public Task<UserDTO?> SignInWithPassword(SignInReqModel model);
+        public Task<UserDTO?> SignInWithCookies(ClaimsPrincipal user);
     }
     public partial class AuthService(
         UsersRepo usersRepo,

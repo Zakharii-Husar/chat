@@ -6,13 +6,13 @@ namespace API.Services.AuthService
 {
     public partial class AuthService
     {
-        public async Task<UserDetailsResponseDTO?> SignInWithCookies(ClaimsPrincipal user)
+        public async Task<UserDTO?> SignInWithCookies(ClaimsPrincipal user)
         {
 
             if (!user.Identity?.IsAuthenticated ?? false) return null;
             var appUser = await userManager.GetUserAsync(user);
             if (appUser == null) return null;
-            return new UserDetailsResponseDTO
+            return new UserDTO
             {
                 Id = appUser.Id,
                 UserName = appUser.UserName,

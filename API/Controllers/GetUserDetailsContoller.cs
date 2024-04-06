@@ -11,7 +11,7 @@ namespace API.Controllers
     {
 
         [HttpGet]
-        public async Task<ActionResult<UserDetailsResponseDTO>> GetUserDetails([FromQuery] string userName)
+        public async Task<ActionResult<UserDTO>> GetUserDetails([FromQuery] string userName)
         {
             var user = await userManager.FindByNameAsync(userName);
 
@@ -20,7 +20,7 @@ namespace API.Controllers
                 return NotFound();
             }
 
-            var userDetails = new UserDetailsResponseDTO
+            var userDetails = new UserDTO
             {
                 Id = user.Id,
                 UserName = user.UserName,

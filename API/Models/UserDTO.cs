@@ -1,6 +1,6 @@
 ﻿namespace API.Models
 {
-    public class UserDetailsResponseDTO
+    public class UserDTO
     {
         public string Id { get; set; }
         public string UserName { get; set; }
