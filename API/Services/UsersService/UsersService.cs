@@ -3,11 +3,11 @@ using API.Models;
 
 namespace API.Services.UsersService
 {
-    public interface IChatsService
+    public interface IUsersService
     {
         public UserDTO ConvertUserToDTO(AppUser appUser);
     }
-    public class UsersService
+    public class UsersService : IUsersService
     {
         public UserDTO ConvertUserToDTO(AppUser appUser)
         {

@@ -8,8 +8,8 @@ namespace API.Repos.MessagesRepo
     {
         public async Task<List<Message>> GetMessagesByChatMember(
             ChatMember member,
-            int paginationOffset,
-            int paginationStep)
+            int itemsToSkip,
+            int itemsToTake)
         {
 `   
             var messagesQuery = dbContext.Messages
@@ -28,16 +28,16 @@ namespace API.Repos.MessagesRepo
             messagesQuery = messagesQuery.OrderByDescending(message => message.SentAt);
 
 
-            // Calculate the number of messages to skip based on paginationOffset
+            // Calculate the number of messages to skip based on itemsToSkip
             var messagesTotal = await messagesQuery.CountAsync();
-            var messagesLeft = messagesTotal - paginationOffset;
-            var messagesToTake = messagesLeft < paginationStep ? messagesLeft : paginationStep;
+            var messagesLeft = messagesTotal - itemsToSkip;
+            var messagesToTake = messagesLeft < itemsToTake ? messagesLeft : itemsToTake;
             if (messagesToTake < 1) return [];
 
             return await messagesQuery
                 .Select(m => m)
                 .OrderBy(m => m.SentAt)
-                .Skip(paginationOffset)
+                .Skip(itemsToSkip)
                 .Take(messagesToTake)
                 .ToListAsync();
 

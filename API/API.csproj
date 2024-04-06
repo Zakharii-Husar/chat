@@ -10,6 +10,18 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <None Remove="ABCDISPOSE\GetChatByIdController.txt" />
+	  <None Remove="ABCDISPOSE\GetChatIdByUsernameController.txt" />
+	  <None Remove="ABCDISPOSE\GetChatsOverviewController.txt" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Compile Include="ABCDISPOSE\GetChatByIdController.txt" />
+	  <Compile Include="ABCDISPOSE\GetChatIdByUsernameController.txt" />
+	  <Compile Include="ABCDISPOSE\GetChatsOverviewController.txt" />
+	</ItemGroup>
+
+	<ItemGroup>
 
 		<PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.1" />
 

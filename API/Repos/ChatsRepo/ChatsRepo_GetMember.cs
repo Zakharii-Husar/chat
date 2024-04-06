@@ -5,7 +5,7 @@ namespace API.Repos.ChatsRepo
 {
     public partial class ChatsRepo
     {
-        public async Task<ChatMember?> GetChatMember(int chatId, string userId)
+        public async Task<ChatMember?> GetChatMemberAsync(int chatId, string userId)
         {
             return await dbContext.ChatMembers
                 .Where(m => m.ChatId == chatId && m.MemberId == userId)

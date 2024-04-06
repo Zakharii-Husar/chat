@@ -3,11 +3,14 @@ using API.Data;
 using API.Repos.ChatsRepo;
 using API.Repos.MessagesRepo;
 using API.Services.UsersService;
+using API.Repos.UsersRepo;
 
 namespace API.Services.ChatsService
 {
     public interface IChatsService
     {
+        public Task<int?> GetPrivateChatIdAsync(string uname1, string uname2);
+        public Task<int?> CreatePrivateChatAsync(string uname1, string uname2);
         public Task<List<MessageDTO>> GetChatsOverviewAsync(string userId, int itemsToSkip, int itemsToTake);
 
         public Task<ChatDTO?> GetChatAsync(string userId, int chatId, int itemsToSkip, int itemsToTake);
@@ -24,7 +27,7 @@ namespace API.Services.ChatsService
     }
     public partial class ChatsService(
         AppDbContext dbContext,
-        IUsersService usersService,
+        IUsersRepo usersRepo,
         IChatsRepo chatsRepo,
         IMessagesRepo messagesRepo) : IChatsService
     {

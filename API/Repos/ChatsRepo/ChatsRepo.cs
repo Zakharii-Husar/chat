@@ -8,17 +8,13 @@ namespace API.Repos.ChatsRepo
 {
     public interface IChatsRepo
     {
-        public Task<ChatMember?> GetChatMember(int chatId, string userId);
-        public Task<List<AppUser>> GetAllMembers(int chatId);
+        public Task<bool> AddChatMemberAsync(ChatMember member);
+        public Task<int?> CreatePrivateChatAsync();
+        public Task<int?> GetPrivateChatIdAsync(string uname1, string uname2);
+        public Task<ChatMember?> GetChatMemberAsync(int chatId, string userId);
+        public Task<List<AppUser>> GetAllMembersAsync(int chatId);
         public Task<List<int>> GetUserChatsIdsAsync(string userId, int itemsToSkip, int itemsToTake);
         public Task<string?> GetChatNameByIdAsync(int chatId);
-        //public Task<Chat> GetChatByIdAsync(int chatId);
-        //public Task<int> GetIdByUNameAsync(string username);
-        //public Task<bool> CreateChatAsync(Chat newChat);
-        //public Task<bool> CreateGroupAsync(Chat newGroup);
-        //public Task<bool> RenameGroupAsync(Chat chat);
-        //public Task<bool> AddGroupMemberAsync(ChatMember member);
-        //public Task<bool> RmGroupMemberAsync(ChatMember member);
 
 
 

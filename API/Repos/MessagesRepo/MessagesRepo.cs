@@ -11,7 +11,6 @@ namespace API.Repos.MessagesRepo
         public Task<Message?> GetLastMessageAsync(int chatId, string userId);
         public Task<Message?> GetMessageByIdAsync(int messageId);
         public Task<Message?> InsertAsync(Message message);
-        public Task<bool> DeleteAsync(int id);
         public Task<bool> LikeExistsAsync(int messageId, string userId);
         public Task<bool> AddLikeAsync(Like newLike);
         public Task<bool> RmLikeAsync(int messageId);
