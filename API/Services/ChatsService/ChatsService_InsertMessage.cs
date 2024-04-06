@@ -3,11 +3,11 @@ using API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 
-namespace API.Services.MessagesService
+namespace API.Services.ChatsService
 {
-    public partial class MessagesService
+    public partial class ChatsService
     {
-        public async Task<MessageDTO> InsertAsync(SendMessageModel model, string senderId)
+        public async Task<MessageDTO> InsertMessageAsync(SendMessageModel model, string senderId)
         {
             var newMessage = new Message
             {
@@ -19,7 +19,7 @@ namespace API.Services.MessagesService
 
             dbContext.Messages.Add(newMessage);
             int rowsAffected = await dbContext.SaveChangesAsync();
-            if (rowsAffected > 0) return this.ConvertToDTO(newMessage);
+            if (rowsAffected > 0) return ConvertMessageToDTO(newMessage);
             return null;
         }
     }

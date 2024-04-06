@@ -3,13 +3,13 @@ using API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 
-namespace API.Services.MessagesService
+namespace API.Services.ChatsService
 {
     public partial class ChatsService
     {
         public async Task<bool> CheckMembershipAsync(int messageId, string userId)
         {
-            var chatId = await _dbContext.Messages
+            var chatId = await dbContext.Messages
                 .Where(m => m.MessageId == messageId)
                 .Select(m => m.ChatId)
                 .FirstOrDefaultAsync();
@@ -19,7 +19,7 @@ namespace API.Services.MessagesService
                 return false;
             }
 
-            return await _dbContext.ChatMembers
+            return await dbContext.ChatMembers
                 .AnyAsync(member => member.ChatId == chatId &&
                                     member.MemberId == userId &&
                                     member.LeftChat != null);

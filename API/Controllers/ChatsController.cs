@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using API.Data;
-using API.Services.MessagesService;
+using API.Services.ChatsService;
 
 namespace API.Controllers
 {
@@ -15,9 +15,7 @@ namespace API.Controllers
         public async Task<IActionResult> GetChatsOverview([FromQuery] int paginationOffset)
         {
             var currentUser = await userManager.GetUserAsync(User);
-            var currentUserId = currentUser?.Id;
-
-            var chatsList = await chatsService.GetChatsOverview(currentUserId, paginationOffset, 5);
+            var chatsList = await chatsService.GetChatsOverviewAsync(currentUser!.Id, paginationOffset, 5);
             return Ok(chatsList);
         }
     }

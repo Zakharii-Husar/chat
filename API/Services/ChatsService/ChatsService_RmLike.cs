@@ -3,11 +3,11 @@ using API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 
-namespace API.Services.MessagesService
+namespace API.Services.ChatsService
 {
-    public partial class MessagesService
+    public partial class ChatsService
     {
-        public async Task<bool> RmLike(int messageId, string currentUserId)
+        public async Task<bool> RmLikeAsync(int messageId, string currentUserId)
         {
             var chatId = await dbContext.Messages
                 .Where(message => message.MessageId == messageId)

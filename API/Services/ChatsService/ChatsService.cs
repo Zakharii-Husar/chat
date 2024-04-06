@@ -1,21 +1,29 @@
 ﻿using API.Models;
 using API.Data;
 using API.Repos.ChatsRepo;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Mvc;
+using API.Repos;
 
-namespace API.Services.MessagesService
+namespace API.Services.ChatsService
 {
     public interface IChatsService
     {
-        public Task<List<MessageDTO>> GetChatsOverview(string userId, int paginationOffset, int paginationStep);
-        public Task<List<string>> GetMembersIdsAsync(int id);
+        public Task<List<MessageDTO>> GetChatsOverviewAsync(string userId, int itemsToSkip, int itemsToTake);
+        public Task<List<string>> GetMembersIdsAsync(int chatId);
 
         public Task<bool> CheckMembershipAsync(int chatId, string userId);
 
         public Task<bool> CheckRoleAsync(int chatId, string userId);
+
+        public MessageDTO? ConvertMessageToDTO(Message? message);
+        public Task<MessageDTO> InsertMessageAsync(SendMessageModel messageModel, string senderId);
+        public Task<bool> AddLikeAsync(int messageId, string currentUserId);
+        public Task<bool> RmLikeAsync(int messageId, string currentUserId);
     }
-    public partial class ChatsService(AppDbContext dbContext, ChatsRepo chatsRepo) : IChatsService
+    public partial class ChatsService(
+        AppDbContext dbContext,
+        IChatsRepo chatsRepo,
+        IMessagesRepo messagesRepo) : IChatsService
     {
+
     }
 }

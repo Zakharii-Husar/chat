@@ -2,7 +2,7 @@
 using API.Data;
 using Microsoft.EntityFrameworkCore;
 
-namespace API.Services.MessagesService
+namespace API.Services.ChatsService
 {
     public partial class ChatsService
     {
