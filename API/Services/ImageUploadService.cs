@@ -3,8 +3,8 @@
 
     public interface IImageUploadService
     {
-        Task<string> SaveAvatarAsync(IFormFile? avatar);
-        Task<bool> RmPreviousAvatar(string? previousAvatarName);
+        public Task<string> SaveAvatarAsync(IFormFile? avatar);
+        public bool RmPreviousAvatar(string? previousAvatarName);
     }
     public class ImageUploadService(IWebHostEnvironment hostingEnvironment) : IImageUploadService
     {
@@ -60,7 +60,7 @@
             return true;
         }
 
-        public async Task<bool> RmPreviousAvatar(string previousAvatarName)
+        public bool RmPreviousAvatar(string previousAvatarName)
         {
             if (string.IsNullOrEmpty(previousAvatarName))
             {

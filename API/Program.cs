@@ -1,10 +1,12 @@
 using Microsoft.AspNetCore.Identity;
 using API.Data;
 using API.Hubs;
-using API.Services;
 using API.Services.UsersService;
 using API.Services.ChatsService;
 using API.Services.AuthService;
+using API.Repos.ChatsRepo;
+using API.Repos.MessagesRepo;
+using API.Repos.UsersRepo;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -66,6 +68,9 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddTransient<IChatsRepo, ChatsRepo>();
+builder.Services.AddTransient<IMessagesRepo, MessagesRepo>();
+builder.Services.AddTransient<IUsersRepo, UsersRepo>();
 
 builder.Services.AddTransient<IAuthService, AuthService>();
 builder.Services.AddTransient<IChatsService, ChatsService>();

@@ -11,7 +11,7 @@ namespace API.Repos.MessagesRepo
             int itemsToSkip,
             int itemsToTake)
         {
-`   
+
             var messagesQuery = dbContext.Messages
                 .Where(message => message.ChatId == member.ChatId)
                 //making sure user gets only the messages sent after he joined chat

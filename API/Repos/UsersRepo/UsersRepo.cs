@@ -1,6 +1,4 @@
 ﻿using API.Data;
-using API.Models;
-using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 
@@ -8,7 +6,7 @@ namespace API.Repos.UsersRepo
 {
     public interface IUsersRepo
     {
-        public Task<List<AppUser>> GetUsersAsync(int paginationOffset, int paginationStep);
+        public Task<List<AppUser>> GetUsersAsync(int itemsToSkip, int itemsToTake);
         public Task<List<AppUser>> FindUsersAsync(string query);
 
         public Task<AppUser?> GetUserByEmailAsync(string email);
@@ -22,17 +20,14 @@ namespace API.Repos.UsersRepo
 
 
     }
-    public partial class UsersRepo(UserManager<AppUser> userManager, DbContext dbContext) : IUsersRepo
+    public partial class UsersRepo(UserManager<AppUser> userManager) : IUsersRepo
     {
-        public async Task<List<AppUser>> GetUsersAsync(int paginationOffset, int paginationStep)
+        public async Task<List<AppUser>> GetUsersAsync(int itemsToSkip, int itemsToTake)
         {
-            var effectiveOffset = Math.Max(paginationOffset, 0);
-
-            var itemsToSkip = effectiveOffset * paginationStep;
 
             return await userManager.Users
                 .Skip(itemsToSkip)
-                .Take(paginationStep)
+                .Take(itemsToTake)
                 .ToListAsync();
         }
     }

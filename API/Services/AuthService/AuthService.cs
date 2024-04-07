@@ -1,5 +1,6 @@
 ﻿using API.Data;
 using API.Models;
+using API.Repos;
 using API.Repos.UsersRepo;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
@@ -13,7 +14,7 @@ namespace API.Services.AuthService
         public Task<UserDTO?> SignInWithCookies(ClaimsPrincipal user);
     }
     public partial class AuthService(
-        UsersRepo usersRepo,
+        IUsersRepo usersRepo,
         SignInManager<AppUser> signInManager,
         UserManager<AppUser> userManager) : IAuthService
     { }

@@ -37,7 +37,7 @@ namespace API.Controllers
                 var userId = _userManager.GetUserId(User)!;
                 var user = await _userManager.FindByIdAsync(userId);
 
-                await _imageUploadService.RmPreviousAvatar(user!.AvatarName);
+                _imageUploadService.RmPreviousAvatar(user!.AvatarName);
                 user!.AvatarName = avatarName;
                 var result = await _userManager.UpdateAsync(user!);
                 if (!result.Succeeded) return BadRequest();
