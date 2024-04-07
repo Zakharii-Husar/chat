@@ -10,12 +10,14 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <None Remove="ABCDISPOSE\CreateGroupChatController.txt" />
 	  <None Remove="ABCDISPOSE\GetChatByIdController.txt" />
 	  <None Remove="ABCDISPOSE\GetChatIdByUsernameController.txt" />
 	  <None Remove="ABCDISPOSE\GetChatsOverviewController.txt" />
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Include="ABCDISPOSE\CreateGroupChatController.txt" />
 	  <Compile Include="ABCDISPOSE\GetChatByIdController.txt" />
 	  <Compile Include="ABCDISPOSE\GetChatIdByUsernameController.txt" />
 	  <Compile Include="ABCDISPOSE\GetChatsOverviewController.txt" />

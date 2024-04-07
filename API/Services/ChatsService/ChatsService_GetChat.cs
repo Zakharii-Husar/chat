@@ -7,9 +7,9 @@ namespace API.Services.ChatsService
         public async Task<ChatDTO?> GetChatAsync(string userId, int chatId, int itemsToSkip, int itemsToTake)
         {
             var chatName = await chatsRepo.GetChatNameByIdAsync(chatId);
-            var currentMember = await chatsRepo.GetChatMember(chatId, userId);
+            var currentMember = await chatsRepo.GetChatMemberAsync(chatId, userId);
             if (currentMember == null) return null;
-            var members = await chatsRepo.GetAllMembers(chatId);
+            var members = await chatsRepo.GetAllMembersAsync(chatId);
             var convertedMembers = members.Select(usersService.ConvertUserToDTO).ToList();
             var messages = await messagesRepo.GetMessagesByChatMember(currentMember, itemsToSkip, itemsToTake);
             var convertedMessages = messages.Select(ConvertMessageToDTO).ToList();

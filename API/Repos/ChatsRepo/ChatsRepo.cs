@@ -8,6 +8,8 @@ namespace API.Repos.ChatsRepo
 {
     public interface IChatsRepo
     {
+        public Task<Chat?> GetChatById(int Id);
+        public Task<string?> RenameChatAsync(RenameChatRequest request);
         public Task<bool> AddChatMemberAsync(ChatMember member);
         public Task<int?> CreateChatAsync(Chat chat);
         public Task<int?> GetPrivateChatIdAsync(string uname1, string uname2);
@@ -20,8 +22,5 @@ namespace API.Repos.ChatsRepo
 
     }
 
-    public partial class ChatsRepo(AppDbContext dbContext, UsersService usersService) : IChatsRepo
-    {
-
-    }
+    public partial class ChatsRepo(AppDbContext dbContext, UsersService usersService) : IChatsRepo;
 }
