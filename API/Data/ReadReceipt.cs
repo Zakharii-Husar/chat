@@ -9,8 +9,7 @@ namespace API.Data
         [Key]
         public int RecordId { get; set; }
 
-        [ForeignKey("Message")]
-        public int MessageId { get; set; }
+        [ForeignKey("Message")][Required] public int MessageId { get; set; }
         public Message Message { get; set; } = null!;
 
         [ForeignKey("User")]

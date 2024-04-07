@@ -7,6 +7,8 @@ namespace API.Repos.MessagesRepo
 {
     public interface IMessagesRepo
     {
+        public Task<List<int>> GetNewMessagesIds(int chatId, string userId);
+        public Task<ReadReceipt?> GetReadReceiptAsync(int messageId, string userId);
         public Task<List<Message>> GetMessagesByChatMember(ChatMember member, int paginationOffset, int paginationStep);
         public Task<Message?> GetLastMessageAsync(int chatId, string userId);
         public Task<Message?> GetMessageByIdAsync(int messageId);
@@ -17,9 +19,6 @@ namespace API.Repos.MessagesRepo
         public Task<bool> MarkAsReadAsync(ReadReceipt newReceipt);
 
     }
-    public partial class MessagesRepo(AppDbContext dbContext) : IMessagesRepo
-    {
-
-    }
+    public partial class MessagesRepo(AppDbContext dbContext) : IMessagesRepo;
 }
 

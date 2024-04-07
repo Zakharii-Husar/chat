@@ -9,7 +9,9 @@ namespace API.Services.ChatsService
 {
     public interface IChatsService
     {
-        public Task<bool> AddChatMemberAsync(EditMembershipRequest request, AppUser currentUser)
+        public Task<bool> MarkChatAsReadAsync(int chatId, AppUser currentUser);
+        public Task<bool> RmChatMemberAsync(EditMembershipRequest request, AppUser currentUser);
+        public Task<bool> AddChatMemberAsync(EditMembershipRequest request, AppUser currentUser);
         public Task<bool> RenameChatAsync(RenameChatRequest payload, AppUser currentUser);
         public Task<int?> GetPrivateChatIdAsync(string uname1, string uname2);
         public Task<int?> CreatePrivateChatAsync(string uname1, string uname2);

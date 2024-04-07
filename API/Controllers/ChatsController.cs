@@ -91,5 +91,29 @@ namespace API.Controllers
             return StatusCode(500);
         }
 
+        [Authorize]
+        [HttpPost("RemoveChatMember")]
+        public async Task<IActionResult> RemoveChatMember([FromBody] EditMembershipRequest request)
+        {
+            if (!ModelState.IsValid) return BadRequest();
+            var currentUser = await userManager.GetUserAsync(User);
+            if (currentUser == null) return Unauthorized();
+            var result = await chatsService.RmChatMemberAsync(request, currentUser);
+            if (result) return Ok();
+            return StatusCode(500);
+        }
+
+        [Authorize]
+        [HttpPost("MarkAsRead")]
+        public async Task<IActionResult> MarkAsRead([FromBody] int chatId)
+        {
+            if (!ModelState.IsValid) return BadRequest();
+            var currentUser = await userManager.GetUserAsync(User);
+            if (currentUser == null) return Unauthorized();
+            var result = await chatsService.MarkChatAsReadAsync(chatId, currentUser);
+            if (result) return Ok();
+            return StatusCode(500);
+        }
+
     }
 }
