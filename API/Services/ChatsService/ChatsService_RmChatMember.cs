@@ -12,6 +12,8 @@ namespace API.Services.ChatsService
             if (!isAdmin && !isLeaving) return false;
             var memberToRm = await chatsRepo.GetChatMemberAsync(request.ChatId, request.UserId);
             if (memberToRm == null || memberToRm.LeftChat != null) return false;
+            bool result = await chatsRepo.RmChatMemberAsync(memberToRm);
+            if (!result) return false;
 
             var removedMsg = $"{currentUser?.UserName} removed {memberToRm.Member.UserName} from chat.";
             var leftMsg = $"{currentUser?.UserName} left chat.";

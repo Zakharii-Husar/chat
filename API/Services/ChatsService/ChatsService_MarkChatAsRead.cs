@@ -6,7 +6,7 @@ namespace API.Services.ChatsService
     {
         public async Task<bool> MarkChatAsReadAsync(int chatId, AppUser currentUser)
         {
-            var newMessages = await messagesRepo.GetNewMessagesIds(chatId, currentUser.Id);
+            var newMessages = await messagesRepo.GetUnreadMessagesIds(chatId, currentUser.Id);
 
             foreach (var messageId in newMessages)
             {

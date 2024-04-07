@@ -7,7 +7,7 @@ namespace API.Repos.MessagesRepo
 {
     public interface IMessagesRepo
     {
-        public Task<List<int>> GetNewMessagesIds(int chatId, string userId);
+        public Task<List<int>> GetUnreadMessagesIds(int chatId, string userId);
         public Task<ReadReceipt?> GetReadReceiptAsync(int messageId, string userId);
         public Task<List<Message>> GetMessagesByChatMember(ChatMember member, int paginationOffset, int paginationStep);
         public Task<Message?> GetLastMessageAsync(int chatId, string userId);
