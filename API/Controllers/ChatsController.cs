@@ -28,7 +28,7 @@ namespace API.Controllers
         {
             const int itemsToTake = 5;
             var currentUser = await userManager.GetUserAsync(User);
-            var chat = await chatsService.GetChatAsync(currentUser!.Id, chatId, itemsToSkip, itemsToTake);
+            var chat = await chatsService.GetChatDTOAsync(currentUser!.Id, chatId, itemsToSkip, itemsToTake);
             return Ok(chat);
         }
 
@@ -75,6 +75,18 @@ namespace API.Controllers
             var currentUser = await userManager.GetUserAsync(User);
             if (currentUser == null) return Unauthorized();
             var result = await chatsService.RenameChatAsync(model, currentUser);
+            if (result) return Ok();
+            return StatusCode(500);
+        }
+
+        [Authorize]
+        [HttpPost("AddChatMember")]
+        public async Task<IActionResult> AddChatMember([FromBody] EditMembershipRequest request)
+        {
+            if (!ModelState.IsValid) return BadRequest();
+            var currentUser = await userManager.GetUserAsync(User);
+            if (currentUser == null) return Unauthorized();
+            var result = await chatsService.AddChatMemberAsync(request, currentUser);
             if (result) return Ok();
             return StatusCode(500);
         }

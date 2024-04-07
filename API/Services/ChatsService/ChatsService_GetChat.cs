@@ -4,7 +4,7 @@ namespace API.Services.ChatsService
 {
     public partial class ChatsService
     {
-        public async Task<ChatDTO?> GetChatAsync(string userId, int chatId, int itemsToSkip, int itemsToTake)
+        public async Task<ChatDTO?> GetChatDTOAsync(string userId, int chatId, int itemsToSkip, int itemsToTake)
         {
             var chatName = await chatsRepo.GetChatNameByIdAsync(chatId);
             var currentMember = await chatsRepo.GetChatMemberAsync(chatId, userId);

@@ -14,6 +14,7 @@
 	  <None Remove="ABCDISPOSE\GetChatByIdController.txt" />
 	  <None Remove="ABCDISPOSE\GetChatIdByUsernameController.txt" />
 	  <None Remove="ABCDISPOSE\GetChatsOverviewController.txt" />
+	  <None Remove="ABCDISPOSE\RenameGroupChatController.txt" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -21,6 +22,7 @@
 	  <Compile Include="ABCDISPOSE\GetChatByIdController.txt" />
 	  <Compile Include="ABCDISPOSE\GetChatIdByUsernameController.txt" />
 	  <Compile Include="ABCDISPOSE\GetChatsOverviewController.txt" />
+	  <Compile Include="ABCDISPOSE\RenameGroupChatController.txt" />
 	</ItemGroup>
 
 	<ItemGroup>
