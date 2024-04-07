@@ -7,7 +7,7 @@ namespace API.Controllers.ChatsController
     public partial class ChatsController
     {
         [Authorize]
-        [HttpPost("CreateGroupChat")]
+        [HttpPost("CreateGroup")]
         public async Task<IActionResult> CreateGroupChat([FromBody] NewChatModel model)
         {
             if (!ModelState.IsValid) return BadRequest();

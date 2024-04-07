@@ -7,7 +7,7 @@ namespace API.Controllers.ChatsController
     public partial class ChatsController
     {
         [Authorize]
-        [HttpPost("RemoveChatMember")]
+        [HttpPatch("RmMember")]
         public async Task<IActionResult> RemoveChatMember([FromBody] EditMembershipRequest request)
         {
             if (!ModelState.IsValid) return BadRequest();

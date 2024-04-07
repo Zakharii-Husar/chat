@@ -7,7 +7,7 @@ namespace API.Controllers.ChatsController
     public partial class ChatsController
     {
         [Authorize]
-        [HttpPatch("RenameChat")]
+        [HttpPatch("Rename")]
         public async Task<IActionResult> RenameChat([FromBody] RenameChatRequest model)
         {
             if (!ModelState.IsValid) return BadRequest();

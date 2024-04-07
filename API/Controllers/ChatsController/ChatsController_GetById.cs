@@ -6,7 +6,7 @@ namespace API.Controllers.ChatsController
     public partial class ChatsController
     {
         [Authorize]
-        [HttpGet("GetChatById/{chatId}")]
+        [HttpGet("GetById/{chatId}")]
         public async Task<IActionResult> GetChatById(int chatId, [FromQuery] int itemsToSkip)
         {
             const int itemsToTake = 5;

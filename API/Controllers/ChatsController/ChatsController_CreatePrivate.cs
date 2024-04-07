@@ -6,7 +6,7 @@ namespace API.Controllers.ChatsController
     public partial class ChatsController
     {
         [Authorize]
-        [HttpPost("CreatePrivateChat")]
+        [HttpPost("CreatePrivate")]
         public async Task<IActionResult> CreatePrivateChat([FromBody] string username)
         {
             var recipient = await userManager.FindByNameAsync(username);

@@ -6,13 +6,13 @@ namespace API.Controllers.ChatsController
     public partial class ChatsController
     {
         [Authorize]
-        [HttpPost("MarkAsRead")]
-        public async Task<IActionResult> MarkAsRead([FromBody] int chatId)
+        [HttpPost("MarkAsRead/{ChatId}")]
+        public async Task<IActionResult> MarkAsRead(int ChatId)
         {
             if (!ModelState.IsValid) return BadRequest();
             var currentUser = await userManager.GetUserAsync(User);
             if (currentUser == null) return Unauthorized();
-            var result = await chatsService.MarkChatAsReadAsync(chatId, currentUser);
+            var result = await chatsService.MarkChatAsReadAsync(ChatId, currentUser);
             if (result) return Ok();
             return StatusCode(500);
         }

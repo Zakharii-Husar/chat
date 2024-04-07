@@ -7,7 +7,7 @@ namespace API.Controllers.ChatsController
     public partial class ChatsController
     {
         [Authorize]
-        [HttpPost("AddChatMember")]
+        [HttpPost("AddMember")]
         public async Task<IActionResult> AddChatMember([FromBody] EditMembershipRequest request)
         {
             if (!ModelState.IsValid) return BadRequest();
