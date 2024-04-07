@@ -11,6 +11,7 @@ namespace API.Services.ChatsService
     {
         public Task<int?> GetPrivateChatIdAsync(string uname1, string uname2);
         public Task<int?> CreatePrivateChatAsync(string uname1, string uname2);
+        public Task<int?> CreateGroupChatAsync(NewChatModel chatModel, AppUser currentUser);
         public Task<List<MessageDTO>> GetChatsOverviewAsync(string userId, int itemsToSkip, int itemsToTake);
 
         public Task<ChatDTO?> GetChatAsync(string userId, int chatId, int itemsToSkip, int itemsToTake);

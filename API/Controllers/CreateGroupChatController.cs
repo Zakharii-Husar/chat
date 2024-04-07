@@ -12,10 +12,10 @@ namespace API.Controllers
     public class CreateGroupChatController(AppDbContext dbContext, UserManager<AppUser> userManager) : ControllerBase
     {
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] NewChatModel payload)
+        public async Task<IActionResult> Post([FromBody] NewChatModel model)
         {
-            var participantUserIds = payload.ParticipantUserIds;
-            var chatName = payload.ChatName;
+            var participantUserIds = model.ParticipantUserIds;
+            var chatName = model.ChatName;
 
             if (!ModelState.IsValid) return BadRequest("Invalid model for creating group chat");
 

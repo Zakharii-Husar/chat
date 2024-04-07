@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using API.Data;
 using API.Services.ChatsService;
 using Microsoft.AspNetCore.Authorization;
+using API.Models;
 
 namespace API.Controllers
 {
@@ -42,8 +43,8 @@ namespace API.Controllers
         }
 
         [Authorize]
-        [HttpPost("CreateChat")]
-        public async Task<IActionResult> CreateChat([FromBody] string username)
+        [HttpPost("CreatePrivateChat")]
+        public async Task<IActionResult> CreatePrivateChat([FromBody] string username)
         {
             var recipient = await userManager.FindByNameAsync(username);
             if (recipient == null) return BadRequest();
@@ -52,7 +53,18 @@ namespace API.Controllers
             var chatId = await chatsService.CreatePrivateChatAsync(currentUser!.UserName!, username);
             if (chatId != null) return Ok(chatId);
             return StatusCode(500);
+        }
 
+        [Authorize]
+        [HttpPost("CreateGroupChat")]
+        public async Task<IActionResult> CreateGroupChat([FromBody] NewChatModel model)
+        {
+            if (!ModelState.IsValid) return BadRequest();
+            var currentUser = await userManager.GetUserAsync(User);
+            if (currentUser == null) return Unauthorized();
+            var chatId = await chatsService.CreateGroupChatAsync(model, currentUser);
+            if (chatId != null) return Ok(chatId);
+            return StatusCode(500);
         }
 
     }

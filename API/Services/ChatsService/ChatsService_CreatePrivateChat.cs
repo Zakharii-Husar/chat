@@ -6,8 +6,13 @@ namespace API.Services.ChatsService
     {
         public async Task<int?> CreatePrivateChatAsync(string uname1, string uname2)
         {
+            var newChat = new Chat
+            {
+                ChatName = null,
+                IsGroupChat = false
+            };
 
-            var newChatId = await chatsRepo.CreatePrivateChatAsync();
+            var newChatId = await chatsRepo.CreateChatAsync(newChat);
             if (newChatId == null) return null;
             var member1 = new ChatMember()
             {
