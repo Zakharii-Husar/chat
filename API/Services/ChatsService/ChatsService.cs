@@ -9,6 +9,7 @@ namespace API.Services.ChatsService
 {
     public interface IChatsService
     {
+        public Task<bool> CheckMembershipByMsgIdAsync(int messageId, string userId);
         public Task<bool> MarkChatAsReadAsync(int chatId, AppUser currentUser);
         public Task<bool> RmChatMemberAsync(EditMembershipRequest request, AppUser currentUser);
         public Task<bool> AddChatMemberAsync(EditMembershipRequest request, AppUser currentUser);
@@ -24,6 +25,7 @@ namespace API.Services.ChatsService
         public Task<bool> CheckRoleAsync(int chatId, string userId);
 
         public MessageDTO? ConvertMessageToDTO(Message? message);
+
         public Task<bool> AddLikeAsync(int messageId, string currentUserId);
         public Task<bool> RmLikeAsync(int messageId, string currentUserId);
     }

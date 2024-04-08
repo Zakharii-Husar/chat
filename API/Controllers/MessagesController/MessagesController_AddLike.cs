@@ -9,9 +9,7 @@ namespace API.Controllers.MessagesController
         {
             var currentUser = await userManager.GetUserAsync(User);
             if (currentUser == null) return Unauthorized();
-            var isMember = await chatsService.CheckMembershipAsync(messageId, currentUser.Id);
-            if (!isMember) return Unauthorized();
-            var result = await messagesService.AddLike(messageId, currentUser.Id);
+            var result = await chatsService.AddLikeAsync(messageId, currentUser.Id);
             if (!result) return BadRequest();
             return Ok();
         }

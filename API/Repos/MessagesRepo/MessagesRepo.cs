@@ -13,7 +13,7 @@ namespace API.Repos.MessagesRepo
         public Task<Message?> GetLastMessageAsync(int chatId, string userId);
         public Task<Message?> GetMessageByIdAsync(int messageId);
         public Task<Message?> InsertAsync(Message message);
-        public Task<bool> LikeExistsAsync(int messageId, string userId);
+        public Task<Like?> GetLikeAsync(int messageId, string userId);
         public Task<bool> AddLikeAsync(Like newLike);
         public Task<bool> RmLikeAsync(int messageId);
         public Task<bool> MarkAsReadAsync(ReadReceipt newReceipt);

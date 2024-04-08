@@ -1,8 +1,4 @@
-﻿using API.Data;
-using API.Models;
-using API.Repos;
-using API.Repos.ChatsRepo;
-using Microsoft.AspNetCore.Identity;
+﻿using API.Models;
 
 namespace API.Services.ChatsService
 {
