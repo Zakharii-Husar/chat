@@ -13,8 +13,10 @@ namespace API.Services.UsersService
         public Task<string?> SaveAvatarAsync(IFormFile? avatar, AppUser currentUser);
         public FileContentModel? GetAvatarByNameAsync(string fileName);
         public Task<List<UserDTO>> GetAllUsers(string currentUserId, int itemsToSkip, int itemsToTake);
+        public Task<List<UserDTO>> SearchUsers(string query, string currentUserId, int intemsToSkip, int itemsToTake);
     }
     public partial class UsersService(
         IUsersRepo usersRepo,
-        IWebHostEnvironment hostingEnvironment) : IUsersService;
+        IWebHostEnvironment hostingEnvironment,
+        AppDbContext dbContext) : IUsersService;
 }
