@@ -22,26 +22,6 @@ namespace API.Controllers.UsersController
                     // Read the file contents
                     byte[] fileBytes = System.IO.File.ReadAllBytes(filePath);
 
-                    // Determine the content type based on the file extension
-                    string contentType;
-                    switch (Path.GetExtension(fileName).ToLowerInvariant())
-                    {
-                        case ".jpg":
-                        case ".jpeg":
-                            contentType = "image/jpeg";
-                            break;
-                        case ".png":
-                            contentType = "image/png";
-                            break;
-                        case ".gif":
-                            contentType = "image/gif";
-                            break;
-                        // Add more cases for other image formats if needed
-                        default:
-                            // If the file extension is not recognized, default to a generic binary format
-                            contentType = "application/octet-stream";
-                            break;
-                    }
 
                     // Return the file as a byte array with the appropriate content type
                     return File(fileBytes, contentType);
