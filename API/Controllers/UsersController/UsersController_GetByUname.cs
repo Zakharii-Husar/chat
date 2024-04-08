@@ -9,11 +9,11 @@ namespace API.Controllers.UsersController
     {
 
         [HttpGet("{userName}")]
-        public async Task<ActionResult<UserDTO>> GetUserDetails(string userName)
+        public async Task<ActionResult> GetUserDetails(string userName)
         {
             var user = await userManager.FindByNameAsync(userName);
-            if (user == null) return NotFound();
-            return usersService.ConvertUserToDTO(user);
+            return Ok(user);
+
         }
     }
 }

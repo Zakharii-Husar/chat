@@ -1,11 +1,9 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace API.Controllers
+namespace API.Controllers.UsersController
 {
-    [Route("chat-api/[controller]")]
-    [ApiController]
-    public class GetAvatarController(IWebHostEnvironment hostingEnvironment) : ControllerBase
+    public partial class UsersController
     {
         [HttpGet("{fileName}")]
         public IActionResult Get(string fileName)
