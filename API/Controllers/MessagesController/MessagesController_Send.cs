@@ -12,12 +12,10 @@ namespace API.Controllers.MessagesController
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
             var currentUser = await userManager.GetUserAsync(User);
-            var participantsIds = await chatsService.GetMembersIdsAsync(model.ChatId);
-            if (!participantsIds.Contains(currentUser!.Id)) return Unauthorized();
-            var insertedMessage = await chatsService.InsertAsync(model, currentUser.Id);
-            if (insertedMessage == null) return StatusCode(500);
-
+            var result = await chatsService.SendMsgAsync(model, currentUser!.Id);
+            if (!result) return StatusCode(500);
             return Ok();
         }
     }
 }
+U

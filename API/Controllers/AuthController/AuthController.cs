@@ -2,7 +2,7 @@
 using API.Models;
 using API.Services.AuthService;
 
-namespace API.Controllers
+namespace API.Controllers.AuthController
 {
     [ApiController]
     [Route("chat-api/[controller]")]

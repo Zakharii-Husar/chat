@@ -1,26 +1,13 @@
 ﻿using API.Data;
 using API.Models;
+using API.Repos.UsersRepo;
 
 namespace API.Services.UsersService
 {
     public interface IUsersService
     {
         public UserDTO ConvertUserToDTO(AppUser appUser);
+        public Task<List<UserDTO>> GetAllUsers(string currentUserId, int itemsToSkip, int itemsToTake);
     }
-    public class UsersService : IUsersService
-    {
-        public UserDTO ConvertUserToDTO(AppUser appUser)
-        {
-            return new UserDTO
-            {
-                Id = appUser.Id,
-                UserName = appUser.UserName,
-                Email = appUser.Email,
-                FullName = appUser.FullName,
-                AvatarName = appUser.AvatarName,
-                Bio = appUser.Bio,
-                LastVisit = appUser.LastVisit
-            };
-        }
-    }
+    public partial class UsersService(IUsersRepo usersRepo) : IUsersService;
 }

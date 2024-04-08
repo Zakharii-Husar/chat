@@ -6,9 +6,8 @@ namespace API.Repos.UsersRepo
 {
     public interface IUsersRepo
     {
-        public Task<List<AppUser>> GetUsersAsync(int itemsToSkip, int itemsToTake);
+        public Task<List<AppUser>> GetAllAsync(string currentUserId, int itemsToSkip, int itemsToTake);
         public Task<List<AppUser>> FindUsersAsync(string query);
-
         public Task<AppUser?> GetUserByEmailAsync(string email);
         public Task<AppUser?> GetUserByUnameAsync(string uname);
         public Task<AppUser?> GetUserByIdAsync(string uId);
@@ -20,15 +19,5 @@ namespace API.Repos.UsersRepo
 
 
     }
-    public partial class UsersRepo(UserManager<AppUser> userManager) : IUsersRepo
-    {
-        public async Task<List<AppUser>> GetUsersAsync(int itemsToSkip, int itemsToTake)
-        {
-
-            return await userManager.Users
-                .Skip(itemsToSkip)
-                .Take(itemsToTake)
-                .ToListAsync();
-        }
-    }
+    public partial class UsersRepo(UserManager<AppUser> userManager) : IUsersRepo;
 }
