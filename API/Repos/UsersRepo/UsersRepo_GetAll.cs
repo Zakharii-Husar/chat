@@ -5,13 +5,21 @@ namespace API.Repos.UsersRepo
 {
     public partial class UsersRepo
     {
-        public async Task<List<AppUser>> GetAllAsync(string currentUserId, int itemsToSkip, int itemsToTake)
+        public async Task<List<AppUser>> GetAllAsync(string currentUserId, int itemsToSkip = 0, int itemsToTake = 5)
         {
 
-            return await userManager.Users
-                .Where(u => u.Id == currentUserId)
+            var usersQuery = userManager.Users
+                .Where(u => u.Id == currentUserId);
+
+            var usersTotal = await usersQuery.CountAsync();
+
+            var usersLeft = usersTotal - itemsToSkip;
+            var usersToTake = usersLeft < itemsToTake ? usersLeft : itemsToTake;
+            if (usersToTake < 1) return [];
+
+            return await usersQuery
                 .Skip(itemsToSkip)
-                .Take(itemsToTake)
+                .Take(usersToTake)
                 .ToListAsync();
         }
     }

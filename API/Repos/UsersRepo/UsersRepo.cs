@@ -15,5 +15,5 @@ namespace API.Repos.UsersRepo
 
 
     }
-    public partial class UsersRepo(UserManager<AppUser> userManager) : IUsersRepo;
+    public partial class UsersRepo(UserManager<AppUser> userManager, AppDbContext dbContext) : IUsersRepo;
 }

@@ -7,9 +7,8 @@ namespace API.Controllers.ChatsController
     {
         [Authorize]
         [HttpGet("GetById/{chatId}")]
-        public async Task<IActionResult> GetChatById(int chatId, [FromQuery] int itemsToSkip)
+        public async Task<IActionResult> GetChatById(int chatId, int itemsToSkip = 0, int itemsToTake = 5)
         {
-            const int itemsToTake = 5;
             var currentUser = await userManager.GetUserAsync(User);
             var chat = await chatsService.GetChatDTOAsync(currentUser!.Id, chatId, itemsToSkip, itemsToTake);
             return Ok(chat);
