@@ -1,10 +1,12 @@
 ﻿using API.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers.MessagesController
 {
     public partial class MessagesController
     {
+        [Authorize]
         [HttpPost("Send")]
         public async Task<IActionResult> Send([FromBody] SendMessageModel model)
         {
@@ -12,10 +14,9 @@ namespace API.Controllers.MessagesController
             var currentUser = await userManager.GetUserAsync(User);
             var participantsIds = await chatsService.GetMembersIdsAsync(model.ChatId);
             if (!participantsIds.Contains(currentUser!.Id)) return Unauthorized();
-            var insertedMessage = await messagesService.InsertAsync(model, currentUser.Id);
+            var insertedMessage = await chatsService.InsertAsync(model, currentUser.Id);
             if (insertedMessage == null) return StatusCode(500);
-            await conmanService.BroadcastMessage(insertedMessage, participantsIds);
-            conmanService.PrintConnections();
+
             return Ok();
         }
     }

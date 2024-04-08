@@ -9,7 +9,7 @@ namespace API.Services.ChatsService
             return await dbContext.Messages
                 .Where(m => m.MessageId == messageId)
                 .SelectMany(m => m.Chat.ChatMembers)
-                .AnyAsync(member => member.MemberId == userId);
+                .AnyAsync(member => member.MemberId == userId && member.LeftChat == null);
         }
     }
 }
