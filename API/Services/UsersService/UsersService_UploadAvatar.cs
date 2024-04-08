@@ -6,9 +6,10 @@ namespace API.Services.UsersService
     {
         public async Task<string?> SaveAvatarAsync(IFormFile? avatar, AppUser currentUser)
         {
+            if (avatar == null) return null;
             bool isValid = ValidateAvatarFile(avatar);
             if (!isValid) return null;
-            bool removed = RemoveAvatar(currentUser.AvatarName);
+            bool removed = RemoveAvatar(currentUser.AvatarName!);
             if (!removed) return null;
 
             var uploadsFolder = Path.Combine(hostingEnvironment.ContentRootPath, "Avatars");
