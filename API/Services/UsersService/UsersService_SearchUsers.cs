@@ -1,5 +1,4 @@
 ﻿using API.Models;
-using Microsoft.EntityFrameworkCore;
 
 namespace API.Services.UsersService
 {
@@ -11,14 +10,8 @@ namespace API.Services.UsersService
             int intemsToSkip,
             int itemsToTake)
         {
-            return await dbContext.Users
-                .Where(user =>
-                    user.UserName!.Contains(query, StringComparison.OrdinalIgnoreCase) ||
-                    user.FullName.Contains(query, StringComparison.OrdinalIgnoreCase)
-                )
-                .Where(user => user.Id != currentUserId)
-                .Select(user => ConvertUserToDTO(user))
-                .ToListAsync();
+            var users = await usersRepo.GetSearchedAsync(currentUserId, query, intemsToSkip, itemsToTake);
+            return users.Select(user => ConvertUserToDTO(user)).ToList();
         }
     }
 }

@@ -8,7 +8,7 @@ namespace API.Controllers.UsersController
     public partial class UsersController
     {
         [HttpGet("IsTaken")]
-        public async Task<IActionResult> CheckAvailability([FromQuery] string value, [FromQuery] string type)
+        public async Task<IActionResult> CheckAvailability(string value, string type)
         {
             switch (type.ToLower())
             {

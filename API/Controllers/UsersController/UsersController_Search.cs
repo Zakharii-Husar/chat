@@ -5,7 +5,7 @@ namespace API.Controllers.UsersController
 {
     public partial class UsersController
     {
-        [HttpGet("{searchPhrase}")]
+        [HttpGet("Search")]
         public async Task<IActionResult> Get(string searchPhrase, int itemsToSkip = 0, int itemsToTake = 10)
         {
             var currentUser = await userManager.GetUserAsync(User);

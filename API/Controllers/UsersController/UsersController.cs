@@ -6,9 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers.UsersController
 {
-    [Route("chat-api/[controller]")]
     [ApiController]
-    [Authorize]
+    [Route("chat-api/[controller]")]
     public partial class UsersController(
         UserManager<AppUser> userManager,
         IUsersService usersService,
