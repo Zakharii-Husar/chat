@@ -7,6 +7,7 @@ namespace API.Repos.MessagesRepo
 {
     public interface IMessagesRepo
     {
+        public Task<bool> MarkAsDeletedAsync(Message message);
         public Task<List<int>> GetUnreadMessagesIds(int chatId, string userId);
         public Task<ReadReceipt?> GetReadReceiptAsync(int messageId, string userId);
         public Task<List<Message>> GetMessagesByChatMember(ChatMember member, int paginationOffset, int paginationStep);
@@ -15,7 +16,7 @@ namespace API.Repos.MessagesRepo
         public Task<Message?> InsertAsync(Message message);
         public Task<Like?> GetLikeAsync(int messageId, string userId);
         public Task<bool> AddLikeAsync(Like newLike);
-        public Task<bool> RmLikeAsync(int messageId);
+        public Task<bool> RmLikeAsync(Like newLike);
         public Task<bool> MarkAsReadAsync(ReadReceipt newReceipt);
 
     }

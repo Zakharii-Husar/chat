@@ -7,14 +7,10 @@ namespace API.Controllers.MessagesController
         [HttpDelete("{messageId}/RmLike")]
         public async Task<IActionResult> RmLike(int messageId)
         {
-            if (!ModelState.IsValid) return BadRequest(ModelState);
             var currentUser = await userManager.GetUserAsync(User);
-            var participantsIds = await chatsService.GetMembersIdsAsync(model.ChatId);
-            if (!participantsIds.Contains(currentUser!.Id)) return Unauthorized();
-            var insertedMessage = await messagesService.InsertAsync(model, currentUser.Id);
-            if (insertedMessage == null) return StatusCode(500);
-            await conmanService.BroadcastMessage(insertedMessage, participantsIds);
-            conmanService.PrintConnections();
+            if (currentUser == null) return Unauthorized();
+            var result = await chatsService.RmLikeAsync(messageId, currentUser.Id);
+            if (!result) return BadRequest();
             return Ok();
         }
     }

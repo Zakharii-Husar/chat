@@ -6,13 +6,9 @@ namespace API.Repos.MessagesRepo
 
     public partial class MessagesRepo
     {
-        public async Task<bool> RmLikeAsync(int messageId)
+        public async Task<bool> RmLikeAsync(Like like)
         {
-
-            var like = await dbContext.Likes
-                .FirstOrDefaultAsync(like => like.MessageId == messageId);
-
-            dbContext.Likes.Remove(like!);
+            dbContext.Likes.Remove(like);
             var rowsAffected =
                 await dbContext.SaveChangesAsync();
             return rowsAffected > 0;

@@ -28,6 +28,7 @@ namespace API.Services.ChatsService
 
         public Task<bool> AddLikeAsync(int messageId, string currentUserId);
         public Task<bool> RmLikeAsync(int messageId, string currentUserId);
+        public Task<bool> MarkMsgAsDelAsync(int messageId, string currentUserId);
     }
     public partial class ChatsService(
         AppDbContext dbContext,
