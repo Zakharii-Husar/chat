@@ -1,5 +1,4 @@
 ﻿using API.Data;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 
 namespace API.Repos.UsersRepo
@@ -12,10 +11,7 @@ namespace API.Repos.UsersRepo
         public Task<AppUser?> GetUserByUnameAsync(string uname);
         public Task<AppUser?> GetUserByIdAsync(string uId);
         public Task<AppUser?> CreateUserAsync(AppUser appUser, string password);
-        public Task<bool> CheckEmailExistsAsync(string email);
-        public Task<bool> CheckUnameExistsAsync(string uname);
-        public Task<string> GetAvatarNameByUnameAsync(string uname);
-        public Task<bool> UpdateAvatarNameAsync(string uname, string newName);
+        public Task<bool> UpdateAvatarNameAsync(AppUser currentUser, string newName);
 
 
     }
