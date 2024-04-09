@@ -10,7 +10,7 @@ const getChatByIdThunk = createAsyncThunk(
     try {
       dispatch(setLoading(true));
       const response = await fetch(
-        `${GET_CHAT_BY_ID}?chatId=${chatId}&paginationOffset=${state.currentChat.paginationOffset}`,
+        `${GET_CHAT_BY_ID}/${chatId}?itemsToSkip=${state.currentChat.paginationOffset}&itemsToTake=5`,
         {
           method: "GET",
           headers: {

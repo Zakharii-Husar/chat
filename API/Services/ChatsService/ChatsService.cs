@@ -13,9 +13,9 @@ namespace API.Services.ChatsService
         public Task<bool> CheckMembershipByChatIdAsync(int chatId, string userId);
         public Task<bool> CheckMembershipByMsgIdAsync(int messageId, string userId);
         public Task<bool> MarkChatAsReadAsync(int chatId, AppUser currentUser);
-        public Task<bool> RmChatMemberAsync(EditMembershipRequest request, AppUser currentUser);
-        public Task<bool> AddChatMemberAsync(EditMembershipRequest request, AppUser currentUser);
-        public Task<bool> RenameChatAsync(RenameChatRequest payload, AppUser currentUser);
+        public Task<bool> RmChatMemberAsync(int chatId, string candidatUname, AppUser currentUser);
+        public Task<bool> AddChatMemberAsync(int chatId, string candidatUname, AppUser currentUser);
+        public Task<bool> RenameChatAsync(int chatId, string newName, AppUser currentUser);
         public Task<int?> GetPrivateChatIdAsync(string uname1, string uname2);
         public Task<int?> CreatePrivateChatAsync(string uname1, string uname2);
         public Task<int?> CreateGroupChatAsync(NewChatModel chatModel, AppUser currentUser);

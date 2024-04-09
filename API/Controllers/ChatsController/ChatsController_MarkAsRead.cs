@@ -6,7 +6,7 @@ namespace API.Controllers.ChatsController
     public partial class ChatsController
     {
         [Authorize]
-        [HttpPost("MarkAsRead/{ChatId}")]
+        [HttpPost("{ChatId}/MarkAsRead")]
         public async Task<IActionResult> MarkAsRead(int ChatId)
         {
             if (!ModelState.IsValid) return BadRequest();

@@ -4,14 +4,14 @@ namespace API.Repos.ChatsRepo
 {
     public partial class ChatsRepo
     {
-        public async Task<string?> RenameChatAsync(RenameChatRequest request)
+        public async Task<string?> RenameChatAsync(int chatId, string newName)
         {
-            var chatToUpdate = await GetChatById(request.ChatId);
+            var chatToUpdate = await GetChatById(chatId);
             if (chatToUpdate == null) return null;
 
-            chatToUpdate.ChatName = request.NewChatName;
+            chatToUpdate.ChatName = newName;
             await dbContext.SaveChangesAsync();
-            return request.NewChatName;
+            return newName;
         }
     }
 }

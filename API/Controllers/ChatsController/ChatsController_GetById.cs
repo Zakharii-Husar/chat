@@ -6,7 +6,7 @@ namespace API.Controllers.ChatsController
     public partial class ChatsController
     {
         [Authorize]
-        [HttpGet("GetById/{chatId}")]
+        [HttpGet("{chatId}")]
         public async Task<IActionResult> GetChatById(int chatId, int itemsToSkip = 0, int itemsToTake = 5)
         {
             var currentUser = await userManager.GetUserAsync(User);

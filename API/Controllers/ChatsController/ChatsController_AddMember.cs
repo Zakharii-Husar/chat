@@ -7,13 +7,13 @@ namespace API.Controllers.ChatsController
     public partial class ChatsController
     {
         [Authorize]
-        [HttpPost("AddMember")]
-        public async Task<IActionResult> AddChatMember([FromBody] EditMembershipRequest request)
+        [HttpPost("{chatId}/AddMember/{username}")]
+        public async Task<IActionResult> AddChatMember(int chatId, string username)
         {
             if (!ModelState.IsValid) return BadRequest();
             var currentUser = await userManager.GetUserAsync(User);
             if (currentUser == null) return Unauthorized();
-            var result = await chatsService.AddChatMemberAsync(request, currentUser);
+            var result = await chatsService.AddChatMemberAsync(chatId, username, currentUser);
             if (result) return Ok();
             return StatusCode(500);
         }

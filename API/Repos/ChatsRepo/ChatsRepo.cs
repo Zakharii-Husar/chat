@@ -6,7 +6,7 @@ namespace API.Repos.ChatsRepo
     public interface IChatsRepo
     {
         public Task<Chat?> GetChatById(int Id);
-        public Task<string?> RenameChatAsync(RenameChatRequest request);
+        public Task<string?> RenameChatAsync(int chatId, string newName);
         public Task<bool> AddChatMemberAsync(ChatMember member);
         public Task<bool> RmChatMemberAsync(ChatMember memberToRemove);
         public Task<int?> CreateChatAsync(Chat chat);

@@ -5,25 +5,25 @@ namespace API.Services.ChatsService
 {
     public partial class ChatsService
     {
-        public async Task<bool> AddChatMemberAsync(EditMembershipRequest request, AppUser currentUser)
+        public async Task<bool> AddChatMemberAsync(int chatId, string candidatUname, AppUser currentUser)
         {
-            bool authToAdd = await CheckRoleAsync(request.ChatId, currentUser.Id);
+            var candidat = await usersRepo.GetUserByUnameAsync(candidatUname);
+            bool authToAdd = await CheckRoleAsync(chatId, currentUser.Id);
             if (!authToAdd) return false;
-            var candidat = await usersRepo.GetUserByIdAsync(request.UserId);
             if (candidat == null) return false;
-            var isAlreadyAdded = await chatsRepo.GetChatMemberAsync(request.ChatId, request.UserId);
+            var isAlreadyAdded = await chatsRepo.GetChatMemberAsync(chatId, candidat.Id);
             if (isAlreadyAdded != null) return false;
 
             var member = new ChatMember()
             {
-                ChatId = request.ChatId,
-                MemberId = request.UserId
+                ChatId = chatId,
+                MemberId = candidat.Id,
             };
             await chatsRepo.AddChatMemberAsync(member);
 
             var notification = new Message
             {
-                ChatId = request.ChatId,
+                ChatId = chatId,
                 Content = $"{currentUser.UserName} added {candidat.UserName} to chat.",
                 RepliedTo = null,
                 SenderId = currentUser.Id!
