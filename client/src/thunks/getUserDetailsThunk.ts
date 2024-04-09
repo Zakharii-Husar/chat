@@ -1,6 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { GET_USER_DETAILS } from "../../app/APIEndpoints";
-import { setUserDetails } from "./viewUserSlice";
+import { GET_USER_DETAILS } from "./APIEndpoints";
+import { setUserDetails } from "../state/viewUserSlice";
 
 const getUserDetailsThunk = createAsyncThunk(
     "login/validateCookies",

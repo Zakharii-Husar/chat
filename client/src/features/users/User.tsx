@@ -10,9 +10,9 @@ import {
 } from "mdb-react-ui-kit";
 import { MdModeEdit } from "react-icons/md";
 import UploadAvatar from "./UploadAvatar";
-import { GET_AVATAR } from "../../app/APIEndpoints";
+import { GET_AVATAR } from "../../thunks/APIEndpoints";
 
-import { updateAvatarName } from "../auth/loggedInUserSlice";
+import { updateAvatarName } from "../../state/loggedInUserSlice";
 
 import { FaUserSecret } from "react-icons/fa6";
 import {
@@ -21,7 +21,7 @@ import {
 } from "../../hooks/useAppSelectorAndDispatch";
 import { useParams } from "react-router";
 import { useEffect } from "react";
-import getUserDetailsThunk from "./getUserDetailsThunk";
+import getUserDetailsThunk from "../../thunks/getUserDetailsThunk";
 
 export default function User() {
   const { userName } = useParams();

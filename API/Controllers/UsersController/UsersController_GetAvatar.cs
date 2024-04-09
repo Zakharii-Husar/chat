@@ -7,10 +7,10 @@ namespace API.Controllers.UsersController
     public partial class UsersController
     {
         [Authorize]
-        [HttpGet("Avatar/{fileName}")]
-        public IActionResult Get(string fileName)
+        [HttpGet("Avatar/{FileName}")]
+        public IActionResult Get(string FileName)
         {
-            var file = usersService.GetAvatarByNameAsync(fileName);
+            var file = usersService.GetAvatarByNameAsync(FileName);
             if (file == null) return NotFound();
             return File(file.FileContent, file.ContentType);
         }

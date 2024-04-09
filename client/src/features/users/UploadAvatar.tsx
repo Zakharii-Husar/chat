@@ -11,7 +11,7 @@ import {
 import { MdAddCircle } from "react-icons/md";
 import { useState, ChangeEvent, useEffect } from "react";
 import { useAppDispatch } from "../../hooks/useAppSelectorAndDispatch";
-import uploadAvatarThunk from "./uploadAvatarThunk";
+import uploadAvatarThunk from "../../thunks/uploadAvatarThunk";
 
 const UploadAvatar: React.FC = () => {
   const dispatch = useAppDispatch();

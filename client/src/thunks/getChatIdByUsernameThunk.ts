@@ -1,10 +1,10 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { GET_CHAT_BY_USERNAME} from "../../app/APIEndpoints";
-import { setCurrentChatId } from "../messaging/currentChat/currentChatSlice";
+import { createAsyncThunk } from "@reduxjs/toolkit";
+import { GET_CHAT_BY_USERNAME} from "./APIEndpoints";
+import { setCurrentChatId } from "../state/currentChatSlice";
 
 export const getChatIdByUsername = createAsyncThunk(
     "users/getChatIdByUsername",
-    async (userName: string, { getState, dispatch }) => {
+    async (userName: string, { dispatch }) => {
       try {
         const response = await fetch(
           `${GET_CHAT_BY_USERNAME}/${encodeURIComponent(userName)}`,

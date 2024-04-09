@@ -1,7 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { GET_CHAT_BY_ID } from "../../../app/APIEndpoints";
-import type { RootState } from "../../../app/store";
-import { setLoading, setChat } from "./currentChatSlice";
+import { GET_CHAT_BY_ID } from "./APIEndpoints";
+import type { RootState } from "../state/store";
+import { setLoading, setChat } from "../state/currentChatSlice";
 
 const getChatByIdThunk = createAsyncThunk(
   "currentChat/getChatByIdThunk",

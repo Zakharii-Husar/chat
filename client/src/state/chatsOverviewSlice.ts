@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { IMessage } from "../messagesInterfaces";
-import { GET_ALL_CHATS } from "../../../app/APIEndpoints";
-import { RootState } from "../../../app/store";
+import { IMessage } from "../features/messaging/messagesInterfaces";
+import { GET_ALL_CHATS } from "../thunks/APIEndpoints";
+import { RootState } from "./store";
 import type { PayloadAction } from "@reduxjs/toolkit";
 
 export interface IChatsOverview {

@@ -13,9 +13,9 @@ import {
   fetchAllUsersAsync,
   searchUsers,
   updateSearchedUser,
-} from "../../../users/usersSlice";
+} from "../../../../state/usersSlice";
 
-import addChatMemberThunk from "./addChatMemberThunk";
+import addChatMemberThunk from "../../../../thunks/addChatMemberThunk";
 
 import Confirmation from "./Confirmation";
 

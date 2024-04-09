@@ -1,7 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import type { RootState } from "../../../app/store";
-import { REGISTER_URL } from '../../../app/APIEndpoints';
-import validateCookiesThunk from '../login/validateCookiesThunk';
+import type { RootState } from "../state/store";
+import { REGISTER_URL } from './APIEndpoints';
+import validateCookiesThunk from './validateCookiesThunk';
 
 const registerWithPasswordThunk = createAsyncThunk(
     "register/registerWithPassword",

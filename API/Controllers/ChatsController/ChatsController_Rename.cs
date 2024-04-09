@@ -7,13 +7,13 @@ namespace API.Controllers.ChatsController
     public partial class ChatsController
     {
         [Authorize]
-        [HttpPatch("{chatId}/Rename")]
-        public async Task<IActionResult> RenameChat(int chatId, [FromBody] string newName)
+        [HttpPatch("{ChatId}/Rename")]
+        public async Task<IActionResult> RenameChat(int ChatId, [FromBody] string NewName)
         {
             if (!ModelState.IsValid) return BadRequest();
             var currentUser = await userManager.GetUserAsync(User);
             if (currentUser == null) return Unauthorized();
-            var result = await chatsService.RenameChatAsync(chatId, newName, currentUser);
+            var result = await chatsService.RenameChatAsync(ChatId, NewName, currentUser);
             if (result) return Ok();
             return StatusCode(500);
         }

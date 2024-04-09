@@ -1,7 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { REMOVE_CHAT_MEMBER } from "../../../../app/APIEndpoints";
-import type { RootState } from "../../../../app/store";
-import { addMessageToChat, rmMember } from "../../currentChat/currentChatSlice";
+import { REMOVE_CHAT_MEMBER } from "./APIEndpoints";
+import type { RootState } from "../state/store";
+import { addMessageToChat, rmMember } from "../state/currentChatSlice";
 
 const rmChatMemberThunk = createAsyncThunk(
   "currentChat/rmChatMemberThunk",

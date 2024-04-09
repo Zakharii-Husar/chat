@@ -6,19 +6,19 @@ namespace API.Controllers.UsersController
 {
     public partial class UsersController
     {
-        [HttpGet("IsTaken")]
-        public async Task<IActionResult> CheckAvailability(string value, string type)
+        [HttpGet("IsTaken/{Type}/{Value}")]
+        public async Task<IActionResult> CheckAvailability(string Value, string Type)
         {
-            switch (type.ToLower())
+            switch (Type.ToLower())
             {
                 case "email":
-                    var userByEmail = await userManager.FindByEmailAsync(value);
+                    var userByEmail = await userManager.FindByEmailAsync(Value);
                     return Ok(userByEmail != null);
                 case "username":
-                    var userByName = await userManager.FindByNameAsync(value);
+                    var userByName = await userManager.FindByNameAsync(Value);
                     return Ok(userByName != null);
                 default:
-                    return BadRequest("Invalid type parameter. Please use 'email' or 'username'.");
+                    return BadRequest("Invalid Type parameter. Please use 'email' or 'username'.");
             }
         }
 

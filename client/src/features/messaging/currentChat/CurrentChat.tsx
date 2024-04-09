@@ -9,11 +9,11 @@ import { DisplayMessages } from "./displayMessages/DisplayMessages";
 import { SendMessage } from "./sendMessage/SendMessage";
 import { DisplayHeader } from "./displayHeader/DisplayHeader";
 
-import { resetChat } from "./currentChatSlice";
-import getChatByIdThunk from "./getChatByIdThunk";
+import { resetChat } from "../../../state/currentChatSlice";
+import getChatByIdThunk from "../../../thunks/getChatByIdThunk";
 
 import { MDBContainer, MDBRow, MDBCol } from "mdb-react-ui-kit";
-import { addMessageToChat } from "./currentChatSlice";
+import { addMessageToChat } from "../../../state/currentChatSlice";
 import { connection } from "../../ws/wsConnection";
 
 export const CurrentChat: React.FC = () => {

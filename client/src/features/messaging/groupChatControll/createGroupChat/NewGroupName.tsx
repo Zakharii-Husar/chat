@@ -5,7 +5,7 @@ import {
   useAppDispatch,
   useAppSelector,
 } from "../../../../hooks/useAppSelectorAndDispatch";
-import { setChatName } from "./createGroupSlice";
+import { setChatName } from "../../../../state/createGroupSlice";
 
 const NewGroupName: React.FC = () => {
   const dispatch = useAppDispatch();

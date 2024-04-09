@@ -1,4 +1,4 @@
-import type { RootState } from "../../../app/store";
+import type { RootState } from "../../../state/store";
 import {
   useAppSelector,
   useAppDispatch,
@@ -9,8 +9,8 @@ import {
   setNickName,
   setPassword,
   setConfirm,
-} from "./registerSlice";
-import registerWithPasswordThunk from "./registerWithPasswordThunk";
+} from "../../../state/registerSlice";
+import registerWithPasswordThunk from "../../../thunks/registerWithPasswordThunk";
 import { SyntheticEvent, useEffect } from "react";
 import { useRegValidation } from "../../../hooks/useRegValidation";
 import { useNavigate } from "react-router";

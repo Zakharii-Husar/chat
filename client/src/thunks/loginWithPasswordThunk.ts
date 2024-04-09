@@ -1,6 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import type { RootState } from "../../../app/store";
-import { LOGIN_URL } from "../../../app/APIEndpoints";
+import type { RootState } from "../state/store";
+import { LOGIN_URL } from "./APIEndpoints";
 import validateCookiesThunk from "./validateCookiesThunk";
 
 

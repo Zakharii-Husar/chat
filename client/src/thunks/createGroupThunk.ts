@@ -1,7 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { CREATE_GROUP_CHAT } from "../../../../app/APIEndpoints";
-import type { RootState } from "../../../../app/store";
-import { setCurrentChatId } from "../../currentChat/currentChatSlice";
+import { CREATE_GROUP_CHAT } from "./APIEndpoints";
+import type { RootState } from "../state/store";
+import { setCurrentChatId } from "../state/currentChatSlice";
 
 const createGroupThunk = createAsyncThunk(
     "createGroup/createGroupThunk",

@@ -15,8 +15,8 @@ import {
   useAppDispatch,
 } from "../../../../hooks/useAppSelectorAndDispatch";
 import "../../../../style/scrollable.css";
-import toggleLikeThunk from "../toggleLikeThunk";
-import getChatByIdThunk from "../getChatByIdThunk";
+import toggleLikeThunk from "../../../../thunks/toggleLikeThunk";
+import getChatByIdThunk from "../../../../thunks/getChatByIdThunk";
 import { FaHeart } from "react-icons/fa";
 
 export const DisplayMessages = () => {

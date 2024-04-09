@@ -12,9 +12,9 @@ import {
   useAppDispatch,
 } from "../../../../hooks/useAppSelectorAndDispatch";
 
-import { resetChatCandidates } from "./createGroupSlice";
+import { resetChatCandidates } from "../../../../state/createGroupSlice";
 
-import createGroupThunk from "./createGroupThunk";
+import createGroupThunk from "../../../../thunks/createGroupThunk";
 
 import { useNavigate } from "react-router";
 

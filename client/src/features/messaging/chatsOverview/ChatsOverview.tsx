@@ -10,7 +10,7 @@ import {
   MDBIcon,
   MDBTypography,
 } from "mdb-react-ui-kit";
-import chatsOverviewSlice, { fetchAllChats } from "./chatsOverviewSlice";
+import chatsOverviewSlice, { fetchAllChats } from "../../../state/chatsOverviewSlice";
 import {
   useAppDispatch,
   useAppSelector,

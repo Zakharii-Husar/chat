@@ -7,11 +7,11 @@ namespace API.Controllers.ChatsController
     public partial class ChatsController
     {
         [Authorize]
-        [HttpGet("GetIdByUname/{username}")]
-        public async Task<IActionResult> GetChatIdByUsername(string username)
+        [HttpGet("GetIdByUname/{Username}")]
+        public async Task<IActionResult> GetChatIdByUsername(string Username)
         {
             var currentUser = await userManager.GetUserAsync(User);
-            var chatId = await chatsService.GetPrivateChatIdAsync(currentUser!.UserName!, username);
+            var chatId = await chatsService.GetPrivateChatIdAsync(currentUser!.UserName!, Username);
             return Ok(chatId);
 
         }

@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import { ICurrentChat, IMessage, IChatMember } from "../messagesInterfaces";
+import { ICurrentChat, IMessage, IChatMember } from "../features/messaging/messagesInterfaces";
 
 const initialState: ICurrentChat = {
   chatId: null,

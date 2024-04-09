@@ -11,9 +11,9 @@ import {
   fetchAllUsersAsync,
   searchUsers,
   updateSearchedUser,
-} from "../../../users/usersSlice";
+} from "../../../../state/usersSlice";
 
-import { addChatCandidates } from "./createGroupSlice";
+import { addChatCandidates } from "../../../../state/createGroupSlice";
 
 import {
   useAppSelector,

@@ -4,8 +4,8 @@ import {
   useAppDispatch,
 } from "../../../../hooks/useAppSelectorAndDispatch";
 
-import { setMessageContent } from "../sendMessageSlice";
-import sendMessageThunk from "../sendMessageThunk";
+import { setMessageContent } from "../../../../state/sendMessageSlice";
+import sendMessageThunk from "../../../../thunks/sendMessageThunk";
 import { connection } from "../../../ws/wsConnection";
 import { useState, useEffect } from "react";
 

@@ -9,7 +9,7 @@ import {
   searchUsers,
   updateSearchedUser,
   getChatIdByUsername,
-} from "../users/usersSlice";
+} from "../../state/usersSlice";
 import { IUserModel } from "./userInterfaces";
 
 import Container from "react-bootstrap/Container";

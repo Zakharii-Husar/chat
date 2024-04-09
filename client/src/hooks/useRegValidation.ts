@@ -1,4 +1,4 @@
-import type { RootState } from "../app/store";
+import type { RootState } from "../state/store";
 import {
   useAppSelector,
   useAppDispatch,
@@ -11,11 +11,11 @@ import {
   setNickNameErr,
   setPasswordErr,
   setConfirmErr,
-} from "../features/auth/register/registerSlice";
+} from "../state/registerSlice";
 import {
   EMAIL_AVAILABILITY_URL,
   NICKNAME_AVAILABILITY_URL,
-} from "../app/APIEndpoints";
+} from "../thunks/APIEndpoints";
 
 export const useRegValidation = () => {
   const { email, fullName, nickName, password, confirm, validationErrors } =
