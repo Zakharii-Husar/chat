@@ -42,6 +42,7 @@ export const RENAME_GROUP_CHAT = (ChatId: number, NewName: string) =>
 //post
 export const SEND_MESSAGE = (ChatId: number) =>
   `${API_URL}/Chats/${ChatId}/Messages/Send`;
+
 export const ADD_LIKE = (ChatId: number, MessageId: number) =>
   `${API_URL}/Chats/${ChatId}/Messages/${MessageId}/AddLike`;
 //delete

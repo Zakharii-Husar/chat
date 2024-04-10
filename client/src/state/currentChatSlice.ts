@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice} from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { ICurrentChat, IMessage, IChatMember } from "../features/messaging/messagesInterfaces";
 
@@ -51,32 +51,31 @@ export const existingChatSlice = createSlice({
       state.members.push(action.payload);
     },
     rmMemberByUname: (state, action: PayloadAction<string>) => {
-      const index = state.members.findIndex(
+      const msgIndex = state.members.findIndex(
         (member) => member.userName === action.payload
       );
-      if (index !== -1) state.members.splice(index, 1);
+      if (msgIndex !== -1) state.members.splice(msgIndex, 1);
     },
     rename: (state, action: PayloadAction<string>) => {
       state.chatName = action.payload;
     },
-
-    likeOrUnlike: (
-      state,
-      action: PayloadAction<{ id: number; name: string }>
-    ) => {
-      const index = state.messages.findIndex(
+    addLike: (state, action:PayloadAction<{ id: number; name: string }> )=>{
+      const msgIndex = state.messages.findIndex(
         (msg) => msg.messageId === action.payload.id
       );
-      const likes = state.messages[index].likes;
-
-      if (likes.includes(action.payload.name)) {
-        state.messages[index].likes = likes.filter(
-          (name) => name !== action.payload.name
-        );
-      } else {
-        likes.push(action.payload.name);
-      }
+      const likes = state.messages[msgIndex].likes;
+      state.messages[msgIndex].likes = likes.filter(
+        (name) => name !== action.payload.name
+      );
     },
+    rmLike: (state, action:PayloadAction<{ id: number; name: string }> )=>{
+      const msgIndex = state.messages.findIndex(
+        (msg) => msg.messageId === action.payload.id
+      );
+      const likes = state.messages[msgIndex].likes;
+      likes.push(action.payload.name);
+    },
+
   },
 });
 
@@ -89,7 +88,8 @@ export const {
   addMember,
   rmMemberByUname,
   rename,
-  likeOrUnlike,
+  addLike,
+  rmLike
 } = existingChatSlice.actions;
 
 export default existingChatSlice.reducer;

@@ -15,7 +15,8 @@ import {
   useAppDispatch,
 } from "../../../../hooks/useAppSelectorAndDispatch";
 import "../../../../style/scrollable.css";
-import toggleLikeThunk from "../../../../thunks/toggleLikeThunk";
+import addLikeThunk from "../../../../thunks/addLikeThunk";
+import rmLikeThunk from "../../../../thunks/rmLikeThunk";
 import getChatByIdThunk from "../../../../thunks/getChatByIdThunk";
 import { FaHeart } from "react-icons/fa";
 
@@ -26,11 +27,27 @@ export const DisplayMessages = () => {
   const currentChat = useAppSelector((state) => state.currentChat);
   const currentUser = useAppSelector((state) => state.loggedInUser);
 
-  const handleLike = (messageId: number) => {
-    dispatch(
-      toggleLikeThunk({ messageId: messageId, userName: currentUser.userName! })
+  const findLike = (messageId: number)=>  {
+    const msgIndex = currentChat.messages.findIndex(
+      (msg) => msg.messageId === messageId
     );
-  };
+    const likes = currentChat.messages[msgIndex].likes;
+
+    return likes.includes(currentUser.userName || "");
+  }
+
+  const addLike = (messageId: number) => {
+    const isAlreadyLiked = findLike(messageId);
+    if(isAlreadyLiked) return;
+    dispatch(addLikeThunk(messageId));
+  }
+
+  const rmLike = (messageId: number) => {
+    const isAlreadyUnliked = !findLike(messageId);
+    if(isAlreadyUnliked) return;
+    dispatch(rmLikeThunk(messageId));
+    
+  }
 
   const getTimeAgo = (timestamp: string) => {
     return formatDistanceToNow(new Date(timestamp), { addSuffix: true });
