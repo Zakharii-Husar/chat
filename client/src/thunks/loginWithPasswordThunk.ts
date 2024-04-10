@@ -9,8 +9,9 @@ export const loginWithPasswordThunk = createAsyncThunk(
     async (_, { getState, dispatch }) => {
 
         const state = getState() as RootState;
+        const link = LOGIN_URL();
         try {
-            const response = await fetch(LOGIN_URL, {
+            const response = await fetch(link, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

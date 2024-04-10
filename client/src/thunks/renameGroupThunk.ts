@@ -7,17 +7,16 @@ const renameGroupThunk = createAsyncThunk(
     "currentChat/renameGroupThunk",
     async (newName: string, { dispatch, getState }) => {
       const state = getState() as RootState;
-  
+      const chatId = state.currentChat.chatId;
+      if(!chatId) return;
+      const link = RENAME_GROUP_CHAT(chatId, encodeURI(newName));
+      
       try {
-        const response = await fetch(RENAME_GROUP_CHAT, {
-          method: "POST",
+        const response = await fetch(link, {
+          method: "PATCH",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({
-            ChatId: state.currentChat.chatId,
-            NewChatName: newName,
-          }),
           credentials: "include",
         });
   

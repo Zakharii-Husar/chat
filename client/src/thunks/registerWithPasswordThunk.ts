@@ -7,8 +7,9 @@ const registerWithPasswordThunk = createAsyncThunk(
     "register/registerWithPassword",
     async (_, { getState, dispatch }) => {
         const state = getState() as RootState;
+        const link = REGISTER_URL();
         try {
-            const response = await fetch(REGISTER_URL, {
+            const response = await fetch(link, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

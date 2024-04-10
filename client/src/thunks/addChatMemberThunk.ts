@@ -8,16 +8,16 @@ const addChatMemberThunk = createAsyncThunk(
   "currentChat/addChatMemberThunk",
   async (member: IChatMember, { getState, dispatch }) => {
     const state = getState() as RootState;
+    const chatId = state.currentChat.chatId;
+    const userName = member.userName;
+    if(!chatId || !userName) return;
+    const link = ADD_CHAT_MEMBER(chatId, userName);
     try {
-      const response = await fetch(ADD_CHAT_MEMBER, {
+      const response = await fetch(link, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          ChatId: state.currentChat.chatId,
-          UserId: member.memberId,
-        }),
         credentials: "include",
       });
 

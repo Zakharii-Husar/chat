@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { CREATE_GROUP_CHAT } from "./APIEndpoints";
+import { CREATE_GROUP } from "./APIEndpoints";
 import type { RootState } from "../state/store";
 import { setCurrentChatId } from "../state/currentChatSlice";
 
@@ -13,9 +13,10 @@ const createGroupThunk = createAsyncThunk(
       const uniqueArr = membersIdsArray.filter(
         (value, index, self) => value !== null && self.indexOf(value) === index
       );
+      const link = CREATE_GROUP();
   
       try {
-        const response = await fetch(CREATE_GROUP_CHAT, {
+        const response = await fetch(link, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

@@ -24,8 +24,8 @@ const RemoveMembers: React.FC = () => {
 
   const [showList, setShowList] = useState(false);
 
-  const remove = (memberId: string) => {
-    dispatch(rmChatMemberThunk(memberId));
+  const remove = (userName: string) => {
+    dispatch(rmChatMemberThunk(userName));
   };
 
   return (
@@ -55,7 +55,7 @@ const RemoveMembers: React.FC = () => {
                       <Confirmation
                         buttonText="x"
                         titleText={`Remove ${member.userName} from the chaat?`}
-                        proceed={() => remove(member.memberId!)}
+                        proceed={() => remove(member.userName!)}
                       />
                     </span>
                   </ListGroup.Item>

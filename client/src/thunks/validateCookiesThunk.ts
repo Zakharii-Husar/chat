@@ -5,8 +5,9 @@ import { setLoggedInUser } from "../state/loggedInUserSlice";
 const validateCookiesThunk = createAsyncThunk(
     "login/validateCookies",
     async (_, { dispatch }) => {
+        const link = CHECK_COOKIES_URL();
         try {
-            const response = await fetch(CHECK_COOKIES_URL, {
+            const response = await fetch(link, {
                 method: "GET",
                 credentials: "include",
             });

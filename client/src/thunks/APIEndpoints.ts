@@ -15,28 +15,28 @@ export const GET_ALL_CHATS = (
   itemsToSkip: number = 0,
   itemsToTake: number = 5
 ) => `${API_URL}/Chats?itemsToSkip=${itemsToSkip}&itemsToTake=${itemsToTake}`;
+
 export const GET_CHAT_BY_ID = (
   ChatId: number,
   itemsToSkip: number = 0,
   itemsToTake: number = 5
 ) =>
   `${API_URL}/Chats/${ChatId}?itemsToSkip=${itemsToSkip}&itemsToTake=${itemsToTake}`;
-export const GET_CHAT_BY_USERNAME = (Username: string) =>
+
+export const GET_CHAT_ID_BY_USERNAME = (Username: string) =>
   `${API_URL}/Chats/GetIdByUname/${Username}`;
 //post
 export const ADD_CHAT_MEMBER = (ChatId: number, Username: string) =>
   `${API_URL}/Chats/${ChatId}/AddMember/${Username}`;
 export const CREATE_GROUP = () => `${API_URL}/Chats/CreateGroup`;
-//NEW:
-export const CREATE_PRIVATE = () => `${API_URL}/Chats/CreateGroup`;
-//NEW:
+export const CREATE_PRIVATE = (RecipientUname: string) => `${API_URL}/Chats/CreateGroup${RecipientUname}`;
 export const MARK_CHAT_AS_READ = (ChatId: number) =>
   `${API_URL}/Chats/${ChatId}/MarkAsRead`;
 //patch
 export const REMOVE_CHAT_MEMBER = (ChatId: number, Username: string) =>
   `${API_URL}/Chats/${ChatId}/RmMember/${Username}`;
-export const RENAME_GROUP_CHAT = (ChatId: number) =>
-  `${API_URL}/Chats/${ChatId}/Rename`;
+export const RENAME_GROUP_CHAT = (ChatId: number, NewName: string) =>
+  `${API_URL}/Chats/${ChatId}/Rename/${NewName}`;
 
 //MESSAGES
 //post

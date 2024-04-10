@@ -1,7 +1,5 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 import { IMessage } from "../features/messaging/messagesInterfaces";
-import { GET_ALL_CHATS } from "../thunks/APIEndpoints";
-import { RootState } from "./store";
 import type { PayloadAction } from "@reduxjs/toolkit";
 
 export interface IChatsOverview {
@@ -18,35 +16,6 @@ const initialState: IChatsOverview = {
   isLoading: false,
 };
 
-export const fetchAllChats = createAsyncThunk(
-  "chats/fetchChats",
-  async (paginationOffset: number, { getState, dispatch }) => {
-    const state = getState() as RootState;
-    try {
-      const response = await fetch(
-        `${GET_ALL_CHATS}?paginationOffset=${paginationOffset}`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          credentials: "include",
-        }
-      );
-
-      if (response.ok) {
-        const data = await response.json();
-        if(paginationOffset === 0){
-          dispatch(setCchats(data))
-          return;
-        }
-        dispatch(updateChats(data));
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  }
-);
 
 export const chatsSlice = createSlice({
   name: "chatsSlice",

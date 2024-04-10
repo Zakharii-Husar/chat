@@ -50,9 +50,9 @@ export const existingChatSlice = createSlice({
     addMember: (state, action: PayloadAction<IChatMember>) => {
       state.members.push(action.payload);
     },
-    rmMember: (state, action: PayloadAction<string>) => {
+    rmMemberByUname: (state, action: PayloadAction<string>) => {
       const index = state.members.findIndex(
-        (member) => member.memberId === action.payload
+        (member) => member.userName === action.payload
       );
       if (index !== -1) state.members.splice(index, 1);
     },
@@ -87,7 +87,7 @@ export const {
   addMessageToChat,
   setCurrentChatId,
   addMember,
-  rmMember,
+  rmMemberByUname,
   rename,
   likeOrUnlike,
 } = existingChatSlice.actions;
