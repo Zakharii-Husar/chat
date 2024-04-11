@@ -5,7 +5,7 @@ import {
   useAppDispatch,
 } from "../../hooks/useAppSelectorAndDispatch";
 import { updateSearchedUser } from "../../state/usersSlice";
-import { IUserModel } from "./userInterfaces";
+import { IUserDetails } from "../../state/Interfaces";
 
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
@@ -69,11 +69,11 @@ const Users: React.FC = () => {
           />
 
           <ListGroup>
-            {currentList?.map((user: IUserModel) => (
+            {currentList?.map((user: IUserDetails) => (
               <ListGroup.Item
                 key={user.id}
                 className="d-flex align-items-center justify-content-between py-1"
-                onClick={() => navToChat(user.userName)}
+                onClick={() => navToChat(user.userName!)}
               >
                 <FaUserCircle size={25} className="ms-2" />
 

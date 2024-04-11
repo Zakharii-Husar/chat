@@ -1,18 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
+import { IregisterState } from "./Interfaces";
 
-export interface IUserState {
-  email: string | null;
-  fullName: string | null;
-  nickName: string | null;
-  password: string | null;
-  confirm: string | null;
-}
-export interface IRegisterState extends IUserState {
-  validationErrors: IUserState;
+export interface IRegisterStateWithErrors extends IregisterState {
+  validationErrors: IregisterState;
 }
 
-const initialState: IRegisterState = {
+const initialState: IRegisterStateWithErrors = {
   email: null,
   fullName: null,
   nickName: null,

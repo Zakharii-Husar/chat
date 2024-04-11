@@ -15,7 +15,7 @@ import {
   useAppSelector,
   useAppDispatch,
 } from "../../../../hooks/useAppSelectorAndDispatch";
-import { IChatMember } from "../../messagesInterfaces";
+import { IChatMember } from "../../../../state/Interfaces";
 import getAllUsersThunk from "../../../../thunks/getAllUsersThunk";
 import searchUsersThunk from "../../../../thunks/searchUsersThunk";
 

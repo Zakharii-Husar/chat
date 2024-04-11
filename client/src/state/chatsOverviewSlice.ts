@@ -1,17 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { IMessage } from "../features/messaging/messagesInterfaces";
 import type { PayloadAction } from "@reduxjs/toolkit";
 
-export interface IChatsOverview {
-  chats: IMessage[],
-  paginationOffset: number,
-  hasMore: boolean,
-  isLoading: boolean
-}
+import { IChatsOverview } from "./Interfaces";
 
 const initialState: IChatsOverview = {
   chats: [],
-  paginationOffset: 0,
   hasMore: true,
   isLoading: false,
 };

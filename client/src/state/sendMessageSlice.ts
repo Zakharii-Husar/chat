@@ -1,10 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-
-interface IMessageToSend {
-  Content: string | null;
-  RepliedTo: number | null;
-}
+import { IMessageToSend } from "./Interfaces";
 
 const initialState: IMessageToSend = {
   Content: null,

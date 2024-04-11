@@ -19,7 +19,7 @@ import {
   useAppSelector,
   useAppDispatch,
 } from "../../../../hooks/useAppSelectorAndDispatch";
-import { IChatMember } from "../../messagesInterfaces";
+import { IChatMember } from "../../../../state/Interfaces";
 import getAllUsersThunk from "../../../../thunks/getAllUsersThunk";
 import searchUsersThunk from "../../../../thunks/searchUsersThunk";
 
@@ -81,7 +81,7 @@ const AddMembers: React.FC = () => {
                   <Form.Group key={user.id}>
                     <ListGroup.Item>
                       <Confirmation
-                        buttonText={user.userName}
+                        buttonText={user.userName!}
                         titleText={`Add ${user.userName} to chat?`}
                         proceed={() =>
                           add({

@@ -10,8 +10,7 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
 import { removeCandidate } from "../../../../state/createGroupSlice";
-
-import { IChatMember } from "../../messagesInterfaces";
+import { IChatMember } from "../../../../state/Interfaces";
 
 const RemoveCandidates: React.FC = () => {
   const dispatch = useAppDispatch();

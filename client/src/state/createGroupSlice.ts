@@ -1,15 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
+import { ICreateChat, IChatMember } from "./Interfaces";
 
-export interface IChatMember {
-  userName: string | null;
-  memberId: string | null;
-  isCreator: boolean;
-}
-interface ICreateChat {
-  name: string | null;
-  candidates: IChatMember[];
-}
 const initialState: ICreateChat = {
   name: null,
   candidates: [],

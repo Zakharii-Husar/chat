@@ -1,6 +1,6 @@
 import {  createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import { IUserModel, IUsersModel } from "../features/users/userInterfaces";
+import { IUserDetails, IUsersModel } from "./Interfaces";
 
 const initialState: IUsersModel = {
   allUsers: [],
@@ -15,10 +15,10 @@ export const usersSlice = createSlice({
     updateSearchedUser: (state, action: PayloadAction<string | null>) => {
       state.searchedUser = action.payload;
     },
-    fetchAllUsers: (state, action: PayloadAction<IUserModel[]>) => {
+    fetchAllUsers: (state, action: PayloadAction<IUserDetails[]>) => {
       state.allUsers = action.payload;
     },
-    findUsers: (state, action: PayloadAction<IUserModel[]>) => {
+    findUsers: (state, action: PayloadAction<IUserDetails[]>) => {
       state.filteredUsers = action.payload;
     },
   },
