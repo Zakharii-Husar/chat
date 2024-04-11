@@ -18,7 +18,7 @@ export const getChatIdByUsername = createAsyncThunk(
         );
         if (response.ok) {
           const chatId = await response.json();
-          dispatch(setCurrentChatId(chatId));
+          if(chatId)dispatch(setCurrentChatId(chatId));
           return chatId;
         }
       } catch (error) {

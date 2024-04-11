@@ -4,12 +4,7 @@ import {
   useAppSelector,
   useAppDispatch,
 } from "../../hooks/useAppSelectorAndDispatch";
-import {
-  fetchAllUsersAsync,
-  searchUsers,
-  updateSearchedUser,
-  getChatIdByUsername,
-} from "../../state/usersSlice";
+import { updateSearchedUser } from "../../state/usersSlice";
 import { IUserModel } from "./userInterfaces";
 
 import Container from "react-bootstrap/Container";
@@ -21,6 +16,10 @@ import Form from "react-bootstrap/Form";
 import { FaUserCircle } from "react-icons/fa";
 import { BsFillSendFill } from "react-icons/bs";
 import { useCheckAuth } from "../../hooks/useCheckAuth";
+import { getAllUsersThunk } from "../../thunks/getAllUsersThunk";
+import { searchUsers } from "../../thunks/searchUsersThunk";
+import { getChatIdByUsername } from "../../thunks/getChatIdByUsernameThunk";
+import createPrivateThunk from "../../thunks/createPrivateThunk";
 
 const Users: React.FC = () => {
   useCheckAuth();
@@ -31,7 +30,7 @@ const Users: React.FC = () => {
   );
 
   useEffect(() => {
-    dispatch(fetchAllUsersAsync());
+    dispatch(getAllUsersThunk());
   }, []);
 
   useEffect(() => {
@@ -45,8 +44,12 @@ const Users: React.FC = () => {
 
   const navToChat = async (username: string) => {
     try {
-      const action = await dispatch(getChatIdByUsername(username));
-      const chatId = action.payload;
+      const getAction = await dispatch(getChatIdByUsername(username));
+      let chatId = getAction.payload;
+      if (!chatId) {
+        const createAction = await dispatch(createPrivateThunk(username));
+        chatId = createAction.payload;
+      }
       navigate("/chats/" + chatId);
     } catch (error) {
       // Handle errors here

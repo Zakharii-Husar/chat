@@ -4,8 +4,8 @@ import { fetchAllUsers } from "../state/usersSlice";
 import { RootState } from "../state/store";
 
 
-export const fetchAllUsersAsync = createAsyncThunk(
-  "users/fetchAllUsersAsync",
+export const getAllUsersThunk = createAsyncThunk(
+  "users/getAllUsersThunk",
   async (_, { getState, dispatch }) => {
     const state = getState() as RootState;
     const itemsToSkip = state.users.allUsers.length;
