@@ -6,7 +6,7 @@ import { setLogin, setPassword } from "../../../state/loginSlice";
 import { SyntheticEvent, useEffect } from "react";
 import { useNavigate } from "react-router";
 
-import { loginWithPasswordThunk } from "../../../thunks/loginWithPasswordThunk";
+import loginWithPasswordThunk from "../../../thunks/loginWithPasswordThunk";
 
 import {
   MDBContainer,

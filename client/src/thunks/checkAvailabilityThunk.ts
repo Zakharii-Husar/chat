@@ -1,6 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { IS_TAKEN } from "./APIEndpoints";
-import { setUserDetails } from "../state/viewUserSlice";
 
 const checkAvailabilityThunk = createAsyncThunk(
     "register/checkAvailability",

@@ -7,11 +7,7 @@ import Form from "react-bootstrap/Form";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import {
-  fetchAllUsersAsync,
-  searchUsers,
-  updateSearchedUser,
-} from "../../../../state/usersSlice";
+import { updateSearchedUser } from "../../../../state/usersSlice";
 
 import { addChatCandidates } from "../../../../state/createGroupSlice";
 
@@ -20,6 +16,8 @@ import {
   useAppDispatch,
 } from "../../../../hooks/useAppSelectorAndDispatch";
 import { IChatMember } from "../../messagesInterfaces";
+import getAllUsersThunk from "../../../../thunks/getAllUsersThunk";
+import searchUsersThunk from "../../../../thunks/searchUsersThunk";
 
 const AddCandidates: React.FC = () => {
   const { allUsers, filteredUsers, searchedUser } = useAppSelector(
@@ -32,11 +30,11 @@ const AddCandidates: React.FC = () => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(fetchAllUsersAsync());
+    dispatch(getAllUsersThunk());
   }, []);
 
   useEffect(() => {
-    if (searchedUser) dispatch(searchUsers(searchedUser));
+    if (searchedUser) dispatch(searchUsersThunk(searchedUser));
   }, [searchedUser]);
 
   const search = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -60,7 +58,8 @@ const AddCandidates: React.FC = () => {
             {currentUsersList.map((user) => {
               //prevent showing current user and already added users
               return createGroupState.candidates.some(
-                (member) => member.memberId === user.id || user.id === currentUserId
+                (member) =>
+                  member.memberId === user.id || user.id === currentUserId
               ) ? null : (
                 //show candidats
                 <Form.Group key={user.id}>

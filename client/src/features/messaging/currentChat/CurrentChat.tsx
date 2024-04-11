@@ -1,8 +1,7 @@
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import {
-  useAppDispatch,
-  useAppSelector,
+  useAppDispatch
 } from "../../../hooks/useAppSelectorAndDispatch";
 
 import { DisplayMessages } from "./displayMessages/DisplayMessages";

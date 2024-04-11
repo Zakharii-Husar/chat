@@ -4,7 +4,7 @@ import type { RootState } from "../state/store";
 import { setLoading, setChat } from "../state/currentChatSlice";
 
 const getChatByIdThunk = createAsyncThunk(
-  "currentChat/getChatByIdThunk",
+  "currentChat/getChatById",
   async (chatId: number, { getState, dispatch }) => {
     const state = getState() as RootState;
     const itemsToSkip = state.currentChat.messages.length;

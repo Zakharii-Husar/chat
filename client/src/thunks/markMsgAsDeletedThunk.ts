@@ -3,7 +3,7 @@ import { MARK_MSG_AS_DELETED } from "./APIEndpoints";
 import { RootState } from "../state/store";
 
 const markMsgAsDeletedThunk = createAsyncThunk(
-  "currentChat/markMsgAsDeletedThunk",
+  "currentChat/markMsgAsDeleted",
   async (messageId: number, { getState }) => {
     try {
       const state = getState() as RootState;

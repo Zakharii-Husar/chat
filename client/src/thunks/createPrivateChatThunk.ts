@@ -2,8 +2,8 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { CREATE_PRIVATE } from "./APIEndpoints";
 import { setCurrentChatId } from "../state/currentChatSlice";
 
-const createPrivateThunk = createAsyncThunk(
-    "createPrivate/createPrivateThunk",
+const createPrivateChatThunk = createAsyncThunk(
+    "createPrivate/createPrivateChat",
     async (recipientUname: string, {  dispatch }) => {
       const link = CREATE_PRIVATE(recipientUname);
   
@@ -27,4 +27,4 @@ const createPrivateThunk = createAsyncThunk(
     }
   );
 
-  export default createPrivateThunk;
+  export default createPrivateChatThunk;

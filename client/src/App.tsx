@@ -24,49 +24,49 @@ function App() {
   
   
 
-  useEffect(() => {
-    const connectWs = async () => {
-      if (!currentUserId) return;
-      try {
-        if (connection.state === 'Disconnected') {
-          await connection.start();
-          await connection.invoke("Connect");
-        }
-      } catch (err) {
-        console.error(err);
-      }
-    };
+  // useEffect(() => {
+  //   const connectWs = async () => {
+  //     if (!currentUserId) return;
+  //     try {
+  //       if (connection.state === 'Disconnected') {
+  //         await connection.start();
+  //         await connection.invoke("Connect");
+  //       }
+  //     } catch (err) {
+  //       console.error(err);
+  //     }
+  //   };
   
-    connectWs();
+  //   connectWs();
   
-    const disconnectWs = async () => {
-      if (connection.state === 'Connected') {
-        await connection.stop();
-        await connection.invoke("Disconnect");
-      }
-    };
+  //   const disconnectWs = async () => {
+  //     if (connection.state === 'Connected') {
+  //       await connection.stop();
+  //       await connection.invoke("Disconnect");
+  //     }
+  //   };
 
   
-    //gives me error while reloading and doesn't do its job anyway
-   // window.addEventListener("beforeunload", disconnectWs);
+  //   //gives me error while reloading and doesn't do its job anyway
+  //  // window.addEventListener("beforeunload", disconnectWs);
   
-    return () => {
-     // window.removeEventListener("beforeunload", disconnectWs);
-    };
-  }, [currentUserId]);
+  //   return () => {
+  //    // window.removeEventListener("beforeunload", disconnectWs);
+  //   };
+  // }, [currentUserId]);
 
-  useEffect(()=>{
+  // useEffect(()=>{
     
-    const logData = (data: any) => {
-      console.log(data);
-    }
+  //   const logData = (data: any) => {
+  //     console.log(data);
+  //   }
 
-    connection.on("ReceiveNewMessage", logData);
+  //   connection.on("ReceiveNewMessage", logData);
 
-    return(()=>{
-      connection.off("ReceiveNewMessage", logData);
-    })
-  }, [])
+  //   return(()=>{
+  //     connection.off("ReceiveNewMessage", logData);
+  //   })
+  // }, [])
   
 
   const router = createBrowserRouter(

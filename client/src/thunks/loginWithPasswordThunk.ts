@@ -4,7 +4,7 @@ import { LOGIN_URL } from "./APIEndpoints";
 import validateCookiesThunk from "./validateCookiesThunk";
 
 
-export const loginWithPasswordThunk = createAsyncThunk(
+const loginWithPasswordThunk = createAsyncThunk(
     "login/loginWithPassword",
     async (_, { getState, dispatch }) => {
 
@@ -32,3 +32,5 @@ export const loginWithPasswordThunk = createAsyncThunk(
         }
     }
 );
+
+export default loginWithPasswordThunk;

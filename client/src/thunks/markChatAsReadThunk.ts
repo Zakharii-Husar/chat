@@ -1,8 +1,8 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { MARK_CHAT_AS_READ } from "./APIEndpoints";
 
-const markAsReadThunk = createAsyncThunk(
-    "markChatAsRead/markAsReadThunk",
+const markChatAsReadThunk = createAsyncThunk(
+    "currentChat/markChatAsRead",
     async (chatId: number) => {
       const link = MARK_CHAT_AS_READ(chatId);
   
@@ -23,4 +23,4 @@ const markAsReadThunk = createAsyncThunk(
     }
   );
 
-  export default markAsReadThunk;
+  export default markChatAsReadThunk;

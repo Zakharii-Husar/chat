@@ -60,11 +60,11 @@ export const GET_ALL_USERS = (
   itemsToSkip: number = 0,
   itemsToTake: number = 5
 ) =>
-  `${API_URL}/Users/Search?itemsToSkip=${itemsToSkip}&itemsToTake=${itemsToTake}`;
+  `${API_URL}/Users?itemsToSkip=${itemsToSkip}&itemsToTake=${itemsToTake}`;
 export const GET_AVATAR = (FileName: string) => `${API_URL}/Users/Avatar/${FileName}`;
 export const GET_USER = (UserName: string) => `${API_URL}/Users/${UserName}`;
 export const SEARCH_USERS = (
-  query: string,
+  query: string = "",
   itemsToSkip: number = 0,
   itemsToTake: number = 5
 ) =>

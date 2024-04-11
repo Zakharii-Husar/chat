@@ -4,7 +4,7 @@ import { rmLike } from "../state/currentChatSlice";
 import { RootState } from "../state/store";
 
 const rmLikeThunk = createAsyncThunk(
-  "currentChat/rmLikeThunk",
+  "currentChat/rmLike",
   async (messageId: number , { getState, dispatch }) => {
     try {
       const state = getState() as RootState;

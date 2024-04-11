@@ -3,7 +3,7 @@ import type { RootState } from "../state/store";
 import { SEND_MESSAGE } from "./APIEndpoints";
 
 const sendMessageThunk = createAsyncThunk(
-  "sendMessage/sendMessageAsync",
+  "currentChat/sendMessage",
   async (_, { getState }) => {
     const state = getState() as RootState;
     const chatId = state.currentChat.chatId;

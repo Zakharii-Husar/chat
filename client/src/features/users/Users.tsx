@@ -16,10 +16,10 @@ import Form from "react-bootstrap/Form";
 import { FaUserCircle } from "react-icons/fa";
 import { BsFillSendFill } from "react-icons/bs";
 import { useCheckAuth } from "../../hooks/useCheckAuth";
-import { getAllUsersThunk } from "../../thunks/getAllUsersThunk";
-import { searchUsers } from "../../thunks/searchUsersThunk";
-import { getChatIdByUsername } from "../../thunks/getChatIdByUsernameThunk";
-import createPrivateThunk from "../../thunks/createPrivateThunk";
+import getAllUsersThunk from "../../thunks/getAllUsersThunk";
+import searchUsersThunk from "../../thunks/searchUsersThunk";
+import getChatIdByUsernameThunk from "../../thunks/getChatIdByUsernameThunk";
+import createPrivateChatThunk from "../../thunks/createPrivateChatThunk";
 
 const Users: React.FC = () => {
   useCheckAuth();
@@ -34,20 +34,20 @@ const Users: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    if (searchedUser) dispatch(searchUsers(searchedUser));
+    if (searchedUser) dispatch(searchUsersThunk(searchedUser));
   }, [searchedUser]);
 
-  const search = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const input = e.target.value;
     dispatch(updateSearchedUser(input !== "" ? input : null));
   };
 
   const navToChat = async (username: string) => {
     try {
-      const getAction = await dispatch(getChatIdByUsername(username));
+      const getAction = await dispatch(getChatIdByUsernameThunk(username));
       let chatId = getAction.payload;
       if (!chatId) {
-        const createAction = await dispatch(createPrivateThunk(username));
+        const createAction = await dispatch(createPrivateChatThunk(username));
         chatId = createAction.payload;
       }
       navigate("/chats/" + chatId);
@@ -65,7 +65,7 @@ const Users: React.FC = () => {
           <Form.Control
             type="text"
             placeholder="Search users..."
-            onInput={search}
+            onInput={handleInput}
           />
 
           <ListGroup>

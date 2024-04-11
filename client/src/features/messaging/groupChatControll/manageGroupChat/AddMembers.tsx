@@ -9,11 +9,7 @@ import Collapse from "react-bootstrap/Collapse";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import {
-  fetchAllUsersAsync,
-  searchUsers,
-  updateSearchedUser,
-} from "../../../../state/usersSlice";
+import { updateSearchedUser } from "../../../../state/usersSlice";
 
 import addChatMemberThunk from "../../../../thunks/addChatMemberThunk";
 
@@ -24,6 +20,8 @@ import {
   useAppDispatch,
 } from "../../../../hooks/useAppSelectorAndDispatch";
 import { IChatMember } from "../../messagesInterfaces";
+import getAllUsersThunk from "../../../../thunks/getAllUsersThunk";
+import searchUsersThunk from "../../../../thunks/searchUsersThunk";
 
 const AddMembers: React.FC = () => {
   const { allUsers, filteredUsers, searchedUser } = useAppSelector(
@@ -35,18 +33,18 @@ const AddMembers: React.FC = () => {
   const isCreator = currentChat.members.find(
     (member) => member.memberId === currentUserId
   )?.isCreator;
-  
+
   const currentUsersList = searchedUser ? filteredUsers : allUsers;
   const dispatch = useAppDispatch();
 
   const [showForm, setShowForm] = useState(false);
 
   useEffect(() => {
-    dispatch(fetchAllUsersAsync());
+    dispatch(getAllUsersThunk());
   }, []);
 
   useEffect(() => {
-    if (searchedUser) dispatch(searchUsers(searchedUser));
+    if (searchedUser) dispatch(searchUsersThunk(searchedUser));
   }, [searchedUser]);
 
   const search = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -76,7 +74,8 @@ const AddMembers: React.FC = () => {
               {currentUsersList.map((user) => {
                 //prevent showing already added users and current user
                 return currentChat.members.some(
-                  (member) => member.memberId === user.id || user.id === currentUserId
+                  (member) =>
+                    member.memberId === user.id || user.id === currentUserId
                 ) ? null : (
                   //show candidats
                   <Form.Group key={user.id}>

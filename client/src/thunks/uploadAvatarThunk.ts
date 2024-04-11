@@ -3,7 +3,7 @@ import { UPLOAD_AVATAR } from "./APIEndpoints";
 import { updateAvatarName } from "../state/loggedInUserSlice";
 
 const uploadAvatarThunk = createAsyncThunk(
-  "avatar/uploadAvatar",
+  "users/uploadAvatar",
   async (formData: FormData, { dispatch }) => {
     const link = UPLOAD_AVATAR();
     try {

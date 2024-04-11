@@ -9,7 +9,7 @@ namespace API.Repos.UsersRepo
         {
 
             var usersQuery = userManager.Users
-                .Where(u => u.Id == currentUserId);
+                .Where(u => u.Id != currentUserId);
 
             var usersTotal = await usersQuery.CountAsync();
 

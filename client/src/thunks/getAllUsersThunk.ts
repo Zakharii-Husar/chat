@@ -4,11 +4,11 @@ import { fetchAllUsers } from "../state/usersSlice";
 import { RootState } from "../state/store";
 
 
-export const getAllUsersThunk = createAsyncThunk(
-  "users/getAllUsersThunk",
+const getAllUsersThunk = createAsyncThunk(
+  "users/getAllUsers",
   async (_, { getState, dispatch }) => {
     const state = getState() as RootState;
-    const itemsToSkip = state.users.allUsers.length;
+    const itemsToSkip = state.users.allUsers.length ?? 0;
     const itemsToTake = 5;
     const link = GET_ALL_USERS(itemsToSkip, itemsToTake);
     try {
@@ -29,3 +29,5 @@ export const getAllUsersThunk = createAsyncThunk(
     }
   }
 );
+
+export default getAllUsersThunk;

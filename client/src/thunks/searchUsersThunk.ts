@@ -6,8 +6,8 @@ import { RootState } from "../state/store";
 
 
 
-export const searchUsers = createAsyncThunk(
-  "users/findUsers",
+const searchUsersThunk = createAsyncThunk(
+  "users/searchUsers",
   async (searchQuery: string, { getState, dispatch }) => {
     try {
       const state = getState() as RootState;
@@ -33,3 +33,5 @@ export const searchUsers = createAsyncThunk(
     }
   }
 );
+
+export default searchUsersThunk;

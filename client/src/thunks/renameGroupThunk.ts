@@ -4,7 +4,7 @@ import { RENAME_GROUP_CHAT } from "./APIEndpoints";
 import { addMessageToChat, rename } from "../state/currentChatSlice";
 
 const renameGroupThunk = createAsyncThunk(
-    "currentChat/renameGroupThunk",
+    "currentChat/renameGroup",
     async (newName: string, { dispatch, getState }) => {
       const state = getState() as RootState;
       const chatId = state.currentChat.chatId;

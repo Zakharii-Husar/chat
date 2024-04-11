@@ -10,7 +10,6 @@ import {
   MDBIcon,
   MDBTypography,
 } from "mdb-react-ui-kit";
-import chatsOverviewSlice, { fetchAllChats } from "../../../state/chatsOverviewSlice";
 import {
   useAppDispatch,
   useAppSelector,
@@ -18,13 +17,14 @@ import {
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import CreateGroup from "../groupChatControll/createGroupChat/CreateGroup";
+import getAllChatsThunk from "../../../thunks/getAllChatsThunk";
 
 export function ChatsOverview() {
   const dispatch = useAppDispatch();
-  const chatsOverviewState = useAppSelector((state) => state.chats);
+  const chatsOverviewState = useAppSelector((state) => state?.chats);
 
   useEffect(() => {
-    dispatch(fetchAllChats(0));
+    dispatch(getAllChatsThunk());
   }, []);
 
   const getTimeAgo = (timestamp: string) => {
@@ -40,9 +40,9 @@ export function ChatsOverview() {
             <InfiniteScroll
               className="scrollable flex-column"
               height={300}
-              dataLength={chatsOverviewState.chats.length}
+              dataLength={chatsOverviewState?.chats?.length ?? 0}
               next={() => {
-                if (!chatsOverviewState.isLoading) dispatch(fetchAllChats(chatsOverviewState.paginationOffset));
+                if (!chatsOverviewState.isLoading) dispatch(getAllChatsThunk());
               }}
               hasMore={chatsOverviewState.hasMore}
               loader={<h4>Loading...</h4>}
@@ -54,7 +54,7 @@ export function ChatsOverview() {
             >
               <MDBCardBody>
                 <MDBTypography listUnStyled className="mb-0">
-                  {chatsOverviewState.chats.map((chat) => {
+                  {chatsOverviewState?.chats?.map((chat) => {
                     const time = getTimeAgo(chat.sentAt);
                     return (
                       <li className="p-2" key={chat.chatId}>

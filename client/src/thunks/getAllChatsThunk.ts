@@ -3,8 +3,8 @@ import { GET_ALL_CHATS } from "./APIEndpoints";
 import { setCchats, updateChats } from "../state/chatsOverviewSlice";
 import { RootState } from "../state/store";
 
-export const fetchAllChats = createAsyncThunk(
-  "chats/fetchChats",
+const getAllChatsThunk = createAsyncThunk(
+  "chats/getAllChats",
   async (_, { getState, dispatch }) => {
     const state = getState() as RootState;
     const itemsToTake = 5;
@@ -23,6 +23,7 @@ export const fetchAllChats = createAsyncThunk(
 
       if (response.ok) {
         const data = await response.json();
+        console.log(data);
         if(itemsToSkip === 0){
           dispatch(setCchats(data))
           return;
@@ -34,3 +35,5 @@ export const fetchAllChats = createAsyncThunk(
     }
   }
 );
+
+export default getAllChatsThunk;

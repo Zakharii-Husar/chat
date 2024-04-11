@@ -2,7 +2,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { GET_CHAT_ID_BY_USERNAME} from "./APIEndpoints";
 import { setCurrentChatId } from "../state/currentChatSlice";
 
-export const getChatIdByUsername = createAsyncThunk(
+const getChatIdByUsernameThunk = createAsyncThunk(
     "users/getChatIdByUsername",
     async (userName: string, { dispatch }) => {
       const link = GET_CHAT_ID_BY_USERNAME(userName);
@@ -27,3 +27,5 @@ export const getChatIdByUsername = createAsyncThunk(
       }
     }
   );
+
+  export default getChatIdByUsernameThunk;

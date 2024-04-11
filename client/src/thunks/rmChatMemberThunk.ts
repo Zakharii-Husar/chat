@@ -4,7 +4,7 @@ import type { RootState } from "../state/store";
 import { addMessageToChat, rmMemberByUname } from "../state/currentChatSlice";
 
 const rmChatMemberThunk = createAsyncThunk(
-  "currentChat/rmChatMemberThunk",
+  "currentChat/rmChatMember",
   async (memberUname: string, { getState, dispatch }) => {
     const state = getState() as RootState;
     const chatId = state.currentChat.chatId;

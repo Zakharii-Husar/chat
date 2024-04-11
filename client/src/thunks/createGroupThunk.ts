@@ -4,7 +4,7 @@ import type { RootState } from "../state/store";
 import { setCurrentChatId } from "../state/currentChatSlice";
 
 const createGroupThunk = createAsyncThunk(
-    "createGroup/createGroupThunk",
+    "createGroup/createGroup",
     async (_, { getState, dispatch }) => {
       const state = getState() as RootState;
       //extracting only ID's

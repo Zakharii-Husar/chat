@@ -1,4 +1,3 @@
-import type { RootState } from "../../../state/store";
 import {
   useAppSelector,
   useAppDispatch,
@@ -26,6 +25,7 @@ import "./Register.css";
 
 export function Register() {
   const navigate = useNavigate();
+  useRegValidation();
 
   const regState = useAppSelector(state=>state.register);
   const validationErrors = useAppSelector(
@@ -35,9 +35,6 @@ export function Register() {
   const currentUser = useAppSelector((state) => state.loggedInUser);
 
   const dispatch = useAppDispatch();
-  useEffect(()=>{
-    useRegValidation();
-  }, [regState])
 
   useEffect(() => {
     if (currentUser.id) navigate("/");

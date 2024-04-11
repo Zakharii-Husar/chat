@@ -3,7 +3,7 @@ import { GET_USER } from "./APIEndpoints";
 import { setUserDetails } from "../state/viewUserSlice";
 
 const getUserDetailsThunk = createAsyncThunk(
-    "login/getUserDetails",
+    "users/getUserDetails",
     async (userName: string, { dispatch }) => {
         const link = GET_USER(userName);
         try {
