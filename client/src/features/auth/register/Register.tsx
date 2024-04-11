@@ -27,6 +27,7 @@ import "./Register.css";
 export function Register() {
   const navigate = useNavigate();
 
+  const regState = useAppSelector(state=>state.register);
   const validationErrors = useAppSelector(
     (state) => state.register.validationErrors
   );
@@ -34,7 +35,9 @@ export function Register() {
   const currentUser = useAppSelector((state) => state.loggedInUser);
 
   const dispatch = useAppDispatch();
-  useRegValidation();
+  useEffect(()=>{
+    useRegValidation();
+  }, [regState])
 
   useEffect(() => {
     if (currentUser.id) navigate("/");

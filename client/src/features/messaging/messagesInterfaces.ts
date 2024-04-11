@@ -24,7 +24,6 @@ export interface ICurrentChat {
   chatName: string | null;
   members: IChatMember[];
   messages: IMessage[];
-  paginationOffset: number;
   hasMoreMessages: boolean;
   isLoading: boolean;
 }

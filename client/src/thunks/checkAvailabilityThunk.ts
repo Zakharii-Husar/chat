@@ -1,11 +1,11 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { GET_USER } from "./APIEndpoints";
+import { IS_TAKEN } from "./APIEndpoints";
 import { setUserDetails } from "../state/viewUserSlice";
 
-const getUserDetailsThunk = createAsyncThunk(
-    "login/getUserDetails",
-    async (userName: string, { dispatch }) => {
-        const link = GET_USER(userName);
+const checkAvailabilityThunk = createAsyncThunk(
+    "register/checkAvailability",
+    async (props: {type: string, value: string}) => {
+        const link = IS_TAKEN(props.type, props.value);
         try {
             const response = await fetch(link, {
                 method: "GET",
@@ -13,8 +13,7 @@ const getUserDetailsThunk = createAsyncThunk(
             });
 
             if (response.ok) {
-                const data = await response.json();
-                dispatch(setUserDetails(data));
+                return await response.json();
             }
 
         } catch (error) {
@@ -23,4 +22,4 @@ const getUserDetailsThunk = createAsyncThunk(
     }
 );
 
-export default getUserDetailsThunk
+export default checkAvailabilityThunk

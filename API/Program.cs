@@ -34,15 +34,7 @@ builder.Services.AddDbContext<AppDbContext>();
 //DATA PROTECTION
 builder.Services.AddDataProtection();
 //IDENTITY
-builder.Services.AddIdentityCore<AppUser>(options =>
-{
-    options.Password.RequiredLength = 3;
-    options.Password.RequireDigit = false;
-    options.Password.RequireUppercase = false;
-    options.Password.RequireLowercase = false;
-    options.Password.RequireNonAlphanumeric = false;
-
-})
+builder.Services.AddIdentityCore<AppUser>()
 .AddUserManager<UserManager<AppUser>>()
 .AddSignInManager<SignInManager<AppUser>>()
 .AddEntityFrameworkStores<AppDbContext>()

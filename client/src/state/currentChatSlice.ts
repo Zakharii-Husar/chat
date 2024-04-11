@@ -7,7 +7,6 @@ const initialState: ICurrentChat = {
   chatName: null,
   members: [],
   messages: [],
-  paginationOffset: 0,
   hasMoreMessages: true,
   isLoading: false,
 };
@@ -75,7 +74,6 @@ export const existingChatSlice = createSlice({
       const likes = state.messages[msgIndex].likes;
       likes.push(action.payload.name);
     },
-
   },
 });
 

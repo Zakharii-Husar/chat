@@ -84,7 +84,7 @@ export default function User() {
                     ) : (
                       <MDBCardImage
                         className="w-100"
-                        src={GET_AVATAR + currentProfile.avatarName}
+                        src={GET_AVATAR(currentProfile.avatarName!)}
                         onError={() => dispatch(updateAvatarName(null))}
                         alt="Generic placeholder image"
                         fluid

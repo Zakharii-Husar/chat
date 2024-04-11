@@ -12,7 +12,7 @@ const rmLikeThunk = createAsyncThunk(
       if(!chatId) return;
       const link = RM_LIKE(chatId, messageId);
       const response = await fetch(link, {
-        method: "POST",
+        method: "DELETE",
         headers: {
           "Content-Type": "application/json",
         },

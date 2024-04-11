@@ -12,42 +12,20 @@ import {
   setPasswordErr,
   setConfirmErr,
 } from "../state/registerSlice";
-import {
-  EMAIL_AVAILABILITY_URL,
-  NICKNAME_AVAILABILITY_URL,
-} from "../thunks/APIEndpoints";
+import checkAvailabilityThunk from "../thunks/checkAvailabilityThunk";
 
 export const useRegValidation = () => {
   const { email, fullName, nickName, password, confirm, validationErrors } =
     useAppSelector((state: RootState) => state.register);
 
   const dispatch = useAppDispatch();
-
+  
   const isTaken = async (
-    APIEndpoint: string,
-    valueToCheck: string
+    type: string,
+    value: string
   ): Promise<boolean> => {
-    const link =
-      APIEndpoint === "email"
-        ? EMAIL_AVAILABILITY_URL
-        : NICKNAME_AVAILABILITY_URL;
-    try {
-      const response = await fetch(
-        `${link}/${encodeURIComponent(valueToCheck)}`
-      );
-
-      if (!response.ok) {
-        throw new Error("Failed to fetch");
-      }
-
-      const result = await response.json();
-      return result;
-    } catch (error) {
-      console.error("Error during checking email availability:", error);
-      //Preventing insertinon of a new email if impossible to prove
-      //that it doesn't already exist in the DB:
-      return true;
-    }
+    const result = await dispatch(checkAvailabilityThunk({type, value}));
+    return result.payload;
   };
 
 

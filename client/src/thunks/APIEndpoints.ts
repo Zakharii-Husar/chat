@@ -55,12 +55,13 @@ export const MARK_MSG_AS_DELETED = (ChatId: number, MessageId: number) =>
 //USERS
 export const IS_TAKEN = (Type: string, Value: string) =>
   `${API_URL}/Users/IsTaken/${Type}/${Value}`;
+
 export const GET_ALL_USERS = (
   itemsToSkip: number = 0,
   itemsToTake: number = 5
 ) =>
   `${API_URL}/Users/Search?itemsToSkip=${itemsToSkip}&itemsToTake=${itemsToTake}`;
-export const GET_AVATAR = () => `${API_URL}/Users/Avatar/{FileName}`;
+export const GET_AVATAR = (FileName: string) => `${API_URL}/Users/Avatar/${FileName}`;
 export const GET_USER = (UserName: string) => `${API_URL}/Users/${UserName}`;
 export const SEARCH_USERS = (
   query: string,

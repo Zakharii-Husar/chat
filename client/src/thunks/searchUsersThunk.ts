@@ -1,6 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { SEARCH_USERS } from "./APIEndpoints";
 import { findUsers } from "../state/usersSlice";
+import { RootState } from "../state/store";
 
 
 
@@ -9,8 +10,11 @@ export const searchUsers = createAsyncThunk(
   "users/findUsers",
   async (searchQuery: string, { getState, dispatch }) => {
     try {
-      const response = await fetch(
-        `${SEARCH_USERS}/${encodeURIComponent(searchQuery)}`,
+      const state = getState() as RootState;
+      const itemsToSkip = state.users.filteredUsers.length;
+      const itemsToTake = 5;
+      const link = SEARCH_USERS(encodeURIComponent(searchQuery), itemsToSkip, itemsToTake);
+      const response = await fetch(link,
         {
           method: "GET",
           headers: {

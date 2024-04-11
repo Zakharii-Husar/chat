@@ -1,14 +1,13 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import type { RootState } from "../state/store";
 import { UPLOAD_AVATAR } from "./APIEndpoints";
 import { updateAvatarName } from "../state/loggedInUserSlice";
 
 const uploadAvatarThunk = createAsyncThunk(
   "avatar/uploadAvatar",
-  async (formData: FormData, { getState, dispatch }) => {
-    const state = getState() as RootState;
+  async (formData: FormData, { dispatch }) => {
+    const link = UPLOAD_AVATAR();
     try {
-      const response = await fetch(UPLOAD_AVATAR, {
+      const response = await fetch(link, {
         method: "POST",
         body: formData,
         credentials: "include",
