@@ -31,9 +31,9 @@ export function ChatsOverview() {
     return formatDistanceToNow(new Date(timestamp), { addSuffix: true });
   };
 
-  return (
+  return chatsOverviewState?.chats?.length < 1 ? null : (
     <MDBContainer fluid className="py-5" style={{ backgroundColor: "#eee" }}>
-      <CreateGroup/>
+      <CreateGroup />
       <MDBRow className="d-flex w-100 justify-content-center">
         <MDBCol className="d-flex w-100">
           <MDBCard className="d-flex w-100">

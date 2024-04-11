@@ -23,7 +23,6 @@ const getAllChatsThunk = createAsyncThunk(
 
       if (response.ok) {
         const data = await response.json();
-        console.log(data);
         if(itemsToSkip === 0){
           dispatch(setCchats(data))
           return;

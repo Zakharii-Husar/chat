@@ -29,7 +29,7 @@ export const GET_CHAT_ID_BY_USERNAME = (Username: string) =>
 export const ADD_CHAT_MEMBER = (ChatId: number, Username: string) =>
   `${API_URL}/Chats/${ChatId}/AddMember/${Username}`;
 export const CREATE_GROUP = () => `${API_URL}/Chats/CreateGroup`;
-export const CREATE_PRIVATE = (RecipientUname: string) => `${API_URL}/Chats/CreateGroup${RecipientUname}`;
+export const CREATE_PRIVATE = (RecipientUname: string) => `${API_URL}/Chats/CreatePrivate/${RecipientUname}`;
 export const MARK_CHAT_AS_READ = (ChatId: number) =>
   `${API_URL}/Chats/${ChatId}/MarkAsRead`;
 //patch

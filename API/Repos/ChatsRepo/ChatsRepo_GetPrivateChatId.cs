@@ -8,7 +8,7 @@ namespace API.Repos.ChatsRepo
         {
             return await dbContext.Chats
               .Where(chat => chat.IsGroupChat == false)
-              .Where(chat => chat.ChatMembers.Any(cm => cm.MemberId == uname1) &&
+              .Where(chat => chat.ChatMembers.Any(cm => cm.Member.UserName == uname1) &&
                    chat.ChatMembers.Any(cm => cm.Member.UserName == uname2))
               .Select(chat => chat.ChatId)
               .FirstOrDefaultAsync();

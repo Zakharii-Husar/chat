@@ -14,16 +14,18 @@ namespace API.Services.ChatsService
 
             var newChatId = await chatsRepo.CreateChatAsync(newChat);
             if (newChatId == null) return null;
+            var user1 = await usersRepo.GetUserByUnameAsync(uname1);
+            var user2 = await usersRepo.GetUserByUnameAsync(uname2);
             var member1 = new ChatMember()
             {
-                ChatId = (int)newChatId,
-                MemberId = uname1,
+                ChatId = newChat.ChatId,
+                MemberId = user1!.Id,
                 IsCreator = false
             };
             var member2 = new ChatMember()
             {
-                ChatId = (int)newChatId,
-                MemberId = uname2,
+                ChatId = newChat.ChatId,
+                MemberId = user2!.Id,
                 IsCreator = false
             };
             await chatsRepo.AddChatMemberAsync(member1);
