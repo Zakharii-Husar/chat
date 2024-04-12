@@ -6,6 +6,9 @@ namespace API.Services.ChatsService
     {
         public async Task<int?> CreatePrivateChatAsync(string uname1, string uname2)
         {
+            var existibgChat = await GetPrivateChatIdAsync(uname1, uname2);
+            if (existibgChat != null) return existibgChat;
+
             var newChat = new Chat
             {
                 ChatName = null,

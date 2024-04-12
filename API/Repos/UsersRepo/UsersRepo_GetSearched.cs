@@ -9,19 +9,12 @@ namespace API.Repos.UsersRepo
         {
             if (string.IsNullOrEmpty(searchQuery)) return [];
 
-            var usersQuery = dbContext.Users
-                .Where(u => u.Id == currentUserId)
+            return await dbContext.Users
+                .Where(u => u.Id != currentUserId)
                 .Where(
                     user =>
-                    user.UserName!.Contains(searchQuery, StringComparison.OrdinalIgnoreCase) ||
-                    user.FullName.Contains(searchQuery, StringComparison.OrdinalIgnoreCase));
-
-            var usersTotal = await usersQuery.CountAsync();
-            var usersLeft = usersTotal - itemsToSkip;
-            var usersToTake = usersLeft < itemsToTake ? usersLeft : itemsToTake;
-            if (usersToTake < 1) return [];
-
-            return await usersQuery
+                    user.UserName.Contains(searchQuery) ||
+                    user.FullName.Contains(searchQuery))
                 .ToListAsync();
         }
     }

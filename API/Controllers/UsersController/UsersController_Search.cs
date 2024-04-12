@@ -10,9 +10,9 @@ namespace API.Controllers.UsersController
         {
             var currentUser = await userManager.GetUserAsync(User);
             var currentUserId = currentUser?.Id;
-            var filteredUsers = usersService.SearchUsers(SearchPhrase, currentUserId, itemsToSkip, itemsToTake);
+            var filteredUsers = await usersService.SearchUsers(SearchPhrase, currentUserId, itemsToSkip, itemsToTake);
 
-            return Ok(filteredUsers != null ? filteredUsers : new List<object>());
+            return Ok(filteredUsers);
 
         }
 

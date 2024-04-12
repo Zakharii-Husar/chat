@@ -11,6 +11,9 @@ namespace API.Services.UsersService
             int itemsToTake)
         {
             var users = await usersRepo.GetSearchedAsync(currentUserId, query, intemsToSkip, itemsToTake);
+
+
+            if (users.Count == 0) return [];
             return users.Select(user => ConvertUserToDTO(user)).ToList();
         }
     }
