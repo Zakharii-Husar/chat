@@ -6,20 +6,24 @@ namespace API.Repos.ChatsRepo
     {
         public async Task<List<int>> GetUserChatsIdsAsync(string userId, int itemsToSkip, int itemsToTake)
         {
-            var totalRows = await dbContext.ChatMembers
+            //The only reason for Join is to prevent returning ids of chats that don't have any messages
+            var chatsQuery = dbContext.ChatMembers
                 .Where(cm => cm.MemberId == userId)
-                .CountAsync();
+                .Join(dbContext.Chats, cm => cm.ChatId, c => c.ChatId, (cm, c) => c)
+                .Join(dbContext.Messages, c => c.ChatId, m => m.ChatId, (c, m) => c.ChatId)
+                .Distinct();
 
+            var totalChats = await chatsQuery.CountAsync();
 
-            var itemsLeft = totalRows - itemsToSkip;
+            var itemsLeft = totalChats - itemsToSkip;
             var take = itemsToTake < itemsLeft ? itemsToTake : itemsLeft;
+            if (itemsLeft < 1) return [];
 
-            return await dbContext.ChatMembers
-                .Where(cm => cm.MemberId == userId)
+            return await chatsQuery
                 .Skip(itemsToSkip)
                 .Take(take)
-                .Select(cm => cm.ChatId)
                 .ToListAsync();
         }
+
     }
 }

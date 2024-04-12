@@ -1,6 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { GET_ALL_CHATS } from "./APIEndpoints";
-import { setCchats, updateChats } from "../state/chatsOverviewSlice";
+import { appendChats, setHasMore } from "../state/chatsOverviewSlice";
 import { RootState } from "../state/store";
 
 const getAllChatsThunk = createAsyncThunk(
@@ -24,11 +24,11 @@ const getAllChatsThunk = createAsyncThunk(
       if (response.ok) {
         const data = await response.json();
         console.log(data)
-        if(itemsToSkip === 0){
-          dispatch(setCchats(data))
+        if(data.length < itemsToTake){
+          setHasMore();
           return;
-        }
-        dispatch(updateChats(data));
+        } 
+        dispatch(appendChats(data));
       }
     } catch (error) {
       console.log(error);

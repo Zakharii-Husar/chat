@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 
-import { IChatsOverview } from "./Interfaces";
+import { IChatsOverview, IMessage } from "./Interfaces";
 
 const initialState: IChatsOverview = {
   chats: [],
@@ -14,26 +14,22 @@ export const chatsSlice = createSlice({
   name: "chatsSlice",
   initialState,
   reducers: {
-    setCchats: (state, action: PayloadAction<IChatsOverview>) => {
-      return action.payload;
-    },
-    updateChats: (state, action: PayloadAction<IChatsOverview>) => {
-      const newState = { ...state, ...action.payload };
-
-      const uniqueChats = action.payload.chats.filter(
-        (newChat) =>
-          !state.chats.some(
-            (existingChat) =>
-              existingChat.chatId === newChat.chatId
-          )
+    appendChats: (state, action: PayloadAction<IMessage[]>) => {
+      const newMessages = action.payload;
+      const existingMessageIds = new Set(state.chats.map(chat => chat.messageId));
+  
+      const filteredMessages = newMessages.filter(
+          message => !existingMessageIds.has(message.messageId)
       );
-      newState.chats = [...state.chats, ...uniqueChats];
-
-      return newState;
+  
+      state.chats = [...state.chats, ...filteredMessages];
     },
+    setHasMore: (state)=>{
+      state.hasMore = false;
+    }
   },
 });
 
-export const { setCchats, updateChats } = chatsSlice.actions;
+export const { appendChats, setHasMore } = chatsSlice.actions;
 
 export default chatsSlice.reducer;

@@ -18,7 +18,7 @@ namespace API.Repos.MessagesRepo
 
             return await dbContext.Messages
                 .Where(m => m.ChatId == chatId)
-                .Where(chat => chat.SentAt < leftChat)
+                .Where(m => m.SentAt < leftChat)
                 .FirstOrDefaultAsync();
         }
     }
