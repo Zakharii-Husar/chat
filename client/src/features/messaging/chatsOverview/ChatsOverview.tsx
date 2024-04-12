@@ -24,7 +24,11 @@ export function ChatsOverview() {
   const chatsOverviewState = useAppSelector((state) => state.chats);
 
   useEffect(() => {
-    dispatch(getAllChatsThunk());
+    const initialLoad = () =>{
+      if(chatsOverviewState.chats?.length > 1) return;
+        dispatch(getAllChatsThunk());
+    }
+    initialLoad();
   }, []);
 
   useEffect(() => {

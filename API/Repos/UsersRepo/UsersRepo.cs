@@ -13,5 +13,5 @@ namespace API.Repos.UsersRepo
         public Task<AppUser?> CreateUserAsync(AppUser appUser, string password);
         public Task<bool> UpdateAvatarNameAsync(AppUser currentUser, string newName);
     }
-    public partial class UsersRepo(UserManager<AppUser> userManager, AppDbContext dbContext) : IUsersRepo;
+    public partial class UsersRepo(UserManager<AppUser> userManager) : IUsersRepo;
 }

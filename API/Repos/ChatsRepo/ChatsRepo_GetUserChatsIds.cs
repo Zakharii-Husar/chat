@@ -11,13 +11,14 @@ namespace API.Repos.ChatsRepo
                 .Where(cm => cm.MemberId == userId)
                 .Join(dbContext.Chats, cm => cm.ChatId, c => c.ChatId, (cm, c) => c)
                 .Join(dbContext.Messages, c => c.ChatId, m => m.ChatId, (c, m) => c.ChatId)
-                .Distinct();
+                .Distinct()
+                .OrderByDescending(c => c);
 
             var totalChats = await chatsQuery.CountAsync();
 
             var itemsLeft = totalChats - itemsToSkip;
             var take = itemsToTake < itemsLeft ? itemsToTake : itemsLeft;
-            if (itemsLeft < 1) return [];
+            if (itemsLeft <= 0) return [];
 
             return await chatsQuery
                 .Skip(itemsToSkip)

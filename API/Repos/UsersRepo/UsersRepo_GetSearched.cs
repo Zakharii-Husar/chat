@@ -9,7 +9,7 @@ namespace API.Repos.UsersRepo
         {
             if (string.IsNullOrEmpty(searchQuery)) return [];
 
-            return await dbContext.Users
+            return await userManager.Users
                 .Where(u => u.Id != currentUserId)
                 .Where(
                     user =>

@@ -30,7 +30,11 @@ const Users: React.FC = () => {
   );
 
   useEffect(() => {
-    dispatch(getAllUsersThunk());
+    const initialLoad = () =>{
+      if(allUsers.length > 1) return;
+      dispatch(getAllUsersThunk());
+    }
+    initialLoad();
   }, []);
 
   useEffect(() => {
