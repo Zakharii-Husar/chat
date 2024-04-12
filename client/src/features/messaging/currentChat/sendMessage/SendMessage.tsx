@@ -8,8 +8,11 @@ import { setMessageContent } from "../../../../state/sendMessageSlice";
 import sendMessageThunk from "../../../../thunks/sendMessageThunk";
 import { connection } from "../../../ws/wsConnection";
 import { useState, useEffect } from "react";
+import { useCheckAuth } from "../../../../hooks/useCheckAuth";
+import { current } from "@reduxjs/toolkit";
 
 export const SendMessage: React.FC = () => {
+  useCheckAuth();
   const dispatch = useAppDispatch();
   const messageToSend = useAppSelector((state) => state.sendMessage);
   const currentChat = useAppSelector((state) => state.currentChat);
@@ -58,7 +61,7 @@ export const SendMessage: React.FC = () => {
     .catch((err) => console.error("Error invoking StartTyping method:", err));
   };
 
-  return !isStillMember ? null : (
+  return !currentChat.chatId && !isStillMember ? null : (
     <div>
       {typingUsers.length > 0 && <span>{typingUsers[0] + " is typing..."}</span>}
       <div className="d-flex bg-white mb-3">
