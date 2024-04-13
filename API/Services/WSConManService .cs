@@ -1,12 +1,7 @@
-﻿using API.Data;
-using API.Hubs;
+﻿using API.Hubs;
 using API.Models;
 using Microsoft.AspNetCore.SignalR;
-using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Concurrent;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace API.Services
 {

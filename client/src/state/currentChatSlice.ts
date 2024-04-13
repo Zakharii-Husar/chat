@@ -24,15 +24,22 @@ export const existingChatSlice = createSlice({
     setChat: (state, action: PayloadAction<ICurrentChat>) => {
       const newState = { ...state, ...action.payload };
 
-      const uniqueMessages = action.payload.messages.filter(
-        (newMessage) =>
-          !state.messages.some(
-            (existingMessage) =>
-              existingMessage.messageId === newMessage.messageId
-          )
+      // const uniqueMessages = action.payload.messages.filter(
+      //   (newMessage) =>
+      //     !state.messages.some(
+      //       (existingMessage) =>
+      //         existingMessage.messageId === newMessage.messageId
+      //     )
+      // );
+
+      const newMessages = action.payload.messages.reverse();
+      const existingMessageIds = new Set(state.messages.map(chat => chat.messageId));
+  
+      const filteredMessages = newMessages.filter(
+          message => !existingMessageIds.has(message.messageId)
       );
 
-      newState.messages = [...uniqueMessages, ...state.messages];
+      newState.messages = [...filteredMessages, ...state.messages];
 
       return newState;
     },

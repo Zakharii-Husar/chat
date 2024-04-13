@@ -17,8 +17,8 @@ namespace API.Services.ChatsService
                 RepliedTo = model.RepliedTo ?? null,
                 SenderId = currentUserId
             };
-            await messagesRepo.InsertAsync(newMessage);
-            //await conmanService.BroadcastMessage(insertedMessage, participantsIds);
+            var result = await messagesRepo.InsertAsync(newMessage);
+            Console.WriteLine(result.Content);
             return true;
         }
     }

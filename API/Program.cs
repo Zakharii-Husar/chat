@@ -7,6 +7,7 @@ using API.Services.AuthService;
 using API.Repos.ChatsRepo;
 using API.Repos.MessagesRepo;
 using API.Repos.UsersRepo;
+using API.Services;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -63,6 +64,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddTransient<IChatsRepo, ChatsRepo>();
 builder.Services.AddTransient<IMessagesRepo, MessagesRepo>();
 builder.Services.AddTransient<IUsersRepo, UsersRepo>();
+builder.Services.AddSingleton<IWsConManService, WsConManService>();
 
 builder.Services.AddTransient<IAuthService, AuthService>();
 builder.Services.AddTransient<IChatsService, ChatsService>();

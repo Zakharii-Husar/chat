@@ -29,7 +29,6 @@ namespace API.Repos.MessagesRepo
 
             return await messagesQuery
                 .Select(m => m)
-                .OrderBy(m => m.SentAt)
                 .Skip(itemsToSkip)
                 .Take(messagesToTake)
                 .ToListAsync();

@@ -1,7 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { GET_CHAT_BY_ID } from "./APIEndpoints";
 import type { RootState } from "../state/store";
-import { setLoading, setChat } from "../state/currentChatSlice";
+import { setChat } from "../state/currentChatSlice";
 
 const getChatByIdThunk = createAsyncThunk(
   "currentChat/getChatById",
@@ -10,7 +10,6 @@ const getChatByIdThunk = createAsyncThunk(
     const itemsToSkip = state.currentChat.messages.length;
     const link = GET_CHAT_BY_ID(chatId, itemsToSkip)
     try {
-      dispatch(setLoading(true));
       const response = await fetch(link,
         {
           method: "GET",
@@ -24,12 +23,11 @@ const getChatByIdThunk = createAsyncThunk(
       if (response.ok) {
         const data = await response.json();
         dispatch(setChat(data));
+        console.log(state.currentChat.messages.length)
       }
     } catch (error) {
       console.log(error);
-    } finally {
-      dispatch(setLoading(false));
-    }
+    } 
   }
 );
 

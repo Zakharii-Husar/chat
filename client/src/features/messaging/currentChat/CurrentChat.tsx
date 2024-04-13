@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import {
-  useAppDispatch
+  useAppDispatch, useAppSelector
 } from "../../../hooks/useAppSelectorAndDispatch";
 
 import { DisplayMessages } from "./displayMessages/DisplayMessages";
@@ -20,6 +20,7 @@ export const CurrentChat: React.FC = () => {
 
   const { chatId } = useParams();
   const parsedChatId = parseInt(chatId || "0", 10);
+  const messages = useAppSelector(state => state.currentChat.messages)
 
   // useEffect(() => {
   //   const isConnected = connection.state === 'Connected';
