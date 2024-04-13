@@ -24,7 +24,7 @@ const getAllChatsThunk = createAsyncThunk(
       if (response.ok) {
         const data = await response.json();
         dispatch(appendChats(data));
-        if(data.length <= itemsToTake) setHasMore();
+        if(data.length < itemsToTake) dispatch(setHasMore());
       }
     } catch (error) {
       console.log(error);

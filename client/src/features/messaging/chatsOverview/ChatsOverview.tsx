@@ -22,6 +22,8 @@ import getAllChatsThunk from "../../../thunks/getAllChatsThunk";
 export function ChatsOverview() {
   const dispatch = useAppDispatch();
   const chatsOverviewState = useAppSelector((state) => state.chats);
+  const hasMore = chatsOverviewState.hasMore;
+
 
   useEffect(() => {
     const initialLoad = () =>{
@@ -48,11 +50,9 @@ export function ChatsOverview() {
             <InfiniteScroll
               className="scrollable flex-column"
               height={300}
-              dataLength={chatsOverviewState?.chats?.length}
-              next={() => {
-                if (!chatsOverviewState.isLoading) dispatch(getAllChatsThunk());
-              }}
-              hasMore={chatsOverviewState?.hasMore}
+              dataLength={chatsOverviewState?.chats.length}
+              next={()=>dispatch(getAllChatsThunk())}
+              hasMore={hasMore}
               loader={<h4>Loading...</h4>}
               endMessage={
                 <p style={{ textAlign: "center" }}>
