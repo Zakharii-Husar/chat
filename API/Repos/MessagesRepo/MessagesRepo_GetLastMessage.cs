@@ -14,12 +14,14 @@ namespace API.Repos.MessagesRepo
 
             if (leftChat == null) return await dbContext.Messages
                     .Where(m => m.ChatId == chatId)
-                    .FirstOrDefaultAsync();
+                    .OrderBy(m => m.SentAt)
+                    .LastOrDefaultAsync();
 
             return await dbContext.Messages
                 .Where(m => m.ChatId == chatId)
                 .Where(m => m.SentAt < leftChat)
-                .FirstOrDefaultAsync();
+                .OrderBy(m => m.SentAt)
+                .LastOrDefaultAsync();
         }
     }
 }
