@@ -13,7 +13,7 @@ import {
   RouterProvider,
 } from "react-router-dom";
 
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import {
   useAppDispatch,
   useAppSelector,
@@ -26,8 +26,16 @@ import { IMessage } from "./state/Interfaces";
 function App() {
   const currentUserId = useAppSelector((state) => state.loggedInUser.id);
   const currentChatId = useAppSelector((state) => state.currentChat.chatId);
+  const currentChatIdRef = useRef(currentChatId);
   const dispatch = useAppDispatch();
 
+  useEffect(() => {
+    currentChatIdRef.current = currentChatId;
+}, [currentChatId]);
+
+  useEffect(()=>{
+    console.log("Real current chatId: " + currentChatId)
+  }, [currentChatId])
   useEffect(() => {
     const connectWs = async () => {
       if (!currentUserId) return;
@@ -58,7 +66,10 @@ function App() {
 
   connection.on("ReceiveNewMessage", (data: IMessage) =>{ 
     dispatch(prependChats(data))
-    if(data.chatId === currentChatId) dispatch(addMessageToChat(data));
+    if(data.chatId === currentChatIdRef.current){
+      dispatch(addMessageToChat(data));
+      console.log("Chat ID: " + currentChatIdRef.current)
+    }
   });
 
   const router = createBrowserRouter(

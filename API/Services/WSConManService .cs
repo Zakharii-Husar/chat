@@ -61,13 +61,12 @@ namespace API.Services
             // PrintConnections();
             foreach (var recipient in allRecipients)
             {
-                var recipientIsOnline = GetConnectionId(recipient);
-                if (recipientIsOnline == null)
+                var connectionId = GetConnectionId(recipient);
+                if (connectionId == null)
                 {
-                    Console.WriteLine($"{recipient} is not online");
                     continue;
                 }
-                await hub.Clients.Client(recipientIsOnline).SendAsync("ReceiveNewMessage", newMessage);
+                await hub.Clients.Client(connectionId).SendAsync("ReceiveNewMessage", newMessage);
             }
         }
     }
