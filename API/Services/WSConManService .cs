@@ -41,7 +41,10 @@ namespace API.Services
 
         public string? GetConnectionId(string identityId)
         {
-            return _userConnections.TryGetValue(identityId, out string? connectionId) ? connectionId : null;
+            var con = _userConnections.TryGetValue(identityId, out string? connectionId) ? connectionId : null;
+            Console.WriteLine(con);
+            Console.WriteLine("GetConnectionId returns: " + con);
+            return con;
         }
 
         public void PrintConnections()
@@ -55,11 +58,15 @@ namespace API.Services
 
         public async Task BroadcastMessage(MessageDTO newMessage, List<string> allRecipients)
         {
-            PrintConnections();
+            // PrintConnections();
             foreach (var recipient in allRecipients)
             {
                 var recipientIsOnline = GetConnectionId(recipient);
-                if (recipientIsOnline == null) continue;
+                if (recipientIsOnline == null)
+                {
+                    Console.WriteLine($"{recipient} is not online");
+                    continue;
+                }
                 await hub.Clients.Client(recipientIsOnline).SendAsync("ReceiveNewMessage", newMessage);
             }
         }

@@ -29,13 +29,13 @@ const CreateGroup: React.FC = () => {
 
   //reset participants on exit
   useEffect(() => {
+    
     return () => {
       dispatch(resetChatCandidates());
     };
   }, []);
 
   const handleShowForm = (status: boolean) => {
-    dispatch(resetChatCandidates());
     setShowForm(status);
   };
 

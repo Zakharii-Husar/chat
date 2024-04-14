@@ -18,7 +18,11 @@ namespace API.Services.ChatsService
                 SenderId = currentUserId
             };
             var result = await messagesRepo.InsertAsync(newMessage);
-            Console.WriteLine(result.Content);
+            var members = await GetMembersIdsAsync(result.ChatId);
+            var msgDTO = ConvertMessageToDTO(result);
+            Console.WriteLine("Members count: " + members.Count);
+            await wsConManService.BroadcastMessage(msgDTO, members);
+            wsConManService.PrintConnections();
             return true;
         }
     }

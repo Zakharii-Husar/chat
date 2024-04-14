@@ -1,15 +1,10 @@
-﻿using API.Data;
-using Microsoft.AspNetCore.SignalR;
-using API.Models;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Microsoft.AspNetCore.SignalR;
 using System.Security.Claims;
 using API.Services;
-using Microsoft.EntityFrameworkCore;
 
 namespace API.Hubs
 {
-    public class MainHub(IWsConManService conmanService) : Hub
+    public partial class MainHub(IWsConManService wsConmanService) : Hub
     {
         private readonly Dictionary<int, List<string>> _typingUsersByGroup = new();
 
@@ -78,17 +73,16 @@ namespace API.Hubs
             var identityId = Context.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             var connectionId = Context.ConnectionId;
 
-            await conmanService.AddConnectionAsync(identityId, connectionId);
-
+            await wsConmanService.AddConnectionAsync(identityId, connectionId);
             await Groups.AddToGroupAsync(Context.ConnectionId, "online");
         }
 
         public async Task Disconnect()
         {
-            var identityId = Context.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            //var identityId = Context.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             var connectionId = Context.ConnectionId;
 
-            await conmanService.RemoveConnectionAsync(connectionId);
+            await wsConmanService.RemoveConnectionAsync(connectionId);
 
             await Groups.RemoveFromGroupAsync(Context.ConnectionId, "online");
 

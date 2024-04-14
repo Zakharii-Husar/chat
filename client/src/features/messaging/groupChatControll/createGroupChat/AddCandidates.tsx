@@ -30,10 +30,6 @@ const AddCandidates: React.FC = () => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(getAllUsersThunk());
-  }, []);
-
-  useEffect(() => {
     if (searchedUser) dispatch(searchUsersThunk(searchedUser));
   }, [searchedUser]);
 

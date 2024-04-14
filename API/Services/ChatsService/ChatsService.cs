@@ -37,7 +37,8 @@ namespace API.Services.ChatsService
         IUsersRepo usersRepo,
         IUsersService usersService,
         IChatsRepo chatsRepo,
-        IMessagesRepo messagesRepo) : IChatsService
+        IMessagesRepo messagesRepo,
+        IWsConManService wsConManService) : IChatsService
     {
 
     }

@@ -14,66 +14,50 @@ import {
 } from "react-router-dom";
 
 import { useEffect } from "react";
-import { useAppDispatch, useAppSelector } from "./hooks/useAppSelectorAndDispatch";
+import {
+  useAppDispatch,
+  useAppSelector,
+} from "./hooks/useAppSelectorAndDispatch";
 import { connection } from "./features/ws/wsConnection";
 
-
 function App() {
+  const currentUserId = useAppSelector((state) => state.loggedInUser.id);
 
-  const currentUserId = useAppSelector(state => state.loggedInUser.id);
-  
-  
+  useEffect(() => {
+    const connectWs = async () => {
+      if (!currentUserId) return;
+      try {
+        if (connection.state === "Disconnected") {
+          await connection.start();
+          await connection.invoke("Connect");
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    };
 
-  // useEffect(() => {
-  //   const connectWs = async () => {
-  //     if (!currentUserId) return;
-  //     try {
-  //       if (connection.state === 'Disconnected') {
-  //         await connection.start();
-  //         await connection.invoke("Connect");
-  //       }
-  //     } catch (err) {
-  //       console.error(err);
-  //     }
-  //   };
-  
-  //   connectWs();
-  
-  //   const disconnectWs = async () => {
-  //     if (connection.state === 'Connected') {
-  //       await connection.stop();
-  //       await connection.invoke("Disconnect");
-  //     }
-  //   };
+    connectWs();
 
-  
-  //   //gives me error while reloading and doesn't do its job anyway
-  //  // window.addEventListener("beforeunload", disconnectWs);
-  
-  //   return () => {
-  //    // window.removeEventListener("beforeunload", disconnectWs);
-  //   };
-  // }, [currentUserId]);
+    const disconnectWs = async () => {
+      if (connection.state === "Disconnected") return;
+      await connection.invoke("Disconnect");
+      await connection.stop();
+    };
 
-  // useEffect(()=>{
-    
-  //   const logData = (data: any) => {
-  //     console.log(data);
-  //   }
+    window.addEventListener("beforeunload", disconnectWs);
 
-  //   connection.on("ReceiveNewMessage", logData);
+    return () => {
+      window.removeEventListener("beforeunload", disconnectWs);
+    };
+  }, [currentUserId]);
 
-  //   return(()=>{
-  //     connection.off("ReceiveNewMessage", logData);
-  //   })
-  // }, [])
-  
+  connection.on("ReceiveNewMessage", (data: any) => console.log(data));
 
   const router = createBrowserRouter(
     createRoutesFromElements(
       <Route path="/" element={<Root />}>
         <Route path="/" element={<Home />} />
-        <Route path="/chats" element={<ChatsOverview />} />                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
+        <Route path="/chats" element={<ChatsOverview />} />
         <Route path="/chats/:chatId" element={<CurrentChat />} />
         <Route path="/users/:userName" element={<User />} />
         <Route path="/login" element={<Login />} />

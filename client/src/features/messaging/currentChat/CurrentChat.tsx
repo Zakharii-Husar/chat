@@ -22,30 +22,30 @@ export const CurrentChat: React.FC = () => {
   const parsedChatId = parseInt(chatId || "0", 10);
   const messages = useAppSelector(state => state.currentChat.messages)
 
-  // useEffect(() => {
-  //   const isConnected = connection.state === 'Connected';
-  //   const enterChat = () => {
-  //     if (!isConnected) return;
-  //     connection.invoke("JoinChat", parsedChatId);
-  //   };
-  //   const leaveChat = () => {
-  //     if (!isConnected) return;
-  //     connection.invoke("LeaveChat", parsedChatId);
-  //   }
+  useEffect(() => {
+    const isConnected = connection.state === 'Connected';
+    const enterChat = () => {
+      if (!isConnected) return;
+      connection.invoke("JoinChat", parsedChatId);
+    };
+    const leaveChat = () => {
+      if (!isConnected) return;
+      connection.invoke("LeaveChat", parsedChatId);
+    }
   
-  //   enterChat();
+    enterChat();
 
-  //   const receiveMessageHandler = (data: any) => {
-  //     dispatch(addMessageToChat(data));
-  //   };
+    const receiveMessageHandler = (data: any) => {
+      dispatch(addMessageToChat(data));
+    };
   
-  //   connection.on("ReceiveMessage", receiveMessageHandler);
+    connection.on("ReceiveMessage", receiveMessageHandler);
 
-  //   return () => {
-  //     connection.off("ReceiveMessage", receiveMessageHandler);
-  //     leaveChat();
-  //   };
-  // }, [dispatch, parsedChatId, connection]);
+    return () => {
+      connection.off("ReceiveMessage", receiveMessageHandler);
+      leaveChat();
+    };
+  }, [dispatch, parsedChatId, connection]);
   
 
   useEffect(() => {

@@ -40,10 +40,6 @@ const AddMembers: React.FC = () => {
   const [showForm, setShowForm] = useState(false);
 
   useEffect(() => {
-    dispatch(getAllUsersThunk());
-  }, []);
-
-  useEffect(() => {
     if (searchedUser) dispatch(searchUsersThunk(searchedUser));
   }, [searchedUser]);
 

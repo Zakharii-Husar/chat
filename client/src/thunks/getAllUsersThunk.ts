@@ -22,9 +22,6 @@ const getAllUsersThunk = createAsyncThunk(
 
       if (response.ok) {
         const usersList = await response.json();
-        console.log("Skip: " + itemsToSkip)
-        console.log("Take: "+ itemsToTake)
-        console.log(usersList);
         dispatch(fetchAllUsers(usersList));
       }
     } catch (error) {
