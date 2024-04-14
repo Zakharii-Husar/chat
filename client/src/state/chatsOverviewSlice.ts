@@ -14,6 +14,11 @@ export const chatsSlice = createSlice({
   name: "chatsSlice",
   initialState,
   reducers: {
+    prependChats: (state,action: PayloadAction<IMessage>) => {
+      const existingChats = state.chats;
+      if(existingChats.some(chat=> chat.messageId === action.payload.messageId)) return;
+      state.chats.unshift(action.payload);
+    },
     appendChats: (state, action: PayloadAction<IMessage[]>) => {
       const newMessages = action.payload;
       const existingMessageIds = new Set(state.chats.map(chat => chat.messageId));
@@ -30,6 +35,6 @@ export const chatsSlice = createSlice({
   },
 });
 
-export const { appendChats, setHasMore } = chatsSlice.actions;
+export const { appendChats, setHasMore, prependChats } = chatsSlice.actions;
 
 export default chatsSlice.reducer;

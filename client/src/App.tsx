@@ -18,10 +18,15 @@ import {
   useAppDispatch,
   useAppSelector,
 } from "./hooks/useAppSelectorAndDispatch";
+import { prependChats } from "./state/chatsOverviewSlice";
+import { addMessageToChat } from "./state/currentChatSlice";
 import { connection } from "./features/ws/wsConnection";
+import { IMessage } from "./state/Interfaces";
 
 function App() {
   const currentUserId = useAppSelector((state) => state.loggedInUser.id);
+  const currentChatId = useAppSelector((state) => state.currentChat.chatId);
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     const connectWs = async () => {
@@ -51,7 +56,10 @@ function App() {
     };
   }, [currentUserId]);
 
-  connection.on("ReceiveNewMessage", (data: any) => console.log(data));
+  connection.on("ReceiveNewMessage", (data: IMessage) =>{ 
+    dispatch(prependChats(data))
+    if(data.chatId === currentChatId) dispatch(addMessageToChat(data));
+  });
 
   const router = createBrowserRouter(
     createRoutesFromElements(
