@@ -10,10 +10,9 @@ import { DisplayHeader } from "./displayHeader/DisplayHeader";
 
 import { resetChat } from "../../../state/currentChatSlice";
 import getChatByIdThunk from "../../../thunks/getChatByIdThunk";
+import useWsCurrentChatTracker from "../../../hooks/ws/useWsCurrentChatTracker";
 
 import { MDBContainer, MDBRow, MDBCol } from "mdb-react-ui-kit";
-import { addMessageToChat } from "../../../state/currentChatSlice";
-import { connection } from "../../ws/wsConnection";
 
 export const CurrentChat: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -21,31 +20,9 @@ export const CurrentChat: React.FC = () => {
   const { chatId } = useParams();
   const parsedChatId = parseInt(chatId || "0", 10);
   const messages = useAppSelector(state => state.currentChat.messages)
+  useWsCurrentChatTracker(parsedChatId);
 
-  useEffect(() => {
-    const isConnected = connection.state === 'Connected';
-    const enterChat = () => {
-      if (!isConnected) return;
-      connection.invoke("JoinChat", parsedChatId);
-    };
-    const leaveChat = () => {
-      if (!isConnected) return;
-      connection.invoke("LeaveChat", parsedChatId);
-    }
-  
-    enterChat();
 
-    const receiveMessageHandler = (data: any) => {
-      dispatch(addMessageToChat(data));
-    };
-  
-    connection.on("ReceiveMessage", receiveMessageHandler);
-
-    return () => {
-      connection.off("ReceiveMessage", receiveMessageHandler);
-      leaveChat();
-    };
-  }, [dispatch, parsedChatId, connection]);
   
 
   useEffect(() => {

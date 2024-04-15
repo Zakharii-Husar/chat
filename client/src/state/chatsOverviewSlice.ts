@@ -16,7 +16,8 @@ export const chatsSlice = createSlice({
   reducers: {
     prependChats: (state,action: PayloadAction<IMessage>) => {
       const existingChats = state.chats;
-      if(existingChats.some(chat=> chat.messageId === action.payload.messageId)) return;
+      const existingChatIndex = existingChats.findIndex(chat=> chat.chatId === action.payload.chatId);
+      if(existingChatIndex !== -1) existingChats.splice(existingChatIndex, 1);
       state.chats.unshift(action.payload);
     },
     appendChats: (state, action: PayloadAction<IMessage[]>) => {

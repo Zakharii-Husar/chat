@@ -1,4 +1,4 @@
-import { createSlice} from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { ICurrentChat, IMessage, IChatMember } from "./Interfaces";
 
@@ -25,10 +25,12 @@ export const existingChatSlice = createSlice({
       const newState = { ...state, ...action.payload };
 
       const newMessages = action.payload.messages.reverse();
-      const existingMessageIds = new Set(state.messages.map(chat => chat.messageId));
-  
+      const existingMessageIds = new Set(
+        state.messages.map((chat) => chat.messageId)
+      );
+
       const filteredMessages = newMessages.filter(
-          message => !existingMessageIds.has(message.messageId)
+        (message) => !existingMessageIds.has(message.messageId)
       );
 
       newState.messages = [...filteredMessages, ...state.messages];
@@ -57,7 +59,7 @@ export const existingChatSlice = createSlice({
     rename: (state, action: PayloadAction<string>) => {
       state.chatName = action.payload;
     },
-    addLike: (state, action:PayloadAction<{ id: number; name: string }> )=>{
+    addLike: (state, action: PayloadAction<{ id: number; name: string }>) => {
       const msgIndex = state.messages.findIndex(
         (msg) => msg.messageId === action.payload.id
       );
@@ -66,18 +68,18 @@ export const existingChatSlice = createSlice({
         (name) => name !== action.payload.name
       );
     },
-    rmLike: (state, action:PayloadAction<{ id: number; name: string }> )=>{
+    rmLike: (state, action: PayloadAction<{ id: number; name: string }>) => {
       const msgIndex = state.messages.findIndex(
         (msg) => msg.messageId === action.payload.id
       );
       const likes = state.messages[msgIndex].likes;
       likes.push(action.payload.name);
     },
-    markMessagesAsRead: (state, action: PayloadAction<string> )=>{
-      state.messages.map((msg)=>{
+    markMessagesAsRead: (state, action: PayloadAction<string>) => {
+      state.messages.map((msg) => {
         msg.seenBy.push(action.payload);
-      })
-    }
+      });
+    },
   },
 });
 
@@ -92,7 +94,7 @@ export const {
   rename,
   addLike,
   rmLike,
-  markMessagesAsRead
+  markMessagesAsRead,
 } = existingChatSlice.actions;
 
 export default existingChatSlice.reducer;

@@ -6,37 +6,27 @@ import {
 
 import { setMessageContent } from "../../../../state/sendMessageSlice";
 import sendMessageThunk from "../../../../thunks/sendMessageThunk";
-import { connection } from "../../../ws/wsConnection";
-import { useState, useEffect } from "react";
+import { getSignalRConnection } from "../../../../hooks/ws/signalRConnection";
 import { useCheckAuth } from "../../../../hooks/useCheckAuth";
-import { current } from "@reduxjs/toolkit";
+
+import useWsGetTypingUsers from "../../../../hooks/ws/useWsGetTypingUsers";
+import useWsTypingTracker from "../../../../hooks/ws/useWsTypingTracker";
 
 export const SendMessage: React.FC = () => {
   useCheckAuth();
+  const connection = getSignalRConnection();
+  const wsTypingUsers = useWsGetTypingUsers();
+  const wsTypingTracker = useWsTypingTracker();
   const dispatch = useAppDispatch();
   const messageToSend = useAppSelector((state) => state.sendMessage);
   const currentChat = useAppSelector((state) => state.currentChat);
   const currentUser = useAppSelector((state) => state.loggedInUser);
 
-  const [typingUsers, setTypingUsers] = useState<string[]>([]);
+  
 
   const isStillMember = currentChat.members.some(
     (member) => member.memberId === currentUser.id
   );
-
-  const isConnected = connection.state === 'Connected';
-
-  useEffect(()=>{
-    
-    const showTyping = (data: string[]) => {
-      setTypingUsers(data.filter(uname=> uname !== currentUser.userName));
-    }
-    connection.on("TypingUsers", showTyping);
-
-    return(()=>{
-      connection.off("TypingUsers", showTyping);
-    })
-  }, [])
 
   const handleMessageInput = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     dispatch(setMessageContent(e.target.value));
@@ -48,22 +38,16 @@ export const SendMessage: React.FC = () => {
     dispatch(setMessageContent(""));
   };
   const handleFocus = () => {
-    if (!isConnected) return;
-    connection
-      .invoke("StartTyping", currentChat.chatId, currentUser.userName)
-      .catch((err) => console.error("Error invoking StartTyping method:", err));
+    wsTypingTracker.startTyping();
   };
 
   const handleBlur = () => {
-    if (!isConnected) return;
-    connection
-    .invoke("StopTyping", currentChat.chatId, currentUser.userName)
-    .catch((err) => console.error("Error invoking StartTyping method:", err));
+    wsTypingTracker.stopTyping();
   };
 
   return !currentChat.chatId && !isStillMember ? null : (
     <div>
-      {typingUsers.length > 0 && <span>{typingUsers[0] + " is typing..."}</span>}
+      {wsTypingUsers.length > 0 && <span>{wsTypingUsers[0] + " is typing..."}</span>}
       <div className="d-flex bg-white mb-3">
         <MDBTextArea
           onFocus={handleFocus}

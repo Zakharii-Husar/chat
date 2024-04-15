@@ -14,73 +14,23 @@ import {
 } from "react-router-dom";
 
 import { useEffect, useRef } from "react";
-import {
-  useAppDispatch,
-  useAppSelector,
-} from "./hooks/useAppSelectorAndDispatch";
-import { prependChats } from "./state/chatsOverviewSlice";
-import { addMessageToChat, markMessagesAsRead } from "./state/currentChatSlice";
-import { markChatAsRead } from "./state/chatsOverviewSlice";
-import { connection } from "./features/ws/wsConnection";
-import { IMessage } from "./state/Interfaces";
+import { useAppSelector } from "./hooks/useAppSelectorAndDispatch";
+
+import useWsConnection from "./hooks/ws/useWsConnection";
+import useWsMsgListener from "./hooks/ws/useWsMsgListener";
+import useWsReadListener from "./hooks/ws/useWsReadListener";
 
 function App() {
-  const currentUserId = useAppSelector((state) => state.loggedInUser.id);
   const currentChatId = useAppSelector((state) => state.currentChat.chatId);
   const currentChatIdRef = useRef(currentChatId);
-  const dispatch = useAppDispatch();
-  const allChats = useAppSelector((state) => state.chats);
 
-  useEffect(()=>{
-    console.log(allChats?.chats[0]?.seenBy);
-  }, [allChats])
+  useWsConnection();
+  useWsMsgListener(currentChatIdRef.current);
+  useWsReadListener(currentChatIdRef.current);
+
   useEffect(() => {
     currentChatIdRef.current = currentChatId;
   }, [currentChatId]);
-
-  useEffect(() => {
-    const connectWs = async () => {
-      if (!currentUserId) return;
-      try {
-        if (connection.state === "Disconnected") {
-          await connection.start();
-          await connection.invoke("Connect");
-        }
-      } catch (err) {
-        console.error(err);
-      }
-    };
-
-    connectWs();
-
-    const disconnectWs = async () => {
-      if (connection.state === "Disconnected") return;
-      await connection.invoke("Disconnect");
-      await connection.stop();
-    };
-
-    window.addEventListener("beforeunload", disconnectWs);
-
-    return () => {
-      window.removeEventListener("beforeunload", disconnectWs);
-    };
-  }, [currentUserId]);
-
-  connection.on("ReceiveNewMessage", (data: IMessage) => {
-    dispatch(prependChats(data));
-    if (data.chatId === currentChatIdRef.current) {
-      dispatch(addMessageToChat(data));
-    }
-  });
-
-  connection.on("MarkChatAsRead", (data: {chatId: number,  username: string}) => {
-    dispatch(markChatAsRead(data));
-    console.log("Data: ");
-    console.log(data);
-    if (data.chatId === currentChatIdRef.current) {
-     dispatch(markMessagesAsRead(data.username));
-    }
-  });
 
   const router = createBrowserRouter(
     createRoutesFromElements(
