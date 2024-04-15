@@ -61,8 +61,9 @@ export function ChatsOverview() {
                 <MDBTypography listUnStyled className="mb-0">
                   {chatsOverviewState?.chats?.map((chat) => {
                     const time = getTimeAgo(chat.sentAt);
+                    console.log(chat.seenBy)
                     return (
-                      <li className="p-2" key={chat.chatId}>
+                      <li className={"p-2 bg-" + (chat.seenBy.length > 0 ? "primary" : "danger")} key={chat.chatId}>
                         <Link
                           to={chat.chatId.toString()}
                           className="d-flex justify-content-between"

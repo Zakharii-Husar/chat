@@ -19,7 +19,8 @@ import {
   useAppSelector,
 } from "./hooks/useAppSelectorAndDispatch";
 import { prependChats } from "./state/chatsOverviewSlice";
-import { addMessageToChat } from "./state/currentChatSlice";
+import { addMessageToChat, markMessagesAsRead } from "./state/currentChatSlice";
+import { markChatAsRead } from "./state/chatsOverviewSlice";
 import { connection } from "./features/ws/wsConnection";
 import { IMessage } from "./state/Interfaces";
 
@@ -31,11 +32,11 @@ function App() {
 
   useEffect(() => {
     currentChatIdRef.current = currentChatId;
-}, [currentChatId]);
+  }, [currentChatId]);
 
-  useEffect(()=>{
-    console.log("Real current chatId: " + currentChatId)
-  }, [currentChatId])
+  useEffect(() => {
+    console.log("Real current chatId: " + currentChatId);
+  }, [currentChatId]);
   useEffect(() => {
     const connectWs = async () => {
       if (!currentUserId) return;
@@ -64,11 +65,17 @@ function App() {
     };
   }, [currentUserId]);
 
-  connection.on("ReceiveNewMessage", (data: IMessage) =>{ 
-    dispatch(prependChats(data))
-    if(data.chatId === currentChatIdRef.current){
+  connection.on("ReceiveNewMessage", (data: IMessage) => {
+    dispatch(prependChats(data));
+    if (data.chatId === currentChatIdRef.current) {
       dispatch(addMessageToChat(data));
-      console.log("Chat ID: " + currentChatIdRef.current)
+    }
+  });
+
+  connection.on("MarkChatAsRead", (data: {chatId: number,  username: string}) => {
+    dispatch(markChatAsRead(data));
+    if (data.chatId === currentChatIdRef.current) {
+     dispatch(markMessagesAsRead(data.username))
     }
   });
 

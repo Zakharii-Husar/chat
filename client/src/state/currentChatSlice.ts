@@ -24,14 +24,6 @@ export const existingChatSlice = createSlice({
     setChat: (state, action: PayloadAction<ICurrentChat>) => {
       const newState = { ...state, ...action.payload };
 
-      // const uniqueMessages = action.payload.messages.filter(
-      //   (newMessage) =>
-      //     !state.messages.some(
-      //       (existingMessage) =>
-      //         existingMessage.messageId === newMessage.messageId
-      //     )
-      // );
-
       const newMessages = action.payload.messages.reverse();
       const existingMessageIds = new Set(state.messages.map(chat => chat.messageId));
   
@@ -81,6 +73,11 @@ export const existingChatSlice = createSlice({
       const likes = state.messages[msgIndex].likes;
       likes.push(action.payload.name);
     },
+    markMessagesAsRead: (state, action: PayloadAction<string> )=>{
+      state.messages.map((msg)=>{
+        msg.seenBy.push(action.payload);
+      })
+    }
   },
 });
 
@@ -94,7 +91,8 @@ export const {
   rmMemberByUname,
   rename,
   addLike,
-  rmLike
+  rmLike,
+  markMessagesAsRead
 } = existingChatSlice.actions;
 
 export default existingChatSlice.reducer;

@@ -31,10 +31,14 @@ export const chatsSlice = createSlice({
     },
     setHasMore: (state)=>{
       state.hasMore = false;
+    },
+    markChatAsRead: (state, action: PayloadAction<{chatId: number, username: string}>) =>{
+      const index = state.chats.findIndex(chat => chat.chatId === action.payload.chatId);
+      state.chats[index].seenBy.push(action.payload.username)
     }
   },
 });
 
-export const { appendChats, setHasMore, prependChats } = chatsSlice.actions;
+export const { appendChats, setHasMore, prependChats, markChatAsRead } = chatsSlice.actions;
 
 export default chatsSlice.reducer;
