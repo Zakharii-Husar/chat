@@ -61,7 +61,6 @@ export function ChatsOverview() {
                 <MDBTypography listUnStyled className="mb-0">
                   {chatsOverviewState?.chats?.map((chat) => {
                     const time = getTimeAgo(chat.sentAt);
-                    console.log(chat.seenBy)
                     return (
                       <li className={"p-2 bg-" + (chat.seenBy.length > 0 ? "" : "primary")} key={chat.chatId}>
                         <Link

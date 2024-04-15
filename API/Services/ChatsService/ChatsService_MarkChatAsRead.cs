@@ -20,6 +20,7 @@ namespace API.Services.ChatsService
                 };
 
                 await messagesRepo.MarkAsReadAsync(receipt);
+                await WSMarkAsReadAsync(chatId, currentUser);
             }
             return true;
         }
