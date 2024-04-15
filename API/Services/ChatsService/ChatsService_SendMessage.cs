@@ -26,7 +26,6 @@ namespace API.Services.ChatsService
             var result = await messagesRepo.InsertAsync(newMessage);
             if (result == null) return false;
             await WSBroadcastMessageAsync(result);
-            wsConManService.PrintConnections();
             return true;
         }
     }

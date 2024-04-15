@@ -29,14 +29,15 @@ function App() {
   const currentChatId = useAppSelector((state) => state.currentChat.chatId);
   const currentChatIdRef = useRef(currentChatId);
   const dispatch = useAppDispatch();
+  const allChats = useAppSelector((state) => state.chats);
 
+  useEffect(()=>{
+    console.log(allChats?.chats[0]?.seenBy);
+  }, [allChats])
   useEffect(() => {
     currentChatIdRef.current = currentChatId;
   }, [currentChatId]);
 
-  useEffect(() => {
-    console.log("Real current chatId: " + currentChatId);
-  }, [currentChatId]);
   useEffect(() => {
     const connectWs = async () => {
       if (!currentUserId) return;
@@ -74,8 +75,10 @@ function App() {
 
   connection.on("MarkChatAsRead", (data: {chatId: number,  username: string}) => {
     dispatch(markChatAsRead(data));
+    console.log("Data: ");
+    console.log(data);
     if (data.chatId === currentChatIdRef.current) {
-     dispatch(markMessagesAsRead(data.username))
+     dispatch(markMessagesAsRead(data.username));
     }
   });
 

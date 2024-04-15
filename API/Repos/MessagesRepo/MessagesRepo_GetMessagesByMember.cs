@@ -29,6 +29,10 @@ namespace API.Repos.MessagesRepo
 
             return await messagesQuery
                 .Select(m => m)
+                .Include(m => m.ReadReceipts)
+                .ThenInclude(rr => rr.User)
+                .Include(m => m.Likes)
+                .ThenInclude(like => like.User)
                 .Skip(itemsToSkip)
                 .Take(messagesToTake)
                 .ToListAsync();
