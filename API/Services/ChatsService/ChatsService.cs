@@ -4,6 +4,8 @@ using API.Repos.ChatsRepo;
 using API.Repos.MessagesRepo;
 using API.Services.UsersService;
 using API.Repos.UsersRepo;
+using Microsoft.AspNetCore.SignalR;
+using API.Hubs;
 
 namespace API.Services.ChatsService
 {
@@ -31,6 +33,7 @@ namespace API.Services.ChatsService
         public Task<bool> AddLikeAsync(int messageId, string currentUserId);
         public Task<bool> RmLikeAsync(int messageId, string currentUserId);
         public Task<bool> MarkMsgAsDelAsync(int messageId, string currentUserId);
+        public Task WSBroadcastMessageAsync(Message newMessage);
     }
     public partial class ChatsService(
         AppDbContext dbContext,
@@ -38,7 +41,8 @@ namespace API.Services.ChatsService
         IUsersService usersService,
         IChatsRepo chatsRepo,
         IMessagesRepo messagesRepo,
-        IWsConManService wsConManService) : IChatsService
+        IWsConManService wsConManService,
+        IHubContext<MainHub> hub) : IChatsService
     {
 
     }

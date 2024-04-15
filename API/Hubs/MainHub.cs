@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.SignalR;
-using System.Security.Claims;
 using API.Services;
+using API.Models;
+
 
 namespace API.Hubs
 {

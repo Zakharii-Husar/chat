@@ -1,11 +1,17 @@
 ﻿using API.Data;
+using API.Hubs;
 using API.Models;
+using Microsoft.AspNetCore.SignalR;
+using System.Collections.Concurrent;
 
 namespace API.Services.ChatsService
 {
     public partial class ChatsService
     {
-        public async Task<bool> SendMsgAsync(int chatId, SendMessageModel model, string currentUserId)
+        public async Task<bool> SendMsgAsync(
+            int chatId,
+            SendMessageModel model,
+            string currentUserId, IHubContext<MainHub> hub)
         {
             bool isMember = await CheckMembershipByChatIdAsync(chatId, currentUserId);
             if (!isMember) return false;
@@ -18,10 +24,8 @@ namespace API.Services.ChatsService
                 SenderId = currentUserId
             };
             var result = await messagesRepo.InsertAsync(newMessage);
-            var members = await GetMembersIdsAsync(result.ChatId);
-            var msgDTO = ConvertMessageToDTO(result);
-            Console.WriteLine("Members count: " + members.Count);
-            await wsConManService.BroadcastMessage(msgDTO, members);
+            if (result == null) return false;
+            await WSBroadcastMessageAsync(result);
             wsConManService.PrintConnections();
             return true;
         }
