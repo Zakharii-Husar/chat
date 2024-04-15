@@ -11,7 +11,7 @@ namespace API.Services.ChatsService
             if (currentMember == null) return null;
             var members = await chatsRepo.GetAllMembersAsync(chatId);
             var convertedMembers = members.Select(usersService.ConvertUserToDTO).ToList();
-            var messages = await messagesRepo.GetMessagesByChatMember(currentMember, itemsToSkip, itemsToTake);
+            var messages = await messagesRepo.GetMessagesByChatMemberAsync(currentMember, itemsToSkip, itemsToTake);
             var convertedMessages = messages.Select(ConvertMessageToDTO).ToList();
 
 

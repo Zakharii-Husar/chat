@@ -6,7 +6,7 @@ namespace API.Repos.MessagesRepo
 {
     public partial class MessagesRepo
     {
-        public async Task<List<Message>> GetMessagesByChatMember(
+        public async Task<List<Message>> GetMessagesByChatMemberAsync(
             ChatMember member,
             int itemsToSkip,
             int itemsToTake)

@@ -11,6 +11,7 @@ namespace API.Controllers.ChatsController
         {
             var currentUser = await userManager.GetUserAsync(User);
             var chat = await chatsService.GetChatDTOAsync(currentUser!.Id, ChatId, itemsToSkip, itemsToTake);
+            await chatsService.MarkChatAsReadAsync(ChatId, currentUser);
             return Ok(chat);
         }
     }

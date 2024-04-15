@@ -6,16 +6,16 @@ namespace API.Services.ChatsService
     {
         public async Task<bool> MarkChatAsReadAsync(int chatId, AppUser currentUser)
         {
-            var newMessages = await messagesRepo.GetUnreadMessagesIds(chatId, currentUser.Id);
+            var newMessages = await messagesRepo.GetUnreadMessagesAsync(chatId, currentUser.Id);
 
-            foreach (var messageId in newMessages)
+            foreach (var message in newMessages)
             {
-                var existingReceipt = await messagesRepo.GetReadReceiptAsync(messageId, currentUser.Id);
-                if (existingReceipt != null) continue;
+                var existingReceipt = await messagesRepo.GetReadReceiptAsync(message.MessageId, currentUser.Id);
+                if (message.SenderId == currentUser.Id || existingReceipt != null) continue;
 
                 var receipt = new ReadReceipt()
                 {
-                    MessageId = messageId,
+                    MessageId = message.MessageId,
                     UserId = currentUser.Id,
                 };
 

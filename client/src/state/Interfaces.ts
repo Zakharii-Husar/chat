@@ -30,6 +30,7 @@ export interface IMessage {
   content: string;
   sentAt: string;
   likes: string[];
+  seenBy: string[];
 }
 
 export interface IChats extends Array<IMessage> {}

@@ -53,13 +53,29 @@ namespace API.Data
                 .HasOne(l => l.Message)
                 .WithMany(m => m.Likes)
                 .HasForeignKey(l => l.MessageId)
-                .OnDelete(DeleteBehavior.NoAction);
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Like>()
                 .HasOne(l => l.User)
                 .WithMany()
                 .HasForeignKey(l => l.UserId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<ReadReceipt>()
+                        .HasKey(l => l.RecordId);
+
+            modelBuilder.Entity<ReadReceipt>()
+                .HasOne(l => l.Message)
+                .WithMany(m => m.ReadReceipts)
+                .HasForeignKey(l => l.MessageId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<ReadReceipt>()
+                .HasOne(l => l.User)
+                .WithMany()
+                .HasForeignKey(l => l.UserId)
+                .OnDelete(DeleteBehavior.NoAction);
+
 
 
             //GENERATING TIMESTAMP ON INSERTION OF NEW CHAT MEMBER:

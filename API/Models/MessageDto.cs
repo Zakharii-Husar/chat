@@ -12,5 +12,6 @@
         public string Content { get; set; }
         public DateTime SentAt { get; set; }
         public List<string> Likes { get; set; }
+        public List<string> SeenBy { get; set; }
     }
 }

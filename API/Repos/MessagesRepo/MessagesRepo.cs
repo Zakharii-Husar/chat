@@ -8,9 +8,9 @@ namespace API.Repos.MessagesRepo
     public interface IMessagesRepo
     {
         public Task<bool> MarkAsDeletedAsync(Message message);
-        public Task<List<int>> GetUnreadMessagesIds(int chatId, string userId);
+        public Task<List<Message>> GetUnreadMessagesAsync(int chatId, string userId);
         public Task<ReadReceipt?> GetReadReceiptAsync(int messageId, string userId);
-        public Task<List<Message>> GetMessagesByChatMember(ChatMember member, int paginationOffset, int paginationStep);
+        public Task<List<Message>> GetMessagesByChatMemberAsync(ChatMember member, int paginationOffset, int paginationStep);
         public Task<Message?> GetLastMessageAsync(int chatId, string userId);
         public Task<Message?> GetMessageByIdAsync(int messageId);
         public Task<Message?> InsertAsync(Message message);

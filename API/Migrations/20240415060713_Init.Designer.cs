@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240325073128_Update")]
-    partial class Update
+    [Migration("20240415060713_Init")]
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -49,7 +49,6 @@ namespace API.Migrations
                         .HasColumnType("Date");
 
                     b.Property<string>("Email")
-                        .IsRequired()
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
@@ -58,8 +57,7 @@ namespace API.Migrations
 
                     b.Property<string>("FullName")
                         .IsRequired()
-                        .HasMaxLength(30)
-                        .HasColumnType("nvarchar(30)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("LastVisit")
                         .HasColumnType("datetime2");
@@ -79,7 +77,6 @@ namespace API.Migrations
                         .HasColumnType("nvarchar(256)");
 
                     b.Property<string>("PasswordHash")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PhoneNumber")
@@ -95,7 +92,6 @@ namespace API.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("UserName")
-                        .IsRequired()
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
@@ -246,7 +242,7 @@ namespace API.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RecordId"));
 
-                    b.Property<int>("ChatId")
+                    b.Property<int>("MessageId")
                         .HasColumnType("int");
 
                     b.Property<string>("UserId")
@@ -255,7 +251,7 @@ namespace API.Migrations
 
                     b.HasKey("RecordId");
 
-                    b.HasIndex("ChatId");
+                    b.HasIndex("MessageId");
 
                     b.HasIndex("UserId");
 
@@ -419,13 +415,13 @@ namespace API.Migrations
                     b.HasOne("API.Data.Message", "Message")
                         .WithMany("Likes")
                         .HasForeignKey("MessageId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("API.Data.AppUser", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Message");
@@ -454,19 +450,19 @@ namespace API.Migrations
 
             modelBuilder.Entity("API.Data.ReadReceipt", b =>
                 {
-                    b.HasOne("API.Data.Chat", "Chat")
-                        .WithMany()
-                        .HasForeignKey("ChatId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                    b.HasOne("API.Data.Message", "Message")
+                        .WithMany("ReadReceipts")
+                        .HasForeignKey("MessageId")
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("API.Data.AppUser", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.Navigation("Chat");
+                    b.Navigation("Message");
 
                     b.Navigation("User");
                 });
@@ -530,6 +526,8 @@ namespace API.Migrations
             modelBuilder.Entity("API.Data.Message", b =>
                 {
                     b.Navigation("Likes");
+
+                    b.Navigation("ReadReceipts");
                 });
 #pragma warning restore 612, 618
         }

@@ -30,12 +30,14 @@ namespace API.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
-                    PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    FullName = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
+                    UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    FullName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "Date", nullable: false),
                     LastVisit = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    AvatarName = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: true),
+                    Bio = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedEmail = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     EmailConfirmed = table.Column<bool>(type: "bit", nullable: false),
@@ -59,7 +61,8 @@ namespace API.Migrations
                 {
                     ChatId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    ChatName = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    ChatName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IsGroupChat = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -182,7 +185,6 @@ namespace API.Migrations
                     ChatId = table.Column<int>(type: "int", nullable: false),
                     EnteredChat = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
                     LeftChat = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    IsGroupChat = table.Column<bool>(type: "bit", nullable: false),
                     IsCreator = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -235,32 +237,6 @@ namespace API.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ReadReceipts",
-                columns: table => new
-                {
-                    RecordId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    ChatId = table.Column<int>(type: "int", nullable: false),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ReadReceipts", x => x.RecordId);
-                    table.ForeignKey(
-                        name: "FK_ReadReceipts_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_ReadReceipts_Chats_ChatId",
-                        column: x => x.ChatId,
-                        principalTable: "Chats",
-                        principalColumn: "ChatId",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Likes",
                 columns: table => new
                 {
@@ -276,10 +252,34 @@ namespace API.Migrations
                         name: "FK_Likes_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Likes_Messages_MessageId",
+                        column: x => x.MessageId,
+                        principalTable: "Messages",
+                        principalColumn: "MessageId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ReadReceipts",
+                columns: table => new
+                {
+                    RecordId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    MessageId = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ReadReceipts", x => x.RecordId);
+                    table.ForeignKey(
+                        name: "FK_ReadReceipts_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_ReadReceipts_Messages_MessageId",
                         column: x => x.MessageId,
                         principalTable: "Messages",
                         principalColumn: "MessageId");
@@ -355,9 +355,9 @@ namespace API.Migrations
                 column: "SenderId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ReadReceipts_ChatId",
+                name: "IX_ReadReceipts_MessageId",
                 table: "ReadReceipts",
-                column: "ChatId");
+                column: "MessageId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ReadReceipts_UserId",

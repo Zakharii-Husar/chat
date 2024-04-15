@@ -11,7 +11,7 @@ namespace API.Services.ChatsService
         public async Task<bool> SendMsgAsync(
             int chatId,
             SendMessageModel model,
-            string currentUserId, IHubContext<MainHub> hub)
+            string currentUserId)
         {
             bool isMember = await CheckMembershipByChatIdAsync(chatId, currentUserId);
             if (!isMember) return false;
