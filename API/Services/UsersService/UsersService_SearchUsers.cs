@@ -1,4 +1,5 @@
-﻿using API.Models;
+﻿using API.Data;
+using API.Models;
 
 namespace API.Services.UsersService
 {
@@ -14,7 +15,7 @@ namespace API.Services.UsersService
 
 
             if (users.Count == 0) return [];
-            return users.Select(user => ConvertUserToDTO(user)).ToList();
+            return users.Select(user => user.ToDTO()).ToList();
         }
     }
 }

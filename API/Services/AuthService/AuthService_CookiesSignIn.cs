@@ -1,4 +1,5 @@
-﻿using API.Models;
+﻿using API.Data;
+using API.Models;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
 
@@ -12,15 +13,7 @@ namespace API.Services.AuthService
             if (!user.Identity?.IsAuthenticated ?? false) return null;
             var appUser = await userManager.GetUserAsync(user);
             if (appUser == null) return null;
-            return new UserDTO
-            {
-                Id = appUser.Id,
-                UserName = appUser.UserName,
-                Email = appUser.Email,
-                FullName = appUser.FullName,
-                AvatarName = appUser.AvatarName,
-                Bio = appUser.Bio
-            };
+            return appUser.ToDTO();
 
         }
     }

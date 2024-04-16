@@ -6,7 +6,6 @@ namespace API.Services.UsersService
 {
     public interface IUsersService
     {
-        public UserDTO ConvertUserToDTO(AppUser appUser);
         public string GenerateContentType(string iconName);
         public bool ValidateAvatarFile(IFormFile avatar);
         public bool RemoveAvatar(string previousAvatarName);

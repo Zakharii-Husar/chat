@@ -1,11 +1,11 @@
-﻿using API.Data;
-using API.Models;
+﻿using API.Models;
+using API.Data;
 
-namespace API.Services.UsersService
+namespace API.Data
 {
-    public partial class UsersService
+    public static class AppUserExtension
     {
-        public UserDTO ConvertUserToDTO(AppUser appUser)
+        public static UserDTO ToDTO(this AppUser appUser)
         {
             return new UserDTO
             {

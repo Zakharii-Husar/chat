@@ -7,27 +7,18 @@ namespace API.Services.AuthService
     {
         public async Task<UserDTO?> SignUpWithPassword(SignUpReqModel model)
         {
-            var newUser = new AppUser
+            var appUser = new AppUser
             {
                 UserName = model.UserName,
                 Email = model.Email,
                 FullName = model.FullName
             };
 
-            var registeredUser = await usersRepo.CreateUserAsync(newUser, model.Password);
+            var registeredUser = await usersRepo.CreateUserAsync(appUser, model.Password);
             if (registeredUser == null) return null;
             await signInManager.SignInAsync(registeredUser, isPersistent: true);
 
-            return new UserDTO
-            {
-                Id = registeredUser.Id,
-                UserName = registeredUser.UserName,
-                Email = registeredUser.Email,
-                FullName = registeredUser.FullName,
-                AvatarName = registeredUser.AvatarName,
-                Bio = registeredUser.Bio,
-                LastVisit = registeredUser.LastVisit
-            };
+            return appUser.ToDTO();
         }
     }
 }

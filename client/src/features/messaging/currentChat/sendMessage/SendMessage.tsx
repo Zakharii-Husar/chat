@@ -14,7 +14,6 @@ import useWsTypingTracker from "../../../../hooks/ws/useWsTypingTracker";
 
 export const SendMessage: React.FC = () => {
   useCheckAuth();
-  const connection = getSignalRConnection();
   const wsTypingUsers = useWsGetTypingUsers();
   const wsTypingTracker = useWsTypingTracker();
   const dispatch = useAppDispatch();

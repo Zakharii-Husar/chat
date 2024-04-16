@@ -1,4 +1,5 @@
-﻿using API.Models;
+﻿using API.Data;
+using API.Models;
 
 namespace API.Services.ChatsService
 {
@@ -10,7 +11,7 @@ namespace API.Services.ChatsService
             var currentMember = await chatsRepo.GetChatMemberAsync(chatId, userId);
             if (currentMember == null) return null;
             var members = await chatsRepo.GetAllMembersAsync(chatId);
-            var convertedMembers = members.Select(usersService.ConvertUserToDTO).ToList();
+            var convertedMembers = members.Select(member => member.ToDTO()).ToList();
             var messages = await messagesRepo.GetMessagesByChatMemberAsync(currentMember, itemsToSkip, itemsToTake);
             var convertedMessages = messages.Select(ConvertMessageToDTO).ToList();
 
