@@ -1,4 +1,5 @@
-﻿using API.Models;
+﻿using API.Data;
+using API.Models;
 
 namespace API.Services.ChatsService
 {
@@ -14,7 +15,7 @@ namespace API.Services.ChatsService
             foreach (var chatId in chatsIds)
             {
                 var msg = await messagesRepo.GetLastMessageAsync(chatId, userId);
-                if (msg != null) lastMessages.Add(ConvertMessageToDTO(msg));
+                if (msg != null) lastMessages.Add(msg.ToDTO());
             }
 
             return lastMessages;

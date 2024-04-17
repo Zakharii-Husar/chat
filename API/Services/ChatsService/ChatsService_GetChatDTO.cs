@@ -13,7 +13,7 @@ namespace API.Services.ChatsService
             var members = await chatsRepo.GetAllMembersAsync(chatId);
             var convertedMembers = members.Select(member => member.ToDTO()).ToList();
             var messages = await messagesRepo.GetMessagesByChatMemberAsync(currentMember, itemsToSkip, itemsToTake);
-            var convertedMessages = messages.Select(ConvertMessageToDTO).ToList();
+            var convertedMessages = messages.Select(msg => msg.ToDTO()).ToList();
 
 
             return new ChatDTO

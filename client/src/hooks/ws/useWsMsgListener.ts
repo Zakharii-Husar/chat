@@ -9,20 +9,19 @@ const useWsMsgListener = (currentChatId: number | null) => {
   const connection = getSignalRConnection();
   const dispatch = useAppDispatch();
 
-
-  useEffect(()=>{
+  useEffect(() => {
     const handleNewMessage = (data: IMessage) => {
-        dispatch(prependChats(data));
-        if (data.chatId === currentChatId) {
-          dispatch(addMessageToChat(data));
-        }
-    }
+      console.log(data);
+      dispatch(prependChats(data));
+      if (data.chatId === currentChatId) {
+        dispatch(addMessageToChat(data));
+      }
+    };
     connection.on("ReceiveNewMessage", handleNewMessage);
-    return(()=>{
-        connection.off("ReceiveNewMessage", handleNewMessage);
-    })
-  })
-
-}
+    return () => {
+      connection.off("ReceiveNewMessage", handleNewMessage);
+    };
+  });
+};
 
 export default useWsMsgListener;

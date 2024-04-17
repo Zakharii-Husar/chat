@@ -10,7 +10,6 @@ namespace API.Services.ChatsService
         public async Task WSBroadcastMessageAsync(Message newMessage)
         {
             var recipients = await GetMembersIdsAsync(newMessage.ChatId);
-            var msgDTO = ConvertMessageToDTO(newMessage);
             foreach (var recipient in recipients)
             {
                 var connectionId = wsConManService.GetConnectionId(recipient);
@@ -18,7 +17,7 @@ namespace API.Services.ChatsService
                 {
                     continue;
                 }
-                await hub.Clients.Client(connectionId).SendAsync("ReceiveNewMessage", msgDTO);
+                await hub.Clients.Client(connectionId).SendAsync("ReceiveNewMessage", newMessage.ToDTO());
             }
         }
     }

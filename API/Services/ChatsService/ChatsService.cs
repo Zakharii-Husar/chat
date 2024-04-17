@@ -27,9 +27,6 @@ namespace API.Services.ChatsService
         public Task<List<string>> GetMembersIdsAsync(int chatId);
 
         public Task<bool> CheckRoleAsync(int chatId, string userId);
-
-        public MessageDTO? ConvertMessageToDTO(Message? message);
-
         public Task<bool> AddLikeAsync(int messageId, string currentUserId);
         public Task<bool> RmLikeAsync(int messageId, string currentUserId);
         public Task<bool> MarkMsgAsDelAsync(int messageId, string currentUserId);

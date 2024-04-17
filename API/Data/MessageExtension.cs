@@ -1,15 +1,12 @@
-﻿using API.Data;
-using API.Models;
+﻿using API.Models;
 
-namespace API.Services.ChatsService
+namespace API.Data
 {
-    public partial class ChatsService
+    public static class MessageExtension
     {
-        public MessageDTO? ConvertMessageToDTO(Message? message)
+        public static MessageDTO ToDTO(this Message message)
         {
-            if (message == null) return null;
-
-            var messageDTO = new MessageDTO
+            return new MessageDTO
             {
                 MessageId = message.MessageId,
                 SenderId = message.SenderId,
@@ -22,8 +19,6 @@ namespace API.Services.ChatsService
                 Likes = message.Likes?.Select(like => like.User?.UserName).ToList(),
                 SeenBy = message?.ReadReceipts?.Select(r => r.User?.UserName).ToList()
             };
-
-            return messageDTO;
         }
     }
 }

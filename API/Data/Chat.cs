@@ -12,6 +12,6 @@ namespace API.Data
 
         public bool IsGroupChat { get; set; } = false;
 
-        public ICollection<ChatMember> ChatMembers { get; set; } = new List<ChatMember>();
+        public ICollection<ChatMember> ChatMembers { get; set; } = [];
     }
 }
