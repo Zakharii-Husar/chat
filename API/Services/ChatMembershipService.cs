@@ -13,7 +13,7 @@ namespace API.Services
     public interface IChatMembershipService
     {
 
-        public Task<bool> RmChatMemberAsync(int chatId, string candidatUname, AppUser currentUser);
+        public Task<string?> RmChatMemberAsync(int chatId, string candidatUname, AppUser currentUser);
         public Task<bool> AddChatMemberAsync(int chatId, string candidatUname, AppUser currentUser);
         public Task<List<string>> GetMembersIdsAsync(int chatId);
         public Task<bool> CheckRoleAsync(int chatId, string userId);
@@ -87,31 +87,18 @@ namespace API.Services
             return true;
         }
 
-        public async Task<bool> RmChatMemberAsync(int chatId, string userToRmUname, AppUser currentUser)
+        public async Task<string?> RmChatMemberAsync(int chatId, string userToRmUname, AppUser currentUser)
         {
-            var userToRm = await usersRepo.GetUserByUnameAsync(userToRmUname);
-            bool authToRm = await CheckRoleAsync(chatId, currentUser.Id);
-            bool isLeaving = currentUser.Id == userToRm?.Id;
-            if (!authToRm && !isLeaving) return false;
-            var memberToRm = await chatsRepo.GetChatMemberAsync(chatId, userToRm.Id);
-            if (memberToRm == null || memberToRm.LeftChat != null) return false;
+            var memberToRm = await chatsRepo.GetMemberByUnameAsync(chatId, userToRmUname);
+            if (memberToRm == null || memberToRm.LeftChat != null) return null;
             bool result = await chatsRepo.RmChatMemberAsync(memberToRm);
-            if (!result) return false;
+            if (!result) return null;
 
-            var removedMsg = $"{currentUser?.UserName} removed {memberToRm.Member.UserName} from chat.";
+            bool isLeaving = currentUser.UserName == userToRmUname;
+            var removedMsg = $"{currentUser?.UserName} removed {userToRmUname} from chat.";
             var leftMsg = $"{currentUser?.UserName} left chat.";
-            var rightMsg = isLeaving ? leftMsg : removedMsg;
-
-            var notification = new Message
-            {
-                ChatId = chatId,
-                Content = rightMsg,
-                RepliedTo = null,
-                SenderId = currentUser.Id
-            };
-
-            await messagesRepo.InsertAsync(notification);
-            return true;
+            var notification = isLeaving ? leftMsg : removedMsg;
+            return notification;
         }
 
     }

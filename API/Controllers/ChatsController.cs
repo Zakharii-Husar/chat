@@ -5,6 +5,7 @@ using API.Data;
 using API.Services;
 using Microsoft.AspNetCore.Authorization;
 using API.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace API.Controllers
 {
@@ -37,12 +38,15 @@ namespace API.Controllers
         [HttpPatch("{ChatId}/RmMember/{Username}")]
         public async Task<IActionResult> RemoveChatMember(int ChatId, string Username)
         {
-            if (!ModelState.IsValid) return BadRequest();
             var currentUser = await userManager.GetUserAsync(User);
-            if (currentUser == null) return Unauthorized();
-            var result = await chatsService.RmChatMemberAsync(ChatId, Username, currentUser);
-            if (result) return Ok();
-            return StatusCode(500);
+            bool isAdmin = await chatMembershipService.CheckRoleAsync(ChatId, currentUser.Id);
+            bool isLeaving = currentUser.UserName == Username;
+            if (!isAdmin && !isLeaving) return Unauthorized();
+            var notificationContent = await chatMembershipService.RmChatMemberAsync(ChatId, Username, currentUser);
+            if (notificationContent == null) return StatusCode(500);
+            var notification = await allChatsService.SendNotificationAsync(ChatId, notificationContent, currentUser.Id);
+            if (notification != null) await WSService.WSBroadcastMessageAsync(notification);
+            return Ok();
         }
 
         [Authorize]
