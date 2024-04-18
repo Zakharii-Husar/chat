@@ -7,12 +7,12 @@ namespace API.Services
 
     public interface IWSService
     {
-        public Task WSBroadcastMessageAsync(Message newMessage);
-        public Task WSMarkAsReadAsync(int chatId, AppUser user);
+        public Task BroadcastMessageAsync(Message newMessage);
+        public Task MarkAsReadAsync(int chatId, AppUser user);
     }
     public class WSService(IHubContext<MainHub> hub, IWsConManService wsConManService) : IWSService
     {
-        public async Task WSBroadcastMessageAsync(Message newMessage)
+        public async Task BroadcastMessageAsync(Message newMessage)
         {
             var recipients = await GetMembersIdsAsync(newMessage.ChatId);
             foreach (var recipient in recipients)
@@ -26,7 +26,7 @@ namespace API.Services
             }
         }
 
-        public async Task WSMarkAsReadAsync(int chatId, AppUser user)
+        public async Task MarkAsReadAsync(int chatId, AppUser user)
         {
             var recipientsIds = await GetMembersIdsAsync(chatId);
             foreach (var recipientId in recipientsIds)

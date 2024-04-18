@@ -4,17 +4,19 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace API.Data
 {
     [Table("ChatMembers")]
-    public class ChatMember
+    public class ChatMember(string memberId, int chatId)
     {
         [Key]
         public int RecordId { get; set; }
 
         [ForeignKey("Member")]
-        public string MemberId { get; set; } = null!;
+        [Required]
+        public string MemberId { get; set; } = memberId;
         public AppUser Member { get; set; } = null!;
 
         [ForeignKey("Chat")]
-        public int ChatId { get; set; }
+        [Required]
+        public int ChatId { get; set; } = chatId;
         public Chat Chat { get; set; } = null!;
 
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

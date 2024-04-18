@@ -4,16 +4,19 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace API.Data
 {
     [Table("ReadReceipts")]
-    public class ReadReceipt
+    public class ReadReceipt(int messageId, string userId)
     {
         [Key]
         public int RecordId { get; set; }
 
-        [ForeignKey("Message")][Required] public int MessageId { get; set; }
+        [ForeignKey("Message")]
+        [Required]
+        public int MessageId { get; set; } = messageId;
         public Message Message { get; set; } = null!;
 
         [ForeignKey("User")]
-        public string UserId { get; set; } = null!;
+        [Required]
+        public string UserId { get; set; } = userId;
         public AppUser User { get; set; } = null!;
     }
 }

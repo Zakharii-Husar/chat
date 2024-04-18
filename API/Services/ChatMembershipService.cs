@@ -17,8 +17,10 @@ namespace API.Services
         public Task<bool> AddChatMemberAsync(int chatId, string candidatUname, AppUser currentUser);
         public Task<List<string>> GetMembersIdsAsync(int chatId);
         public Task<bool> CheckRoleAsync(int chatId, string userId);
-        public Task<bool> CheckMembershipByChatIdAsync(int chatId, string userId);
-        public Task<bool> CheckMembershipByMsgIdAsync(int messageId, string userId);
+        public Task<ChatMember?> GetMemberByUnameAsync(int chatId, string username);
+        public Task<ChatMember?> GetMemberByChatIdAsync(int chatId, string userId);
+        public Task<ChatMember?> GetMemberByMsgIdAsync(int messageId, string userId);
+
 
     }
     public partial class ChatMembershipService(
@@ -36,27 +38,24 @@ namespace API.Services
         }
         public async Task<bool> CheckRoleAsync(int chatId, string userId)
         {
-            return await dbContext.ChatMembers
-                 .Where(member => member.ChatId == chatId)
-                 .Where(member => member.MemberId == userId)
-                 .Where(member => member.IsCreator == true)
-                 .Where(member => member.LeftChat != null)
-                 .AnyAsync();
+            var member = await chatsRepo.GetMemberByChatIdAsync(chatId, userId);
+            if (member == null) return false;
+            return member.IsCreator;
         }
 
-        public async Task<bool> CheckMembershipByMsgIdAsync(int messageId, string userId)
+        public async Task<ChatMember?> GetMemberByUnameAsync(int chatId, string username)
         {
-            return await dbContext.Messages
-                .Where(m => m.MessageId == messageId)
-                .SelectMany(m => m.Chat.ChatMembers)
-                .AnyAsync(member => member.MemberId == userId && member.LeftChat == null);
+            return await chatsRepo.GetMemberByUnameAsync(chatId, username);
         }
 
-        public async Task<bool> CheckMembershipByChatIdAsync(int chatId, string userId)
+        public async Task<ChatMember?> GetMemberByMsgIdAsync(int messageId, string userId)
         {
-            return await dbContext.ChatMembers
-                .Where(m => m.ChatId == chatId && m.MemberId == userId && m.LeftChat == null)
-                .AnyAsync();
+            return await chatsRepo.GetMemberByMsgIdAsync(messageId, userId);
+        }
+
+        public async Task<ChatMember?> GetMemberByChatIdAsync(int chatId, string userId)
+        {
+            return await chatsRepo.GetMemberByChatIdAsync(chatId, userId);
         }
 
         public async Task<bool> AddChatMemberAsync(int chatId, string candidatUname, AppUser currentUser)
@@ -68,11 +67,7 @@ namespace API.Services
             var isAlreadyAdded = await chatsRepo.GetChatMemberAsync(chatId, candidat.Id);
             if (isAlreadyAdded != null) return false;
 
-            var member = new ChatMember()
-            {
-                ChatId = chatId,
-                MemberId = candidat.Id,
-            };
+            var member = new ChatMember(candidat.Id, chatId);
             await chatsRepo.AddChatMemberAsync(member);
 
             var notification = new Message

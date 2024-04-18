@@ -10,9 +10,9 @@ namespace API.Services
         public Task<Message?> SendNotificationAsync(int chatId, string content, string senderId);
         public Task<bool> MarkChatAsReadAsync(int chatId, AppUser currentUser);
         public Task<List<MessageDTO>> GetChatsOverviewAsync(string userId, int itemsToSkip, int itemsToTake);
-        public Task<ChatDTO?> GetChatDTOAsync(string userId, int chatId, int itemsToSkip, int itemsToTake);
+        public Task<ChatDTO?> GetChatByIdAsync(string userId, int chatId, int itemsToSkip, int itemsToTake);
     }
-    public class AllChatsService(MessagesRepo messagesRepo) : IAllChatsService
+    public class AllChatsService(MessagesRepo messagesRepo, ChatsRepo chatsRepo) : IAllChatsService
     {
         public async Task<Message?> SendNotificationAsync(int chatId, string senderId, string content)
         {
@@ -31,14 +31,9 @@ namespace API.Services
                 var existingReceipt = await messagesRepo.GetReadReceiptAsync(message.MessageId, currentUser.Id);
                 if (message.SenderId == currentUser.Id || existingReceipt != null) continue;
 
-                var receipt = new ReadReceipt()
-                {
-                    MessageId = message.MessageId,
-                    UserId = currentUser.Id,
-                };
+                var receipt = new ReadReceipt(message.MessageId, currentUser.Id);
 
                 await messagesRepo.MarkAsReadAsync(receipt);
-                await WSMarkAsReadAsync(chatId, currentUser);
             }
             return true;
         }
@@ -59,11 +54,10 @@ namespace API.Services
             return lastMessages;
         }
 
-        public async Task<ChatDTO?> GetChatDTOAsync(string userId, int chatId, int itemsToSkip, int itemsToTake)
+        public async Task<ChatDTO?> GetChatByIdAsync(string userId, int chatId, int itemsToSkip, int itemsToTake)
         {
             var chatName = await chatsRepo.GetChatNameByIdAsync(chatId);
-            var currentMember = await chatsRepo.GetChatMemberAsync(chatId, userId);
-            if (currentMember == null) return null;
+            var currentMember = await chatsRepo.GetMemberByChatIdAsync(chatId, userId);
             var members = await chatsRepo.GetAllMembersAsync(chatId);
             var convertedMembers = members.Select(member => member.ToDTO()).ToList();
             var messages = await messagesRepo.GetMessagesByChatMemberAsync(currentMember, itemsToSkip, itemsToTake);
