@@ -1,5 +1,4 @@
 ﻿using API.Data;
-using API.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace API.Repos.MessagesRepo

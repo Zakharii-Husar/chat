@@ -2,12 +2,11 @@ using Microsoft.AspNetCore.Identity;
 using API.Data;
 using API.Hubs;
 using API.Services.UsersService;
-using API.Services.ChatsService;
-using API.Services.AuthService;
 using API.Repos.ChatsRepo;
 using API.Repos.MessagesRepo;
 using API.Repos.UsersRepo;
 using API.Services;
+using API.Services.ChatsService;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -64,11 +63,17 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddTransient<IChatsRepo, ChatsRepo>();
 builder.Services.AddTransient<IMessagesRepo, MessagesRepo>();
 builder.Services.AddTransient<IUsersRepo, UsersRepo>();
-builder.Services.AddSingleton<IWsConManService, WsConManService>();
 
 builder.Services.AddTransient<IAuthService, AuthService>();
-builder.Services.AddTransient<IChatsService, ChatsService>();
+builder.Services.AddTransient<IAllChatsService, AllChatsService>();
+builder.Services.AddTransient<IPrivateChatsService, PrivateChatsService>();
+builder.Services.AddTransient<IGroupChatService, GroupChatsService>();
+builder.Services.AddTransient<IChatMembershipService, ChatMembershipService>();
+builder.Services.AddTransient<IMessageService, MessageService>();
 builder.Services.AddTransient<IUsersService, UsersService>();
+
+builder.Services.AddTransient<IWSService, WSService>();
+builder.Services.AddSingleton<IWsConManService, WsConManService>();
 
 
 var app = builder.Build();

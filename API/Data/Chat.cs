@@ -4,13 +4,13 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace API.Data
 {
     [Table("Chats")]
-    public class Chat
+    public class Chat(string chatName = null, bool isGroupChat = false)
     {
         [Key]
         public int ChatId { get; set; }
-        public string? ChatName { get; set; }
+        public string? ChatName { get; set; } = chatName;
 
-        public bool IsGroupChat { get; set; } = false;
+        public bool IsGroupChat { get; set; } = isGroupChat;
 
         public ICollection<ChatMember> ChatMembers { get; set; } = [];
     }
