@@ -11,7 +11,7 @@ namespace API.Services
         public Task<List<MessageDTO>> GetChatsOverviewAsync(string userId, int itemsToSkip, int itemsToTake);
         public Task<ChatDTO?> GetChatByIdAsync(string userId, int chatId, int itemsToSkip, int itemsToTake);
     }
-    public class AllChatsService(IMessagesRepo messagesRepo, IChatsRepo chatsRepo) : IAllChatsService
+    public class AllChatsService(IMessagesRepo messagesRepo, IChatsRepo chatsRepo, IChatMembersRepo chatMembersRepo) : IAllChatsService
     {
         public async Task<Message?> SendNotificationAsync(int chatId, string senderId, string content)
         {
@@ -55,8 +55,8 @@ namespace API.Services
         public async Task<ChatDTO?> GetChatByIdAsync(string userId, int chatId, int itemsToSkip, int itemsToTake)
         {
             var chatName = await chatsRepo.GetChatNameByIdAsync(chatId);
-            var currentMember = await chatsRepo.GetMemberByChatIdAsync(chatId, userId);
-            var members = await chatsRepo.GetAllMembersAsync(chatId);
+            var currentMember = await chatMembersRepo.GetMemberByChatIdAsync(chatId, userId);
+            var members = await chatMembersRepo.GetAllMembersAsync(chatId);
             var convertedMembers = members.Select(member => member.ToDTO()).ToList();
             var messages = await messagesRepo.GetMessagesByChatMemberAsync(currentMember, itemsToSkip, itemsToTake);
             var convertedMessages = messages.Select(msg => msg.ToDTO()).ToList();
@@ -69,7 +69,7 @@ namespace API.Services
                 Members = convertedMembers,
                 Messages = convertedMessages,
                 PaginationOffset = itemsToSkip + itemsToTake,
-                HasMoreMessages = messages.Count >= itemsToTake,
+                HasMoreMessages = messages.Count() >= itemsToTake,
             };
         }
 

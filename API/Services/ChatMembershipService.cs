@@ -1,8 +1,7 @@
 ﻿using API.Models;
 using API.Data;
-using API.Repos.MessagesRepo;
-using Microsoft.EntityFrameworkCore;
 using API.Repos;
+using Microsoft.EntityFrameworkCore;
 
 namespace API.Services
 {

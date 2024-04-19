@@ -1,7 +1,6 @@
 ﻿using API.Data;
 using API.Models;
 using API.Repos;
-using API.Repos.MessagesRepo;
 using System.Text.RegularExpressions;
 
 namespace API.Services
@@ -12,7 +11,7 @@ namespace API.Services
         public Task<int?> CreateGroupChatAsync(NewChatModel chatModel, AppUser currentUser);
     }
 
-    public class GroupChatService(IChatsRepo chatsRepo, IUsersRepo usersRepo) : IGroupChatService
+    public class GroupChatService(IChatsRepo chatsRepo, IUsersRepo usersRepo, IChatMembersRepo chatMembersRepo) : IGroupChatService
     {
         private static readonly Regex MyRegex = new Regex(@"^[a-zA-Z0-9. \-_]{4,20}$");
         public async Task<string?> RenameChatAsync(int chatId, string newName, AppUser currentUser)
@@ -42,7 +41,7 @@ namespace API.Services
 
             var members = participants.Select(userId => new ChatMember(userId, newChat.ChatId, userId == currentUser.Id));
 
-            foreach (var member in members) await chatsRepo.AddChatMemberAsync(member);
+            foreach (var member in members) await chatMembersRepo.AddChatMemberAsync(member);
 
             return newChat.ChatId;
         }

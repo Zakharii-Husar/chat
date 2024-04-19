@@ -11,11 +11,11 @@ namespace API.Services
         public Task UpdateMessageAsync(Message newMessage);
         public Task MarkAsReadAsync(int chatId, AppUser user);
     }
-    public class WSService(IHubContext<MainHub> hub, IWsConManService wsConManService, IChatsRepo chatsRepo) : IWSService
+    public class WSService(IHubContext<MainHub> hub, IWsConManService wsConManService, IChatMembersRepo chatMembersRepo) : IWSService
     {
         public async Task BroadcastMessageAsync(Message newMessage)
         {
-            var recipients = await chatsRepo.GetMembersIdsAsync(newMessage.ChatId);
+            var recipients = await chatMembersRepo.GetMembersIdsAsync(newMessage.ChatId);
             foreach (var recipient in recipients)
             {
                 var connectionId = wsConManService.GetConnectionId(recipient);
@@ -29,7 +29,7 @@ namespace API.Services
 
         public async Task UpdateMessageAsync(Message newMessage)
         {
-            var recipients = await chatsRepo.GetMembersIdsAsync(newMessage.ChatId);
+            var recipients = await chatMembersRepo.GetMembersIdsAsync(newMessage.ChatId);
             foreach (var recipient in recipients)
             {
                 var connectionId = wsConManService.GetConnectionId(recipient);
@@ -43,7 +43,7 @@ namespace API.Services
 
         public async Task MarkAsReadAsync(int chatId, AppUser user)
         {
-            var recipients = await chatsRepo.GetMembersIdsAsync(chatId);
+            var recipients = await chatMembersRepo.GetMembersIdsAsync(chatId);
             foreach (var recipientId in recipients)
             {
                 var connectionId = wsConManService.GetConnectionId(recipientId);

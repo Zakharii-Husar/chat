@@ -8,7 +8,7 @@ namespace API.Services
         public Task<int?> GetPrivateChatIdAsync(string uname1, string uname2);
         public Task<int?> CreatePrivateChatAsync(string uname1, string uname2);
     }
-    public class PrivateChatService(IChatsRepo chatsRepo, IUsersRepo usersRepo) : IPrivateChatService
+    public class PrivateChatService(IChatsRepo chatsRepo, IUsersRepo usersRepo, IChatMembersRepo chatMembersRepo) : IPrivateChatService
     {
         public async Task<int?> GetPrivateChatIdAsync(string uname1, string uname2)
         {
@@ -23,8 +23,8 @@ namespace API.Services
             var user1 = await usersRepo.GetUserByUnameAsync(uname1);
             var user2 = await usersRepo.GetUserByUnameAsync(uname2);
             if (user1 == null || user2 == null) return null;
-            await chatsRepo.AddChatMemberAsync(user1.ToChatMember(newChat.ChatId));
-            await chatsRepo.AddChatMemberAsync(user2.ToChatMember(newChat.ChatId));
+            await chatMembersRepo.AddChatMemberAsync(user1.ToChatMember(newChat.ChatId));
+            await chatMembersRepo.AddChatMemberAsync(user2.ToChatMember(newChat.ChatId));
             return newChatId;
         }
     }

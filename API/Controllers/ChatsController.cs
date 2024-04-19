@@ -62,18 +62,6 @@ namespace API.Controllers
             return Ok(chat);
         }
 
-        [Authorize]
-        [HttpPost("CreatePrivate/{RecipientUname}")]
-        public async Task<IActionResult> CreatePrivateChat(string RecipientUname)
-        {
-            var recipient = await userManager.FindByNameAsync(RecipientUname);
-            if (recipient == null) return BadRequest();
-            var currentUser = await userManager.GetUserAsync(User);
-            if (currentUser == null) return Unauthorized();
-            var chatId = await privateChatService.CreatePrivateChatAsync(currentUser!.UserName!, RecipientUname);
-            if (chatId != null) return Ok(chatId);
-            return StatusCode(500);
-        }
 
         [Authorize]
         [HttpPost("CreateGroup")]
@@ -97,15 +85,6 @@ namespace API.Controllers
             var currentUser = await userManager.GetUserAsync(User);
             var chatsList = await allChatsService.GetChatsOverviewAsync(currentUser!.Id, itemsToSkip, itemsToTake);
             return Ok(chatsList);
-        }
-
-        [Authorize]
-        [HttpGet("GetIdByUname/{Username}")]
-        public async Task<IActionResult> GetChatIdByUsername(string Username)
-        {
-            var currentUser = await userManager.GetUserAsync(User);
-            var chatId = await privateChatService.GetPrivateChatIdAsync(currentUser!.UserName!, Username);
-            return Ok(chatId);
         }
 
         [Authorize]
