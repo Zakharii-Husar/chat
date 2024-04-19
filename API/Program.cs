@@ -70,7 +70,6 @@ builder.Services.AddTransient<IChatMembershipService, ChatMembershipService>();
 builder.Services.AddTransient<IMessageService, MessageService>();
 builder.Services.AddTransient<IAvatarService, AvatarService>();
 builder.Services.AddTransient<IUsersService, UsersService>();
-
 builder.Services.AddTransient<IWSService, WSService>();
 builder.Services.AddSingleton<IWsConManService, WsConManService>();
 

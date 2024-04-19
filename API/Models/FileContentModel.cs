@@ -1,9 +1,9 @@
 ﻿namespace API.Models
 {
-    public class FileContentModel
+    public class FileContentModel(byte[] content, string type)
     {
-        public byte[] FileContent { get; set; }
-        public string ContentType { get; set; }
+        public byte[] FileContent { get; set; } = content;
+        public string ContentType { get; set; } = type;
     }
 
 }

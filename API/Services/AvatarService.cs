@@ -80,11 +80,7 @@ namespace API.Services
                 string contentType = GenerateContentType(fileName);
                 byte[] fileBytes = System.IO.File.ReadAllBytes(filePath);
 
-                return new FileContentModel
-                {
-                    FileContent = fileBytes,
-                    ContentType = contentType
-                };
+                return new FileContentModel(fileBytes, contentType);
 
             }
             catch
