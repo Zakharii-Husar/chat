@@ -1,6 +1,6 @@
 ﻿using API.Data;
 using API.Models;
-using API.Repos.MessagesRepo;
+using API.Repos;
 
 namespace API.Services
 {
