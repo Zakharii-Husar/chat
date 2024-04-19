@@ -12,6 +12,7 @@ namespace API.Services
     public interface IWSService
     {
         public Task BroadcastMessageAsync(Message newMessage);
+        public Task UpdateMessageAsync(Message newMessage);
         public Task MarkAsReadAsync(int chatId, AppUser user);
     }
     public class WSService(IHubContext<MainHub> hub, IWsConManService wsConManService, IChatsRepo chatsRepo) : IWSService
@@ -27,6 +28,20 @@ namespace API.Services
                     continue;
                 }
                 await hub.Clients.Client(connectionId).SendAsync("ReceiveNewMessage", newMessage.ToDTO());
+            }
+        }
+
+        public async Task UpdateMessageAsync(Message newMessage)
+        {
+            var recipients = await chatsRepo.GetMembersIdsAsync(newMessage.ChatId);
+            foreach (var recipient in recipients)
+            {
+                var connectionId = wsConManService.GetConnectionId(recipient);
+                if (connectionId == null)
+                {
+                    continue;
+                }
+                await hub.Clients.Client(connectionId).SendAsync("UpdateMessage", newMessage.ToDTO());
             }
         }
 

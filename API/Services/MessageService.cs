@@ -6,6 +6,7 @@ namespace API.Services
 {
     public interface IMessageService
     {
+        public Task<Message?> GetMsgByIdAsync(int msgId);
         public Task<Message?> SendMsgAsync(int chatId, SendMessageModel model, string currentUserId);
         public Task<bool> AddLikeAsync(int messageId, string currentUserId);
         public Task<bool> RmLikeAsync(int messageId, string currentUserId);
@@ -13,6 +14,10 @@ namespace API.Services
     }
     public class MessageService(MessagesRepo messagesRepo) : IMessageService
     {
+        public async Task<Message?> GetMsgByIdAsync(int msgId)
+        {
+            return await messagesRepo.GetMessageByIdAsync(msgId);
+        }
         public async Task<Message?> SendMsgAsync(
                                    int chatId,
                                    SendMessageModel model,
@@ -27,18 +32,10 @@ namespace API.Services
 
         public async Task<bool> AddLikeAsync(int messageId, string currentUserId)
         {
-
-            var isAuthorizedToLike = await CheckMembershipByMsgIdAsync(messageId, currentUserId);
-            if (!isAuthorizedToLike) return false;
-
             var existingLike = await messagesRepo.GetLikeAsync(messageId, currentUserId);
             if (existingLike != null) return true;
 
-            var newLike = new Like
-            {
-                MessageId = messageId,
-                UserId = currentUserId!
-            };
+            var newLike = new Like(messageId, currentUserId);
 
             return await messagesRepo.AddLikeAsync(newLike);
         }
