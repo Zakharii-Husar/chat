@@ -11,7 +11,7 @@ namespace API.Controllers
 {
     [Route("chat-api/Chats/{ChatId}/[controller]")]
     [ApiController]
-    public partial class MessagesController(
+    public class MessagesController(
         UserManager<AppUser> userManager,
         IChatMembershipService chatMembershipService,
         IMessageService messageService,
@@ -61,10 +61,13 @@ namespace API.Controllers
         [HttpPatch("{MessageId}/MarkAsDeleted")]
         public async Task<IActionResult> MarkAsDeleted(int MessageId)
         {
-            if (!ModelState.IsValid) return BadRequest(ModelState);
             var currentUser = await userManager.GetUserAsync(User);
-            var result = await chatsService.MarkMsgAsDelAsync(MessageId, currentUser!.Id);
-            return Ok(result);
+            var msg = await messageService.GetMsgByIdAsync(MessageId);
+            if (msg == null) return BadRequest();
+            if (msg.SenderId != currentUser.Id) return Unauthorized();
+            var result = await messageService.MarkMsgAsDelAsync(msg);
+            if (result) await WSService.UpdateMessageAsync(msg);
+            return Ok();
         }
     }
 }

@@ -10,7 +10,7 @@ namespace API.Services
         public Task<Message?> SendMsgAsync(int chatId, SendMessageModel model, string currentUserId);
         public Task<bool> AddLikeAsync(int messageId, string currentUserId);
         public Task<bool> RmLikeAsync(int messageId, string currentUserId);
-        public Task<bool> MarkMsgAsDelAsync(int messageId, string currentUserId);
+        public Task<bool> MarkMsgAsDelAsync(Message msg);
     }
     public class MessageService(MessagesRepo messagesRepo) : IMessageService
     {
@@ -50,11 +50,11 @@ namespace API.Services
             return await messagesRepo.RmLikeAsync(existingLike);
         }
 
-        public async Task<bool> MarkMsgAsDelAsync(int messageId, string currentUserId)
+        public async Task<bool> MarkMsgAsDelAsync(Message msg)
         {
-            var msgToRm = await messagesRepo.GetMessageByIdAsync(messageId);
-            if (msgToRm == null || msgToRm.SenderId != currentUserId) return false;
-            return await messagesRepo.MarkAsDeletedAsync(msgToRm);
+
+            if (msg.IsDeleted) return true;
+            return await messagesRepo.MarkAsDeletedAsync(msg);
         }
     }
 }
