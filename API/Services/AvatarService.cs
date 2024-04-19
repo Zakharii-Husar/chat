@@ -4,7 +4,7 @@ using API.Repos.UsersRepo;
 
 namespace API.Services
 {
-    public interface IFileService
+    public interface IAvatarService
     {
         public string GenerateContentType(string iconName);
         public bool ValidateAvatarFile(IFormFile avatar);
@@ -12,7 +12,7 @@ namespace API.Services
         public Task<string?> SaveAvatarAsync(IFormFile? avatar, AppUser currentUser);
         public FileContentModel? GetAvatarByNameAsync(string fileName);
     }
-    public class AvatarService(IWebHostEnvironment hostingEnvironment, UsersRepo usersRepo) : IFileService
+    public class AvatarService(IWebHostEnvironment hostingEnvironment, UsersRepo usersRepo) : IAvatarService
     {
         public string GenerateContentType(string iconName)
         {

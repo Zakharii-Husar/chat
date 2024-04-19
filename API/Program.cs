@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 using API.Data;
 using API.Hubs;
-using API.Services.UsersService;
 using API.Repos.ChatsRepo;
 using API.Repos.MessagesRepo;
 using API.Repos.UsersRepo;
@@ -69,6 +68,7 @@ builder.Services.AddTransient<IPrivateChatService, PrivateChatService>();
 builder.Services.AddTransient<IGroupChatService, GroupChatService>();
 builder.Services.AddTransient<IChatMembershipService, ChatMembershipService>();
 builder.Services.AddTransient<IMessageService, MessageService>();
+builder.Services.AddTransient<IAvatarService, AvatarService>();
 builder.Services.AddTransient<IUsersService, UsersService>();
 
 builder.Services.AddTransient<IWSService, WSService>();

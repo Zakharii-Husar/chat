@@ -4,7 +4,6 @@ using API.Data;
 using API.Services;
 using Microsoft.AspNetCore.Authorization;
 using API.Models;
-using API.Services.UsersService;
 
 namespace API.Controllers
 {
