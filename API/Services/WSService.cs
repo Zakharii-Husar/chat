@@ -1,6 +1,6 @@
 ﻿using API.Data;
 using API.Hubs;
-using API.Repos.ChatsRepo;
+using API.Repos;
 using Microsoft.AspNetCore.SignalR;
 namespace API.Services
 {

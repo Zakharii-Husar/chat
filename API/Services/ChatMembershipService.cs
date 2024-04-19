@@ -1,9 +1,9 @@
 ﻿using API.Models;
 using API.Data;
-using API.Repos.ChatsRepo;
 using API.Repos.MessagesRepo;
 using API.Repos.UsersRepo;
 using Microsoft.EntityFrameworkCore;
+using API.Repos;
 
 namespace API.Services
 {
@@ -23,8 +23,7 @@ namespace API.Services
     public partial class ChatMembershipService(
         AppDbContext dbContext,
         IUsersRepo usersRepo,
-        IChatsRepo chatsRepo,
-        IMessagesRepo messagesRepo) : IChatMembershipService
+        IChatMembersRepo chatMembersRepo) : IChatMembershipService
     {
         public async Task<List<string>> GetMembersIdsAsync(int chatId)
         {
@@ -35,24 +34,24 @@ namespace API.Services
         }
         public async Task<bool> CheckRoleAsync(int chatId, string userId)
         {
-            var member = await chatsRepo.GetMemberByChatIdAsync(chatId, userId);
+            var member = await chatMembersRepo.GetMemberByChatIdAsync(chatId, userId);
             if (member == null) return false;
             return member.IsCreator;
         }
 
         public async Task<ChatMember?> GetMemberByUnameAsync(int chatId, string username)
         {
-            return await chatsRepo.GetMemberByUnameAsync(chatId, username);
+            return await chatMembersRepo.GetMemberByUnameAsync(chatId, username);
         }
 
         public async Task<ChatMember?> GetMemberByMsgIdAsync(int messageId, string userId)
         {
-            return await chatsRepo.GetMemberByMsgIdAsync(messageId, userId);
+            return await chatMembersRepo.GetMemberByMsgIdAsync(messageId, userId);
         }
 
         public async Task<ChatMember?> GetMemberByChatIdAsync(int chatId, string userId)
         {
-            return await chatsRepo.GetMemberByChatIdAsync(chatId, userId);
+            return await chatMembersRepo.GetMemberByChatIdAsync(chatId, userId);
         }
 
         public async Task<string?> AddChatMemberAsync(int chatId, string candidatUname, AppUser currentUser)
@@ -60,16 +59,16 @@ namespace API.Services
             var candidat = await usersRepo.GetUserByUnameAsync(candidatUname);
             if (candidat == null) return null;
             var member = new ChatMember(candidat.Id, chatId);
-            var result = await chatsRepo.AddChatMemberAsync(member);
+            var result = await chatMembersRepo.AddChatMemberAsync(member);
             if (!result) return null;
             return $"{currentUser.UserName} added {candidat.UserName} to chat.";
         }
 
         public async Task<string?> RmChatMemberAsync(int chatId, string userToRmUname, AppUser currentUser)
         {
-            var memberToRm = await chatsRepo.GetMemberByUnameAsync(chatId, userToRmUname);
+            var memberToRm = await chatMembersRepo.GetMemberByUnameAsync(chatId, userToRmUname);
             if (memberToRm == null || memberToRm.LeftChat != null) return null;
-            bool result = await chatsRepo.RmChatMemberAsync(memberToRm);
+            bool result = await chatMembersRepo.RmChatMemberAsync(memberToRm);
             if (!result) return null;
 
             bool isLeaving = currentUser.UserName == userToRmUname;
