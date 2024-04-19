@@ -6,33 +6,23 @@ namespace API.Services
 {
     public interface IMessageService
     {
-        public Task<bool> SendMsgAsync(int chatId, SendMessageModel model, string currentUserId);
+        public Task<Message?> SendMsgAsync(int chatId, SendMessageModel model, string currentUserId);
         public Task<bool> AddLikeAsync(int messageId, string currentUserId);
         public Task<bool> RmLikeAsync(int messageId, string currentUserId);
         public Task<bool> MarkMsgAsDelAsync(int messageId, string currentUserId);
     }
     public class MessageService(MessagesRepo messagesRepo) : IMessageService
     {
-        public async Task<bool> SendMsgAsync(
+        public async Task<Message?> SendMsgAsync(
                                    int chatId,
                                    SendMessageModel model,
                                    string currentUserId)
         {
 
-            bool isMember = await CheckMembershipByChatIdAsync(chatId, currentUserId);
-            if (!isMember) return false;
+            var newMessage = new Message(chatId, currentUserId, model.Content, model.RepliedTo);
 
-            var newMessage = new Message
-            {
-                ChatId = chatId,
-                Content = model.Content,
-                RepliedTo = model.RepliedTo ?? null,
-                SenderId = currentUserId
-            };
             var result = await messagesRepo.InsertAsync(newMessage);
-            if (result == null) return false;
-            await WSBroadcastMessageAsync(result);
-            return true;
+            return result;
         }
 
         public async Task<bool> AddLikeAsync(int messageId, string currentUserId)

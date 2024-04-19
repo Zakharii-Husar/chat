@@ -12,7 +12,10 @@ namespace API.Controllers
     [Route("chat-api/Chats/{ChatId}/[controller]")]
     [ApiController]
     public partial class MessagesController(
-        UserManager<AppUser> userManager) : ControllerBase
+        UserManager<AppUser> userManager,
+        IChatMembershipService chatMembershipService,
+        IMessageService messageService,
+        IWSService WSService) : ControllerBase
     {
         [Authorize]
         [HttpPost("Send")]
@@ -20,8 +23,11 @@ namespace API.Controllers
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
             var currentUser = await userManager.GetUserAsync(User);
-            var result = await chatsService.SendMsgAsync(ChatId, model, currentUser!.Id);
-            if (!result) return StatusCode(500);
+            var membershipStatus = await chatMembershipService.GetMemberByChatIdAsync(ChatId, currentUser.Id);
+            if (membershipStatus == null || membershipStatus.LeftChat != null) return Unauthorized();
+            var result = await messageService.SendMsgAsync(ChatId, model, currentUser!.Id);
+            if (result == null) return StatusCode(500);
+            await WSService.BroadcastMessageAsync(result);
             return Ok();
         }
 
