@@ -3,7 +3,6 @@ using API.Data;
 using API.Hubs;
 using API.Repos;
 using API.Repos.MessagesRepo;
-using API.Repos.UsersRepo;
 using API.Services;
 
 

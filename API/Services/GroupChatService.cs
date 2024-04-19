@@ -2,7 +2,6 @@
 using API.Models;
 using API.Repos;
 using API.Repos.MessagesRepo;
-using API.Repos.UsersRepo;
 using System.Text.RegularExpressions;
 
 namespace API.Services

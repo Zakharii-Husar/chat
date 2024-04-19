@@ -1,7 +1,6 @@
 ﻿using API.Models;
 using API.Data;
 using API.Repos.MessagesRepo;
-using API.Repos.UsersRepo;
 using Microsoft.EntityFrameworkCore;
 using API.Repos;
 

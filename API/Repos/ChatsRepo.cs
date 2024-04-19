@@ -74,7 +74,7 @@ namespace API.Repos
                                         .Select(g => new
                                         {
                                             ChatId = g.Key,
-                                            LastMessageTime = g.Max(m => m.SentAt) // Max timestamp for each chat
+                                            LastMessageTime = g.Max(m => m.SentAt)
                                         }),
         chatId => chatId,
         chatGroup => chatGroup.ChatId,

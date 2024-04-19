@@ -1,7 +1,6 @@
 ﻿using API.Data;
 using API.Models;
 using API.Repos;
-using API.Repos.UsersRepo;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
 

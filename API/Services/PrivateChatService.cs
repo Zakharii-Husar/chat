@@ -1,6 +1,5 @@
 ﻿using API.Data;
 using API.Repos;
-using API.Repos.UsersRepo;
 
 namespace API.Services
 {
