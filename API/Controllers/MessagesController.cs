@@ -48,9 +48,12 @@ namespace API.Controllers
         public async Task<IActionResult> RmLike(int MessageId)
         {
             var currentUser = await userManager.GetUserAsync(User);
-            if (currentUser == null) return Unauthorized();
-            var result = await chatsService.RmLikeAsync(MessageId, currentUser.Id);
-            if (!result) return BadRequest();
+            var membershipStatus = await chatMembershipService.GetMemberByMsgIdAsync(MessageId, currentUser.Id);
+            if (membershipStatus == null || membershipStatus.LeftChat != null) return Unauthorized();
+            var result = await messageService.RmLikeAsync(MessageId, currentUser.Id);
+            if (!result) return StatusCode(500);
+            var modifiedMsg = await messageService.GetMsgByIdAsync(MessageId);
+            if (modifiedMsg != null) await WSService.UpdateMessageAsync(modifiedMsg);
             return Ok();
         }
 
