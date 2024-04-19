@@ -6,7 +6,6 @@ using API.Repos.ChatsRepo;
 using API.Repos.MessagesRepo;
 using API.Repos.UsersRepo;
 using API.Services;
-using API.Services.ChatsService;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -66,8 +65,8 @@ builder.Services.AddTransient<IUsersRepo, UsersRepo>();
 
 builder.Services.AddTransient<IAuthService, AuthService>();
 builder.Services.AddTransient<IAllChatsService, AllChatsService>();
-builder.Services.AddTransient<IPrivateChatsService, PrivateChatsService>();
-builder.Services.AddTransient<IGroupChatService, GroupChatsService>();
+builder.Services.AddTransient<IPrivateChatService, PrivateChatService>();
+builder.Services.AddTransient<IGroupChatService, GroupChatService>();
 builder.Services.AddTransient<IChatMembershipService, ChatMembershipService>();
 builder.Services.AddTransient<IMessageService, MessageService>();
 builder.Services.AddTransient<IUsersService, UsersService>();

@@ -2,10 +2,7 @@
 using API.Data;
 using API.Repos.ChatsRepo;
 using API.Repos.MessagesRepo;
-using API.Services.UsersService;
 using API.Repos.UsersRepo;
-using Microsoft.AspNetCore.SignalR;
-using API.Hubs;
 using Microsoft.EntityFrameworkCore;
 
 namespace API.Services

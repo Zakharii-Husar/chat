@@ -4,12 +4,12 @@ using API.Repos.UsersRepo;
 
 namespace API.Services
 {
-    public interface IPrivateChatsService
+    public interface IPrivateChatService
     {
         public Task<int?> GetPrivateChatIdAsync(string uname1, string uname2);
         public Task<int?> CreatePrivateChatAsync(string uname1, string uname2);
     }
-    public class PrivateChatsService(ChatsRepo chatsRepo, UsersRepo usersRepo) : IPrivateChatsService
+    public class PrivateChatService(ChatsRepo chatsRepo, UsersRepo usersRepo) : IPrivateChatService
     {
         public async Task<int?> GetPrivateChatIdAsync(string uname1, string uname2)
         {

@@ -1,6 +1,10 @@
 ﻿using API.Data;
 using API.Hubs;
+using API.Repos.ChatsRepo;
 using Microsoft.AspNetCore.SignalR;
+using System.Linq;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace API.Services
 {
@@ -10,11 +14,11 @@ namespace API.Services
         public Task BroadcastMessageAsync(Message newMessage);
         public Task MarkAsReadAsync(int chatId, AppUser user);
     }
-    public class WSService(IHubContext<MainHub> hub, IWsConManService wsConManService) : IWSService
+    public class WSService(IHubContext<MainHub> hub, IWsConManService wsConManService, IChatsRepo chatsRepo) : IWSService
     {
         public async Task BroadcastMessageAsync(Message newMessage)
         {
-            var recipients = await GetMembersIdsAsync(newMessage.ChatId);
+            var recipients = await chatsRepo.GetMembersIdsAsync(newMessage.ChatId);
             foreach (var recipient in recipients)
             {
                 var connectionId = wsConManService.GetConnectionId(recipient);
@@ -28,8 +32,8 @@ namespace API.Services
 
         public async Task MarkAsReadAsync(int chatId, AppUser user)
         {
-            var recipientsIds = await GetMembersIdsAsync(chatId);
-            foreach (var recipientId in recipientsIds)
+            var recipients = await chatsRepo.GetMembersIdsAsync(chatId);
+            foreach (var recipientId in recipients)
             {
                 var connectionId = wsConManService.GetConnectionId(recipientId);
                 if (connectionId == null || user.Id == recipientId)

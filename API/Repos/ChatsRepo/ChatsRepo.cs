@@ -1,5 +1,6 @@
 ﻿using API.Data;
 using API.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace API.Repos.ChatsRepo
 {
@@ -16,6 +17,7 @@ namespace API.Repos.ChatsRepo
         public Task<ChatMember?> GetMemberByChatIdAsync(int chatId, string userId);
         public Task<ChatMember?> GetMemberByUnameAsync(int chatId, string username);
         public Task<List<AppUser>> GetAllMembersAsync(int chatId);
+        public Task<List<string>> GetMembersIdsAsync(int chatId);
         public Task<List<int>> GetUserChatsIdsAsync(string userId, int itemsToSkip, int itemsToTake);
         public Task<string?> GetChatNameByIdAsync(int chatId);
 
@@ -25,6 +27,14 @@ namespace API.Repos.ChatsRepo
 
     public partial class ChatsRepo(AppDbContext dbContext) : IChatsRepo
     {
+        public async Task<List<string>> GetMembersIdsAsync(int chatId)
+        {
+            var members = await dbContext.Chats
+                .Where(chat => chat.ChatId == chatId)
+                .Select(chat => chat.ChatMembers)
+                .FirstAsync();
+            return members.Select(member => member.MemberId).ToList();
+        }
 
     };
 }

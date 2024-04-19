@@ -1,11 +1,9 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using API.Data;
 using API.Services;
 using Microsoft.AspNetCore.Authorization;
 using API.Models;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using API.Services.UsersService;
 
 namespace API.Controllers
@@ -18,8 +16,8 @@ namespace API.Controllers
         UsersService usersService,
         IAllChatsService allChatsService,
         IChatMembershipService chatMembershipService,
-        IPrivateChatsService privateChatsService,
-        GroupService groupService,
+        IPrivateChatService privateChatService,
+        GroupChatService groupService,
         WSService WSService) : ControllerBase
     {
         [Authorize]
@@ -73,7 +71,7 @@ namespace API.Controllers
             if (recipient == null) return BadRequest();
             var currentUser = await userManager.GetUserAsync(User);
             if (currentUser == null) return Unauthorized();
-            var chatId = await privateChatsService.CreatePrivateChatAsync(currentUser!.UserName!, RecipientUname);
+            var chatId = await privateChatService.CreatePrivateChatAsync(currentUser!.UserName!, RecipientUname);
             if (chatId != null) return Ok(chatId);
             return StatusCode(500);
         }
@@ -107,7 +105,7 @@ namespace API.Controllers
         public async Task<IActionResult> GetChatIdByUsername(string Username)
         {
             var currentUser = await userManager.GetUserAsync(User);
-            var chatId = await privateChatsService.GetPrivateChatIdAsync(currentUser!.UserName!, Username);
+            var chatId = await privateChatService.GetPrivateChatIdAsync(currentUser!.UserName!, Username);
             return Ok(chatId);
         }
 
