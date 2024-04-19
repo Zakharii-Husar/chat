@@ -38,6 +38,7 @@ export interface IChats extends Array<IMessage> {}
 
 export interface ICurrentChat {
   chatId: number | null;
+  adminId: string | null;
   chatName: string | null;
   members: IChatMember[];
   messages: IMessage[];

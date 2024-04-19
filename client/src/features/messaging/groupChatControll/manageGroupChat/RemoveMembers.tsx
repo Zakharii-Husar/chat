@@ -18,13 +18,9 @@ const RemoveMembers: React.FC = () => {
   const dispatch = useAppDispatch();
   const currentChat = useAppSelector((state) => state.currentChat);
   const currentUserId = useAppSelector((state) => state.loggedInUser.id);
-  const isCreator = currentChat.members.find(
-    (member) => member.memberId === currentUserId
-  )?.isCreator;
+  const isCreator = currentUserId == currentChat.adminId;
 
-  useEffect(()=>{
-    console.log(currentChat.members);
-  }, [isCreator, currentUserId])
+
 
   const [showList, setShowList] = useState(false);
 

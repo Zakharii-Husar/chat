@@ -4,6 +4,7 @@ import { ICurrentChat, IMessage, IChatMember } from "./Interfaces";
 
 const initialState: ICurrentChat = {
   chatId: null,
+  adminId: null,
   chatName: null,
   members: [],
   messages: [],

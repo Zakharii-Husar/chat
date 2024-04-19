@@ -7,6 +7,7 @@ namespace API.Repos
     {
         public Task<bool> AddChatMemberAsync(ChatMember member);
         public Task<bool> RmChatMemberAsync(ChatMember memberToRemove);
+        public Task<ChatMember?> GetAdminByChatIdAsync(int chattId);
         public Task<ChatMember?> GetMemberByMsgIdAsync(int chatId, string userId);
         public Task<ChatMember?> GetMemberByChatIdAsync(int chatId, string userId);
         public Task<ChatMember?> GetMemberByUnameAsync(int chatId, string username);
@@ -28,6 +29,15 @@ namespace API.Repos
             dbContext.ChatMembers.Update(memberToRemove);
             var rowsAffected = await dbContext.SaveChangesAsync();
             return rowsAffected > 0;
+        }
+
+        public async Task<ChatMember?> GetAdminByChatIdAsync(int chattId)
+        {
+            return await dbContext.ChatMembers
+                .Where(member => member.ChatId == chattId
+                && member.LeftChat == null
+                && member.IsCreator == true)
+                .FirstOrDefaultAsync();
         }
 
         public async Task<ChatMember?> GetMemberByMsgIdAsync(int messageId, string userId)
