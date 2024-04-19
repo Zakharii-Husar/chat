@@ -38,8 +38,6 @@ namespace API.Services
         public string? GetConnectionId(string identityId)
         {
             var con = _onlineUsers.TryGetValue(identityId, out string? connectionId) ? connectionId : null;
-            Console.WriteLine(con);
-            Console.WriteLine("GetConnectionId returns: " + con);
             return con;
         }
 

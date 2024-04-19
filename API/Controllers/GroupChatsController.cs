@@ -12,11 +12,11 @@ namespace API.Controllers
 
     public partial class GroupChatsController(
         UserManager<AppUser> userManager,
-        UsersService usersService,
+        IUsersService usersService,
         IAllChatsService allChatsService,
         IChatMembershipService chatMembershipService,
-        GroupChatService groupService,
-        WSService WSService) : ControllerBase
+        IGroupChatService groupService,
+        IWSService WSService) : ControllerBase
     {
         [Authorize]
         [HttpPatch("{ChatId}/Rename/{NewName}")]
@@ -27,7 +27,7 @@ namespace API.Controllers
             if (!isAdmin) return Unauthorized();
             var notificationContent = await groupService.RenameChatAsync(ChatId, NewName, currentUser);
             if (notificationContent == null) return StatusCode(500);
-            var notificationDTO = await allChatsService.SendNotificationAsync(ChatId, notificationContent, currentUser.Id);
+            var notificationDTO = await allChatsService.SendNotificationAsync(ChatId, currentUser.Id, notificationContent);
             if (notificationDTO != null) await WSService.BroadcastMessageAsync(notificationDTO);
             return Ok();
         }
@@ -42,7 +42,7 @@ namespace API.Controllers
             if (!isAdmin && !isLeaving) return Unauthorized();
             var notificationContent = await chatMembershipService.RmChatMemberAsync(ChatId, Username, currentUser);
             if (notificationContent == null) return StatusCode(500);
-            var notification = await allChatsService.SendNotificationAsync(ChatId, notificationContent, currentUser.Id);
+            var notification = await allChatsService.SendNotificationAsync(ChatId, currentUser.Id, notificationContent);
             if (notification != null) await WSService.BroadcastMessageAsync(notification);
             return Ok();
         }
@@ -59,7 +59,7 @@ namespace API.Controllers
             var chatId = await groupService.CreateGroupChatAsync(model, currentUser);
             if (!chatId.HasValue) return StatusCode(500);
             string notificationContent = currentUser.UserName + " created chat.";
-            var notification = await allChatsService.SendNotificationAsync(chatId.Value, notificationContent, currentUser.Id);
+            var notification = await allChatsService.SendNotificationAsync(chatId.Value, currentUser.Id, notificationContent);
             if (notification != null) await WSService.BroadcastMessageAsync(notification);
             return Ok();
         }
@@ -77,7 +77,7 @@ namespace API.Controllers
             if (isAlreadyAdded != null) return Ok();
             var notificationContent = await chatMembershipService.AddChatMemberAsync(ChatId, Username, currentUser);
             if (notificationContent == null) return StatusCode(500);
-            var notification = await allChatsService.SendNotificationAsync(ChatId, notificationContent, currentUser.Id);
+            var notification = await allChatsService.SendNotificationAsync(ChatId, currentUser.Id, notificationContent);
             if (notification != null) await WSService.BroadcastMessageAsync(notification);
             return Ok();
         }

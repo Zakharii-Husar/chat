@@ -11,7 +11,7 @@ import Collapse from "react-bootstrap/Collapse";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import rmChatMemberThunk from "../../../../thunks/rmChatMemberThunk";
 
 const RemoveMembers: React.FC = () => {
@@ -21,6 +21,10 @@ const RemoveMembers: React.FC = () => {
   const isCreator = currentChat.members.find(
     (member) => member.memberId === currentUserId
   )?.isCreator;
+
+  useEffect(()=>{
+    console.log(currentChat.members);
+  }, [isCreator, currentUserId])
 
   const [showList, setShowList] = useState(false);
 

@@ -5,7 +5,6 @@ using API.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.SignalR;
 
 namespace API.Controllers
 {
@@ -23,7 +22,7 @@ namespace API.Controllers
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
             var currentUser = await userManager.GetUserAsync(User);
-            var membershipStatus = await chatMembershipService.GetMemberByChatIdAsync(ChatId, currentUser.Id);
+            var membershipStatus = await chatMembershipService.GetMemberByChatIdAsync(ChatId, currentUser!.Id);
             if (membershipStatus == null || membershipStatus.LeftChat != null) return Unauthorized();
             var result = await messageService.SendMsgAsync(ChatId, model, currentUser!.Id);
             if (result == null) return StatusCode(500);
@@ -35,7 +34,7 @@ namespace API.Controllers
         public async Task<IActionResult> AddLike(int MessageId)
         {
             var currentUser = await userManager.GetUserAsync(User);
-            var membershipStatus = await chatMembershipService.GetMemberByMsgIdAsync(MessageId, currentUser.Id);
+            var membershipStatus = await chatMembershipService.GetMemberByMsgIdAsync(MessageId, currentUser!.Id);
             if (membershipStatus == null || membershipStatus.LeftChat != null) return Unauthorized();
             var result = await messageService.AddLikeAsync(MessageId, currentUser.Id);
             if (!result) return StatusCode(500);
@@ -48,7 +47,7 @@ namespace API.Controllers
         public async Task<IActionResult> RmLike(int MessageId)
         {
             var currentUser = await userManager.GetUserAsync(User);
-            var membershipStatus = await chatMembershipService.GetMemberByMsgIdAsync(MessageId, currentUser.Id);
+            var membershipStatus = await chatMembershipService.GetMemberByMsgIdAsync(MessageId, currentUser!.Id);
             if (membershipStatus == null || membershipStatus.LeftChat != null) return Unauthorized();
             var result = await messageService.RmLikeAsync(MessageId, currentUser.Id);
             if (!result) return StatusCode(500);
@@ -64,7 +63,7 @@ namespace API.Controllers
             var currentUser = await userManager.GetUserAsync(User);
             var msg = await messageService.GetMsgByIdAsync(MessageId);
             if (msg == null) return BadRequest();
-            if (msg.SenderId != currentUser.Id) return Unauthorized();
+            if (msg.SenderId != currentUser!.Id) return Unauthorized();
             var result = await messageService.MarkMsgAsDelAsync(msg);
             if (result) await WSService.UpdateMessageAsync(msg);
             return Ok();

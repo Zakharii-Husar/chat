@@ -6,7 +6,7 @@ namespace API.Services
 {
     public interface IAllChatsService
     {
-        public Task<Message?> SendNotificationAsync(int chatId, string content, string senderId);
+        public Task<Message?> SendNotificationAsync(int chatId, string senderId, string content);
         public Task<bool> MarkChatAsReadAsync(int chatId, AppUser currentUser);
         public Task<List<MessageDTO>> GetChatsOverviewAsync(string userId, int itemsToSkip, int itemsToTake);
         public Task<ChatDTO?> GetChatByIdAsync(string userId, int chatId, int itemsToSkip, int itemsToTake);
@@ -69,7 +69,7 @@ namespace API.Services
                 Members = convertedMembers,
                 Messages = convertedMessages,
                 PaginationOffset = itemsToSkip + itemsToTake,
-                HasMoreMessages = messages.Count() >= itemsToTake,
+                HasMoreMessages = messages.Count >= itemsToTake,
             };
         }
 

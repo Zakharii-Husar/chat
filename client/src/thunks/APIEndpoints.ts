@@ -9,34 +9,38 @@ export const LOGIN_URL = () => `${API_URL}/Auth/SignIn/WithPass`;
 //get
 export const CHECK_COOKIES_URL = () => `${API_URL}/Auth/SignIn/WithCookies`;
 
-//CHATS
+//CHATS ALL
 //get
 export const GET_ALL_CHATS = (
   itemsToSkip: number = 0,
   itemsToTake: number = 5
-) => `${API_URL}/Chats?itemsToSkip=${itemsToSkip}&itemsToTake=${itemsToTake}`;
+) => `${API_URL}/Chats/All?itemsToSkip=${itemsToSkip}&itemsToTake=${itemsToTake}`;
 
 export const GET_CHAT_BY_ID = (
   ChatId: number,
   itemsToSkip: number = 0,
   itemsToTake: number = 5
 ) =>
-  `${API_URL}/Chats/${ChatId}?itemsToSkip=${itemsToSkip}&itemsToTake=${itemsToTake}`;
+  `${API_URL}/Chats/All/${ChatId}?itemsToSkip=${itemsToSkip}&itemsToTake=${itemsToTake}`;
 
+  //CHATS PRIVATE
+  //get
 export const GET_CHAT_ID_BY_USERNAME = (Username: string) =>
-  `${API_URL}/Chats/GetIdByUname/${Username}`;
+  `${API_URL}/Chats/Private/GetIdByUname/${Username}`;
+//post
+export const CREATE_PRIVATE = (RecipientUname: string) => `${API_URL}/Chats/Private/Create/${RecipientUname}`;
+//CHATS GROUP
 //post
 export const ADD_CHAT_MEMBER = (ChatId: number, Username: string) =>
-  `${API_URL}/Chats/${ChatId}/AddMember/${Username}`;
-export const CREATE_GROUP = () => `${API_URL}/Chats/CreateGroup`;
-export const CREATE_PRIVATE = (RecipientUname: string) => `${API_URL}/Chats/CreatePrivate/${RecipientUname}`;
+  `${API_URL}/Chats/Group/${ChatId}/AddMember/${Username}`;
+export const CREATE_GROUP = () => `${API_URL}/Chats/Group/Create`;
 export const MARK_CHAT_AS_READ = (ChatId: number) =>
-  `${API_URL}/Chats/${ChatId}/MarkAsRead`;
+  `${API_URL}/Chats/Group/${ChatId}/MarkAsRead`;
 //patch
 export const REMOVE_CHAT_MEMBER = (ChatId: number, Username: string) =>
-  `${API_URL}/Chats/${ChatId}/RmMember/${Username}`;
+  `${API_URL}/Chats/Group/${ChatId}/RmMember/${Username}`;
 export const RENAME_GROUP_CHAT = (ChatId: number, NewName: string) =>
-  `${API_URL}/Chats/${ChatId}/Rename/${NewName}`;
+  `${API_URL}/Chats/Group/${ChatId}/Rename/${NewName}`;
 
 //MESSAGES
 //post

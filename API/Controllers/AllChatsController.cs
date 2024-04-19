@@ -11,7 +11,7 @@ namespace API.Controllers
     public class AllChatsController(UserManager<AppUser> userManager,
         IChatMembershipService chatMembershipService,
         IAllChatsService allChatsService,
-        WSService WSService) : ControllerBase
+        IWSService WSService) : ControllerBase
     {
 
         [Authorize]
@@ -28,7 +28,7 @@ namespace API.Controllers
         public async Task<IActionResult> GetChatById(int ChatId, int itemsToSkip = 0, int itemsToTake = 5)
         {
             var currentUser = await userManager.GetUserAsync(User);
-            var isMember = await chatMembershipService.GetMemberByChatIdAsync(ChatId, currentUser.Id);
+            var isMember = await chatMembershipService.GetMemberByChatIdAsync(ChatId, currentUser!.Id);
             if (isMember == null) return Unauthorized();
             var chat = await allChatsService.GetChatByIdAsync(currentUser!.Id, ChatId, itemsToSkip, itemsToTake);
             if (chat == null) return StatusCode(500);
