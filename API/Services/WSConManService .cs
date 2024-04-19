@@ -1,7 +1,4 @@
-﻿using API.Hubs;
-using API.Models;
-using Microsoft.AspNetCore.SignalR;
-using System.Collections.Concurrent;
+﻿using System.Collections.Concurrent;
 
 namespace API.Services
 {
@@ -12,10 +9,7 @@ namespace API.Services
         string? GetConnectionId(string identityId);
         void PrintConnections();
 
-        //public Task BroadcastMessage(MessageDTO newMessage, List<string> allRecipients);
     }
-
-    //public class WsConManService(IHubContext<MainHub> hub) : IWsConManService
 
     public class WsConManService() : IWsConManService
     {
@@ -58,18 +52,5 @@ namespace API.Services
             }
         }
 
-        //public async Task BroadcastMessage(MessageDTO newMessage, List<string> allRecipients)
-        //{
-        //    // PrintConnections();
-        //    foreach (var recipient in allRecipients)
-        //    {
-        //        var connectionId = GetConnectionId(recipient);
-        //        if (connectionId == null)
-        //        {
-        //            continue;
-        //        }
-        //        await hub.Clients.Client(connectionId).SendAsync("ReceiveNewMessage", newMessage);
-        //    }
-        //}
     }
 }

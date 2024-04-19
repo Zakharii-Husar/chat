@@ -2,10 +2,6 @@
 using API.Hubs;
 using API.Repos.ChatsRepo;
 using Microsoft.AspNetCore.SignalR;
-using System.Linq;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-
 namespace API.Services
 {
 

@@ -13,7 +13,7 @@ namespace API.Services
         public Task<int?> CreateGroupChatAsync(NewChatModel chatModel, AppUser currentUser);
     }
 
-    public class GroupChatService(ChatsRepo chatsRepo, MessagesRepo messagesRepo, UsersRepo usersRepo) : IGroupChatService
+    public class GroupChatService(IChatsRepo chatsRepo, IUsersRepo usersRepo) : IGroupChatService
     {
         private static readonly Regex MyRegex = new Regex(@"^[a-zA-Z0-9. \-_]{4,20}$");
         public async Task<string?> RenameChatAsync(int chatId, string newName, AppUser currentUser)

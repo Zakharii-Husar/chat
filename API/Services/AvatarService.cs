@@ -12,7 +12,7 @@ namespace API.Services
         public Task<string?> SaveAvatarAsync(IFormFile? avatar, AppUser currentUser);
         public FileContentModel? GetAvatarByNameAsync(string fileName);
     }
-    public class AvatarService(IWebHostEnvironment hostingEnvironment, UsersRepo usersRepo) : IAvatarService
+    public class AvatarService(IWebHostEnvironment hostingEnvironment, IUsersRepo usersRepo) : IAvatarService
     {
         public string GenerateContentType(string iconName)
         {

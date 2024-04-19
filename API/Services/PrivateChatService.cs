@@ -9,7 +9,7 @@ namespace API.Services
         public Task<int?> GetPrivateChatIdAsync(string uname1, string uname2);
         public Task<int?> CreatePrivateChatAsync(string uname1, string uname2);
     }
-    public class PrivateChatService(ChatsRepo chatsRepo, UsersRepo usersRepo) : IPrivateChatService
+    public class PrivateChatService(IChatsRepo chatsRepo, IUsersRepo usersRepo) : IPrivateChatService
     {
         public async Task<int?> GetPrivateChatIdAsync(string uname1, string uname2)
         {

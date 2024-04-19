@@ -21,12 +21,7 @@ namespace API.Data
 
         public static ChatMember ToChatMember(this AppUser appUser, int chatId, bool isCreator = false)
         {
-            return new ChatMember
-            {
-                ChatId = chatId,
-                MemberId = appUser.Id,
-                IsCreator = isCreator
-            };
+            return new ChatMember(appUser.Id, chatId, isCreator);
         }
     }
 }

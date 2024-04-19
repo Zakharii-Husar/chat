@@ -12,7 +12,7 @@ namespace API.Services
         public Task<bool> RmLikeAsync(int messageId, string currentUserId);
         public Task<bool> MarkMsgAsDelAsync(Message msg);
     }
-    public class MessageService(MessagesRepo messagesRepo) : IMessageService
+    public class MessageService(IMessagesRepo messagesRepo) : IMessageService
     {
         public async Task<Message?> GetMsgByIdAsync(int msgId)
         {

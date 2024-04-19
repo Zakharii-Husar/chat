@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using API.Data;
 using API.Hubs;
+using API.Repos;
 using API.Repos.ChatsRepo;
 using API.Repos.MessagesRepo;
 using API.Repos.UsersRepo;
@@ -9,12 +10,10 @@ using API.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-//CORS
-var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+var AllowFilteredOrigins = "_allowFilteredOrigins";
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy(name: MyAllowSpecificOrigins,
+    options.AddPolicy(name: AllowFilteredOrigins,
                       policy =>
                       {
                           policy.WithOrigins("http://localhost:3000",
@@ -58,6 +57,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddTransient<IChatMembersRepo, ChatMembersRepo>();
 builder.Services.AddTransient<IChatsRepo, ChatsRepo>();
 builder.Services.AddTransient<IMessagesRepo, MessagesRepo>();
 builder.Services.AddTransient<IUsersRepo, UsersRepo>();
@@ -86,7 +86,7 @@ if (app.Environment.IsDevelopment())
 app.MapHub<MainHub>("/Hub");
 
 
-app.UseCors(MyAllowSpecificOrigins);
+app.UseCors(AllowFilteredOrigins);
 
 app.UseAuthentication();
 
