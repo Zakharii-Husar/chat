@@ -11,13 +11,14 @@ namespace API.Services
         public Task<bool> RmLikeAsync(int messageId, string currentUserId);
         public Task<bool> MarkMsgAsDelAsync(int messageId, string currentUserId);
     }
-    public class MessageService : IMessageService
+    public class MessageService(MessagesRepo messagesRepo) : IMessageService
     {
         public async Task<bool> SendMsgAsync(
                                    int chatId,
                                    SendMessageModel model,
                                    string currentUserId)
         {
+
             bool isMember = await CheckMembershipByChatIdAsync(chatId, currentUserId);
             if (!isMember) return false;
 
