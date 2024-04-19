@@ -10,16 +10,19 @@ namespace API.Services
         public Task<List<UserDTO>> GetAllUsers(string currentUserId, int itemsToSkip, int itemsToTake);
         public Task<List<UserDTO>> SearchUsers(string query, string currentUserId, int intemsToSkip, int itemsToTake);
         public Task<AppUser?> GetUserByUnameAsync(string uname);
+        public Task<AppUser?> GetUserByEmailAsync(string email);
     }
-    public class UsersService(
-        IUsersRepo usersRepo,
-        IWebHostEnvironment hostingEnvironment,
-        AppDbContext dbContext) : IUsersService
+    public class UsersService(IUsersRepo usersRepo) : IUsersService
     {
 
         public async Task<AppUser?> GetUserByUnameAsync(string uname)
         {
             return await usersRepo.GetUserByUnameAsync(uname);
+        }
+
+        public async Task<AppUser?> GetUserByEmailAsync(string email)
+        {
+            return await usersRepo.GetUserByEmailAsync(email);
         }
 
         public async Task<List<UserDTO>> GetAllUsers(string currentUserId, int itemsToSkip, int itemsToTake)

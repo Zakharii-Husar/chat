@@ -11,7 +11,7 @@ namespace API.Controllers
     public partial class UsersController(
         UserManager<AppUser> userManager,
         IUsersService usersService,
-        IWebHostEnvironment hostingEnvironment) : ControllerBase
+        IAvatarService avatarService) : ControllerBase
     {
         [HttpGet("IsTaken/{Type}/{Value}")]
         public async Task<IActionResult> CheckAvailability(string Value, string Type)
@@ -19,10 +19,10 @@ namespace API.Controllers
             switch (Type.ToLower())
             {
                 case "email":
-                    var userByEmail = await userManager.FindByEmailAsync(Value);
+                    var userByEmail = await usersService.GetUserByEmailAsync(Value);
                     return Ok(userByEmail != null);
                 case "username":
-                    var userByName = await userManager.FindByNameAsync(Value);
+                    var userByName = await usersService.GetUserByUnameAsync(Value);
                     return Ok(userByName != null);
                 default:
                     return BadRequest("Invalid Type parameter. Please use 'email' or 'username'.");
@@ -42,7 +42,7 @@ namespace API.Controllers
         [HttpGet("Avatar/{FileName}")]
         public IActionResult Get(string FileName)
         {
-            var file = usersService.GetAvatarByNameAsync(FileName);
+            var file = avatarService.GetAvatarByNameAsync(FileName);
             if (file == null) return NotFound();
             return File(file.FileContent, file.ContentType);
         }
@@ -50,7 +50,7 @@ namespace API.Controllers
         [HttpGet("{UserName}")]
         public async Task<ActionResult> GetUserDetails(string UserName)
         {
-            var user = await userManager.FindByNameAsync(UserName);
+            var user = await usersService.GetUserByUnameAsync(UserName);
             return Ok(user);
 
         }
@@ -71,7 +71,7 @@ namespace API.Controllers
         {
             var currentUser = await userManager.GetUserAsync(User);
             if (currentUser == null) return Unauthorized();
-            var result = await usersService.SaveAvatarAsync(avatar, currentUser);
+            var result = await avatarService.SaveAvatarAsync(avatar, currentUser);
             if (result == null) return StatusCode(500);
             return Ok(result);
         }
