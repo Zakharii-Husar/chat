@@ -6,12 +6,12 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
-    [Route("chat-api/Chats")]
+    [Route("chat-api/Chats/Private")]
     [ApiController]
     public class PrivateChatsController(UserManager<AppUser> userManager, IPrivateChatService privateChatService) : ControllerBase
     {
         [Authorize]
-        [HttpPost("CreatePrivate/{RecipientUname}")]
+        [HttpPost("Create/{RecipientUname}")]
         public async Task<IActionResult> CreatePrivateChat(string RecipientUname)
         {
             var recipient = await userManager.FindByNameAsync(RecipientUname);

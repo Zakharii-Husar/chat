@@ -7,15 +7,14 @@ using API.Models;
 
 namespace API.Controllers
 {
-    [Route("chat-api/[controller]")]
+    [Route("chat-api/Chats/Group")]
     [ApiController]
 
-    public partial class ChatsController(
+    public partial class GroupChatsController(
         UserManager<AppUser> userManager,
         UsersService usersService,
         IAllChatsService allChatsService,
         IChatMembershipService chatMembershipService,
-        IPrivateChatService privateChatService,
         GroupChatService groupService,
         WSService WSService) : ControllerBase
     {
@@ -48,23 +47,10 @@ namespace API.Controllers
             return Ok();
         }
 
-        [Authorize]
-        [HttpGet("{ChatId}")]
-        public async Task<IActionResult> GetChatById(int ChatId, int itemsToSkip = 0, int itemsToTake = 5)
-        {
-            var currentUser = await userManager.GetUserAsync(User);
-            var isMember = await chatMembershipService.GetMemberByChatIdAsync(ChatId, currentUser.Id);
-            if (isMember == null) return Unauthorized();
-            var chat = await allChatsService.GetChatByIdAsync(currentUser!.Id, ChatId, itemsToSkip, itemsToTake);
-            if (chat == null) return StatusCode(500);
-            await allChatsService.MarkChatAsReadAsync(ChatId, currentUser);
-            await WSService.MarkAsReadAsync(ChatId, currentUser);
-            return Ok(chat);
-        }
 
 
         [Authorize]
-        [HttpPost("CreateGroup")]
+        [HttpPost("Create")]
         public async Task<IActionResult> CreateGroupChat([FromBody] NewChatModel model)
         {
             if (!ModelState.IsValid) return BadRequest();
@@ -76,15 +62,6 @@ namespace API.Controllers
             var notification = await allChatsService.SendNotificationAsync(chatId.Value, notificationContent, currentUser.Id);
             if (notification != null) await WSService.BroadcastMessageAsync(notification);
             return Ok();
-        }
-
-        [Authorize]
-        [HttpGet]
-        public async Task<IActionResult> GetChats(int itemsToSkip = 0, int itemsToTake = 5)
-        {
-            var currentUser = await userManager.GetUserAsync(User);
-            var chatsList = await allChatsService.GetChatsOverviewAsync(currentUser!.Id, itemsToSkip, itemsToTake);
-            return Ok(chatsList);
         }
 
         [Authorize]
