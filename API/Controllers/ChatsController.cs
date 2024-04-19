@@ -6,6 +6,7 @@ using API.Services;
 using Microsoft.AspNetCore.Authorization;
 using API.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using API.Services.UsersService;
 
 namespace API.Controllers
 {
@@ -14,6 +15,7 @@ namespace API.Controllers
 
     public partial class ChatsController(
         UserManager<AppUser> userManager,
+        UsersService usersService,
         IAllChatsService allChatsService,
         IChatMembershipService chatMembershipService,
         IPrivateChatsService privateChatsService,
@@ -30,7 +32,7 @@ namespace API.Controllers
             var notificationContent = await groupService.RenameChatAsync(ChatId, NewName, currentUser);
             if (notificationContent == null) return StatusCode(500);
             var notificationDTO = await allChatsService.SendNotificationAsync(ChatId, notificationContent, currentUser.Id);
-            if (notificationDTO != null) await WSService.WSBroadcastMessageAsync(notificationDTO);
+            if (notificationDTO != null) await WSService.BroadcastMessageAsync(notificationDTO);
             return Ok();
         }
 
@@ -45,22 +47,9 @@ namespace API.Controllers
             var notificationContent = await chatMembershipService.RmChatMemberAsync(ChatId, Username, currentUser);
             if (notificationContent == null) return StatusCode(500);
             var notification = await allChatsService.SendNotificationAsync(ChatId, notificationContent, currentUser.Id);
-            if (notification != null) await WSService.WSBroadcastMessageAsync(notification);
+            if (notification != null) await WSService.BroadcastMessageAsync(notification);
             return Ok();
         }
-
-        //[Authorize]
-        //[HttpPost("{ChatId}/MarkAsRead")]
-        //public async Task<IActionResult> MarkAsRead(int ChatId)
-        //{
-        //    if (!ModelState.IsValid) return BadRequest();
-        //    var currentUser = await userManager.GetUserAsync(User);
-        //    if (currentUser == null) return Unauthorized();
-        //    var result = await allChatsService.MarkChatAsReadAsync(ChatId, currentUser);
-        //    if (!result) return StatusCode(500);
-        //    await WSService.MarkAsReadAsync(ChatId, currentUser);
-        //    return Ok();
-        //}
 
         [Authorize]
         [HttpGet("{ChatId}")]
@@ -84,7 +73,7 @@ namespace API.Controllers
             if (recipient == null) return BadRequest();
             var currentUser = await userManager.GetUserAsync(User);
             if (currentUser == null) return Unauthorized();
-            var chatId = await chatsService.CreatePrivateChatAsync(currentUser!.UserName!, RecipientUname);
+            var chatId = await privateChatsService.CreatePrivateChatAsync(currentUser!.UserName!, RecipientUname);
             if (chatId != null) return Ok(chatId);
             return StatusCode(500);
         }
@@ -96,9 +85,12 @@ namespace API.Controllers
             if (!ModelState.IsValid) return BadRequest();
             var currentUser = await userManager.GetUserAsync(User);
             if (currentUser == null) return Unauthorized();
-            var chatId = await chatsService.CreateGroupChatAsync(model, currentUser);
-            if (chatId != null) return Ok(chatId);
-            return StatusCode(500);
+            var chatId = await groupService.CreateGroupChatAsync(model, currentUser);
+            if (!chatId.HasValue) return StatusCode(500);
+            string notificationContent = currentUser.UserName + " created chat.";
+            var notification = await allChatsService.SendNotificationAsync(chatId.Value, notificationContent, currentUser.Id);
+            if (notification != null) await WSService.BroadcastMessageAsync(notification);
+            return Ok();
         }
 
         [Authorize]
@@ -106,7 +98,7 @@ namespace API.Controllers
         public async Task<IActionResult> GetChats(int itemsToSkip = 0, int itemsToTake = 5)
         {
             var currentUser = await userManager.GetUserAsync(User);
-            var chatsList = await chatsService.GetChatsOverviewAsync(currentUser!.Id, itemsToSkip, itemsToTake);
+            var chatsList = await allChatsService.GetChatsOverviewAsync(currentUser!.Id, itemsToSkip, itemsToTake);
             return Ok(chatsList);
         }
 
@@ -123,12 +115,18 @@ namespace API.Controllers
         [HttpPost("{ChatId}/AddMember/{Username}")]
         public async Task<IActionResult> AddChatMember(int ChatId, string Username)
         {
-            if (!ModelState.IsValid) return BadRequest();
+            var candidat = usersService.GetUserByUnameAsync(Username);
+            if (candidat == null) return BadRequest();
             var currentUser = await userManager.GetUserAsync(User);
-            if (currentUser == null) return Unauthorized();
-            var result = await chatsService.AddChatMemberAsync(ChatId, Username, currentUser);
-            if (result) return Ok();
-            return StatusCode(500);
+            bool isAdmin = await chatMembershipService.CheckRoleAsync(ChatId, currentUser!.Id);
+            if (!isAdmin) return Unauthorized();
+            var isAlreadyAdded = chatMembershipService.GetMemberByUnameAsync(ChatId, Username);
+            if (isAlreadyAdded != null) return Ok();
+            var notificationContent = await chatMembershipService.AddChatMemberAsync(ChatId, Username, currentUser);
+            if (notificationContent == null) return StatusCode(500);
+            var notification = await allChatsService.SendNotificationAsync(ChatId, notificationContent, currentUser.Id);
+            if (notification != null) await WSService.BroadcastMessageAsync(notification);
+            return Ok();
         }
     };
 }

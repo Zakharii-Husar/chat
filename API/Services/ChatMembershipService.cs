@@ -14,7 +14,7 @@ namespace API.Services
     {
 
         public Task<string?> RmChatMemberAsync(int chatId, string candidatUname, AppUser currentUser);
-        public Task<bool> AddChatMemberAsync(int chatId, string candidatUname, AppUser currentUser);
+        public Task<string?> AddChatMemberAsync(int chatId, string candidatUname, AppUser currentUser);
         public Task<List<string>> GetMembersIdsAsync(int chatId);
         public Task<bool> CheckRoleAsync(int chatId, string userId);
         public Task<ChatMember?> GetMemberByUnameAsync(int chatId, string username);
@@ -58,28 +58,14 @@ namespace API.Services
             return await chatsRepo.GetMemberByChatIdAsync(chatId, userId);
         }
 
-        public async Task<bool> AddChatMemberAsync(int chatId, string candidatUname, AppUser currentUser)
+        public async Task<string?> AddChatMemberAsync(int chatId, string candidatUname, AppUser currentUser)
         {
             var candidat = await usersRepo.GetUserByUnameAsync(candidatUname);
-            bool authToAdd = await CheckRoleAsync(chatId, currentUser.Id);
-            if (!authToAdd) return false;
-            if (candidat == null) return false;
-            var isAlreadyAdded = await chatsRepo.GetChatMemberAsync(chatId, candidat.Id);
-            if (isAlreadyAdded != null) return false;
-
+            if (candidat == null) return null;
             var member = new ChatMember(candidat.Id, chatId);
-            await chatsRepo.AddChatMemberAsync(member);
-
-            var notification = new Message
-            {
-                ChatId = chatId,
-                Content = $"{currentUser.UserName} added {candidat.UserName} to chat.",
-                RepliedTo = null,
-                SenderId = currentUser.Id!
-            };
-
-            await messagesRepo.InsertAsync(notification);
-            return true;
+            var result = await chatsRepo.AddChatMemberAsync(member);
+            if (!result) return null;
+            return $"{currentUser.UserName} added {candidat.UserName} to chat.";
         }
 
         public async Task<string?> RmChatMemberAsync(int chatId, string userToRmUname, AppUser currentUser)

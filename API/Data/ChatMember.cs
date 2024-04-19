@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace API.Data
 {
     [Table("ChatMembers")]
-    public class ChatMember(string memberId, int chatId)
+    public class ChatMember(string memberId, int chatId, bool isCreator = false)
     {
         [Key]
         public int RecordId { get; set; }
@@ -26,6 +26,6 @@ namespace API.Data
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public DateTime? LeftChat { get; set; } = null;
 
-        public bool IsCreator { get; set; } = false;
+        public bool IsCreator { get; set; } = isCreator;
     }
 }

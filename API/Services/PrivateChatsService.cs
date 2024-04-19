@@ -23,6 +23,7 @@ namespace API.Services
             if (newChatId == null) return null;
             var user1 = await usersRepo.GetUserByUnameAsync(uname1);
             var user2 = await usersRepo.GetUserByUnameAsync(uname2);
+            if (user1 == null || user2 == null) return null;
             await chatsRepo.AddChatMemberAsync(user1.ToChatMember(newChat.ChatId));
             await chatsRepo.AddChatMemberAsync(user2.ToChatMember(newChat.ChatId));
             return newChatId;

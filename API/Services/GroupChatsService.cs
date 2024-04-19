@@ -26,11 +26,10 @@ namespace API.Services
 
         public async Task<int?> CreateGroupChatAsync(NewChatModel chatModel, AppUser currentUser)
         {
-            //add creator to participants
+
             chatModel.ParticipantUserIds.Add(currentUser.Id);
-            //make sure there are no duplicates
             var participants = chatModel.ParticipantUserIds.Distinct().ToList();
-            //validate IDs
+            //Prevent creating chat if at least 1 user ID is not valid
             foreach (var userId in participants)
             {
                 var user = await usersRepo.GetUserByIdAsync(userId);
@@ -42,12 +41,7 @@ namespace API.Services
 
             await chatsRepo.CreateChatAsync(newChat);
 
-            var members = participants.Select(userId => new ChatMember()
-            {
-                ChatId = newChat.ChatId,
-                MemberId = userId,
-                IsCreator = userId == currentUser.Id
-            });
+            var members = participants.Select(userId => new ChatMember(userId, newChat.ChatId, userId == currentUser.Id));
 
             foreach (var member in members) await chatsRepo.AddChatMemberAsync(member);
 
