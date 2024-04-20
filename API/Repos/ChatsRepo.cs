@@ -11,7 +11,6 @@ namespace API.Repos
         public Task<int?> GetPrivateChatIdAsync(string uname1, string uname2);
         public Task<string?> RenameChatAsync(int chatId, string newName);
         public Task<string?> GetChatNameByIdAsync(int chatId);
-        public Task<List<int>> GetUserChatsIdsAsync(string userId, int itemsToSkip, int itemsToTake);
 
 
 
@@ -61,42 +60,5 @@ namespace API.Repos
             await dbContext.SaveChangesAsync();
             return newName;
         }
-
-        public async Task<List<int>> GetUserChatsIdsAsync(string userId, int itemsToSkip, int itemsToTake)
-        {
-            var chatsQuery = dbContext.ChatMembers
-                .Where(cm => cm.MemberId == userId)
-                .Join(dbContext.Chats, cm => cm.ChatId, c => c.ChatId, (cm, c) => c)
-                .Join(dbContext.Messages, c => c.ChatId, m => m.ChatId, (c, m) => c.ChatId)
-                .Distinct()
-                .Join(
-                      dbContext.Messages.GroupBy(m => m.ChatId)
-                                        .Select(g => new
-                                        {
-                                            ChatId = g.Key,
-                                            LastMessageTime = g.Max(m => m.SentAt)
-                                        }),
-        chatId => chatId,
-        chatGroup => chatGroup.ChatId,
-        (chatId, chatGroup) => new
-        {
-            ChatId = chatId,
-            chatGroup.LastMessageTime
-        })
-    .OrderByDescending(chat => chat.LastMessageTime)
-    .Select(chat => chat.ChatId);
-
-            var totalChats = await chatsQuery.CountAsync();
-
-            var itemsLeft = totalChats - itemsToSkip;
-            var take = itemsToTake < itemsLeft ? itemsToTake : itemsLeft;
-            if (itemsLeft <= 0) return [];
-
-            return await chatsQuery
-                .Skip(itemsToSkip)
-                .Take(take)
-                .ToListAsync();
-        }
-
     };
 }

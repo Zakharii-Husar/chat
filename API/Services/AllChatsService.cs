@@ -39,17 +39,11 @@ namespace API.Services
         public async Task<List<MessageDTO>> GetChatsOverviewAsync(string userId, int itemsToSkip, int itemsToTake)
         {
 
-            var chatsIds = await chatsRepo.GetUserChatsIdsAsync(userId, itemsToSkip, itemsToTake);
-            var lastMessages = new List<MessageDTO>();
+            var lastMessages = await messagesRepo.GetLastMessagesAsync(userId, itemsToSkip, itemsToTake);
 
-            if (chatsIds.Count < 1) return lastMessages;
-            foreach (var chatId in chatsIds)
-            {
-                var msg = await messagesRepo.GetLastMessageAsync(chatId, userId);
-                if (msg != null) lastMessages.Add(msg.ToDTO());
-            }
+            if (lastMessages.Count() < 1) return [];
 
-            return lastMessages;
+            return lastMessages.Select(m => m!.ToDTO()).ToList();
         }
 
         public async Task<ChatDTO?> GetChatByIdAsync(string userId, int chatId, int itemsToSkip, int itemsToTake)

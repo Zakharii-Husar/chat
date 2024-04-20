@@ -11,13 +11,13 @@ namespace API.Repos
         public Task<List<Message>> GetUnreadMessagesAsync(int chatId, string userId);
         public Task<ReadReceipt?> GetReadReceiptAsync(int messageId, string userId);
         public Task<List<Message>> GetMessagesByChatMemberAsync(ChatMember member, int paginationOffset, int paginationStep);
-        public Task<Message?> GetLastMessageAsync(int chatId, string userId);
         public Task<Message?> GetMessageByIdAsync(int messageId);
         public Task<Message?> InsertAsync(Message message);
         public Task<Like?> GetLikeAsync(int messageId, string userId);
         public Task<bool> AddLikeAsync(Like newLike);
         public Task<bool> RmLikeAsync(Like newLike);
         public Task<bool> MarkAsReadAsync(ReadReceipt newReceipt);
+        public Task<List<Message?>> GetLastMessagesAsync(string userId, int itemsToSkip, int itemsToTake);
 
     }
     public partial class MessagesRepo(AppDbContext dbContext) : IMessagesRepo
@@ -91,6 +91,20 @@ namespace API.Repos
                 .ToListAsync();
         }
 
+        public async Task<List<Message?>> GetLastMessagesAsync(string userId, int itemsToSkip, int itemsToTake)
+        {
+            return dbContext.Messages
+                .Where(m => m.Chat.ChatMembers.Select(cm => cm.MemberId).Contains(userId))
+                .GroupBy(g => g.ChatId)
+                .Select(g => g.OrderByDescending(m => m.SentAt).FirstOrDefault())
+                .AsEnumerable()
+                .OrderByDescending(m => m.SentAt)
+                .Skip(itemsToSkip)
+                .Take(itemsToTake)
+                .ToList();
+
+        }
+
         public async Task<List<Message>> GetMessagesByChatMemberAsync(
                                                      ChatMember member,
                                                      int itemsToSkip,
@@ -123,30 +137,6 @@ namespace API.Repos
                 .ToListAsync();
 
 
-        }
-
-        public async Task<Message?> GetLastMessageAsync(int chatId, string userId)
-        {
-            DateTime? leftChat = await dbContext.ChatMembers
-                 .Where(chat => chat.ChatId == chatId && chat.MemberId == userId)
-                 .Select(cm => cm.LeftChat)
-            .FirstOrDefaultAsync();
-
-            var msgQuery = dbContext.Messages
-                    .Include(m => m.ReadReceipts)
-                    .ThenInclude(rr => rr.User)
-                    .Include(m => m.Likes)
-                    .ThenInclude(like => like.User)
-                    .Where(m => m.ChatId == chatId);
-
-            if (leftChat == null) return await msgQuery
-                    .OrderBy(m => m.SentAt)
-                    .LastOrDefaultAsync();
-
-            return await msgQuery
-                .Where(m => m.SentAt < leftChat)
-                .OrderBy(m => m.SentAt)
-                .LastOrDefaultAsync();
         }
     }
 }
