@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   useAppSelector,
@@ -20,26 +20,41 @@ import getAllUsersThunk from "../../thunks/getAllUsersThunk";
 import searchUsersThunk from "../../thunks/searchUsersThunk";
 import getChatIdByUsernameThunk from "../../thunks/getChatIdByUsernameThunk";
 import createPrivateChatThunk from "../../thunks/createPrivateChatThunk";
+import { setCurrentChatId } from "../../state/currentChatSlice";
 
 const Users: React.FC = () => {
   useCheckAuth();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const [redirectTrigger, setRedirectTrigger] = useState(false);
   const { allUsers, filteredUsers, searchedUser } = useAppSelector(
     (state) => state.users
   );
 
+  const currentChatId = useAppSelector((state) => state.currentChat.chatId);
+
+
   useEffect(() => {
-    const initialLoad = () =>{
-      if(allUsers.length > 1) return;
+    const initialLoad = () => {
+      if (allUsers.length > 1) return;
       dispatch(getAllUsersThunk());
-    }
+    };
     initialLoad();
   }, []);
 
   useEffect(() => {
     if (searchedUser) dispatch(searchUsersThunk(searchedUser));
   }, [searchedUser]);
+
+  useEffect(() => {
+    //makes sure that redirect happens only after async thunk set currentChatId
+    const redirectNow = () =>{
+      navigate("/chats/" + currentChatId);
+      setRedirectTrigger(false);
+    };
+    if(redirectTrigger)redirectNow();
+
+  }, [redirectTrigger, currentChatId]);
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const input = e.target.value;
@@ -48,15 +63,15 @@ const Users: React.FC = () => {
 
   const navToChat = async (username: string) => {
     try {
-      const getAction = await dispatch(getChatIdByUsernameThunk(username));
-      let chatId = getAction.payload;
-      if (!chatId) {
-        const createAction = await dispatch(createPrivateChatThunk(username));
-        chatId = createAction.payload;
+      const action = await dispatch(getChatIdByUsernameThunk(username));
+      if(action.payload){
+        setRedirectTrigger(true);
+        return;
+      }else{
+        await dispatch(createPrivateChatThunk(username));
+        setRedirectTrigger(true);
       }
-      navigate("/chats/" + chatId);
     } catch (error) {
-      // Handle errors here
       console.error("Error:", error);
     }
   };
@@ -77,7 +92,9 @@ const Users: React.FC = () => {
               <ListGroup.Item
                 key={user.id}
                 className="d-flex align-items-center justify-content-between py-1"
-                onClick={() => navToChat(user.userName!)}
+                onClick={() => {
+                  navToChat(user.userName!);
+                }}
               >
                 <FaUserCircle size={25} className="ms-2" />
 

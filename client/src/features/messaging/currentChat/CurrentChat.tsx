@@ -16,6 +16,7 @@ import { MDBContainer, MDBRow, MDBCol } from "mdb-react-ui-kit";
 
 export const CurrentChat: React.FC = () => {
   const dispatch = useAppDispatch();
+  console.log("Current chat component rendered;")
 
   const { chatId } = useParams();
   const parsedChatId = parseInt(chatId || "0", 10);

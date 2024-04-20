@@ -93,15 +93,30 @@ namespace API.Repos
 
         public async Task<List<Message?>> GetLastMessagesAsync(string userId, int itemsToSkip, int itemsToTake)
         {
-            return dbContext.Messages
-                .Where(m => m.Chat.ChatMembers.Select(cm => cm.MemberId).Contains(userId))
-                .GroupBy(g => g.ChatId)
-                .Select(g => g.OrderByDescending(m => m.SentAt).FirstOrDefault())
-                .AsEnumerable()
+            // Step 1: Get the IDs of the latest messages from each chat
+            var messageIds = await dbContext.Messages
+                .Where(m => m.Chat.ChatMembers.Any(cm => cm.MemberId == userId))
+                .GroupBy(m => m.ChatId)
+                .Select(g => g.OrderByDescending(m => m.SentAt).FirstOrDefault().MessageId)
+                .ToListAsync();
+
+            // Step 2: Retrieve the messages with those IDs
+            var messages = await dbContext.Messages
+                .Where(m => messageIds.Contains(m.MessageId))
                 .OrderByDescending(m => m.SentAt)
                 .Skip(itemsToSkip)
                 .Take(itemsToTake)
-                .ToList();
+                .ToListAsync();
+
+            return messages;
+            //return await dbContext.Messages
+            //    .Where(m => m.Chat.ChatMembers.Select(cm => cm.MemberId).Contains(userId))
+            //    .GroupBy(m => m.ChatId)
+            //    .Select(g => g.OrderByDescending(m => m.SentAt).FirstOrDefault())
+            //    .OrderByDescending(m => m.SentAt)
+            //    .Skip(itemsToSkip)
+            //    .Take(itemsToTake)
+            //    .ToListAsync();
 
         }
 

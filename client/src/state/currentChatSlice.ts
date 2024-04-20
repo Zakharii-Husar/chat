@@ -81,7 +81,7 @@ export const existingChatSlice = createSlice({
         msg.seenBy.push(action.payload);
       });
     },
-  },
+  }
 });
 
 export const {
