@@ -35,9 +35,9 @@ export function Login() {
     if (currentUser.id) navigate("/");
   }, [currentUser, navigate]);
 
-  const handleSubmit = (e: SyntheticEvent) => {
+  const handleSubmit = async (e: SyntheticEvent) => {
     e.preventDefault();
-    dispatch(loginWithPasswordThunk());
+    await dispatch(loginWithPasswordThunk());
   };
 
   return (

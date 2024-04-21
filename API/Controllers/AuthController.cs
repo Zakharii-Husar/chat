@@ -23,7 +23,7 @@ namespace API.Controllers
         {
             if (!ModelState.IsValid) return BadRequest("Input data is invalid");
             var user = await authService.SignInWithPassword(model);
-            if (user == null) return Ok(null);
+            if (user == null) return Ok(false);
             return Ok(user);
         }
 

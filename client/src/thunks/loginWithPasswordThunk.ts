@@ -1,7 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import type { RootState } from "../state/store";
 import { LOGIN_URL } from "./APIEndpoints";
-import validateCookiesThunk from "./validateCookiesThunk";
+import { setLoggedInUser } from "../state/loggedInUserSlice";
 
 
 const loginWithPasswordThunk = createAsyncThunk(
@@ -24,7 +24,8 @@ const loginWithPasswordThunk = createAsyncThunk(
             });
 
             if (response.ok) {
-                dispatch(validateCookiesThunk());
+                const data = await response.json();
+                if(data)dispatch(setLoggedInUser(data));
             }
 
         } catch (error) {
