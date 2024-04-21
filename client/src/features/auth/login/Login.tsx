@@ -3,7 +3,7 @@ import {
   useAppDispatch,
 } from "../../../hooks/useAppSelectorAndDispatch";
 import { setLogin, setPassword } from "../../../state/loginSlice";
-import { SyntheticEvent, useEffect } from "react";
+import { SyntheticEvent, useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 
 import loginWithPasswordThunk from "../../../thunks/loginWithPasswordThunk";
@@ -14,6 +14,7 @@ import {
   MDBBtn,
   MDBCard,
   MDBCardBody,
+  MDBRow,
 } from "mdb-react-ui-kit";
 
 import { useCheckAuth } from "../../../hooks/useCheckAuth";
@@ -23,6 +24,7 @@ export function Login() {
   const navigate = useNavigate();
 
   const currentUser = useAppSelector((state) => state.loggedInUser);
+  const [showError, setShowError] = useState(false);
 
   const dispatch = useAppDispatch();
 
@@ -37,18 +39,22 @@ export function Login() {
 
   const handleSubmit = async (e: SyntheticEvent) => {
     e.preventDefault();
-    await dispatch(loginWithPasswordThunk());
+    const action = await dispatch(loginWithPasswordThunk());
+    if (!action.payload) setShowError(true);
   };
 
   return (
     <MDBContainer
       fluid
-      className="d-flex align-items-center justify-content-center bg-image"
+      className="d-flex flex-column align-items-center justify-content-center bg-image"
       style={{
         backgroundImage:
           "url(https://mdbcdn.b-cdn.net/img/Photos/new-templates/search-box/img4.webp)",
       }}
     >
+      <MDBRow className={"z-3 bg-danger d-" + (showError ? "flex" : "none")}>
+        <h1>Wrong Credentials</h1>
+      </MDBRow>
       <div className="mask gradient-custom-3"></div>
       <MDBCard className="m-5" style={{ maxWidth: "600px" }}>
         <MDBCardBody className="px-5">

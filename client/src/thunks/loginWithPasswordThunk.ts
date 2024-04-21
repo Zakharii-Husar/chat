@@ -25,7 +25,14 @@ const loginWithPasswordThunk = createAsyncThunk(
 
             if (response.ok) {
                 const data = await response.json();
-                if(data)dispatch(setLoggedInUser(data));
+                if(data)
+                    {
+                        dispatch(setLoggedInUser(data));
+                        return true;
+                    }else
+                    {
+                        return false;
+                    }
             }
 
         } catch (error) {
