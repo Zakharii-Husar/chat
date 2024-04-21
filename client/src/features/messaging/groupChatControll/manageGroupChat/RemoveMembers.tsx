@@ -28,6 +28,10 @@ const RemoveMembers: React.FC = () => {
     dispatch(rmChatMemberThunk(userName));
   };
 
+  useEffect(()=>{
+    console.log(currentChat.members)
+  }, [currentChat])
+
   return (
     <Container fluid className="d-flex mb-3">
       <Col>
@@ -40,7 +44,7 @@ const RemoveMembers: React.FC = () => {
           <Collapse in={showList}>
             <div>
               {currentChat.members.map((member, i) => {
-                return member.memberId === currentUserId ? null : (
+                return member.id === currentUserId ? null : (
                   <ListGroup.Item
                     key={i}
                     className="d-flex flex-row justify-content-between align-items-center"

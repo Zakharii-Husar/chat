@@ -15,7 +15,7 @@ import {
   useAppSelector,
   useAppDispatch,
 } from "../../../../hooks/useAppSelectorAndDispatch";
-import { IChatMember } from "../../../../state/Interfaces";
+import { IChatMember, IUser } from "../../../../state/Interfaces";
 import getAllUsersThunk from "../../../../thunks/getAllUsersThunk";
 import searchUsersThunk from "../../../../thunks/searchUsersThunk";
 
@@ -51,7 +51,7 @@ const AddCandidates: React.FC = () => {
               <FormControl placeholder="Search users" onInput={search} />
             </InputGroup>
 
-            {currentUsersList.map((user) => {
+            {currentUsersList.map((user: IUser) => {
               //prevent showing current user and already added users
               return createGroupState.candidates.some(
                 (member) =>

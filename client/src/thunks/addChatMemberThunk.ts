@@ -1,12 +1,12 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { ADD_CHAT_MEMBER } from "./APIEndpoints";
 import type { RootState } from "../state/store";
-import { IChatMember } from "../state/Interfaces";
+import { IUser } from "../state/Interfaces";
 import { addMember } from "../state/currentChatSlice";
 
 const addChatMemberThunk = createAsyncThunk(
   "currentChat/addChatMember",
-  async (member: IChatMember, { getState, dispatch }) => {
+  async (member: IUser, { getState, dispatch }) => {
     const state = getState() as RootState;
     const chatId = state.currentChat.chatId;
     const userName = member.userName;
@@ -23,7 +23,6 @@ const addChatMemberThunk = createAsyncThunk(
 
       if (response.ok) {
         const data = await response.json();
-        // dispatch(addMessageToChat(data));
         dispatch(addMember(member));
       }
     } catch (error) {

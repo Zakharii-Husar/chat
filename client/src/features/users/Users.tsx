@@ -5,7 +5,7 @@ import {
   useAppDispatch,
 } from "../../hooks/useAppSelectorAndDispatch";
 import { updateSearchedUser } from "../../state/usersSlice";
-import { IUserDetails } from "../../state/Interfaces";
+import { IUser } from "../../state/Interfaces";
 
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
@@ -78,7 +78,7 @@ const Users: React.FC = () => {
           />
 
           <ListGroup>
-            {currentList?.map((user: IUserDetails) => (
+            {currentList?.map((user: IUser) => (
               <ListGroup.Item
                 key={user.id}
                 className="d-flex align-items-center justify-content-between py-1"

@@ -1,8 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import { IUserDetails } from "./Interfaces";
+import { IUser } from "./Interfaces";
 
-const initialState: IUserDetails = {
+const initialState: IUser = {
     id: null,
     userName: null,
     email: null,
@@ -16,7 +16,7 @@ export const loggedInUserSlice = createSlice({
     name: "loggedInUserSlice",
     initialState,
     reducers: {
-        setLoggedInUser: (state, action: PayloadAction<IUserDetails>) => {
+        setLoggedInUser: (state, action: PayloadAction<IUser>) => {
             return action.payload;
         },
         updateAvatarName: (state, action: PayloadAction<string | null>)=> {

@@ -68,12 +68,12 @@ namespace API.Controllers
         [HttpPost("{ChatId}/AddMember/{Username}")]
         public async Task<IActionResult> AddChatMember(int ChatId, string Username)
         {
-            var candidat = usersService.GetUserByUnameAsync(Username);
+            var candidat = await usersService.GetUserByUnameAsync(Username);
             if (candidat == null) return BadRequest();
             var currentUser = await userManager.GetUserAsync(User);
             bool isAdmin = await chatMembershipService.CheckRoleAsync(ChatId, currentUser!.Id);
             if (!isAdmin) return Unauthorized();
-            var isAlreadyAdded = chatMembershipService.GetMemberByUnameAsync(ChatId, Username);
+            var isAlreadyAdded = await chatMembershipService.GetMemberByUnameAsync(ChatId, Username);
             if (isAlreadyAdded != null) return Ok();
             var notificationContent = await chatMembershipService.AddChatMemberAsync(ChatId, Username, currentUser);
             if (notificationContent == null) return StatusCode(500);

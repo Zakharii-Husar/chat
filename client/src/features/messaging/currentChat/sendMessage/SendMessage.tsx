@@ -24,7 +24,7 @@ export const SendMessage: React.FC = () => {
   
 
   const isStillMember = currentChat.members.some(
-    (member) => member.memberId === currentUser.id
+    (member) => member.id === currentUser.id
   );
 
   const handleMessageInput = (e: React.ChangeEvent<HTMLTextAreaElement>) => {

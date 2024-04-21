@@ -19,7 +19,7 @@ import {
   useAppSelector,
   useAppDispatch,
 } from "../../../../hooks/useAppSelectorAndDispatch";
-import { IChatMember } from "../../../../state/Interfaces";
+import { IUser } from "../../../../state/Interfaces";
 import getAllUsersThunk from "../../../../thunks/getAllUsersThunk";
 import searchUsersThunk from "../../../../thunks/searchUsersThunk";
 
@@ -30,9 +30,7 @@ const AddMembers: React.FC = () => {
 
   const currentChat = useAppSelector((state) => state.currentChat);
   const currentUserId = useAppSelector((state) => state.loggedInUser.id);
-  const isCreator = currentChat.members.find(
-    (member) => member.memberId === currentUserId
-  )?.isCreator;
+  const isCreator = currentChat.adminId === currentUserId;
 
   const currentUsersList = searchedUser ? filteredUsers : allUsers;
   const dispatch = useAppDispatch();
@@ -48,7 +46,7 @@ const AddMembers: React.FC = () => {
     dispatch(updateSearchedUser(input ?? null));
   };
 
-  const add = (member: IChatMember) => {
+  const add = (member: IUser) => {
     dispatch(addChatMemberThunk(member));
   };
 
@@ -67,11 +65,11 @@ const AddMembers: React.FC = () => {
                 <FormControl placeholder="Search users" onInput={search} />
               </InputGroup>
 
-              {currentUsersList.map((user) => {
+              {currentUsersList.map((user: IUser) => {
                 //prevent showing already added users and current user
                 return currentChat.members.some(
                   (member) =>
-                    member.memberId === user.id || user.id === currentUserId
+                    member.id === user.id || user.id === currentUserId
                 ) ? null : (
                   //show candidats
                   <Form.Group key={user.id}>
@@ -80,11 +78,7 @@ const AddMembers: React.FC = () => {
                         buttonText={user.userName!}
                         titleText={`Add ${user.userName} to chat?`}
                         proceed={() =>
-                          add({
-                            userName: user.userName,
-                            memberId: user.id,
-                            isCreator: false,
-                          })
+                          add(user)
                         }
                       />
                     </ListGroup.Item>

@@ -11,7 +11,7 @@ namespace API.Repos
         public Task<ChatMember?> GetMemberByMsgIdAsync(int chatId, string userId);
         public Task<ChatMember?> GetMemberByChatIdAsync(int chatId, string userId);
         public Task<ChatMember?> GetMemberByUnameAsync(int chatId, string username);
-        public Task<List<AppUser>> GetAllMembersAsync(int chatId);
+        public Task<List<AppUser>> GetAllMembersAsync(int chatId, bool includeRemoved);
         public Task<List<string>> GetMembersIdsAsync(int chatId);
     }
     public class ChatMembersRepo(AppDbContext dbContext) : IChatMembersRepo
@@ -61,10 +61,10 @@ namespace API.Repos
                 .FirstOrDefaultAsync();
         }
 
-        public async Task<List<AppUser>> GetAllMembersAsync(int chatId)
+        public async Task<List<AppUser>> GetAllMembersAsync(int chatId, bool includeRemoved)
         {
             return await dbContext.ChatMembers
-                .Where(member => member.ChatId == chatId)
+                .Where(m => m.ChatId == chatId && m.LeftChat == null)
                 .Select(member => member.Member)
                 .ToListAsync();
         }

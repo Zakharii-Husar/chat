@@ -1,16 +1,16 @@
-export interface IUserDetails {
-  id: string | null;
-  userName: string | null;
-  email: string | null;
-  fullName: string | null;
+export interface IUser {
   avatarName: string | null;
   bio: string | null;
+  email: string | null;
+  fullName: string | null;
+  id: string | null;
   lastVisit: Date | null;
+  userName: string | null;
 }
 
-export interface IUsersModel {
-  allUsers: IUserDetails[];
-  filteredUsers: IUserDetails[];
+export interface IUsers {
+  allUsers: IUser[];
+  filteredUsers: IUser[];
   searchedUser: string | null;
 }
 
@@ -40,7 +40,7 @@ export interface ICurrentChat {
   chatId: number | null;
   adminId: string | null;
   chatName: string | null;
-  members: IChatMember[];
+  members: IUser[];
   messages: IMessage[];
   hasMoreMessages: boolean;
   isLoading: boolean;
@@ -52,11 +52,6 @@ export interface IChatsOverview {
   isLoading: boolean
 }
 
-export interface IChatMember {
-  userName: string | null;
-  memberId: string | null;
-  isCreator: boolean;
-}
 export interface ICreateChat {
   name: string | null;
   candidates: IChatMember[];

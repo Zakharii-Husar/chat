@@ -23,6 +23,7 @@ const getChatByIdThunk = createAsyncThunk(
       if (response.ok) {
         const data = await response.json();
         dispatch(setChat(data));
+        console.log(data)
       }
     } catch (error) {
       console.log(error);
