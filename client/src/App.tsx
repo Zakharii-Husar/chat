@@ -13,7 +13,6 @@ import {
   RouterProvider,
 } from "react-router-dom";
 
-import { useEffect, useRef } from "react";
 import { useAppSelector } from "./hooks/useAppSelectorAndDispatch";
 
 import useWsConnection from "./hooks/ws/useWsConnection";
@@ -22,15 +21,12 @@ import useWsReadListener from "./hooks/ws/useWsReadListener";
 
 function App() {
   const currentChatId = useAppSelector((state) => state.currentChat.chatId);
-  const currentChatIdRef = useRef(currentChatId);
 
   useWsConnection();
-  useWsMsgListener(currentChatIdRef.current);
-  useWsReadListener(currentChatIdRef.current);
+  useWsMsgListener(currentChatId);
+  useWsReadListener(currentChatId);
 
-  useEffect(() => {
-    currentChatIdRef.current = currentChatId;
-  }, [currentChatId]);
+
 
   const router = createBrowserRouter(
     createRoutesFromElements(
