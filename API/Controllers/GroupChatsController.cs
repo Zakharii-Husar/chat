@@ -61,7 +61,7 @@ namespace API.Controllers
             string notificationContent = currentUser.UserName + " created chat.";
             var notification = await allChatsService.SendNotificationAsync(chatId.Value, currentUser.Id, notificationContent);
             if (notification != null) await WSService.BroadcastMessageAsync(notification);
-            return Ok();
+            return Ok(chatId);
         }
 
         [Authorize]

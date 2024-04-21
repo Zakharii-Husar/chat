@@ -1,4 +1,4 @@
-import { useEffect, useCallback, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   useAppSelector,
@@ -20,10 +20,11 @@ import getAllUsersThunk from "../../thunks/getAllUsersThunk";
 import searchUsersThunk from "../../thunks/searchUsersThunk";
 import getChatIdByUsernameThunk from "../../thunks/getChatIdByUsernameThunk";
 import createPrivateChatThunk from "../../thunks/createPrivateChatThunk";
-import { setCurrentChatId } from "../../state/currentChatSlice";
+import { useRedirectAsync } from "../../hooks/useRedirectAsync";
 
 const Users: React.FC = () => {
   useCheckAuth();
+  const redirectAsync = useRedirectAsync();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const [redirectTrigger, setRedirectTrigger] = useState(false);
@@ -32,7 +33,6 @@ const Users: React.FC = () => {
   );
 
   const currentChatId = useAppSelector((state) => state.currentChat.chatId);
-
 
   useEffect(() => {
     const initialLoad = () => {
@@ -46,16 +46,6 @@ const Users: React.FC = () => {
     if (searchedUser) dispatch(searchUsersThunk(searchedUser));
   }, [searchedUser]);
 
-  useEffect(() => {
-    //makes sure that redirect happens only after async thunk set currentChatId
-    const redirectNow = () =>{
-      navigate("/chats/" + currentChatId);
-      setRedirectTrigger(false);
-    };
-    if(redirectTrigger)redirectNow();
-
-  }, [redirectTrigger, currentChatId]);
-
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const input = e.target.value;
     dispatch(updateSearchedUser(input !== "" ? input : null));
@@ -64,12 +54,12 @@ const Users: React.FC = () => {
   const navToChat = async (username: string) => {
     try {
       const action = await dispatch(getChatIdByUsernameThunk(username));
-      if(action.payload){
-        setRedirectTrigger(true);
+      if (action.payload) {
+        redirectAsync();
         return;
-      }else{
+      } else {
         await dispatch(createPrivateChatThunk(username));
-        setRedirectTrigger(true);
+        redirectAsync();
       }
     } catch (error) {
       console.error("Error:", error);

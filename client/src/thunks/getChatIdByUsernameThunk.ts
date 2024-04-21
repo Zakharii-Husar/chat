@@ -20,7 +20,7 @@ const getChatIdByUsernameThunk = createAsyncThunk(
         const chatId = await response.json();
         if (chatId) {
           dispatch(setCurrentChatId(chatId));
-          return true;
+          return chatId;
         }
       }
     } catch (error) {

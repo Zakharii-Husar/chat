@@ -17,15 +17,16 @@ import { resetChatCandidates } from "../../../../state/createGroupSlice";
 import createGroupThunk from "../../../../thunks/createGroupThunk";
 
 import { useNavigate } from "react-router";
+import useWsReadListener from "../../../../hooks/ws/useWsReadListener";
+import { useRedirectAsync } from "../../../../hooks/useRedirectAsync";
 
 const CreateGroup: React.FC = () => {
   const navigate = useNavigate();
-
+  const redirectAsync = useRedirectAsync();
   const [showForm, setShowForm] = useState(false);
 
   const dispatch = useAppDispatch();
   const createGroupState = useAppSelector((state) => state.createGroup);
-  const currentChatState = useAppSelector((state) => state.currentChat);
 
   //reset participants on exit
   useEffect(() => {
@@ -41,13 +42,12 @@ const CreateGroup: React.FC = () => {
 
   const createGroup = async () => {
     if (!createGroupState.name || createGroupState.name.length < 4) {
-      alert("Provide at least 3 characters long chat name!");
+      alert("Provide at least 4 characters long chat name!");
     } else {
       try {
         const action = await dispatch(createGroupThunk());
-        const chatId = action.payload;
-
-        navigate("/chats/" + chatId);
+        handleShowForm(false);
+        redirectAsync();
       } catch (error) {
         console.error("Error creating group chat:", error);
       }
