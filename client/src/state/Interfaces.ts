@@ -29,8 +29,8 @@ export interface IMessage {
   chatName: string | null;
   content: string;
   sentAt: string;
-  likes: string[];
-  seenBy: string[];
+  likes: IUser[];
+  seenBy: IUser[];
 }
 
 export interface IChats extends Array<IMessage> {}

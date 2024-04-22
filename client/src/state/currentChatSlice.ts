@@ -67,9 +67,12 @@ export const existingChatSlice = createSlice({
       state.chatName = action.payload;
     },
 
-    markMessagesAsRead: (state, action: PayloadAction<string>) => {
-      state.messages.map((msg) => {
-        msg.seenBy.push(action.payload);
+    markMessagesAsRead: (state, action: PayloadAction<IUser>) => {
+      state.messages.forEach((msg) => {
+        const userExists = msg.seenBy.some((user) => user.id === action.payload.id);
+        if (!userExists && msg.senderId !== action.payload.id) {
+          msg.seenBy.push(action.payload);
+        }
       });
     },
   }

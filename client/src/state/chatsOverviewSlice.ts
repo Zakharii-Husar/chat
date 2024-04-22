@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 
-import { IChatsOverview, IMessage } from "./Interfaces";
+import { IChatsOverview, IMessage, IUser } from "./Interfaces";
 
 const initialState: IChatsOverview = {
   chats: [],
@@ -38,9 +38,12 @@ export const chatsSlice = createSlice({
     setHasMore: (state)=>{
       state.hasMore = false;
     },
-    markChatAsRead: (state, action: PayloadAction<{chatId: number, username: string}>) =>{
+    markChatAsRead: (state, action: PayloadAction<{chatId: number, user: IUser}>) =>{
       const index = state.chats.findIndex(chat => chat.chatId === action.payload.chatId);
-      state.chats[index].seenBy.push(action.payload.username)
+      const isSender = state.chats[index]?.senderId === action.payload.user.id;
+      const alreadyRead = state.chats[index]?.seenBy.find(u=>u.id === action.payload.user.id);
+      if(index === -1 || isSender || alreadyRead) return;
+      state.chats[index].seenBy.push(action.payload.user);
     }
   },
 });

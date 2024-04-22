@@ -20,13 +20,11 @@ import useWsMsgListener from "./hooks/ws/useWsMsgListener";
 import useWsReadListener from "./hooks/ws/useWsReadListener";
 
 function App() {
-  const currentChat = useAppSelector((state) => state.currentChat);
   const currentChatId = useAppSelector((state) => state.currentChat.chatId);
 
   useWsConnection();
   useWsMsgListener(currentChatId);
-  useWsReadListener(currentChatId);
-  console.log(currentChat)
+  useWsReadListener();
 
   const router = createBrowserRouter(
     createRoutesFromElements(
