@@ -16,8 +16,8 @@ namespace API.Data
                 ChatName = message.Chat?.ChatName,
                 Content = !message.IsDeleted ? message.Content : message.Sender.UserName + " deleted message.",
                 SentAt = message.SentAt,
-                Likes = message.Likes?.Select(like => like.User?.UserName).ToList(),
-                SeenBy = message?.ReadReceipts?.Select(r => r.User?.UserName).ToList()
+                Likes = message.Likes?.Select(like => like.User.ToDTO()).ToList(),
+                SeenBy = message?.ReadReceipts?.Select(r => r.User.ToDTO()).ToList()
             };
         }
     }

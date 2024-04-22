@@ -14,18 +14,6 @@ namespace API.Services
     }
     public class WSService(IHubContext<MainHub> hub, IWsConManService wsConManService, IChatMembersRepo chatMembersRepo) : IWSService
     {
-        public async Task<List<string>> GetConnectionsByChatIdAsync(int chatId)
-        {
-            var recipientsIds = await chatMembersRepo.GetMembersIdsAsync(chatId);
-            var connections = new List<string>();
-            foreach (var recipient in recipientsIds)
-            {
-                var connectionId = wsConManService.GetConnectionId(recipient);
-                if (connectionId == null) continue;
-                connections.Add(connectionId);
-            }
-            return connections;
-        }
         public async Task BroadcastMessageAsync(Message newMessage)
         {
             var recipients = await GetConnectionsByChatIdAsync(newMessage.ChatId);
@@ -51,6 +39,19 @@ namespace API.Services
                 username = user.ToDTO()
             });
 
+        }
+
+        public async Task<List<string>> GetConnectionsByChatIdAsync(int chatId)
+        {
+            var recipientsIds = await chatMembersRepo.GetMembersIdsAsync(chatId);
+            var connections = new List<string>();
+            foreach (var recipient in recipientsIds)
+            {
+                var connectionId = wsConManService.GetConnectionId(recipient);
+                if (connectionId == null) continue;
+                connections.Add(connectionId);
+            }
+            return connections;
         }
     }
 }

@@ -38,7 +38,9 @@ namespace API.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("data source=MSI\\SQLEXPRESS;initial catalog=chat;trusted_connection=true; TrustServerCertificate=True;");
+            optionsBuilder
+                .UseLazyLoadingProxies()
+                .UseSqlServer("data source=MSI\\SQLEXPRESS;initial catalog=chat;trusted_connection=true; TrustServerCertificate=True;");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

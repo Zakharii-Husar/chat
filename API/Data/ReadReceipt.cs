@@ -12,11 +12,11 @@ namespace API.Data
         [ForeignKey("Message")]
         [Required]
         public int MessageId { get; set; } = messageId;
-        public Message Message { get; set; } = null!;
+        public virtual Message Message { get; set; } = null!;
 
         [ForeignKey("User")]
         [Required]
         public string UserId { get; set; } = userId;
-        public AppUser User { get; set; } = null!;
+        public virtual AppUser User { get; set; } = null!;
     }
 }

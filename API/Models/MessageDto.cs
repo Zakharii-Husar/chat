@@ -1,4 +1,6 @@
-﻿namespace API.Models
+﻿using API.Data;
+
+namespace API.Models
 {
     public class MessageDTO
     {
@@ -11,7 +13,7 @@
         public string ChatName { get; set; }
         public string Content { get; set; }
         public DateTime SentAt { get; set; }
-        public List<string> Likes { get; set; }
-        public List<string> SeenBy { get; set; }
+        public List<UserDTO> Likes { get; set; }
+        public List<UserDTO> SeenBy { get; set; }
     }
 }

@@ -12,12 +12,12 @@ namespace API.Data
         [ForeignKey("Member")]
         [Required]
         public string MemberId { get; set; } = memberId;
-        public AppUser Member { get; set; } = null!;
+        public virtual AppUser Member { get; set; } = null!;
 
         [ForeignKey("Chat")]
         [Required]
         public int ChatId { get; set; } = chatId;
-        public Chat Chat { get; set; } = null!;
+        public virtual Chat Chat { get; set; } = null!;
 
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public DateTime EnteredChat { get; set; }
