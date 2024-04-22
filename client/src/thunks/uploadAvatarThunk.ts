@@ -14,7 +14,6 @@ const uploadAvatarThunk = createAsyncThunk(
       });
       if (response.ok) {
         const imageName = await response.text();
-
         dispatch(updateAvatarName(imageName));
       }
     } catch (error) {

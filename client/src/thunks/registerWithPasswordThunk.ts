@@ -16,7 +16,7 @@ const registerWithPasswordThunk = createAsyncThunk(
                 },
                 body: JSON.stringify({
                     UserName: state.register.nickName,
-                    Email: state?.register?.email?.toLowerCase(),
+                    Email: state.register.email!.toLowerCase(),
                     FullName: state.register.fullName,
                     Password: state.register.password
                 }),

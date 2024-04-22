@@ -11,17 +11,13 @@ const rmChatMemberThunk = createAsyncThunk(
     if(!memberUname || !chatId) return;
     const link = REMOVE_CHAT_MEMBER(chatId, memberUname);
     try {
-      const response = await fetch(link, {
+      await fetch(link, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
         },
         credentials: "include",
       });
-
-      if (response.ok) {
-        dispatch(rmMemberByUname(memberUname));
-      }
     } catch (error) {
       console.log(error);
     }
