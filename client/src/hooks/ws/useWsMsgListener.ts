@@ -1,13 +1,14 @@
 import { getSignalRConnection } from "./signalRConnection";
 import { useEffect, useRef } from "react";
-import { useAppDispatch } from "../useAppSelectorAndDispatch";
+import { useAppDispatch, useAppSelector } from "../useAppSelectorAndDispatch";
 import { prependChat, updateChat } from "../../state/chatsOverviewSlice";
 import { prependMsg, updateMsg } from "../../state/currentChatSlice";
 import { IMessage } from "../../state/Interfaces";
 
-const useWsMsgListener = (currentChatId: number | null) => {
+const useWsMsgListener = () => {
   const connection = getSignalRConnection();
   const dispatch = useAppDispatch();
+  const currentChatId = useAppSelector((state) => state.currentChat.chatId);
   const currentChatIdRef = useRef(currentChatId);
 
   useEffect(() => {

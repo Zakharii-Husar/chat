@@ -13,17 +13,13 @@ import {
   RouterProvider,
 } from "react-router-dom";
 
-import { useAppSelector } from "./hooks/useAppSelectorAndDispatch";
-
 import useWsConnection from "./hooks/ws/useWsConnection";
 import useWsMsgListener from "./hooks/ws/useWsMsgListener";
 import useWsReadListener from "./hooks/ws/useWsReadListener";
 
 function App() {
-  const currentChatId = useAppSelector((state) => state.currentChat.chatId);
-  const chatsOverview = useAppSelector(state=>state.chats.chats);
   useWsConnection();
-  useWsMsgListener(currentChatId);
+  useWsMsgListener();
   useWsReadListener();
 
   const router = createBrowserRouter(
