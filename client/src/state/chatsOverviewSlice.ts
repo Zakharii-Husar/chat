@@ -39,10 +39,11 @@ export const chatsSlice = createSlice({
       state.hasMore = false;
     },
     markChatAsRead: (state, action: PayloadAction<{chatId: number, user: IUser}>) =>{
-      const index = state.chats.findIndex(chat => chat.chatId === action.payload.chatId);
-      const isSender = state.chats[index]?.senderId === action.payload.user.id;
-      const alreadyRead = state.chats[index]?.seenBy.find(u=>u.id === action.payload.user.id);
-      if(index === -1 || isSender || alreadyRead) return;
+      const index = state?.chats.findIndex(chat => chat?.chatId === action?.payload?.chatId);
+      const chatExists = index !== -1;
+      const isSender = state?.chats[index]?.senderId === action?.payload?.user?.id;
+      const alreadyRead = state?.chats[index]?.seenBy?.some(u=>u.id === action?.payload?.user?.id);
+      if(!chatExists || isSender || alreadyRead) return;
       state.chats[index].seenBy.push(action.payload.user);
     }
   },

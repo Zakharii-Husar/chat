@@ -36,7 +36,7 @@ namespace API.Services
             await hub.Clients.Clients(recipients).SendAsync("MarkChatAsRead", new
             {
                 chatId,
-                username = user.ToDTO()
+                user = user.ToDTO()
             });
 
         }

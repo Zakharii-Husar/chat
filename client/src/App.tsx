@@ -21,7 +21,7 @@ import useWsReadListener from "./hooks/ws/useWsReadListener";
 
 function App() {
   const currentChatId = useAppSelector((state) => state.currentChat.chatId);
-
+  const chatsOverview = useAppSelector(state=>state.chats.chats);
   useWsConnection();
   useWsMsgListener(currentChatId);
   useWsReadListener();
