@@ -10,15 +10,6 @@ namespace API.Hubs
     {
         private readonly Dictionary<int, List<string>> _typingUsersByGroup = [];
 
-        private async Task BroadcastTypingStatus(int groupId)
-        {
-            // Broadcast the list of typing users for the group to all participants(or empty list if no one is typing).
-            await Clients
-                .Group(groupId.ToString())
-                .SendAsync("TypingUsers", _typingUsersByGroup
-                .ContainsKey(groupId) ? _typingUsersByGroup[groupId] : []);
-        }
-
         public async Task Connect()
         {
             var identityId = Context.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
@@ -58,6 +49,15 @@ namespace API.Hubs
             {
                 _typingUsersByGroup.Remove(groupId);
             }
+        }
+
+        private async Task BroadcastTypingStatus(int groupId)
+        {
+            // Broadcast the list of typing users for the group to all participants(or empty list if no one is typing).
+            await Clients
+                .Group(groupId.ToString())
+                .SendAsync("TypingUsers", _typingUsersByGroup
+                .ContainsKey(groupId) ? _typingUsersByGroup[groupId] : []);
         }
 
         public async Task StartTyping(int groupId, string username)

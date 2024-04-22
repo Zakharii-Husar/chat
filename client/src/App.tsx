@@ -26,8 +26,6 @@ function App() {
   useWsMsgListener(currentChatId);
   useWsReadListener(currentChatId);
 
-
-
   const router = createBrowserRouter(
     createRoutesFromElements(
       <Route path="/" element={<Root />}>

@@ -1,8 +1,6 @@
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import {
-  useAppDispatch, useAppSelector
-} from "../../../hooks/useAppSelectorAndDispatch";
+import { useAppDispatch } from "../../../hooks/useAppSelectorAndDispatch";
 
 import { DisplayMessages } from "./displayMessages/DisplayMessages";
 import { SendMessage } from "./sendMessage/SendMessage";
@@ -16,15 +14,10 @@ import { MDBContainer, MDBRow, MDBCol } from "mdb-react-ui-kit";
 
 export const CurrentChat: React.FC = () => {
   const dispatch = useAppDispatch();
-  console.log("Current chat component rendered;")
 
   const { chatId } = useParams();
   const parsedChatId = parseInt(chatId || "0", 10);
-  const messages = useAppSelector(state => state.currentChat.messages)
   useWsCurrentChatTracker(parsedChatId);
-
-
-  
 
   useEffect(() => {
     const setChatStateOnLoad = () => {

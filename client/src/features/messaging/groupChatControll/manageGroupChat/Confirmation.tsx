@@ -22,7 +22,6 @@ const Confirmation: React.FC<{ buttonText: string; titleText: string; proceed: (
 
   const visibility = () => {
     setShow(true);
-    console.log("click")
   }
 
   return (

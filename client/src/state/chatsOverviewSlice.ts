@@ -14,7 +14,7 @@ export const chatsSlice = createSlice({
   name: "chatsSlice",
   initialState,
   reducers: {
-    prependChats: (state,action: PayloadAction<IMessage>) => {
+    prependChat: (state,action: PayloadAction<IMessage>) => {
       const existingChats = state.chats;
       const existingChatIndex = existingChats.findIndex(chat=> chat.chatId === action.payload.chatId);
       if(existingChatIndex !== -1) existingChats.splice(existingChatIndex, 1);
@@ -30,6 +30,11 @@ export const chatsSlice = createSlice({
   
       state.chats = [...state.chats, ...filteredMessages];
     },
+    updateChat: (state, action: PayloadAction<IMessage>) => {
+      const index = state.chats.findIndex(m=>m.messageId === action.payload.messageId);
+      if(index === -1) return;
+      state.chats[index] = action.payload;
+    },
     setHasMore: (state)=>{
       state.hasMore = false;
     },
@@ -40,6 +45,6 @@ export const chatsSlice = createSlice({
   },
 });
 
-export const { appendChats, setHasMore, prependChats, markChatAsRead } = chatsSlice.actions;
+export const { appendChats, setHasMore, prependChat, markChatAsRead, updateChat } = chatsSlice.actions;
 
 export default chatsSlice.reducer;

@@ -1,8 +1,8 @@
 import { getSignalRConnection } from "./signalRConnection";
 import { useEffect, useRef } from "react";
 import { useAppDispatch } from "../useAppSelectorAndDispatch";
-import { prependChats } from "../../state/chatsOverviewSlice";
-import { addMessageToChat } from "../../state/currentChatSlice";
+import { prependChat, updateChat } from "../../state/chatsOverviewSlice";
+import { prependMsg, updateMsg } from "../../state/currentChatSlice";
 import { IMessage } from "../../state/Interfaces";
 
 const useWsMsgListener = (currentChatId: number | null) => {
@@ -15,16 +15,25 @@ const useWsMsgListener = (currentChatId: number | null) => {
   }, [currentChatId]);
 
   useEffect(() => {
-    const handleNewMessage = (data: IMessage) => {
-      console.log(data);
-      dispatch(prependChats(data));
+    const handleNewMsg = (data: IMessage) => {
+      dispatch(prependChat(data));
       if (data.chatId === currentChatId) {
-        dispatch(addMessageToChat(data));
+        dispatch(prependMsg(data));
       }
     };
-    connection.on("ReceiveNewMessage", handleNewMessage);
+
+    const handleMsgUpdate = (data: IMessage) => {
+      dispatch(updateChat(data));
+      if (data.chatId === currentChatId) {
+        dispatch(updateMsg(data));
+      }
+    };
+
+    connection.on("ReceiveNewMessage", handleNewMsg);
+    connection.on("UpdateMessage", handleMsgUpdate);
     return () => {
-      connection.off("ReceiveNewMessage", handleNewMessage);
+      connection.off("ReceiveNewMessage", handleNewMsg);
+      connection.off("UpdateMessage", handleMsgUpdate);
     };
   });
 };

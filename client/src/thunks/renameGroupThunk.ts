@@ -1,7 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import type { RootState } from "../state/store";
 import { RENAME_GROUP_CHAT } from "./APIEndpoints";
-import { addMessageToChat, rename } from "../state/currentChatSlice";
+import { rename } from "../state/currentChatSlice";
 
 const renameGroupThunk = createAsyncThunk(
     "currentChat/renameGroup",
@@ -21,8 +21,6 @@ const renameGroupThunk = createAsyncThunk(
         });
   
         if (response.ok) {
-          const data = await response.json();
-          dispatch(addMessageToChat(data));
           dispatch(rename(newName));
         }
       } catch (error) {

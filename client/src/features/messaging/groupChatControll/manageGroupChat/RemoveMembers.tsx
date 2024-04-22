@@ -11,7 +11,7 @@ import Collapse from "react-bootstrap/Collapse";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import rmChatMemberThunk from "../../../../thunks/rmChatMemberThunk";
 
 const RemoveMembers: React.FC = () => {
@@ -27,10 +27,6 @@ const RemoveMembers: React.FC = () => {
   const remove = (userName: string) => {
     dispatch(rmChatMemberThunk(userName));
   };
-
-  useEffect(()=>{
-    console.log(currentChat.members)
-  }, [currentChat])
 
   return (
     <Container fluid className="d-flex mb-3">

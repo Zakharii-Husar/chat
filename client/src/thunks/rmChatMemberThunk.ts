@@ -1,7 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { REMOVE_CHAT_MEMBER } from "./APIEndpoints";
 import type { RootState } from "../state/store";
-import { addMessageToChat, rmMemberByUname } from "../state/currentChatSlice";
+import { rmMemberByUname } from "../state/currentChatSlice";
 
 const rmChatMemberThunk = createAsyncThunk(
   "currentChat/rmChatMember",
@@ -20,8 +20,6 @@ const rmChatMemberThunk = createAsyncThunk(
       });
 
       if (response.ok) {
-        const data = await response.json();
-        dispatch(addMessageToChat(data));
         dispatch(rmMemberByUname(memberUname));
       }
     } catch (error) {

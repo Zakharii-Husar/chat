@@ -1,7 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { GET_CHAT_BY_ID } from "./APIEndpoints";
 import type { RootState } from "../state/store";
-import { setChat } from "../state/currentChatSlice";
+import { appendMsgs } from "../state/currentChatSlice";
 
 const getChatByIdThunk = createAsyncThunk(
   "currentChat/getChatById",
@@ -22,8 +22,7 @@ const getChatByIdThunk = createAsyncThunk(
 
       if (response.ok) {
         const data = await response.json();
-        dispatch(setChat(data));
-        console.log(data)
+        dispatch(appendMsgs(data));
       }
     } catch (error) {
       console.log(error);
