@@ -1,32 +1,37 @@
 import { MDBCardImage } from "mdb-react-ui-kit";
 import { GET_AVATAR } from "../../thunks/APIEndpoints";
 import { FaUserSecret } from "react-icons/fa6";
-import { useAppSelector } from "../../hooks/useAppSelectorAndDispatch";
 import { useState, useEffect } from "react";
-
-const Avatar: React.FC<{ size: string }> = ({ size }) => {
+import UploadAvatar from "./UploadAvatar";
+import { useAppSelector } from "../../hooks/useAppSelectorAndDispatch";
+const Avatar: React.FC<{
+  size: string;
+  fileName: string | null;
+  displayEditBtn: boolean;
+}> = ({ size, fileName, displayEditBtn = false }) => {
   const defaultState = {
-    size: "50px",
+    photoSize: "50px",
     radius: "50%",
+    genericSize: 45,
   };
   const [avatarState, setAvatarState] = useState(defaultState);
-  const user = useAppSelector((state) => state.loggedInUser);
-  const hasAvatar = user.avatarName !== null;
-  useEffect(()=>{
+  const hasAvatar = fileName !== null;
+  useEffect(() => {
     switch (size) {
-        case "L":
-            setAvatarState({size: "150px", radius: "5px"});
-            break;
-        default: setAvatarState(defaultState);
-      }
-  }, [])
+      case "L":
+        setAvatarState({ photoSize: "150px", radius: "5px", genericSize: 150 });
+        break;
+      default:
+        setAvatarState(defaultState);
+    }
+  }, []);
   return (
     <div
       className="mt-4 mb-2"
       style={{
-        width: avatarState.size,
-        height: avatarState.size,
-        minHeight: avatarState.size,
+        width: avatarState.photoSize,
+        height: avatarState.photoSize,
+        minHeight: avatarState.photoSize,
         zIndex: "1",
         border: "3px solid white",
         borderRadius: avatarState.radius,
@@ -38,27 +43,27 @@ const Avatar: React.FC<{ size: string }> = ({ size }) => {
         <span
           className="w-100"
           style={{
-            width: avatarState.size,
-            minHeight: avatarState.size,
+            width: avatarState.photoSize,
+            minHeight: avatarState.photoSize,
             zIndex: "1",
           }}
         >
-          <FaUserSecret size={45} />
+          <FaUserSecret size={avatarState.genericSize} />
         </span>
       ) : (
         <MDBCardImage
           className="w-100"
-          src={GET_AVATAR(user.avatarName!)}
-          // onError={() => dispatch(updateAvatarName(null))}
+          src={GET_AVATAR(fileName ?? "")}
           alt="Avatar"
           fluid
           style={{
-            width: avatarState.size,
-            minHeight: avatarState.size,
+            width: avatarState.photoSize,
+            minHeight: avatarState.photoSize,
             zIndex: "1",
           }}
         />
       )}
+      {displayEditBtn ? <UploadAvatar /> : null}
     </div>
   );
 };

@@ -53,8 +53,7 @@ export default function User() {
                   className="ms-4 mt-5 d-flex flex-column"
                   style={{ width: "150px" }}
                 >
-                  <Avatar size="L" />
-                  <UploadAvatar />
+                  <Avatar size="L" fileName={currentProfile.avatarName} displayEditBtn={isMyPofile} />
                   <MDBBtn
                     className="my-2"
                     outline

@@ -16,7 +16,7 @@ export const MainHeader: React.FC = () => {
         {!user.userName ? null : (
           <MDBCol>
             <Link to={"/users/" + user.userName}>
-              <Avatar size="M"/>
+              <Avatar size="M" fileName={user.avatarName} displayEditBtn={false}/>
             </Link>
           </MDBCol>
         )}
