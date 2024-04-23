@@ -27,7 +27,7 @@ namespace API.Controllers
             if (membershipStatus == null || membershipStatus.LeftChat != null) return Unauthorized();
             var result = await messageService.SendMsgAsync(ChatId, model, currentUser!.Id);
             if (result == null) return StatusCode(500);
-            await WSService.BroadcastMessageAsync(result);
+            await WSService.BroadcastMessageAsync(result, currentUser.Id);
             wsConManService.PrintConnections();
             return Ok();
         }
@@ -41,7 +41,7 @@ namespace API.Controllers
             var result = await messageService.AddLikeAsync(MessageId, currentUser.Id);
             if (!result) return StatusCode(500);
             var modifiedMsg = await messageService.GetMsgByIdAsync(MessageId);
-            if (modifiedMsg != null) await WSService.UpdateMessageAsync(modifiedMsg);
+            if (modifiedMsg != null) await WSService.UpdateMessageAsync(modifiedMsg, currentUser.Id);
             return Ok();
         }
 
@@ -54,7 +54,7 @@ namespace API.Controllers
             var result = await messageService.RmLikeAsync(MessageId, currentUser.Id);
             if (!result) return StatusCode(500);
             var modifiedMsg = await messageService.GetMsgByIdAsync(MessageId);
-            if (modifiedMsg != null) await WSService.UpdateMessageAsync(modifiedMsg);
+            if (modifiedMsg != null) await WSService.UpdateMessageAsync(modifiedMsg, currentUser.Id);
             return Ok();
         }
 
@@ -67,7 +67,7 @@ namespace API.Controllers
             if (msg == null) return BadRequest();
             if (msg.SenderId != currentUser!.Id) return Unauthorized();
             var result = await messageService.MarkMsgAsDelAsync(msg);
-            if (result) await WSService.UpdateMessageAsync(msg);
+            if (result) await WSService.UpdateMessageAsync(msg, currentUser.Id);
             return Ok();
         }
     }
