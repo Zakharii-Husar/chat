@@ -17,6 +17,7 @@ import CreateGroup from "../groupChatControll/createGroupChat/CreateGroup";
 import getAllChatsThunk from "../../../thunks/getAllChatsThunk";
 import Message from "../Message";
 import Avatar from "../../users/Avatar";
+import { Link } from "react-router-dom";
 
 export const ChatsOverview: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -32,10 +33,14 @@ export const ChatsOverview: React.FC = () => {
   }, []);
 
   return (
-    <MDBContainer fluid className="py-5" style={{ backgroundColor: "#eee" }}>
+    <MDBContainer
+      fluid
+      className="py-5 d-flex flex-column justify-content-center w-100 "
+      style={{ backgroundColor: "#eee" }}
+    >
       <CreateGroup />
-      <MDBRow className="d-flex w-100 justify-content-center">
-        <MDBCol className="d-flex w-100">
+      <MDBRow className="d-flex justify-content-center">
+        <MDBCol xs={12} sm={10} lg={8} xl={6} className="d-flex">
           <MDBCard className="d-flex w-100">
             <InfiniteScroll
               className="scrollable flex-column"
@@ -51,15 +56,27 @@ export const ChatsOverview: React.FC = () => {
               }
             >
               <MDBCardBody>
-                <MDBTypography listUnStyled className="mb-0">
+                <MDBTypography listUnStyled className="mb-0 w-100">
                   {chatsOverviewState?.chats?.map((chat) => {
-  
                     return (
-                      <div>
-                        <Avatar size="M" fileName={chat.interlocutor?.avatarName ?? null} editBtn={false} isGroup={chat.chatName !==null}/>
-                        <div>{chat.chatName ?? chat.interlocutor?.userName}</div>
+                      <Link
+                        key={chat.chatId}
+                        to={chat.chatId.toString()}
+                        className="d-flex flex-column justify-content-between"
+                      >
+                        <div className="d-flex flex-row align-items-center bg-secondary">
+                          <Avatar
+                            size="S"
+                            fileName={chat.interlocutor?.avatarName ?? null}
+                            editBtn={false}
+                            isGroup={chat.chatName !== null}
+                          />
+                          <div>
+                            {chat.chatName ?? chat.interlocutor?.userName}
+                          </div>
+                        </div>
                         <Message message={chat} />
-                      </div>
+                      </Link>
                     );
                   })}
                 </MDBTypography>

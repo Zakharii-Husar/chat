@@ -1,6 +1,7 @@
 import { MDBCardImage } from "mdb-react-ui-kit";
 import { GET_AVATAR } from "../../thunks/APIEndpoints";
 import { FaUserSecret } from "react-icons/fa6";
+
 import { FaPeopleGroup } from "react-icons/fa6";
 import { useState, useEffect } from "react";
 import UploadAvatar from "./UploadAvatar";
@@ -10,25 +11,28 @@ const Avatar: React.FC<{
   editBtn: boolean;
   isGroup: boolean
 }> = ({ size, fileName, editBtn = false, isGroup = false }) => {
-  const defaultState = {
+  const mediumSize = {
     photoSize: "50px",
     radius: "50%",
     genericSize: 45,
   };
-  const [avatarState, setAvatarState] = useState(defaultState);
+  const [avatarState, setAvatarState] = useState(mediumSize);
   const hasAvatar = fileName !== null;
   useEffect(() => {
     switch (size) {
       case "L":
         setAvatarState({ photoSize: "150px", radius: "5px", genericSize: 150 });
         break;
+      case "S":
+        setAvatarState({ photoSize: "30px", radius: "50%", genericSize: 25 });
+        break;
       default:
-        setAvatarState(defaultState);
+        setAvatarState(mediumSize);
     }
   }, []);
   return (
     <div
-      className="mt-4 mb-2"
+      className=""
       style={{
         width: avatarState.photoSize,
         height: avatarState.photoSize,
