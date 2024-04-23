@@ -1,14 +1,15 @@
 import { MDBCardImage } from "mdb-react-ui-kit";
 import { GET_AVATAR } from "../../thunks/APIEndpoints";
 import { FaUserSecret } from "react-icons/fa6";
+import { FaPeopleGroup } from "react-icons/fa6";
 import { useState, useEffect } from "react";
 import UploadAvatar from "./UploadAvatar";
-import { useAppSelector } from "../../hooks/useAppSelectorAndDispatch";
 const Avatar: React.FC<{
   size: string;
   fileName: string | null;
-  displayEditBtn: boolean;
-}> = ({ size, fileName, displayEditBtn = false }) => {
+  editBtn: boolean;
+  isGroup: boolean
+}> = ({ size, fileName, editBtn = false, isGroup = false }) => {
   const defaultState = {
     photoSize: "50px",
     radius: "50%",
@@ -48,7 +49,9 @@ const Avatar: React.FC<{
             zIndex: "1",
           }}
         >
-          <FaUserSecret size={avatarState.genericSize} />
+          {isGroup ? <FaPeopleGroup size={avatarState.genericSize} /> :
+          <FaUserSecret size={avatarState.genericSize} />}
+          
         </span>
       ) : (
         <MDBCardImage
@@ -63,7 +66,7 @@ const Avatar: React.FC<{
           }}
         />
       )}
-      {displayEditBtn ? <UploadAvatar /> : null}
+      {editBtn ? <UploadAvatar /> : null}
     </div>
   );
 };

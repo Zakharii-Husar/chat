@@ -16,21 +16,20 @@ import { useEffect } from "react";
 import CreateGroup from "../groupChatControll/createGroupChat/CreateGroup";
 import getAllChatsThunk from "../../../thunks/getAllChatsThunk";
 import Message from "../Message";
+import Avatar from "../../users/Avatar";
 
 export const ChatsOverview: React.FC = () => {
   const dispatch = useAppDispatch();
   const chatsOverviewState = useAppSelector((state) => state.chats);
   const hasMore = chatsOverviewState.hasMore;
 
-
   useEffect(() => {
-    const initialLoad = () =>{
-      if(chatsOverviewState.chats?.length > 1) return;
-        dispatch(getAllChatsThunk());
-    }
+    const initialLoad = () => {
+      if (chatsOverviewState.chats?.length > 1) return;
+      dispatch(getAllChatsThunk());
+    };
     initialLoad();
   }, []);
-
 
   return (
     <MDBContainer fluid className="py-5" style={{ backgroundColor: "#eee" }}>
@@ -42,7 +41,7 @@ export const ChatsOverview: React.FC = () => {
               className="scrollable flex-column"
               height={300}
               dataLength={chatsOverviewState?.chats.length}
-              next={()=>dispatch(getAllChatsThunk())}
+              next={() => dispatch(getAllChatsThunk())}
               hasMore={hasMore}
               loader={<h4>Loading...</h4>}
               endMessage={
@@ -54,7 +53,14 @@ export const ChatsOverview: React.FC = () => {
               <MDBCardBody>
                 <MDBTypography listUnStyled className="mb-0">
                   {chatsOverviewState?.chats?.map((chat) => {
-                    return (<Message message={chat}/>);
+  
+                    return (
+                      <div>
+                        <Avatar size="M" fileName={chat.interlocutor?.avatarName ?? null} editBtn={false} isGroup={chat.chatName !==null}/>
+                        <div>{chat.chatName ?? chat.interlocutor?.userName}</div>
+                        <Message message={chat} />
+                      </div>
+                    );
                   })}
                 </MDBTypography>
               </MDBCardBody>
@@ -64,4 +70,4 @@ export const ChatsOverview: React.FC = () => {
       </MDBRow>
     </MDBContainer>
   );
-}
+};
