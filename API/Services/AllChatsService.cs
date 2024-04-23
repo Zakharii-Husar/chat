@@ -43,7 +43,7 @@ namespace API.Services
 
             if (lastMessages.Count() < 1) return [];
 
-            return lastMessages.Select(m => m!.ToDTO()).ToList();
+            return lastMessages.Select(m => m!.ToDTO(userId)).ToList();
         }
 
         public async Task<ChatDTO?> GetChatByIdAsync(string userId, int chatId, int itemsToSkip, int itemsToTake)

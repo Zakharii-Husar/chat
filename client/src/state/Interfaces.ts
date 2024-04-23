@@ -25,6 +25,7 @@ export interface IMessage {
   senderId: string;
   senderUserName: string;
   senderAvatarName: string | null;
+  interlocutor: IUser | null;
   chatId: number;
   chatName: string | null;
   content: string;

@@ -4,7 +4,7 @@ namespace API.Data
 {
     public static class MessageExtension
     {
-        public static MessageDTO ToDTO(this Message message)
+        public static MessageDTO ToDTO(this Message message, string? currentUserId = null)
         {
             return new MessageDTO
             {
@@ -16,6 +16,10 @@ namespace API.Data
                 ChatName = message.Chat?.ChatName,
                 Content = !message.IsDeleted ? message.Content : message.Sender.UserName + " deleted message.",
                 SentAt = message.SentAt,
+                Interlocutor = currentUserId == null ? null : message.Chat.ChatMembers
+                .Where(m => !m.Chat.IsGroupChat && m.MemberId != currentUserId)
+                .Select(m => m.Member.ToDTO())
+                .FirstOrDefault(),
                 Likes = message.Likes?.Select(like => like.User.ToDTO()).ToList(),
                 SeenBy = message?.ReadReceipts?.Select(r => r.User.ToDTO()).ToList()
             };
