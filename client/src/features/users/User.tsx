@@ -4,21 +4,16 @@ import {
   MDBRow,
   MDBCard,
   MDBCardText,
-  MDBCardImage,
   MDBBtn,
   MDBTypography,
 } from "mdb-react-ui-kit";
 import { MdModeEdit } from "react-icons/md";
 import UploadAvatar from "./UploadAvatar";
-import { GET_AVATAR } from "../../thunks/APIEndpoints";
-
-import { updateAvatarName } from "../../state/loggedInUserSlice";
-
-import { FaUserSecret } from "react-icons/fa6";
 import {
   useAppSelector,
   useAppDispatch,
 } from "../../hooks/useAppSelectorAndDispatch";
+import Avatar from "./Avatar";
 import { useParams } from "react-router";
 import { useEffect } from "react";
 import getUserDetailsThunk from "../../thunks/getUserDetailsThunk";
@@ -27,23 +22,21 @@ export default function User() {
   const { userName } = useParams();
 
   const dispatch = useAppDispatch();
-  
-  const loggedInUser = useAppSelector((state) => state.loggedInUser);
-  const anotherUser = useAppSelector((state)=> state.viewUser);
-  const isMyPofile = loggedInUser.userName === userName;
 
+  const loggedInUser = useAppSelector((state) => state.loggedInUser);
+  const anotherUser = useAppSelector((state) => state.viewUser);
+  const isMyPofile = loggedInUser.userName === userName;
   const currentProfile = isMyPofile ? loggedInUser : anotherUser;
-  const hasAvatar = currentProfile.avatarName !== null;
 
   useEffect(() => {
     if (userName && !isMyPofile) {
       dispatch(getUserDetailsThunk(userName));
-
     }
   }, [userName]);
 
-
-  return !currentProfile.id ? <h1>LOADING...</h1> : (
+  return !currentProfile.id ? (
+    <h1>LOADING...</h1>
+  ) : (
     <div className="gradient-custom-2" style={{ backgroundColor: "#9de2ff" }}>
       <MDBContainer className="py-5 h-100">
         <MDBRow className="justify-content-center align-items-center h-100">
@@ -60,43 +53,8 @@ export default function User() {
                   className="ms-4 mt-5 d-flex flex-column"
                   style={{ width: "150px" }}
                 >
-                  <div
-                    className="mt-4 mb-2"
-                    style={{
-                      width: "150px",
-                      height: "150px",
-                      zIndex: "1",
-                      border: "3px solid white",
-                      borderRadius: "5px",
-                      background: "black",
-                    }}
-                  >
-                    {!hasAvatar ? (
-                      <span
-                        style={{
-                          width: "150px",
-                          minHeight: "150px",
-                          zIndex: "1",
-                        }}
-                      >
-                        <FaUserSecret size={150} />
-                      </span>
-                    ) : (
-                      <MDBCardImage
-                        className="w-100"
-                        src={GET_AVATAR(currentProfile.avatarName!)}
-                        onError={() => dispatch(updateAvatarName(null))}
-                        alt="Generic placeholder image"
-                        fluid
-                        style={{
-                          width: "150px",
-                          minHeight: "150px",
-                          zIndex: "1",
-                        }}
-                      />
-                    )}
-                    <UploadAvatar />
-                  </div>
+                  <Avatar size="L" />
+                  <UploadAvatar />
                   <MDBBtn
                     className="my-2"
                     outline
