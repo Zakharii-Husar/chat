@@ -76,3 +76,4 @@ export const SEARCH_USERS = (
 
 //post
 export const UPLOAD_AVATAR = () => `${API_URL}/Users/UploadAvatar`;
+export const UPDATE_BIO = () => `${API_URL}/Users/UpdateBio`;

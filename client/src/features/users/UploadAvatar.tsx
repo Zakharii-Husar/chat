@@ -4,12 +4,10 @@ import {
   MDBCardHeader,
   MDBIcon,
   MDBFile,
-  MDBContainer,
-  MDBBtnGroup,
-  MDBRow,
+  MDBContainer
 } from "mdb-react-ui-kit";
 import { MdAddCircle } from "react-icons/md";
-import { useState, ChangeEvent, useEffect } from "react";
+import { useState, ChangeEvent } from "react";
 import { useAppDispatch } from "../../hooks/useAppSelectorAndDispatch";
 import uploadAvatarThunk from "../../thunks/uploadAvatarThunk";
 

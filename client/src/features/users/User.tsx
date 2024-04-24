@@ -19,6 +19,7 @@ import getUserDetailsThunk from "../../thunks/getUserDetailsThunk";
 import getChatIdByUsernameThunk from "../../thunks/getChatIdByUsernameThunk";
 import createPrivateChatThunk from "../../thunks/createPrivateChatThunk";
 import { useRedirectAsync } from "../../hooks/useRedirectAsync";
+import UpdateBio from "./UpdateBio";
 
 export default function User() {
   const redirectAsync = useRedirectAsync();
@@ -103,10 +104,10 @@ export default function User() {
                   <div>
                     <MDBCardText className="mb-1 h5">About</MDBCardText>
                     <MDBCardText className="small text-muted mb-0">
-                      Photographer.
+                      {currentProfile.bio}
                     </MDBCardText>
                   </div>
-                  <MdModeEdit cursor="pointer" />
+                  <UpdateBio children={<MdModeEdit cursor="pointer" />}/>
                 </div>
               </div>
             </MDBCard>
