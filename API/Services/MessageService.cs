@@ -18,6 +18,7 @@ namespace API.Services
         {
             return await messagesRepo.GetMessageByIdAsync(msgId);
         }
+
         public async Task<Message?> SendMsgAsync(
                                    int chatId,
                                    SendMessageModel model,

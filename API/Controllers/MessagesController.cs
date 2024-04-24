@@ -14,8 +14,7 @@ namespace API.Controllers
         UserManager<AppUser> userManager,
         IChatMembershipService chatMembershipService,
         IMessageService messageService,
-        IWSService WSService,
-        IWsConManService wsConManService) : ControllerBase
+        IWSService WSService) : ControllerBase
     {
         [Authorize]
         [HttpPost("Send")]
@@ -27,8 +26,8 @@ namespace API.Controllers
             if (membershipStatus == null || membershipStatus.LeftChat != null) return Unauthorized();
             var result = await messageService.SendMsgAsync(ChatId, model, currentUser!.Id);
             if (result == null) return StatusCode(500);
-            await WSService.BroadcastMessageAsync(result, currentUser.Id);
-            wsConManService.PrintConnections();
+            var modifiedMsg = await messageService.GetMsgByIdAsync(result.MessageId);
+            await WSService.BroadcastMessageAsync(modifiedMsg, currentUser.Id);
             return Ok();
         }
 
@@ -67,7 +66,8 @@ namespace API.Controllers
             if (msg == null) return BadRequest();
             if (msg.SenderId != currentUser!.Id) return Unauthorized();
             var result = await messageService.MarkMsgAsDelAsync(msg);
-            if (result) await WSService.UpdateMessageAsync(msg, currentUser.Id);
+            var modifiedMsg = await messageService.GetMsgByIdAsync(MessageId);
+            if (result && modifiedMsg != null) await WSService.UpdateMessageAsync(modifiedMsg, currentUser.Id);
             return Ok();
         }
     }

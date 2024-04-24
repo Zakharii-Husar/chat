@@ -28,7 +28,7 @@ namespace API.Controllers
             var notificationContent = await groupService.RenameChatAsync(ChatId, NewName, currentUser);
             if (notificationContent == null) return StatusCode(500);
             var notificationDTO = await allChatsService.SendNotificationAsync(ChatId, currentUser.Id, notificationContent);
-            if (notificationDTO != null) await WSService.BroadcastMessageAsync(notificationDTO);
+            if (notificationDTO != null) await WSService.BroadcastMessageAsync(notificationDTO, currentUser.Id);
             return Ok();
         }
 
@@ -43,7 +43,7 @@ namespace API.Controllers
             var notificationContent = await chatMembershipService.RmChatMemberAsync(ChatId, Username, currentUser);
             if (notificationContent == null) return StatusCode(500);
             var notification = await allChatsService.SendNotificationAsync(ChatId, currentUser.Id, notificationContent);
-            if (notification != null) await WSService.BroadcastMessageAsync(notification);
+            if (notification != null) await WSService.BroadcastMessageAsync(notification, currentUser.Id);
             return Ok();
         }
 
@@ -60,7 +60,7 @@ namespace API.Controllers
             if (!chatId.HasValue) return StatusCode(500);
             string notificationContent = currentUser.UserName + " created chat.";
             var notification = await allChatsService.SendNotificationAsync(chatId.Value, currentUser.Id, notificationContent);
-            if (notification != null) await WSService.BroadcastMessageAsync(notification);
+            if (notification != null) await WSService.BroadcastMessageAsync(notification, currentUser.Id);
             return Ok(chatId);
         }
 
@@ -78,7 +78,7 @@ namespace API.Controllers
             var notificationContent = await chatMembershipService.AddChatMemberAsync(ChatId, Username, currentUser);
             if (notificationContent == null) return StatusCode(500);
             var notification = await allChatsService.SendNotificationAsync(ChatId, currentUser.Id, notificationContent);
-            if (notification != null) await WSService.BroadcastMessageAsync(notification);
+            if (notification != null) await WSService.BroadcastMessageAsync(notification, currentUser.Id);
             return Ok();
         }
     };

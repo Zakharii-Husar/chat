@@ -8,9 +8,9 @@ export const Root = () => {
   useCheckAuth();
 
   return (
-    <MDBContainer fluid className="d-flex w-100">
+    <MDBContainer fluid className="d-flex w-100 h-100">
       <MDBRow>
-        <MDBCol className="d-flex flex-column w-100 bg-secondary p-0">
+        <MDBCol className="d-flex flex-column w-100 h-100 bg-secondary p-0">
           <MainHeader />
             <Outlet />
         </MDBCol>

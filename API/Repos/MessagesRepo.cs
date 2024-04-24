@@ -72,6 +72,8 @@ namespace API.Repos
         {
             return await dbContext.Messages
                 .Where(m => m.MessageId == messageId)
+                .Include(m => m.Chat)
+                .ThenInclude(c => c.ChatMembers)
                 .FirstOrDefaultAsync();
         }
 

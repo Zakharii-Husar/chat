@@ -53,7 +53,7 @@ namespace API.Services
             var members = await chatMembersRepo.GetAllMembersAsync(chatId, false);
             var convertedMembers = members.Select(member => member.ToDTO()).ToList();
             var messages = await messagesRepo.GetMessagesByChatMemberAsync(currentMember, itemsToSkip, itemsToTake);
-            var convertedMessages = messages.Select(msg => msg.ToDTO()).ToList();
+            var convertedMessages = messages.Select(msg => msg.ToDTO(userId)).ToList();
             var chatAdmin = await chatMembersRepo.GetAdminByChatIdAsync(chatId);
 
 

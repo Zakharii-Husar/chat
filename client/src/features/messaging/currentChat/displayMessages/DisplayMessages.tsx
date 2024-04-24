@@ -26,7 +26,6 @@ export const DisplayMessages = () => {
 
   const currentChat = useAppSelector((state) => state.currentChat);
   const currentUser = useAppSelector((state) => state.loggedInUser);
-  console.log(currentChat);
 
   // const findLike = (messageId: number)=>  {
   //   const msgIndex = currentChat.messages.findIndex(

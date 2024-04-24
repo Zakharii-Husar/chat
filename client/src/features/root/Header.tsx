@@ -9,6 +9,10 @@ export const MainHeader: React.FC = () => {
   useCheckAuth();
 
   const user = useAppSelector((state) => state.loggedInUser);
+  const chats = useAppSelector((state) => state.chats.chats);
+  const unread = chats
+    .slice(0, 5)
+    .filter((c) => c.seenBy.length === 0 && c.senderId !== user.id).length;
 
   return (
     <MDBContainer fluid className="d-flex justify-content-center vw-100 p-2">
@@ -16,7 +20,12 @@ export const MainHeader: React.FC = () => {
         {!user.userName ? null : (
           <MDBCol>
             <Link to={"/users/" + user.userName}>
-              <Avatar size="M" fileName={user.avatarName} editBtn={false} isGroup={false}/>
+              <Avatar
+                size="M"
+                fileName={user.avatarName}
+                editBtn={false}
+                isGroup={false}
+              />
             </Link>
           </MDBCol>
         )}
@@ -35,8 +44,11 @@ export const MainHeader: React.FC = () => {
         {!user.userName ? null : (
           <MDBCol>
             <div style={{ color: "blue" }}>
-              <Link style={{ textDecoration: "none" }} to="/chats">
-                <IoIosMail size="50" />
+              <Link className="position-relative" style={{ textDecoration: "none" }} to="/chats">
+                <IoIosMail size="60" />
+                <div className={"position-absolute top-50 start-50 translate-middle badge rounded-pill bg-danger d-" + (unread > 0 ? "flex" : "none")}>
+                  <span>{unread < 5 ? unread : "5+"}</span>
+                </div>
               </Link>
             </div>
           </MDBCol>

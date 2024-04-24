@@ -7,26 +7,27 @@ namespace API.Services
 
     public interface IWSService
     {
-        public Task BroadcastMessageAsync(Message newMessage, string? currentUserId = null);
-        public Task UpdateMessageAsync(Message newMessage, string? currentUserId = null);
+        public Task BroadcastMessageAsync(Message newMessage, string currentUserId);
+        public Task UpdateMessageAsync(Message newMessage, string currentUserId);
         public Task MarkAsReadAsync(int chatId, AppUser user);
         public Task<List<string>> GetConnectionsByChatIdAsync(int chatId);
     }
     public class WSService(IHubContext<MainHub> hub, IWsConManService wsConManService, IChatMembersRepo chatMembersRepo) : IWSService
     {
-        public async Task BroadcastMessageAsync(Message newMessage, string? currentUserId = null)
+        public async Task BroadcastMessageAsync(Message newMessage, string currentUserId)
         {
             var recipients = await GetConnectionsByChatIdAsync(newMessage.ChatId);
 
-            await hub.Clients.Clients(recipients).SendAsync("ReceiveNewMessage", newMessage.ToDTO(currentUserId ?? null));
+            var dto = newMessage.ToDTO(currentUserId);
+            await hub.Clients.Clients(recipients).SendAsync("ReceiveNewMessage", dto);
 
         }
 
-        public async Task UpdateMessageAsync(Message newMessage, string? currentUserId = null)
+        public async Task UpdateMessageAsync(Message newMessage, string currentUserId)
         {
             var recipients = await GetConnectionsByChatIdAsync(newMessage.ChatId);
 
-            await hub.Clients.Clients(recipients).SendAsync("UpdateMessage", newMessage.ToDTO(currentUserId ?? null));
+            await hub.Clients.Clients(recipients).SendAsync("UpdateMessage", newMessage.ToDTO(currentUserId));
 
         }
 

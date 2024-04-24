@@ -16,7 +16,7 @@ import { useEffect } from "react";
 import CreateGroup from "../groupChatControll/createGroupChat/CreateGroup";
 import getAllChatsThunk from "../../../thunks/getAllChatsThunk";
 import Message from "../Message";
-import Avatar from "../../users/Avatar";
+import { ChatHeader } from "./ChatHeader";
 import { Link } from "react-router-dom";
 
 export const ChatsOverview: React.FC = () => {
@@ -35,7 +35,7 @@ export const ChatsOverview: React.FC = () => {
   return (
     <MDBContainer
       fluid
-      className="py-5 d-flex flex-column justify-content-center w-100 "
+      className="py-5 d-flex flex-column justify-content-center w-100 h-100"
       style={{ backgroundColor: "#eee" }}
     >
       <CreateGroup />
@@ -58,23 +58,15 @@ export const ChatsOverview: React.FC = () => {
               <MDBCardBody>
                 <MDBTypography listUnStyled className="mb-0 w-100">
                   {chatsOverviewState?.chats?.map((chat) => {
+                    const isRead = chat.seenBy.length > 0;
                     return (
                       <Link
+                        style={{ textDecoration: "none", color: "inherit", backgroundColor: isRead ? "" : "#f5f5f5"}}
                         key={chat.chatId}
                         to={chat.chatId.toString()}
-                        className="d-flex flex-column justify-content-between"
+                        className="d-flex flex-column justify-content-between mb-2"
                       >
-                        <div className="d-flex flex-row align-items-center bg-secondary">
-                          <Avatar
-                            size="S"
-                            fileName={chat.interlocutor?.avatarName ?? null}
-                            editBtn={false}
-                            isGroup={chat.chatName !== null}
-                          />
-                          <div>
-                            {chat.chatName ?? chat.interlocutor?.userName}
-                          </div>
-                        </div>
+                        <ChatHeader chat={chat} />
                         <Message message={chat} />
                       </Link>
                     );
