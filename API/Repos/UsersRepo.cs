@@ -13,6 +13,7 @@ namespace API.Repos
         public Task<AppUser?> GetUserByIdAsync(string uId);
         public Task<AppUser?> CreateUserAsync(AppUser appUser, string password);
         public Task<bool> UpdateAvatarNameAsync(AppUser currentUser, string newName);
+        public Task<bool> UpdateBioAsync(AppUser currentUser, string newBio);
     }
     public partial class UsersRepo(UserManager<AppUser> userManager) : IUsersRepo
     {
@@ -42,6 +43,13 @@ namespace API.Repos
         public async Task<bool> UpdateAvatarNameAsync(AppUser currentUser, string newName)
         {
             currentUser.AvatarName = newName;
+            var result = await userManager.UpdateAsync(currentUser);
+            return result.Succeeded;
+        }
+
+        public async Task<bool> UpdateBioAsync(AppUser currentUser, string newBio)
+        {
+            currentUser.Bio = newBio;
             var result = await userManager.UpdateAsync(currentUser);
             return result.Succeeded;
         }

@@ -11,9 +11,15 @@ namespace API.Services
         public Task<List<UserDTO>> SearchUsers(string query, string currentUserId, int intemsToSkip, int itemsToTake);
         public Task<AppUser?> GetUserByUnameAsync(string uname);
         public Task<AppUser?> GetUserByEmailAsync(string email);
+        public Task<bool> UpdateBioAsync(AppUser currentUser, string newBio);
+
     }
     public class UsersService(IUsersRepo usersRepo) : IUsersService
     {
+        public async Task<bool> UpdateBioAsync(AppUser currentUser, string newBio)
+        {
+            return await usersRepo.UpdateBioAsync(currentUser, newBio);
+        }
 
         public async Task<AppUser?> GetUserByUnameAsync(string uname)
         {

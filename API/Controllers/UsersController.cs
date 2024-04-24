@@ -75,5 +75,15 @@ namespace API.Controllers
             if (result == null) return StatusCode(500);
             return Ok(result);
         }
+
+        [HttpPost("UpdateBio")]
+        public async Task<IActionResult> Post(string newBio)
+        {
+            var currentUser = await userManager.GetUserAsync(User);
+            if (currentUser == null) return Unauthorized();
+            var result = usersService.UpdateBioAsync(currentUser, newBio);
+            if (result == null) return StatusCode(500);
+            return Ok();
+        }
     }
 }
