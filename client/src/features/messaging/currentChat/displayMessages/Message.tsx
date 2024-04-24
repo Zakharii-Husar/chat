@@ -1,6 +1,5 @@
 import { IMessage } from "../../../../state/Interfaces";
-import { add, formatDistanceToNow } from "date-fns";
-import { MDBIcon } from "mdb-react-ui-kit";
+import { formatDistanceToNow } from "date-fns";
 import Avatar from "../../../users/Avatar";
 import {
   useAppSelector,
@@ -12,11 +11,14 @@ import Confirmation from "../../Confirmation";
 import addLikeThunk from "../../../../thunks/addLikeThunk";
 import rmLikeThunk from "../../../../thunks/rmLikeThunk";
 import { FaHeart } from "react-icons/fa";
+import Likes from "./Likes";
+import { useState } from "react";
 
 const Message: React.FC<{ message: IMessage }> = ({ message }) => {
   const currentUser = useAppSelector((state) => state.loggedInUser);
   const currentChat = useAppSelector((state) => state.currentChat);
   const dispatch = useAppDispatch();
+  const [displayLikes, setDisplayLikes] = useState(false);
 
   const deleteMsg = () => {
     dispatch(markMsgAsDeletedThunk(message.messageId));
@@ -49,9 +51,9 @@ const Message: React.FC<{ message: IMessage }> = ({ message }) => {
   });
   const isRead = message.seenBy.length > 0;
   return (
-    <li className="border p-2" key={message.chatId} onDoubleClick={addLike}>
+    <li className="border p-2 position-relative" key={message.chatId} onDoubleClick={addLike}>
       <div className="d-flex flex-column">
-        <span className="d-flex flex-row align-items-center position-relative">
+        <span className="d-flex flex-row align-items-center">
           <Avatar
             size="M"
             fileName={message.senderAvatarName ?? null}
@@ -78,14 +80,27 @@ const Message: React.FC<{ message: IMessage }> = ({ message }) => {
           {message.content}
         </p>
       </div>
+      <span
+        className={
+          "w-100 justify-content-end position-absolue " +
+          (displayLikes ? "d-flex" : "d-none")
+        }
+      >
+        <Likes users={message.likes} />
+      </span>
       <div className="pt-1 d-flex justify-content-between">
         <p className="small text-info mb-1">{time}</p>
-        <span
-          style={{ minWidth: "20px", minHeight: "20px" }}
-          className="text-muted float-end"
-        >
-          <FaHeart onClick={rmLike} size={20} className={"text-danger end-0 bottom-0 w-20 " + (message.likes.length > 0 ?
-           "d-flex" : "d-none")} />
+        <span style={{ minWidth: "20px", minHeight: "20px" }}>
+          <FaHeart
+            onMouseEnter={() => setDisplayLikes(true)}
+            onMouseLeave={() => setDisplayLikes(false)}
+            onClick={rmLike}
+            size={20}
+            className={
+              "text-danger end-0 bottom-0 w-20 " +
+              (message.likes.length > 0 ? "d-flex" : "d-none")
+            }
+          />
         </span>
       </div>
     </li>

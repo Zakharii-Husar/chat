@@ -21,6 +21,8 @@ import searchUsersThunk from "../../thunks/searchUsersThunk";
 import getChatIdByUsernameThunk from "../../thunks/getChatIdByUsernameThunk";
 import createPrivateChatThunk from "../../thunks/createPrivateChatThunk";
 import { useRedirectAsync } from "../../hooks/useRedirectAsync";
+import Avatar from "./Avatar";
+import { Link } from "react-router-dom";
 
 const Users: React.FC = () => {
   useCheckAuth();
@@ -86,9 +88,22 @@ const Users: React.FC = () => {
                   navToChat(user.userName!);
                 }}
               >
-                <FaUserCircle size={25} className="ms-2" />
-
-                <h5>{`${user.userName}`}</h5>
+                <Link
+                  to={"users/" + user.userName}
+                  style={{
+                    textDecoration: "none",
+                    color: "inherit",
+                  }}
+                  className="d-flex flex-row align-items-center"
+                >
+                  <Avatar
+                    size="M"
+                    fileName={user.avatarName}
+                    editBtn={false}
+                    isGroup={false}
+                  />
+                  <h5>{`${user.userName}`}</h5>
+                </Link>
 
                 <BsFillSendFill size={25} className="me-2" />
               </ListGroup.Item>
