@@ -3,7 +3,7 @@ import Avatar from "../../users/Avatar";
 
 export const ChatHeader: React.FC<{ chat: IMessage }> = ({ chat }) => {
   return (
-    <div className="d-flex flex-row align-items-center border">
+    <div className="d-flex flex-row align-items-center border text-primary">
       <Avatar
         size="S"
         fileName={chat.interlocutor?.avatarName ?? null}

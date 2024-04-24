@@ -16,8 +16,12 @@ import Avatar from "./Avatar";
 import { useParams } from "react-router";
 import { useEffect } from "react";
 import getUserDetailsThunk from "../../thunks/getUserDetailsThunk";
+import getChatIdByUsernameThunk from "../../thunks/getChatIdByUsernameThunk";
+import createPrivateChatThunk from "../../thunks/createPrivateChatThunk";
+import { useRedirectAsync } from "../../hooks/useRedirectAsync";
 
 export default function User() {
+  const redirectAsync = useRedirectAsync();
   const { userName } = useParams();
 
   const dispatch = useAppDispatch();
@@ -26,6 +30,22 @@ export default function User() {
   const anotherUser = useAppSelector((state) => state.viewUser);
   const isMyPofile = loggedInUser.userName === userName;
   const currentProfile = isMyPofile ? loggedInUser : anotherUser;
+  console.log(isMyPofile)
+
+  const navToChat = async (username: string) => {
+    try {
+      const action = await dispatch(getChatIdByUsernameThunk(username));
+      if (action.payload) {
+        redirectAsync();
+        return;
+      } else {
+        await dispatch(createPrivateChatThunk(username));
+        redirectAsync();
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
 
   useEffect(() => {
     if (userName && !isMyPofile) {
@@ -36,7 +56,7 @@ export default function User() {
   return !currentProfile.id ? (
     <h1>LOADING...</h1>
   ) : (
-    <div className="gradient-custom-2" style={{ backgroundColor: "#9de2ff" }}>
+    <div className="gradient-custom-2">
       <MDBContainer className="py-5 h-100">
         <MDBRow className="justify-content-center align-items-center h-100">
           <MDBCol lg="9" xl="7">
@@ -59,10 +79,11 @@ export default function User() {
                     isGroup={false}
                   />
                   <MDBBtn
-                    className="my-2"
+                    className={"my-2 " + (isMyPofile ? "d-none" : "d-flex")}
                     outline
                     color="dark"
                     style={{ height: "36px", overflow: "visible" }}
+                    onClick={()=>navToChat(anotherUser.userName!)}
                   >
                     Send Message
                   </MDBBtn>

@@ -15,13 +15,10 @@ import {
 import { resetChatCandidates } from "../../../../state/createGroupSlice";
 
 import createGroupThunk from "../../../../thunks/createGroupThunk";
-
-import { useNavigate } from "react-router";
-import useWsReadListener from "../../../../hooks/ws/useWsReadListener";
 import { useRedirectAsync } from "../../../../hooks/useRedirectAsync";
+import { Row, Col } from "react-bootstrap";
 
 const CreateGroup: React.FC = () => {
-  const navigate = useNavigate();
   const redirectAsync = useRedirectAsync();
   const [showForm, setShowForm] = useState(false);
 
@@ -30,7 +27,6 @@ const CreateGroup: React.FC = () => {
 
   //reset participants on exit
   useEffect(() => {
-    
     return () => {
       dispatch(resetChatCandidates());
     };
@@ -45,7 +41,7 @@ const CreateGroup: React.FC = () => {
       alert("Provide at least 4 characters long chat name!");
     } else {
       try {
-        const action = await dispatch(createGroupThunk());
+        await dispatch(createGroupThunk());
         handleShowForm(false);
         redirectAsync();
       } catch (error) {
@@ -55,28 +51,30 @@ const CreateGroup: React.FC = () => {
   };
 
   return (
-    <Card>
-      <Card.Header>
-        <Button variant="primary" onClick={() => handleShowForm(true)}>
-          Create Group Chat
-        </Button>
-      </Card.Header>
-
-      <Modal show={showForm} onHide={() => handleShowForm(false)}>
-        <Modal.Header closeButton>
-          <Modal.Title>Create Group Chat</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <RemoveCandidates />
-          <AddCandidates />
-          <NewGroupName />
-
-          <Button variant="primary" onClick={createGroup}>
+    <Row className="d-flex justify-content-center">
+      <Col xs={12} sm={10} lg={8} xl={6}>
+        <Card>
+          <Card.Header className="badge text-bg-primary text-wrap h-5" role="button" onClick={() => handleShowForm(true)}>
             Create Group Chat
-          </Button>
-        </Modal.Body>
-      </Modal>
-    </Card>
+          </Card.Header>
+
+          <Modal show={showForm} onHide={() => handleShowForm(false)}>
+            <Modal.Header closeButton>
+              <Modal.Title>Create Group Chat</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <RemoveCandidates />
+              <AddCandidates />
+              <NewGroupName />
+
+              <Button variant="primary" onClick={createGroup}>
+                Create Group Chat
+              </Button>
+            </Modal.Body>
+          </Modal>
+        </Card>
+      </Col>
+    </Row>
   );
 };
 

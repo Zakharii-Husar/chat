@@ -13,7 +13,6 @@ import Col from "react-bootstrap/Col";
 import ListGroup from "react-bootstrap/ListGroup";
 import Form from "react-bootstrap/Form";
 
-import { FaUserCircle } from "react-icons/fa";
 import { BsFillSendFill } from "react-icons/bs";
 import { useCheckAuth } from "../../hooks/useCheckAuth";
 import getAllUsersThunk from "../../thunks/getAllUsersThunk";
@@ -107,7 +106,8 @@ const Users: React.FC = () => {
                     navToChat(user.userName!);
                   }}
                   size={25}
-                  className="me-2"
+                  role="button"
+                  className="me-2 text-primary"
                 />
               </ListGroup.Item>
             ))}

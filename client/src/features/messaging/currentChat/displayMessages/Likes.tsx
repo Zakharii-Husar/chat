@@ -7,7 +7,7 @@ const Likes: React.FC<{ users: IUser[] }> = ({ users }) => {
         <li className="text-info">Liked by:</li>
       {users.map((user) => {
         return (
-          <li className="d-flex flex-row border align-items-center w-100">
+          <li key={user.id} className="d-flex flex-row border align-items-center w-100">
             <Avatar size="S" fileName={user.avatarName} editBtn={false} isGroup={false}/>
             <span>{user.userName}</span>
           </li>
