@@ -8,7 +8,6 @@ import {
   MDBTypography,
 } from "mdb-react-ui-kit";
 import { MdModeEdit } from "react-icons/md";
-import UploadAvatar from "./UploadAvatar";
 import {
   useAppSelector,
   useAppDispatch,
@@ -53,7 +52,12 @@ export default function User() {
                   className="ms-4 mt-5 d-flex flex-column"
                   style={{ width: "150px" }}
                 >
-                  <Avatar size="L" fileName={currentProfile.avatarName} editBtn={isMyPofile} isGroup={false}/>
+                  <Avatar
+                    size="L"
+                    fileName={currentProfile.avatarName}
+                    editBtn={isMyPofile}
+                    isGroup={false}
+                  />
                   <MDBBtn
                     className="my-2"
                     outline

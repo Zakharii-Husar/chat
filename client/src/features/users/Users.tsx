@@ -72,7 +72,7 @@ const Users: React.FC = () => {
   return (
     <Container fluid className="d-flex vw-100">
       <Row className="d-flex flex-column align-items-center justify-content-center w-100 mt-3">
-        <Col xs={12} md={8} lg={4} xl={2}>
+        <Col xs={12} md={8} lg={8} xl={8}>
           <Form.Control
             type="text"
             placeholder="Search users..."
@@ -83,10 +83,7 @@ const Users: React.FC = () => {
             {currentList?.map((user: IUser) => (
               <ListGroup.Item
                 key={user.id}
-                className="d-flex align-items-center justify-content-between py-1"
-                onClick={() => {
-                  navToChat(user.userName!);
-                }}
+                className="d-flex w-100 align-items-center justify-content-between py-1"
               >
                 <Link
                   to={"users/" + user.userName}
@@ -105,7 +102,13 @@ const Users: React.FC = () => {
                   <h5>{`${user.userName}`}</h5>
                 </Link>
 
-                <BsFillSendFill size={25} className="me-2" />
+                <BsFillSendFill
+                  onClick={() => {
+                    navToChat(user.userName!);
+                  }}
+                  size={25}
+                  className="me-2"
+                />
               </ListGroup.Item>
             ))}
           </ListGroup>
