@@ -2,13 +2,22 @@ import { IMessage } from "../../../../state/Interfaces";
 import { formatDistanceToNow } from "date-fns";
 import { MDBIcon } from "mdb-react-ui-kit";
 import Avatar from "../../../users/Avatar";
-import { useAppSelector } from "../../../../hooks/useAppSelectorAndDispatch";
+import {
+  useAppSelector,
+  useAppDispatch,
+} from "../../../../hooks/useAppSelectorAndDispatch";
 import { TiDelete } from "react-icons/ti";
+import markMsgAsDeletedThunk from "../../../../thunks/markMsgAsDeletedThunk";
 
 const Message: React.FC<{ message: IMessage }> = ({ message }) => {
-  const currentUserName = useAppSelector(
-    (state) => state.loggedInUser.userName
-  );
+  const currentUserId = useAppSelector((state) => state.loggedInUser.id);
+  const dispatch = useAppDispatch();
+
+  const deleteMsg = () => {
+    dispatch(markMsgAsDeletedThunk(message.messageId));
+  };
+
+  const isSender = message.senderId === currentUserId;
   const time = formatDistanceToNow(new Date(message.sentAt), {
     addSuffix: true,
   });
@@ -23,19 +32,23 @@ const Message: React.FC<{ message: IMessage }> = ({ message }) => {
             editBtn={false}
             isGroup={false}
           />
-          <p className="fw-bold">
-            {message.senderUserName === currentUserName
-              ? "You"
-              : message.senderUserName}
-          </p>
-          <TiDelete className="text-danger position-absolute end-0 top-0" size={25} />
+          <p className="fw-bold">{isSender ? "You" : message.senderUserName}</p>
+          <TiDelete
+            role="button"
+            onClick={deleteMsg}
+            className={
+              "text-danger position-absolute end-0 top-0 cursor-pointer " +
+              (isSender ? "d-flex" : "d-none")
+            }
+            size={25}
+          />
         </span>
         <p
-            style={{ overflowWrap: "break-word", flexShrink: 0 }}
-            className="small text-muted"
-          >
-            {message.content}
-          </p>
+          style={{ overflowWrap: "break-word", flexShrink: 0 }}
+          className="small text-muted"
+        >
+          {message.content}
+        </p>
       </div>
       <div className="pt-1 d-flex justify-content-between">
         <p className="small text-info mb-1">{time}</p>
