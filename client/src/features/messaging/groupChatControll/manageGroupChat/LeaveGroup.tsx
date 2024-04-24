@@ -3,11 +3,11 @@ import {
   useAppSelector,
 } from "../../../../hooks/useAppSelectorAndDispatch";
 import { RxExit } from "react-icons/rx";
-import Confirmation from "./Confirmation";
-import Container from "react-bootstrap/Container";
+import Confirmation from "../../Confirmation";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import rmChatMemberThunk from "../../../../thunks/rmChatMemberThunk";
+import { Button } from "react-bootstrap";
 
 const LeaveGroup: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -18,20 +18,16 @@ const LeaveGroup: React.FC = () => {
   };
 
   return (
-    <Container fluid className="d-flex mb-3">
-      <Col>
-        <Row>
-          <span className="d-flex flex-row justify-content-left">
-            <Confirmation
-              buttonText="Leave group"
-              titleText="Do you wanna leave this group?"
-              proceed={() => leave()}
-            />
-            <RxExit />
-          </span>
-        </Row>
-      </Col>
-    </Container>
+    <div className="mb-3 w-100">
+          <Confirmation
+            titleText="Do you wanna leave this group?"
+            proceed={() => leave()}
+          >
+            <Button className="w-100">
+              Leave group
+            </Button>
+          </Confirmation>
+    </div>
   );
 };
 

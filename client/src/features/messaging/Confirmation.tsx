@@ -1,12 +1,11 @@
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
-import Container from "react-bootstrap/Container";
-import { useState } from "react";
+import { useState, ReactNode } from "react";
 
-const Confirmation: React.FC<{ buttonText: string; titleText: string; proceed: () => void }> = ({
-  buttonText,
+const Confirmation: React.FC<{children: ReactNode; titleText: string; proceed: () => void }> = ({
   titleText,
   proceed,
+  children
 }) => {
   const [show, setShow] = useState(false);
 
@@ -25,8 +24,8 @@ const Confirmation: React.FC<{ buttonText: string; titleText: string; proceed: (
   }
 
   return (
-    <Container fluid className="static-modal w-100">
-      <span onClick={visibility}>{buttonText}</span>
+    <div className="static-modal w-100">
+      <span onClick={visibility}>{children}</span>
       <Modal show={show} animation={false} backdrop={true} keyboard={true}>
         <Modal.Header>
           <Modal.Title>{titleText}</Modal.Title>
@@ -36,7 +35,7 @@ const Confirmation: React.FC<{ buttonText: string; titleText: string; proceed: (
           <Button onClick={confirm}>OK</Button>
         </Modal.Footer>
       </Modal>
-    </Container>
+    </div>
   );
 };
 

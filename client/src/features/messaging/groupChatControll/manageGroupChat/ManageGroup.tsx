@@ -28,7 +28,7 @@ const ManageGroupChat: React.FC = () => {
       </Card.Header>
 
       <Modal show={showForm} onHide={() => handleShowForm(false)}>
-        <Modal.Header closeButton>
+        <Modal.Header closeButton className="text-primary">
           <Modal.Title>
             {currentChat.chatName}
           </Modal.Title>

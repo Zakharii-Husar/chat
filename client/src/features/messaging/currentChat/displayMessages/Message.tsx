@@ -1,5 +1,5 @@
 import { IMessage } from "../../../../state/Interfaces";
-import { formatDistanceToNow } from "date-fns";
+import { add, formatDistanceToNow } from "date-fns";
 import { MDBIcon } from "mdb-react-ui-kit";
 import Avatar from "../../../users/Avatar";
 import {
@@ -8,22 +8,48 @@ import {
 } from "../../../../hooks/useAppSelectorAndDispatch";
 import { TiDelete } from "react-icons/ti";
 import markMsgAsDeletedThunk from "../../../../thunks/markMsgAsDeletedThunk";
+import Confirmation from "../../Confirmation";
+import addLikeThunk from "../../../../thunks/addLikeThunk";
+import rmLikeThunk from "../../../../thunks/rmLikeThunk";
+import { FaHeart } from "react-icons/fa";
 
 const Message: React.FC<{ message: IMessage }> = ({ message }) => {
-  const currentUserId = useAppSelector((state) => state.loggedInUser.id);
+  const currentUser = useAppSelector((state) => state.loggedInUser);
+  const currentChat = useAppSelector((state) => state.currentChat);
   const dispatch = useAppDispatch();
 
   const deleteMsg = () => {
     dispatch(markMsgAsDeletedThunk(message.messageId));
   };
 
-  const isSender = message.senderId === currentUserId;
+  const findLike = (messageId: number) => {
+    const msgIndex = currentChat.messages.findIndex(
+      (msg) => msg.messageId === messageId
+    );
+    const likes = currentChat.messages[msgIndex].likes;
+
+    return likes.some((user) => user.id === currentUser.id);
+  };
+
+  const addLike = () => {
+    const isAlreadyLiked = findLike(message.messageId);
+    if (isAlreadyLiked) return;
+    dispatch(addLikeThunk(message.messageId));
+  };
+
+  const rmLike = () => {
+    const isAlreadyUnliked = !findLike(message.messageId);
+    if (isAlreadyUnliked) return;
+    dispatch(rmLikeThunk(message.messageId));
+  };
+
+  const isSender = message.senderId === currentUser.id;
   const time = formatDistanceToNow(new Date(message.sentAt), {
     addSuffix: true,
   });
   const isRead = message.seenBy.length > 0;
   return (
-    <li className="border p-2" key={message.chatId}>
+    <li className="border p-2" key={message.chatId} onDoubleClick={addLike}>
       <div className="d-flex flex-column">
         <span className="d-flex flex-row align-items-center position-relative">
           <Avatar
@@ -33,15 +59,17 @@ const Message: React.FC<{ message: IMessage }> = ({ message }) => {
             isGroup={false}
           />
           <p className="fw-bold">{isSender ? "You" : message.senderUserName}</p>
-          <TiDelete
-            role="button"
-            onClick={deleteMsg}
-            className={
-              "text-danger position-absolute end-0 top-0 cursor-pointer " +
-              (isSender ? "d-flex" : "d-none")
-            }
-            size={25}
-          />
+          <Confirmation titleText="Delete Message?" proceed={deleteMsg}>
+            {" "}
+            <TiDelete
+              role="button"
+              className={
+                "text-danger position-absolute end-0 top-0 cursor-pointer " +
+                (isSender ? "d-flex" : "d-none")
+              }
+              size={25}
+            />
+          </Confirmation>
         </span>
         <p
           style={{ overflowWrap: "break-word", flexShrink: 0 }}
@@ -56,10 +84,8 @@ const Message: React.FC<{ message: IMessage }> = ({ message }) => {
           style={{ minWidth: "20px", minHeight: "20px" }}
           className="text-muted float-end"
         >
-          <MDBIcon
-            className={"text-primary d-" + (isRead ? "flex" : "none")}
-            icon="check"
-          />
+          <FaHeart onClick={rmLike} size={20} className={"text-danger end-0 bottom-0 w-20 " + (message.likes.length > 0 ?
+           "d-flex" : "d-none")} />
         </span>
       </div>
     </li>

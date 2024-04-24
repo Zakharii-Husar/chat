@@ -3,7 +3,7 @@ import {
   useAppDispatch,
 } from "../../../../hooks/useAppSelectorAndDispatch";
 
-import Confirmation from "./Confirmation";
+import Confirmation from "../../Confirmation";
 
 import ListGroup from "react-bootstrap/ListGroup";
 import Button from "react-bootstrap/Button";
@@ -19,8 +19,6 @@ const RemoveMembers: React.FC = () => {
   const currentChat = useAppSelector((state) => state.currentChat);
   const currentUserId = useAppSelector((state) => state.loggedInUser.id);
   const isCreator = currentUserId == currentChat.adminId;
-
-
 
   const [showList, setShowList] = useState(false);
 
@@ -53,10 +51,11 @@ const RemoveMembers: React.FC = () => {
                     <span>{member.userName} </span>
                     <span style={{ cursor: "pointer" }}>
                       <Confirmation
-                        buttonText="x"
                         titleText={`Remove ${member.userName} from the chaat?`}
                         proceed={() => remove(member.userName!)}
-                      />
+                      >
+                        <span>x</span>
+                      </Confirmation>
                     </span>
                   </ListGroup.Item>
                 );

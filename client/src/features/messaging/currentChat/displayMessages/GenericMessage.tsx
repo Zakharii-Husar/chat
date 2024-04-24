@@ -1,13 +1,4 @@
 import { IMessage } from "../../../../state/Interfaces";
-import { formatDistanceToNow } from "date-fns";
-import { MDBIcon } from "mdb-react-ui-kit";
-import Avatar from "../../../users/Avatar";
-import {
-  useAppSelector,
-  useAppDispatch,
-} from "../../../../hooks/useAppSelectorAndDispatch";
-import { TiDelete } from "react-icons/ti";
-import markMsgAsDeletedThunk from "../../../../thunks/markMsgAsDeletedThunk";
 
 const GenericMessage: React.FC<{ message: IMessage }> = ({ message }) => {
   return (

@@ -13,7 +13,7 @@ import { updateSearchedUser } from "../../../../state/usersSlice";
 
 import addChatMemberThunk from "../../../../thunks/addChatMemberThunk";
 
-import Confirmation from "./Confirmation";
+import Confirmation from "../../Confirmation";
 
 import {
   useAppSelector,
@@ -68,19 +68,17 @@ const AddMembers: React.FC = () => {
               {currentUsersList.map((user: IUser) => {
                 //prevent showing already added users and current user
                 return currentChat.members.some(
-                  (member) =>
-                    member.id === user.id || user.id === currentUserId
+                  (member) => member.id === user.id || user.id === currentUserId
                 ) ? null : (
                   //show candidats
                   <Form.Group key={user.id}>
                     <ListGroup.Item>
                       <Confirmation
-                        buttonText={user.userName!}
                         titleText={`Add ${user.userName} to chat?`}
-                        proceed={() =>
-                          add(user)
-                        }
-                      />
+                        proceed={() => add(user)}
+                      >
+                        <Button>{user.userName!}</Button>
+                      </Confirmation>
                     </ListGroup.Item>
                   </Form.Group>
                 );
