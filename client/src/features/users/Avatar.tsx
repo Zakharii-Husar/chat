@@ -1,6 +1,5 @@
 import { MDBCardImage } from "mdb-react-ui-kit";
 import { GET_AVATAR } from "../../thunks/APIEndpoints";
-import { FaUserSecret } from "react-icons/fa6";
 import { FaUserAlt } from "react-icons/fa";
 
 import { FaPeopleGroup } from "react-icons/fa6";
@@ -39,6 +38,7 @@ const Avatar: React.FC<{
       style={{
         width: avatarState.photoSize,
         height: avatarState.photoSize,
+        minWidth: avatarState.photoSize,
         minHeight: avatarState.photoSize,
         zIndex: "1",
         border: "3px solid white",

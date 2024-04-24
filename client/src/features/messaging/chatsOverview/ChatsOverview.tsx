@@ -15,7 +15,7 @@ import {
 import { useEffect } from "react";
 import CreateGroup from "../groupChatControll/createGroupChat/CreateGroup";
 import getAllChatsThunk from "../../../thunks/getAllChatsThunk";
-import Message from "../Message";
+import ChatBody from "./ChatBody";
 import { ChatHeader } from "./ChatHeader";
 import { Link } from "react-router-dom";
 
@@ -35,14 +35,14 @@ export const ChatsOverview: React.FC = () => {
   return (
     <MDBContainer
       fluid
-      className="py-5 d-flex flex-column justify-content-center w-100 h-100"
-      style={{ backgroundColor: "#eee" }}
+      className="d-flex flex-column justify-content-center w-100 h-100"
     >
       <CreateGroup />
-      <MDBRow className="d-flex justify-content-center">
-        <MDBCol xs={12} sm={10} lg={8} xl={6} className="d-flex">
+      <MDBRow className="d-flex justify-content-center h-100">
+        <MDBCol xs={12} sm={10} lg={8} xl={6} className="d-flex h-100">
           <MDBCard className="d-flex w-100">
             <InfiniteScroll
+              style={{ height: "80vh" }}
               className="scrollable flex-column"
               height={300}
               dataLength={chatsOverviewState?.chats.length}
@@ -61,13 +61,17 @@ export const ChatsOverview: React.FC = () => {
                     const isRead = chat.seenBy.length > 0;
                     return (
                       <Link
-                        style={{ textDecoration: "none", color: "inherit", backgroundColor: isRead ? "" : "#f5f5f5"}}
+                        style={{
+                          textDecoration: "none",
+                          color: "inherit",
+                          backgroundColor: isRead ? "" : "#f5f5f5",
+                        }}
                         key={chat.chatId}
                         to={chat.chatId.toString()}
                         className="d-flex flex-column justify-content-between mb-2"
                       >
                         <ChatHeader chat={chat} />
-                        <Message message={chat} />
+                        <ChatBody message={chat} />
                       </Link>
                     );
                   })}

@@ -40,10 +40,9 @@ export const CurrentChat: React.FC = () => {
     <MDBContainer
       fluid
       className="d-flex m-0 p-0 w-100"
-      style={{ backgroundColor: "#black" }}
     >
-      <MDBRow className="bg-danger d-flex w-100 m-0 justify-content-center">
-        <MDBCol className="bg-warning" sm={11} md={9} lg={6} xl={6}>
+      <MDBRow className="d-flex w-100 m-0 justify-content-center">
+        <MDBCol sm={11} md={9} lg={6} xl={6}>
           <DisplayHeader />
           <DisplayMessages />
           <SendMessage />
