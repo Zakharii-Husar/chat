@@ -2,11 +2,13 @@ import { IMessage } from "../../../state/Interfaces";
 import { formatDistanceToNow } from "date-fns";
 import { MDBIcon } from "mdb-react-ui-kit";
 import Avatar from "../../users/Avatar";
+import { useAppSelector } from "../../../hooks/useAppSelectorAndDispatch";
 
 const ChatBody: React.FC<{ message: IMessage }> = ({ message }) => {
   const time = formatDistanceToNow(new Date(message.sentAt), {
     addSuffix: true,
   });
+  const currentUserName = useAppSelector(state=> state.loggedInUser.userName)
   const isRead = message.seenBy.length > 0;
   return (
     <li
@@ -21,7 +23,7 @@ const ChatBody: React.FC<{ message: IMessage }> = ({ message }) => {
           isGroup={false}
         />
         <div className="pt-1">
-          <p className="fw-bold mb-0">{message.senderUserName}</p>
+          <p className="fw-bold mb-0">{message.senderUserName === currentUserName ? "You" : message.senderUserName}</p>
           <p className="small text-muted">
             {message.content.substring(0, 30) +
               (message.content.length > 30 ? "..." : "")}
@@ -29,9 +31,9 @@ const ChatBody: React.FC<{ message: IMessage }> = ({ message }) => {
         </div>
       </div>
       <div className="pt-1 d-flex justify-content-between">
-        <p className="small text-muted mb-1">{time}</p>
+        <p className="small text-info mb-1">{time}</p>
         <span style={{minWidth: "20px", minHeight: "20px"}} className="text-muted float-end">
-          <MDBIcon className={"d-" +  (isRead ? "flex" : "none")} icon="check" />
+          <MDBIcon className={"text-primary d-" +  (isRead ? "flex" : "none")} icon="check" />
         </span>
       </div>
     </li>
