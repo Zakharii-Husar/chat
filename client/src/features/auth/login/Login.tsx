@@ -46,16 +46,11 @@ export function Login() {
   return (
     <MDBContainer
       fluid
-      className="d-flex flex-column align-items-center justify-content-center bg-image"
-      style={{
-        backgroundImage:
-          "url(https://mdbcdn.b-cdn.net/img/Photos/new-templates/search-box/img4.webp)",
-      }}
+      className="d-flex flex-column align-items-center justify-content-center"
     >
       <MDBRow className={"z-3 bg-danger d-" + (showError ? "flex" : "none")}>
         <h1>Wrong Credentials</h1>
       </MDBRow>
-      <div className="mask gradient-custom-3"></div>
       <MDBCard className="m-5" style={{ maxWidth: "600px" }}>
         <MDBCardBody className="px-5">
           <h2 className="text-uppercase text-center mb-5">Sign in</h2>

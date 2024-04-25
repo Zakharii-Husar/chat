@@ -12,7 +12,6 @@ import {
   useAppDispatch,
   useAppSelector,
 } from "../../../hooks/useAppSelectorAndDispatch";
-import { useEffect } from "react";
 import CreateGroup from "../groupChatControll/createGroupChat/CreateGroup";
 import getAllChatsThunk from "../../../thunks/getAllChatsThunk";
 import ChatBody from "./ChatBody";
@@ -23,14 +22,6 @@ export const ChatsOverview: React.FC = () => {
   const dispatch = useAppDispatch();
   const chatsOverviewState = useAppSelector((state) => state.chats);
   const hasMore = chatsOverviewState.hasMore;
-
-  useEffect(() => {
-    const initialLoad = () => {
-      if (chatsOverviewState.chats?.length > 1) return;
-      dispatch(getAllChatsThunk());
-    };
-    initialLoad();
-  }, []);
 
   return (
     <MDBContainer

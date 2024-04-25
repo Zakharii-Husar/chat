@@ -27,7 +27,6 @@ export function Register() {
   const navigate = useNavigate();
   useRegValidation();
 
-  const regState = useAppSelector(state=>state.register);
   const validationErrors = useAppSelector(
     (state) => state.register.validationErrors
   );
@@ -78,13 +77,8 @@ export function Register() {
   return (
     <MDBContainer
       fluid
-      className="d-flex align-items-center justify-content-center bg-image"
-      style={{
-        backgroundImage:
-          "url(https://mdbcdn.b-cdn.net/img/Photos/new-templates/search-box/img4.webp)",
-      }}
+      className="d-flex align-items-center justify-content-center"
     >
-      <div className="mask gradient-custom-3"></div>
       <MDBCard className="m-5" style={{ maxWidth: "600px" }}>
         <MDBCardBody className="px-5">
           <h2 className="text-uppercase text-center mb-5">Create an account</h2>
