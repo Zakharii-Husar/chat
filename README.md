@@ -7,8 +7,8 @@ Chat is a web application designed for real-time communication, featuring privat
 
 ## Features
 
-- User Authentication: Secure user account creation and password login.
-- Private Chat Rooms: Create one-on-one private chat rooms.
+- *User Authentication*: Secure user account creation and password login.
+- *Private Chat Rooms:* Create one-on-one private chat rooms.
 - Group Chats: Create group chat rooms for multiple participants.
 - Member Management: Add or remove members from group chats.
 - Group Renaming: Allow group chat creators to rename the group.
