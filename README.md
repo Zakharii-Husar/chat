@@ -1,31 +1,27 @@
-Chat Application (React + .NET Core)
-A real-time chat application with 1-to-1 and group chat functionality, built using React (TypeScript) for the frontend and .NET Core (Entity Framework and Identity) for the backend. Messages are stored in a MySQL database.
+#Chat App
 
-FEATURES
-User authentication and authorization using .NET Core Identity.
-Real-time messaging with support for both 1-to-1 and group chats.
-MySQL database for storing messages.
-Frontend built with React, React Bootstrap, and TypeScript.
-Backend communication using Fetch API.
-WebSocket support using SignalR.
 
-STACK
+Description
 
-Frontend:
-React.js
-React Bootstrap (for UI components)
-TypeScript
-Fetch API (for communication with the backend)
+Chat is a web application designed for real-time communication, featuring private and group chat rooms. It utilizes .NET Core for the backend API, ReactJS for the frontend interface, and integrates various technologies such as Entity Framework, Identity, SignalR, and SQL Server to provide a robust chatting experience. The backend follows the service-repository pattern for better organization and scalability.
 
-Backend:
-.NET Core (Web API)
-Entity Framework Core (for database access)
-.NET Core Identity (for user authentication)
-MySQL (as the database)
-SignalR (for WebSocket communication)
+Features
 
-GETTING STARTED
-Prerequisites:
-Node.js and npm (or yarn) for the frontend.
-.NET Core SDK for the backend.
-MySQL server installed and running.
+User Authentication: Secure user account creation and password login.
+Private Chat Rooms: Create one-on-one private chat rooms.
+Group Chats: Create group chat rooms for multiple participants.
+Member Management: Add or remove members from group chats.
+Group Renaming: Allow group chat creators to rename the group.
+Message Interaction: Like, unlike, mark as read, and delete messages.
+Message Display: Show messages with sender username and avatar, timestamp, likes, and read status.
+User Profile: Users can change their bio and avatar.
+Data Pagination: Implement pagination for users, chats, and messages.
+Chat Organization: Serve chats chronologically with recent activity on top.
+Message Display: Display chat messages chronologically.
+Access Control: Users can only see chats and messages sent during their valid membership period.
+Notifications: Send relevant updates to chat rooms, such as renaming groups or member changes.
+Live Updates: Real-time updates using web sockets for incoming messages, likes, read receipts, etc.
+
+
+Acknowledgements
+Special thanks to [Carlos Osoria](https://github.com/cosoria) for introducing design patterns in .NET Core, which were implemented in the backend.
