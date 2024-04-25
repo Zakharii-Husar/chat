@@ -1,8 +1,12 @@
 Chat App
+
+
 Description
+
 Chat is a web application designed for real-time communication, featuring private and group chat rooms. It utilizes .NET Core for the backend API, ReactJS for the frontend interface, and integrates various technologies such as Entity Framework, Identity, SignalR, and SQL Server to provide a robust chatting experience. The backend follows the service-repository pattern for better organization and scalability.
 
 Features
+
 User Authentication: Secure user account creation and password login.
 Private Chat Rooms: Create one-on-one private chat rooms.
 Group Chats: Create group chat rooms for multiple participants.
@@ -18,12 +22,6 @@ Access Control: Users can only see chats and messages sent during their valid me
 Notifications: Send relevant updates to chat rooms, such as renaming groups or member changes.
 Live Updates: Real-time updates using web sockets for incoming messages, likes, read receipts, etc.
 
-Installation
-Clone the repository: git clone https://github.com/yourusername/chat-app.git
-Navigate to the backend directory and install dependencies: cd backend && dotnet restore
-Run the backend server: dotnet run
-Navigate to the frontend directory and install dependencies: cd ../frontend && npm install
-Start the frontend server: npm start
 
 Acknowledgements
 Special thanks to [Carlos Osoria](https://github.com/cosoria)Carlos Osoria for introducing design patterns in .NET Core, which were implemented in the backend.
