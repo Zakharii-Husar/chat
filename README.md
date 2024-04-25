@@ -24,4 +24,4 @@ Live Updates: Real-time updates using web sockets for incoming messages, likes, 
 
 
 Acknowledgements
-Special thanks to [Carlos Osoria](https://github.com/cosoria)Carlos Osoria for introducing design patterns in .NET Core, which were implemented in the backend.
+Special thanks to [Carlos Osoria](https://github.com/cosoria) for introducing design patterns in .NET Core, which were implemented in the backend.
