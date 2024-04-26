@@ -35,7 +35,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Folder Include="Avatars\" />
 		<Folder Include="Migrations\" />
 	</ItemGroup>
 

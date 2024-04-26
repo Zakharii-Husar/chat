@@ -17,8 +17,6 @@ const useWsMsgListener = () => {
 
   useEffect(() => {
     const handleNewMsg = (data: IMessage) => {
-      console.log("WS incoming MSG:")
-      console.log(data);
       dispatch(prependChat(data));
       if (data.chatId === currentChatId) {
         dispatch(prependMsg(data));

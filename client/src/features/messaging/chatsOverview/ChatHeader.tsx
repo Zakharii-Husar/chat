@@ -2,6 +2,7 @@ import { IMessage } from "../../../state/Interfaces";
 import Avatar from "../../users/Avatar";
 
 export const ChatHeader: React.FC<{ chat: IMessage }> = ({ chat }) => {
+  console.log(chat.interlocutor)
   return (
     <div className="d-flex flex-row align-items-center border text-primary">
       <Avatar
