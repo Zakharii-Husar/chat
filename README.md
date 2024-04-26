@@ -22,7 +22,11 @@ Chat is a web application designed for real-time communication, featuring privat
 - **Notifications:** Send relevant updates to chat rooms, such as renaming groups or member changes.
 - **Live Updates:** Real-time updates using web sockets for incoming messages, likes, read receipts, etc.
 
-![Image Alt Text](https://github.com/Zakharii-Husar/chat/blob/main/API/Data/CHAT_DB_SCHEMA.png)
+## DB Schema:
+![Image Alt Text](https://github.com/Zakharii-Husar/chat/blob/main/API/Avatars/CHAT_DB_SCHEMA.png)
+
+## Interface overview:
+![Image Alt Text](https://github.com/Zakharii-Husar/chat/blob/main/API/Avatars/Collage.jpg)
 
 Acknowledgements
 Special thanks to [Carlos Osoria](https://github.com/cosoria) for introducing design patterns in .NET Core, which were implemented in the backend.
