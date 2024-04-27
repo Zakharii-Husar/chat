@@ -1,17 +1,17 @@
-import { useCheckAuth } from "../../hooks/useCheckAuth";
+import { useCheckAuth } from "../hooks/useCheckAuth";
 import { Outlet } from "react-router-dom";
-import { MainHeader } from "./Header";
+import { AppHeader } from "./Header";
 
 import { MDBContainer, MDBRow, MDBCol } from "mdb-react-ui-kit";
 
-export const Root = () => {
+export const Layout = () => {
   useCheckAuth();
 
   return (
     <MDBContainer fluid className="d-flex w-100 h-100">
       <MDBRow>
         <MDBCol className="d-flex flex-column w-100 h-100 p-0">
-          <MainHeader />
+          <AppHeader />
           <Outlet />
         </MDBCol>
       </MDBRow>
