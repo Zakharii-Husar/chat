@@ -1,4 +1,4 @@
-import type { RootState } from "../state/store";
+import type { RootState } from "../redux/store";
 import {
   useAppSelector,
   useAppDispatch,
@@ -11,8 +11,8 @@ import {
   setNickNameErr,
   setPasswordErr,
   setConfirmErr,
-} from "../state/registerSlice";
-import checkAvailabilityThunk from "../thunks/checkAvailabilityThunk";
+} from "../redux/slices/registerSlice";
+import checkAvailabilityThunk from "../redux/thunks/checkAvailabilityThunk";
 
 export const useRegValidation = () => {
   const { email, fullName, nickName, password, confirm, validationErrors } =

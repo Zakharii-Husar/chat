@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useNavigate, useLocation } from "react-router";
 import { useAppSelector, useAppDispatch } from "./useAppSelectorAndDispatch";
-import validateCookiesThunk from "../thunks/validateCookiesThunk";
+import validateCookiesThunk from "../redux/thunks/validateCookiesThunk";
 
 
 export const useCheckAuth = () => {

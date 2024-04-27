@@ -1,9 +1,9 @@
 import { getSignalRConnection } from "./signalRConnection";
 import { useEffect, useRef } from "react";
 import { useAppDispatch } from "../useAppSelectorAndDispatch";
-import { markChatAsRead } from "../../state/chatsOverviewSlice";
-import { markMessagesAsRead } from "../../state/currentChatSlice";
-import { IMessage, IUser } from "../../state/Interfaces";
+import { markChatAsRead } from "../../redux/slices/chatsOverviewSlice";
+import { markMessagesAsRead } from "../../redux/slices/currentChatSlice";
+import { IMessage, IUser } from "../../redux/slices/Interfaces";
 import { useAppSelector } from "../useAppSelectorAndDispatch";
 
 const useWsReadListener = () => {

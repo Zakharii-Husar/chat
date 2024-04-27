@@ -1,14 +1,11 @@
 {
   "ExpandedNodes": [
     "",
-    "\\API",
-    "\\API\\Controllers",
-    "\\API\\Controllers\\Auth",
-    "\\API\\Controllers\\Messages",
-    "\\API\\Data",
-    "\\API\\Models",
-    "\\client"
+    "\\client",
+    "\\client\\src",
+    "\\client\\src\\components",
+    "\\client\\src\\components\\auth"
   ],
-  "SelectedNode": "\\API\\API.sln",
+  "SelectedNode": "\\client\\src\\components\\auth",
   "PreviewInSolutionExplorer": false
 }

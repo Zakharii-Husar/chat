@@ -1,9 +1,9 @@
 import { getSignalRConnection } from "./signalRConnection";
 import { useEffect, useRef } from "react";
 import { useAppDispatch, useAppSelector } from "../useAppSelectorAndDispatch";
-import { prependChat, updateChat } from "../../state/chatsOverviewSlice";
-import { prependMsg, updateMsg } from "../../state/currentChatSlice";
-import { IMessage } from "../../state/Interfaces";
+import { prependChat, updateChat } from "../../redux/slices/chatsOverviewSlice";
+import { prependMsg, updateMsg } from "../../redux/slices/currentChatSlice";
+import { IMessage } from "../../redux/slices/Interfaces";
 
 const useWsMsgListener = () => {
   const connection = getSignalRConnection();
