@@ -1,10 +1,10 @@
 import { MDBContainer, MDBRow, MDBCol } from "mdb-react-ui-kit";
 import { TiMessages } from "react-icons/ti";
 import { Link } from "react-router-dom";
-import { useCheckAuth } from "../hooks/useCheckAuth";
-import { useAppSelector } from "../hooks/useAppSelectorAndDispatch";
+import { useCheckAuth } from "../../hooks/useCheckAuth";
+import { useAppSelector } from "../../hooks/useAppSelectorAndDispatch";
 import { IoIosMail } from "react-icons/io";
-import Avatar from "../components/users/Avatar";
+import Avatar from "../users/Avatar";
 import "./Header.css";
 export const AppHeader: React.FC = () => {
  // useCheckAuth();

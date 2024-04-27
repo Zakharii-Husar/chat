@@ -1,4 +1,4 @@
-import { useCheckAuth } from "../hooks/useCheckAuth";
+import { useCheckAuth } from "../../hooks/useCheckAuth";
 import { Outlet } from "react-router-dom";
 import { AppHeader } from "./Header";
 

@@ -12,7 +12,7 @@ export const Home: React.FC = () => {
 
     return (
         <Container fluid className="d-flex flex-column align-items-center vw-100">
-            {loggedInId ? <Users /> : <Welcome />}
+            {loggedInId ? <h1>Hello</h1> : <Welcome />}
         </Container>
     )
 }

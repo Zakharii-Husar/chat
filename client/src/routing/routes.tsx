@@ -4,42 +4,44 @@ import { CurrentChat } from "../components/messaging/currentChat/CurrentChat";
 import { Home } from "../components/home/Home";
 import { Login } from "../components/auth/login/Login";
 import { Register } from "../components/auth/register/Register";
+import Users from "../components/users/Users";
 import User from "../components/users/User";
-import { Layout } from "./Layout";
+import { Layout } from "../components/layout/Layout";
 import { createBrowserRouter } from "react-router-dom";
+import PATH from "./pathConstants";
 
 const router = createBrowserRouter([
   {
-    path: "/",
+    path: PATH.index,
     element: <Layout />,
     children: [
       {
-        path: "/",
+        path: PATH.index,
         index: true,
         element: <Home />,
       },
       {
-        path: "/chats",
+        path: PATH.chats,
         element: <ChatsOverview />,
       },
       {
-        path: "/chats:chatId",
+        path: PATH.currentChat,
         element: <CurrentChat />,
       },
       {
-        path: "/chats:chatId",
-        element: <CurrentChat />,
+        path: PATH.users,
+        element: <Users />,
       },
       {
-        path: "/users/:userName",
+        path: PATH.userProfile,
         element: <User />,
       },
       {
-        path: "/login",
+        path: PATH.login,
         element: <Login />,
       },
       {
-        path: "/register",
+        path: PATH.register,
         element: <Register />,
       },
     ],
