@@ -34,7 +34,7 @@ const Avatar: React.FC<{
   }, []);
   return (
     <div
-      className="m-2"
+      className=""
       style={{
         width: avatarState.photoSize,
         height: avatarState.photoSize,

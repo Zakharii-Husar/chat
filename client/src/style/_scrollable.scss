@@ -6,13 +6,15 @@
     padding:5px;
  }
  .scrollable::-webkit-scrollbar {
-    width: 5px; /* Set the width of the scrollbar */
-    background-color: #F5F5F5; /* Set the background color of the scrollbar */
+    width: 5px;
+    border-radius: 25px;
+    background-color: black; 
     position: absolute;
-    left: 0; /* Position the scrollbar on the left of the element */
+    left: 0; 
  }
  .scrollable::-webkit-scrollbar-thumb {
-    background-color: #000000; /* Set the color of the thumb */
+   border-radius: 25px;
+    background-color: #000000;
     
  }
  .scrollable::-webkit-scrollbar-track {

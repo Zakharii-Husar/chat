@@ -2,7 +2,7 @@
 const PATH = {
     index: "/",
     chats: "/chats",
-    currentChat: "/chats:chatId",
+    currentChat: "/chats/:chatId",
     users: "/users",
     userProfile: "/users/:userName",
     login: "/login",

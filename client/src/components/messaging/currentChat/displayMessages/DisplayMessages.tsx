@@ -1,7 +1,7 @@
 import React from 'react';
 import { Row, Col } from 'react-bootstrap';
 import { useAppSelector, useAppDispatch } from '../../../../hooks/useAppSelectorAndDispatch';
-import '../../../../style/scrollable.css';
+import '../../../../style/_scrollable.scss';
 import getChatByIdThunk from '../../../../redux/thunks/getChatByIdThunk';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import Message from './Message';

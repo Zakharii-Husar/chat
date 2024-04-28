@@ -1,6 +1,17 @@
+@import "../../style/_colors";
+
 .Header {
-    font-family: "Orbitron", sans-serif;
-    font-optical-sizing: auto;
-    font-weight: 400;
-    font-style: normal;
-  }
+  font-family: "Orbitron", sans-serif;
+  color: $header-color;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.Header * {
+  height: 50px;
+}
+a {
+  text-decoration: none;
+  color: inherit;
+}

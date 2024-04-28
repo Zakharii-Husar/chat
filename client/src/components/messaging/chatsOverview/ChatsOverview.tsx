@@ -1,7 +1,7 @@
 import React from 'react';
 import { Container, Row, Col, Card } from 'react-bootstrap';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import '../../../style/scrollable.css';
+import '../../../style/_scrollable.scss';
 import { useAppDispatch, useAppSelector } from '../../../hooks/useAppSelectorAndDispatch';
 import CreateGroup from '../groupChatControll/createGroupChat/CreateGroup';
 import getAllChatsThunk from '../../../redux/thunks/getAllChatsThunk';

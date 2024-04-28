@@ -16,8 +16,8 @@ export const AppHeader: React.FC = () => {
     .filter((c) => c.seenBy.length === 0 && c.senderId !== user.id).length;
 
   return (
-    <Container>
-      <Row className="Header justify-content-center">
+    <Container fluid className="d-flex justify-content-center">
+      <Row className="Header align-items-center">
         {!user.userName ? null : (
           <Col>
             <Link to={"/users/" + user.userName}>
@@ -49,8 +49,8 @@ export const AppHeader: React.FC = () => {
                 <IoIosMail size="60" />
                 <div
                   className={
-                    "position-absolute top-50 start-50 translate-middle badge rounded-pill bg-danger d-" +
-                    (unread > 0 ? "flex" : "none")
+                    "position-absolute top-50 start-50 translate-middle badge rounded-pill bg-danger " +
+                    (unread > 0 ? "d-flex" : "d-none")
                   }
                 >
                   <span>{unread < 5 ? unread : "5+"}</span>
