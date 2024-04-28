@@ -1,4 +1,3 @@
-import "bootstrap/dist/css/bootstrap.min.css";
 import { RouterProvider } from "react-router-dom";
 import { useInit } from "./hooks/useInit";
 import router from "./routing/routes";

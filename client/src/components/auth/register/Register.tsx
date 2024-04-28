@@ -1,42 +1,21 @@
-import {
-  useAppSelector,
-  useAppDispatch,
-} from "../../../hooks/useAppSelectorAndDispatch";
-import {
-  setEmail,
-  setFullName,
-  setNickName,
-  setPassword,
-  setConfirm,
-} from "../../../redux/slices/registerSlice";
-import registerWithPasswordThunk from "../../../redux/thunks/registerWithPasswordThunk";
-import { SyntheticEvent, useEffect } from "react";
-import { useRegValidation } from "../../../hooks/useRegValidation";
-import { useNavigate } from "react-router";
-import {
-  MDBBtn,
-  MDBContainer,
-  MDBCard,
-  MDBCardBody,
-  MDBInput,
-  MDBCheckbox,
-} from "mdb-react-ui-kit";
-import "./Register.css";
+import React, { SyntheticEvent, useEffect } from 'react';
+import { Container, Card, Form, Button, Row, Col } from 'react-bootstrap';
+import { useAppSelector, useAppDispatch } from '../../../hooks/useAppSelectorAndDispatch';
+import { setEmail, setFullName, setNickName, setPassword, setConfirm } from '../../../redux/slices/registerSlice';
+import registerWithPasswordThunk from '../../../redux/thunks/registerWithPasswordThunk';
+import { useRegValidation } from '../../../hooks/useRegValidation';
+import { useNavigate } from 'react-router';
 
 export function Register() {
   const navigate = useNavigate();
   useRegValidation();
 
-  const validationErrors = useAppSelector(
-    (state) => state.register.validationErrors
-  );
-
+  const validationErrors = useAppSelector((state) => state.register.validationErrors);
   const currentUser = useAppSelector((state) => state.loggedInUser);
-
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    if (currentUser.id) navigate("/");
+    if (currentUser.id) navigate('/');
   }, [currentUser]);
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -44,19 +23,19 @@ export function Register() {
     const value = e.target.value;
 
     switch (name) {
-      case "email":
+      case 'email':
         dispatch(setEmail(value));
         break;
-      case "fullName":
+      case 'fullName':
         dispatch(setFullName(value));
         break;
-      case "nickName":
+      case 'nickName':
         dispatch(setNickName(value));
         break;
-      case "password":
+      case 'password':
         dispatch(setPassword(value));
         break;
-      case "confirm":
+      case 'confirm':
         dispatch(setConfirm(value));
         break;
     }
@@ -64,86 +43,61 @@ export function Register() {
 
   const handleSubmit = (e: SyntheticEvent) => {
     e.preventDefault();
-    const inputIsOk = Object.values(validationErrors).every(
-      (err) => err === ""
-    );
+    const inputIsOk = Object.values(validationErrors).every((err) => err === '');
     if (inputIsOk) {
       dispatch(registerWithPasswordThunk());
     } else {
-      alert("YOU HAVE VALIDATION ERRORS!");
+      alert('YOU HAVE VALIDATION ERRORS!');
     }
   };
 
   return (
-    <MDBContainer
-      fluid
-      className="d-flex align-items-center justify-content-center"
-    >
-      <MDBCard className="m-5" style={{ maxWidth: "600px" }}>
-        <MDBCardBody className="px-5">
+    <Container fluid className="d-flex align-items-center justify-content-center">
+      <Card className="m-5" style={{ maxWidth: '600px' }}>
+        <Card.Body className="px-5">
           <h2 className="text-uppercase text-center mb-5">Create an account</h2>
-          <MDBInput
-            onChange={handleInput}
-            name="email"
-            wrapperClass="mb-4"
-            label={"Email " + validationErrors.email}
-            size="lg"
-            id="form2"
-            type="email"
-          />
-          <MDBInput
-            onInput={handleInput}
-            name="fullName"
-            wrapperClass="mb-4"
-            label={"Full Name " + validationErrors.fullName}
-            size="lg"
-            type="text"
-          />
+          <Form>
+            <Form.Group className="mb-4">
+              <Form.Label>Email {validationErrors.email}</Form.Label>
+              <Form.Control type="email" name="email" size="lg" onChange={handleInput} />
+            </Form.Group>
 
-          <MDBInput
-            onChange={handleInput}
-            name="nickName"
-            wrapperClass="mb-4"
-            label={"Nickname " + validationErrors.nickName}
-            size="lg"
-            type="text"
-          />
+            <Form.Group className="mb-4">
+              <Form.Label>Full Name {validationErrors.fullName}</Form.Label>
+              <Form.Control type="text" name="fullName" size="lg" onChange={handleInput} />
+            </Form.Group>
 
-          <MDBInput
-            onInput={handleInput}
-            name="password"
-            wrapperClass="mb-4"
-            label={"Password " + validationErrors.password}
-            size="lg"
-            id="form3"
-            type="password"
-          />
+            <Form.Group className="mb-4">
+              <Form.Label>Nickname {validationErrors.nickName}</Form.Label>
+              <Form.Control type="text" name="nickName" size="lg" onChange={handleInput} />
+            </Form.Group>
 
-          <MDBInput
-            onInput={handleInput}
-            name="confirm"
-            wrapperClass="mb-4"
-            label={"Confirm " + validationErrors.confirm}
-            size="lg"
-            id="form4"
-            type="password"
-          />
-          <div className="d-flex flex-row justify-content-center mb-4">
-            <MDBCheckbox
-              name="flexCheck"
-              id="flexCheckDefault"
-              label="I agree all statements in Terms of service"
-            />
-          </div>
-          <MDBBtn
-            className="mb-4 w-100 gradient-custom-4"
-            size="lg"
-            onClick={handleSubmit}
-          >
-            Register
-          </MDBBtn>
-        </MDBCardBody>
-      </MDBCard>
-    </MDBContainer>
+            <Form.Group className="mb-4">
+              <Form.Label>Password {validationErrors.password}</Form.Label>
+              <Form.Control type="password" name="password" size="lg" onChange={handleInput} />
+            </Form.Group>
+
+            <Form.Group className="mb-4">
+              <Form.Label>Confirm {validationErrors.confirm}</Form.Label>
+              <Form.Control type="password" name="confirm" size="lg" onChange={handleInput} />
+            </Form.Group>
+
+            <Row className="mb-4">
+              <Col className="d-flex justify-content-center">
+                <Form.Check
+                  type="checkbox"
+                  id="flexCheckDefault"
+                  label="I agree all statements in Terms of service"
+                />
+              </Col>
+            </Row>
+
+            <Button className="mb-4 w-100 gradient-custom-4" size="lg" onClick={handleSubmit}>
+              Register
+            </Button>
+          </Form>
+        </Card.Body>
+      </Card>
+    </Container>
   );
 }

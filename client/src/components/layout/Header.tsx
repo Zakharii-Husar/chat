@@ -1,4 +1,4 @@
-import { MDBContainer, MDBRow, MDBCol } from "mdb-react-ui-kit";
+import { Container, Row, Col } from "react-bootstrap";
 import { TiMessages } from "react-icons/ti";
 import { Link } from "react-router-dom";
 import { useCheckAuth } from "../../hooks/useCheckAuth";
@@ -16,13 +16,13 @@ export const AppHeader: React.FC = () => {
     .filter((c) => c.seenBy.length === 0 && c.senderId !== user.id).length;
 
   return (
-    <MDBContainer
+    <Container
       fluid
       className="orbitron d-flex justify-content-center vw-100 p-2"
     >
-      <MDBRow className="align-items-center">
+      <Row className="align-items-center">
         {!user.userName ? null : (
-          <MDBCol>
+          <Col>
             <Link to={"/users/" + user.userName}>
               <Avatar
                 size="M"
@@ -31,10 +31,10 @@ export const AppHeader: React.FC = () => {
                 isGroup={false}
               />
             </Link>
-          </MDBCol>
+          </Col>
         )}
 
-        <MDBCol style={{ color: "blue" }}>
+        <Col style={{ color: "blue" }}>
           <Link
             style={{
               textDecoration: "none",
@@ -47,10 +47,10 @@ export const AppHeader: React.FC = () => {
             <TiMessages size={40} className="mx-4" />
             <h1>:)</h1>
           </Link>
-        </MDBCol>
+        </Col>
 
         {!user.userName ? null : (
-          <MDBCol>
+          <Col>
             <div style={{ color: "blue" }}>
               <Link
                 className="position-relative"
@@ -68,9 +68,9 @@ export const AppHeader: React.FC = () => {
                 </div>
               </Link>
             </div>
-          </MDBCol>
+          </Col>
         )}
-      </MDBRow>
-    </MDBContainer>
+      </Row>
+    </Container>
   );
 };

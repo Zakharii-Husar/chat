@@ -1,16 +1,8 @@
 import { ReactNode } from "react";
-import {
-  MDBModal,
-  MDBModalTitle,
-  MDBModalFooter,
-  MDBBtn,
-  MDBTextArea,
-  MDBCardHeader,
-  MDBModalBody
-} from "mdb-react-ui-kit";
 import { useState } from "react";
 import { useAppDispatch } from "../../hooks/useAppSelectorAndDispatch";
 import updateBioThunk from "../../redux/thunks/updateBioThunk";
+import { Modal, Button, Form } from 'react-bootstrap';
 
 const UpdateBio: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [bio, setBio] = useState("");
@@ -38,25 +30,23 @@ const UpdateBio: React.FC<{ children: ReactNode }> = ({ children }) => {
   return (
     <div className="static-modal m-2">
       <span onClick={visibility}>{children}</span>
-      <MDBModal show={show} animation={false} backdrop={true} keyboard={true}>
-        <MDBCardHeader>
-          <MDBModalTitle>Enter new bio: </MDBModalTitle>
-        </MDBCardHeader>
-        <MDBModalBody>
-          <MDBTextArea
-            onChange={updateBio}
-            label="Message"
-            id="textAreaExample"
-            rows={4}
-          />
-        </MDBModalBody>
-        <MDBModalFooter className="d-flex flex-row justify-content-between">
-          <MDBBtn className="bg-danger" onClick={cancel}>
+      <Modal show={show} animation={false} backdrop={true} keyboard={true}>
+        <Modal.Header>
+          <Modal.Title>Enter new bio: </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+        <Form.Group>
+            <Form.Label>Message</Form.Label>
+            <Form.Control as="textarea" rows={4} onChange={updateBio} />
+          </Form.Group>
+        </Modal.Body>
+        <Modal.Footer className="d-flex flex-row justify-content-between">
+          <Button className="bg-danger" onClick={cancel}>
             CANCEL
-          </MDBBtn>
-          <MDBBtn onClick={submit}>SUBMIT</MDBBtn>
-        </MDBModalFooter>
-      </MDBModal>
+          </Button>
+          <Button onClick={submit}>SUBMIT</Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 };

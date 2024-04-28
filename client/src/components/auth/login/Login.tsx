@@ -8,14 +8,7 @@ import { useNavigate } from "react-router";
 
 import loginWithPasswordThunk from "../../../redux/thunks/loginWithPasswordThunk";
 
-import {
-  MDBContainer,
-  MDBInput,
-  MDBBtn,
-  MDBCard,
-  MDBCardBody,
-  MDBRow,
-} from "mdb-react-ui-kit";
+import { Container, Card, Button, Row, Form } from "react-bootstrap";
 
 import { useCheckAuth } from "../../../hooks/useCheckAuth";
 
@@ -44,44 +37,33 @@ export function Login() {
   };
 
   return (
-    <MDBContainer
-      fluid
-      className="d-flex flex-column align-items-center justify-content-center"
-    >
-      <MDBRow className={"z-3 bg-danger d-" + (showError ? "flex" : "none")}>
+    <Container fluid className="d-flex flex-column align-items-center justify-content-center">
+      <Row className={"z-3 bg-danger d-" + (showError ? "flex" : "none")}>
         <h1>Wrong Credentials</h1>
-      </MDBRow>
-      <MDBCard className="m-5" style={{ maxWidth: "600px" }}>
-        <MDBCardBody className="px-5">
+      </Row>
+      <Card className="m-5" style={{ maxWidth: "600px" }}>
+        <Card.Body className="px-5">
           <h2 className="text-uppercase text-center mb-5">Sign in</h2>
 
-          <MDBInput
-            onInput={handleInput}
-            type="text"
-            name="login"
-            wrapperClass="mb-4"
-            label="Nickname or email"
-            size="lg"
-          />
+          <Form.Group className="mb-4">
+            <Form.Label>Nickname or email</Form.Label>
+            <Form.Control type="text" name="login" size="lg" onInput={handleInput} />
+          </Form.Group>
 
-          <MDBInput
-            onInput={handleInput}
-            name="password"
-            wrapperClass="mb-4"
-            label="Password"
-            size="lg"
-            id="form3"
-            type="password"
-          />
-          <MDBBtn
+          <Form.Group className="mb-4">
+            <Form.Label>Password</Form.Label>
+            <Form.Control type="password" name="password" size="lg" onInput={handleInput} />
+          </Form.Group>
+
+          <Button
             className="mb-4 w-100 gradient-custom-4"
             size="lg"
             onClick={handleSubmit}
           >
             Sign in
-          </MDBBtn>
-        </MDBCardBody>
-      </MDBCard>
-    </MDBContainer>
+          </Button>
+        </Card.Body>
+      </Card>
+    </Container>
   );
 }

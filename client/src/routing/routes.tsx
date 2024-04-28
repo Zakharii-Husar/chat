@@ -1,4 +1,3 @@
-import "bootstrap/dist/css/bootstrap.min.css";
 import { ChatsOverview } from "../components/messaging/chatsOverview/ChatsOverview";
 import { CurrentChat } from "../components/messaging/currentChat/CurrentChat";
 import { Home } from "../components/home/Home";

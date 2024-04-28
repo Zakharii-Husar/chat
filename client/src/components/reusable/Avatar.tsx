@@ -1,10 +1,10 @@
-import { MDBCardImage } from "mdb-react-ui-kit";
 import { GET_AVATAR } from "../../redux/thunks/APIEndpoints";
 import { FaUserAlt } from "react-icons/fa";
 
 import { FaPeopleGroup } from "react-icons/fa6";
 import { useState, useEffect } from "react";
 import UploadAvatar from "./UploadAvatar";
+import { Image } from "react-bootstrap";
 const Avatar: React.FC<{
   size: string;
   fileName: string | null;
@@ -61,7 +61,7 @@ const Avatar: React.FC<{
           
         </span>
       ) : (
-        <MDBCardImage
+        <Image
           className="w-100"
           src={GET_AVATAR(fileName ?? "")}
           alt="Avatar"

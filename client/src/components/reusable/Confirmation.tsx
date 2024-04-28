@@ -1,5 +1,5 @@
 import { useState, ReactNode } from "react";
-import { MDBModal, MDBModalHeader, MDBModalTitle, MDBModalFooter, MDBBtn } from 'mdb-react-ui-kit';
+import { Modal, Button } from 'react-bootstrap';
 
 const Confirmation: React.FC<{children: ReactNode; titleText: string; proceed: () => void }> = ({
   titleText,
@@ -25,15 +25,15 @@ const Confirmation: React.FC<{children: ReactNode; titleText: string; proceed: (
   return (
     <div className="static-modal w-100">
       <span onClick={visibility}>{children}</span>
-      <MDBModal show={show} animation={false} backdrop={true} keyboard={true}>
-        <MDBModalHeader>
-          <MDBModalTitle>{titleText}</MDBModalTitle>
-        </MDBModalHeader>
-        <MDBModalFooter>
-          <MDBBtn onClick={cancel}>CANCEL</MDBBtn>
-          <MDBBtn onClick={confirm}>OK</MDBBtn>
-        </MDBModalFooter>
-      </MDBModal>
+      <Modal show={show} animation={false} backdrop={true} keyboard={true}>
+        <Modal.Header>
+          <Modal.Title>{titleText}</Modal.Title>
+        </Modal.Header>
+        <Modal.Footer>
+          <Button onClick={cancel}>CANCEL</Button>
+          <Button onClick={confirm}>OK</Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 };

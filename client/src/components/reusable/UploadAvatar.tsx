@@ -1,11 +1,4 @@
-import {
-  MDBCard,
-  MDBCardBody,
-  MDBCardHeader,
-  MDBIcon,
-  MDBFile,
-  MDBContainer,
-} from "mdb-react-ui-kit";
+import { Form, Card, Container } from "react-bootstrap";
 import { MdAddCircle } from "react-icons/md";
 import { useState, ChangeEvent } from "react";
 import { useAppDispatch } from "../../hooks/useAppSelectorAndDispatch";
@@ -68,10 +61,7 @@ const UploadAvatar: React.FC = () => {
   };
 
   return (
-    <MDBContainer
-      fluid
-      className="d-flex justify-content-end align-items-center"
-    >
+    <Container fluid className="d-flex justify-content-end align-items-center">
       <MdAddCircle
         className="position-absolute bg-white rounded"
         onClick={() => setShowForm(true)}
@@ -81,22 +71,23 @@ const UploadAvatar: React.FC = () => {
       />
 
       {showForm && (
-        <MDBCard className="position-absolute top-50 start-50 translate-middle">
-          <MDBCardHeader>File Upload</MDBCardHeader>
-          <MDBCardBody>
+        <Card className="position-absolute top-50 start-50 translate-middle">
+          <Card.Header>File Upload</Card.Header>
+          <Card.Body>
             <h3>Choose avatar:</h3>
-            <MDBFile
+            <Form.Label>Allowed png, jpg, jpeg, gif up to 5MB</Form.Label>
+            <Form.Control
+              type="file"
               onChange={handleFileChange}
-              label="Allowed png, jpg, jpeg, gif up to 5MB"
               id="customFile"
             />
-          </MDBCardBody>
+          </Card.Body>
           <button
             className="btn bg-danger btn-light position-absolute top-0 end-0 m-3"
             onClick={() => setShowForm(false)}
             style={{ zIndex: "2" }}
           >
-            <MDBIcon icon="times" />
+            Cancel
           </button>
           <button
             onClick={handleUpload}
@@ -106,9 +97,9 @@ const UploadAvatar: React.FC = () => {
           >
             Upload
           </button>
-        </MDBCard>
+        </Card>
       )}
-    </MDBContainer>
+    </Container>
   );
 };
 
