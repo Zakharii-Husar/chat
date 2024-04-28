@@ -12,7 +12,7 @@ import {
   useAppSelector,
   useAppDispatch,
 } from "../../hooks/useAppSelectorAndDispatch";
-import Avatar from "./Avatar";
+import Avatar from "../reusable/Avatar";
 import { useParams } from "react-router";
 import { useEffect } from "react";
 import getUserDetailsThunk from "../../redux/thunks/getUserDetailsThunk";

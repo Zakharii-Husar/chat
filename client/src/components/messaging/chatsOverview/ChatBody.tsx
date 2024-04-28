@@ -1,7 +1,7 @@
 import { IMessage } from "../../../redux/slices/Interfaces";
 import { formatDistanceToNow } from "date-fns";
 import { MDBIcon } from "mdb-react-ui-kit";
-import Avatar from "../../users/Avatar";
+import Avatar from "../../reusable/Avatar";
 import { useAppSelector } from "../../../hooks/useAppSelectorAndDispatch";
 
 const ChatBody: React.FC<{ message: IMessage }> = ({ message }) => {

@@ -13,7 +13,7 @@ import { updateSearchedUser } from "../../../../redux/slices/usersSlice";
 
 import addChatMemberThunk from "../../../../redux/thunks/addChatMemberThunk";
 
-import Confirmation from "../../Confirmation";
+import Confirmation from "../../../reusable/Confirmation";
 
 import {
   useAppSelector,

@@ -1,5 +1,5 @@
 import { IUser } from "../../../../redux/slices/Interfaces";
-import Avatar from "../../../users/Avatar";
+import Avatar from "../../../reusable/Avatar";
 
 const Likes: React.FC<{ users: IUser[] }> = ({ users }) => {
   return (

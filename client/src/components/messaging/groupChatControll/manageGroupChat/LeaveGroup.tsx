@@ -3,7 +3,7 @@ import {
   useAppSelector,
 } from "../../../../hooks/useAppSelectorAndDispatch";
 import { RxExit } from "react-icons/rx";
-import Confirmation from "../../Confirmation";
+import Confirmation from "../../../reusable/Confirmation";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import rmChatMemberThunk from "../../../../redux/thunks/rmChatMemberThunk";

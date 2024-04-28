@@ -1,13 +1,13 @@
 import { IMessage } from "../../../../redux/slices/Interfaces";
 import { formatDistanceToNow } from "date-fns";
-import Avatar from "../../../users/Avatar";
+import Avatar from "../../../reusable/Avatar";
 import {
   useAppSelector,
   useAppDispatch,
 } from "../../../../hooks/useAppSelectorAndDispatch";
 import { TiDelete } from "react-icons/ti";
 import markMsgAsDeletedThunk from "../../../../redux/thunks/markMsgAsDeletedThunk";
-import Confirmation from "../../Confirmation";
+import Confirmation from "../../../reusable/Confirmation";
 import addLikeThunk from "../../../../redux/thunks/addLikeThunk";
 import rmLikeThunk from "../../../../redux/thunks/rmLikeThunk";
 import { FaHeart } from "react-icons/fa";

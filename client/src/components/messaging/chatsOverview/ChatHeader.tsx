@@ -1,5 +1,5 @@
 import { IMessage } from "../../../redux/slices/Interfaces";
-import Avatar from "../../users/Avatar";
+import Avatar from "../../reusable/Avatar";
 
 export const ChatHeader: React.FC<{ chat: IMessage }> = ({ chat }) => {
   console.log(chat.interlocutor)

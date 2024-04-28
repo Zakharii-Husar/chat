@@ -3,7 +3,7 @@ import {
   useAppDispatch,
 } from "../../../../hooks/useAppSelectorAndDispatch";
 
-import Confirmation from "../../Confirmation";
+import Confirmation from "../../../reusable/Confirmation";
 
 import ListGroup from "react-bootstrap/ListGroup";
 import Button from "react-bootstrap/Button";
