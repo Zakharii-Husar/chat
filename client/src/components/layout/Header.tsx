@@ -5,9 +5,9 @@ import { useCheckAuth } from "../../hooks/useCheckAuth";
 import { useAppSelector } from "../../hooks/useAppSelectorAndDispatch";
 import { IoIosMail } from "react-icons/io";
 import Avatar from "../reusable/Avatar";
-import "./Header.css";
+import "./Header.scss";
 export const AppHeader: React.FC = () => {
- // useCheckAuth();
+  // useCheckAuth();
 
   const user = useAppSelector((state) => state.loggedInUser);
   const chats = useAppSelector((state) => state.chats.chats);
@@ -16,11 +16,8 @@ export const AppHeader: React.FC = () => {
     .filter((c) => c.seenBy.length === 0 && c.senderId !== user.id).length;
 
   return (
-    <Container
-      fluid
-      className="orbitron d-flex justify-content-center vw-100 p-2"
-    >
-      <Row className="align-items-center">
+    <Container>
+      <Row className="Header justify-content-center">
         {!user.userName ? null : (
           <Col>
             <Link to={"/users/" + user.userName}>
@@ -34,12 +31,8 @@ export const AppHeader: React.FC = () => {
           </Col>
         )}
 
-        <Col style={{ color: "blue" }}>
+        <Col>
           <Link
-            style={{
-              textDecoration: "none",
-              color: "inherit",
-            }}
             to="/"
             className="text-xl d-flex flex-row w-100 justify-content-between"
           >
@@ -51,12 +44,8 @@ export const AppHeader: React.FC = () => {
 
         {!user.userName ? null : (
           <Col>
-            <div style={{ color: "blue" }}>
-              <Link
-                className="position-relative"
-                style={{ textDecoration: "none" }}
-                to="/chats"
-              >
+            <div>
+              <Link className="position-relative" to="/chats">
                 <IoIosMail size="60" />
                 <div
                   className={

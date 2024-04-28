@@ -1,6 +1,8 @@
 import reportWebVitals from './reportWebVitals';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import "./index.css";
 
 import "@fortawesome/fontawesome-free/css/all.min.css";
