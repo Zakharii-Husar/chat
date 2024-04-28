@@ -4,7 +4,7 @@ import {
   MDBCardHeader,
   MDBIcon,
   MDBFile,
-  MDBContainer
+  MDBContainer,
 } from "mdb-react-ui-kit";
 import { MdAddCircle } from "react-icons/md";
 import { useState, ChangeEvent } from "react";
@@ -15,7 +15,6 @@ const UploadAvatar: React.FC = () => {
   const dispatch = useAppDispatch();
   const [showForm, setShowForm] = useState(false);
   const [selectedAvatar, setSelectedAvatar] = useState<File | null>(null);
-
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
@@ -30,21 +29,28 @@ const UploadAvatar: React.FC = () => {
       alert("Please select an image!");
       return false;
     }
-  
+
     // Check file size (5MB limit)
     const maxSizeInBytes = 5 * 1024 * 1024; // 5MB
     if (file.size > maxSizeInBytes) {
       alert("Image size exceeds 5MB limit!");
       return false;
     }
-  
+
     // Check file format
-    const allowedFormats = ["image/png", "image/jpeg", "image/jpg", "image/gif"];
+    const allowedFormats = [
+      "image/png",
+      "image/jpeg",
+      "image/jpg",
+      "image/gif",
+    ];
     if (!allowedFormats.includes(file.type)) {
-      alert("Invalid file format! Only .png, .jpg, .jpeg, or .gif formats are allowed.");
+      alert(
+        "Invalid file format! Only .png, .jpg, .jpeg, or .gif formats are allowed."
+      );
       return false;
     }
-  
+
     return true;
   };
 
@@ -93,7 +99,7 @@ const UploadAvatar: React.FC = () => {
             <MDBIcon icon="times" />
           </button>
           <button
-          onClick={handleUpload}
+            onClick={handleUpload}
             type="button"
             className="btn btn-primary"
             data-mdb-ripple-init

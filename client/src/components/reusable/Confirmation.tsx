@@ -1,4 +1,3 @@
-import Modal from "react-bootstrap/Modal";
 import { useState, ReactNode } from "react";
 import { MDBModal, MDBModalHeader, MDBModalTitle, MDBModalFooter, MDBBtn } from 'mdb-react-ui-kit';
 
