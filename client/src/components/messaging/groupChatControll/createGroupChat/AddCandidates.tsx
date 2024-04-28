@@ -1,14 +1,14 @@
 import { useEffect } from "react";
-
-import InputGroup from "react-bootstrap/InputGroup";
-import ListGroup from "react-bootstrap/ListGroup";
-import FormControl from "react-bootstrap/FormControl";
-import Form from "react-bootstrap/Form";
-import Container from "react-bootstrap/Container";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
+import {
+  MDBContainer,
+  MDBRow,
+  MDBCol,
+  MDBInputGroup,
+  MDBInput,
+  MDBListGroup,
+  MDBListGroupItem,
+} from "mdb-react-ui-kit";
 import { updateSearchedUser } from "../../../../redux/slices/usersSlice";
-
 import { addChatCandidates } from "../../../../redux/slices/createGroupSlice";
 
 import {
@@ -16,7 +16,6 @@ import {
   useAppDispatch,
 } from "../../../../hooks/useAppSelectorAndDispatch";
 import { IChatMember, IUser } from "../../../../redux/slices/Interfaces";
-import getAllUsersThunk from "../../../../redux/thunks/getAllUsersThunk";
 import searchUsersThunk from "../../../../redux/thunks/searchUsersThunk";
 
 const AddCandidates: React.FC = () => {
@@ -43,42 +42,40 @@ const AddCandidates: React.FC = () => {
   };
 
   return (
-    <Container fluid className="d-flex mb-3">
-      <Col>
-        <Row>
-          <Form>
-            <InputGroup className="mb-3">
-              <FormControl placeholder="Search users" onInput={search} />
-            </InputGroup>
+    <MDBContainer fluid className="d-flex mb-3">
+      <MDBCol>
+        <MDBRow>
+          <MDBInputGroup className="mb-3">
+            <MDBInput placeholder="Search users" onInput={search} />
+          </MDBInputGroup>
 
-            {currentUsersList.map((user: IUser) => {
-              //prevent showing current user and already added users
-              return createGroupState.candidates.some(
-                (member) =>
-                  member.memberId === user.id || user.id === currentUserId
-              ) ? null : (
-                //show candidats
-                <Form.Group key={user.id}>
-                  <ListGroup.Item>
-                    <span
-                      onClick={() =>
-                        add({
-                          userName: user.userName,
-                          memberId: user.id,
-                          isCreator: false,
-                        })
-                      }
-                    >
-                      {user.userName}
-                    </span>
-                  </ListGroup.Item>
-                </Form.Group>
-              );
-            })}
-          </Form>
-        </Row>
-      </Col>
-    </Container>
+          {currentUsersList.map((user: IUser) => {
+            //prevent showing current user and already added users
+            return createGroupState.candidates.some(
+              (member) =>
+                member.memberId === user.id || user.id === currentUserId
+            ) ? null : (
+              //show candidats
+              <MDBListGroup key={user.id}>
+                <MDBListGroupItem>
+                  <span
+                    onClick={() =>
+                      add({
+                        userName: user.userName,
+                        memberId: user.id,
+                        isCreator: false,
+                      })
+                    }
+                  >
+                    {user.userName}
+                  </span>
+                </MDBListGroupItem>
+              </MDBListGroup>
+            );
+          })}
+        </MDBRow>
+      </MDBCol>
+    </MDBContainer>
   );
 };
 
