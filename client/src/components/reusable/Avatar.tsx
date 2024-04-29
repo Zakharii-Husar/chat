@@ -9,9 +9,8 @@ const Avatar: React.FC<{
   size: string;
   fileName: string | null;
   editBtn: boolean;
-  isGroup: boolean
+  isGroup: boolean;
 }> = ({ size, fileName, editBtn = false, isGroup = false }) => {
-
   const mediumSize = {
     photoSize: "50px",
     radius: "50%",
@@ -32,6 +31,12 @@ const Avatar: React.FC<{
         setAvatarState(mediumSize);
     }
   }, []);
+  const genericAvatar = isGroup ? (
+    <FaPeopleGroup className="generic" size={avatarState.genericSize} />
+  ) : (
+    <FaUserAlt className="generic" size={avatarState.genericSize} />
+  );
+
   return (
     <div
       style={{
@@ -40,35 +45,22 @@ const Avatar: React.FC<{
         minWidth: avatarState.photoSize,
         minHeight: avatarState.photoSize,
         zIndex: "1",
-        border: "3px solid white",
+        border: "1px solid black",
         borderRadius: avatarState.radius,
         overflow: "hidden",
         background: "black",
       }}
     >
       {!hasAvatar ? (
-        <span
-          className="w-100"
-          style={{
-            width: avatarState.photoSize,
-            minHeight: avatarState.photoSize,
-            zIndex: "1",
-          }}
-        >
-          {isGroup ? <FaPeopleGroup size={avatarState.genericSize} /> :
-          <FaUserAlt size={avatarState.genericSize} />}
-          
-        </span>
+        genericAvatar
       ) : (
         <Image
           className="w-100"
           src={GET_AVATAR(fileName ?? "")}
           alt="Avatar"
-          fluid
           style={{
             width: avatarState.photoSize,
             minHeight: avatarState.photoSize,
-            zIndex: "1",
           }}
         />
       )}
