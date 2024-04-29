@@ -1,6 +1,6 @@
 import { IMessage } from "../../../../redux/slices/Interfaces";
 import { formatDistanceToNow } from "date-fns";
-import Avatar from "../../../reusable/Avatar";
+import Avatar from "../../../reusable/Avatar/Avatar";
 import {
   useAppSelector,
   useAppDispatch,

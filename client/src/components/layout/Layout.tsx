@@ -1,6 +1,6 @@
 import { useCheckAuth } from "../../hooks/useCheckAuth";
 import { Outlet } from "react-router-dom";
-import { AppHeader } from "./Header";
+import { AppHeader } from "./AppHeader";
 import { Col, Row, Container } from "react-bootstrap";
 
 export const Layout = () => {

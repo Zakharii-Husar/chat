@@ -20,7 +20,7 @@ import searchUsersThunk from "../../redux/thunks/searchUsersThunk";
 import getChatIdByUsernameThunk from "../../redux/thunks/getChatIdByUsernameThunk";
 import createPrivateChatThunk from "../../redux/thunks/createPrivateChatThunk";
 import { useRedirectAsync } from "../../hooks/useRedirectAsync";
-import Avatar from "../reusable/Avatar";
+import Avatar from "../reusable/Avatar/Avatar";
 import { Link } from "react-router-dom";
 
 const Users: React.FC = () => {

@@ -2,5 +2,7 @@ $primary-color: rgb(8, 8, 207);
 $secondary-color: blue;
 
 $header-color: $primary-color;
-$read-chat: white;
-$unread-chat: lightblue;
+$read-chat-bg: white;
+$unread-chat-bg: lightblue;
+$chat-header: $primary-color;
+$chat-body: $secondary-color;

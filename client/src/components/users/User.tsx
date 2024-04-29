@@ -6,7 +6,7 @@ import {
   useAppSelector,
   useAppDispatch,
 } from '../../hooks/useAppSelectorAndDispatch';
-import Avatar from '../reusable/Avatar';
+import Avatar from '../reusable/Avatar/Avatar';
 import getUserDetailsThunk from '../../redux/thunks/getUserDetailsThunk';
 import getChatIdByUsernameThunk from '../../redux/thunks/getChatIdByUsernameThunk';
 import createPrivateChatThunk from '../../redux/thunks/createPrivateChatThunk';

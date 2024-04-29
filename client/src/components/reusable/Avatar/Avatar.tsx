@@ -1,10 +1,11 @@
-import { GET_AVATAR } from "../../redux/thunks/APIEndpoints";
+import { GET_AVATAR } from "../../../redux/thunks/APIEndpoints";
 import { FaUserAlt } from "react-icons/fa";
 
 import { FaPeopleGroup } from "react-icons/fa6";
 import { useState, useEffect } from "react";
 import UploadAvatar from "./UploadAvatar";
 import { Image } from "react-bootstrap";
+import "./Avatar.scss";
 const Avatar: React.FC<{
   size: string;
   fileName: string | null;
@@ -12,9 +13,9 @@ const Avatar: React.FC<{
   isGroup: boolean;
 }> = ({ size, fileName, editBtn = false, isGroup = false }) => {
   const mediumSize = {
-    photoSize: "50px",
+    photoSize: "40px",
     radius: "50%",
-    genericSize: 45,
+    genericSize: 40,
   };
 
   const [avatarState, setAvatarState] = useState(mediumSize);
@@ -25,7 +26,7 @@ const Avatar: React.FC<{
         setAvatarState({ photoSize: "150px", radius: "5px", genericSize: 150 });
         break;
       case "S":
-        setAvatarState({ photoSize: "30px", radius: "50%", genericSize: 25 });
+        setAvatarState({ photoSize: "20px", radius: "50%", genericSize: 20 });
         break;
       default:
         setAvatarState(mediumSize);
@@ -39,16 +40,14 @@ const Avatar: React.FC<{
 
   return (
     <div
+    className="Avatar"
       style={{
         width: avatarState.photoSize,
         height: avatarState.photoSize,
         minWidth: avatarState.photoSize,
         minHeight: avatarState.photoSize,
-        zIndex: "1",
-        border: "1px solid black",
         borderRadius: avatarState.radius,
-        overflow: "hidden",
-        background: "black",
+        fontSize: avatarState.genericSize
       }}
     >
       {!hasAvatar ? (

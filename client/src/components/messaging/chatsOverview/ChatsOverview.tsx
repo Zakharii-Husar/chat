@@ -26,21 +26,21 @@ export const ChatsOverview: React.FC = () => {
       <CreateGroup />
       <Row className="d-flex justify-content-center h-100">
         <Col className="d-flex h-100">
-          <Card className="d-flex w-100">
+          <Card className="d-flex w-100 h-100">
             <InfiniteScroll
-              className="scrollable"
-              height={300}
+            className="scrollable"
+              height={400}
               dataLength={chatsOverviewState?.chats.length}
               next={() => dispatch(getAllChatsThunk())}
               hasMore={hasMore}
               loader={<h4>Loading...</h4>}
               endMessage={<b>Beginning of the chats</b>}
             >
-              <Card.Body>
+              <Card.Body className="ChatsOverview">
                 {chatsOverviewState?.chats?.map((chat) => {
                   const isRead = chat.seenBy.length > 0;
                   return (
-                    <Container className="ChatsOverview">
+                    <Container>
                       <Link
                         key={chat.chatId}
                         to={chat.chatId.toString()}

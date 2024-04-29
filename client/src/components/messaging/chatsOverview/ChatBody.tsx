@@ -1,7 +1,7 @@
 import React from 'react';
 import { formatDistanceToNow } from 'date-fns';
-import { Row, Col } from 'react-bootstrap';
-import Avatar from '../../reusable/Avatar';
+import { Container, Row, Col } from 'react-bootstrap';
+import Avatar from '../../reusable/Avatar/Avatar';
 import { useAppSelector } from '../../../hooks/useAppSelectorAndDispatch';
 import { FaEye } from 'react-icons/fa';
 import { IMessage } from '../../../redux/slices/Interfaces';
@@ -14,8 +14,8 @@ const ChatBody: React.FC<{ message: IMessage }> = ({ message }) => {
   const isRead = message.seenBy.length > 0;
 
   return (
-    <li className="p-2" key={message.chatId}>
-      <Row className="align-items-center">
+    <Container className="p-2 w-100 h-100" key={message.chatId}>
+      <Row className="chatBody justify-content-start h-50">
         <Col xs={2}>
           <Avatar
             size="M"
@@ -41,7 +41,7 @@ const ChatBody: React.FC<{ message: IMessage }> = ({ message }) => {
           {isRead && <FaEye />}
         </Col>
       </Row>
-    </li>
+    </Container>
   );
 };
 

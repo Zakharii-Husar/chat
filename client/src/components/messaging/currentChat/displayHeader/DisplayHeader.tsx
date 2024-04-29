@@ -1,7 +1,7 @@
 import ManageGroupChat from "../../groupChatControll/manageGroupChat/ManageGroup";
 import { Link } from "react-router-dom";
 import { useAppSelector } from "../../../../hooks/useAppSelectorAndDispatch";
-import Avatar from "../../../reusable/Avatar";
+import Avatar from "../../../reusable/Avatar/Avatar";
 
 export const DisplayHeader: React.FC = () => {
   const CurrentUser = useAppSelector((state) => state.loggedInUser);

@@ -1,8 +1,8 @@
 import { Form, Card, Container } from "react-bootstrap";
 import { MdAddCircle } from "react-icons/md";
 import { useState, ChangeEvent } from "react";
-import { useAppDispatch } from "../../hooks/useAppSelectorAndDispatch";
-import uploadAvatarThunk from "../../redux/thunks/uploadAvatarThunk";
+import { useAppDispatch } from "../../../hooks/useAppSelectorAndDispatch";
+import uploadAvatarThunk from "../../../redux/thunks/uploadAvatarThunk";
 
 const UploadAvatar: React.FC = () => {
   const dispatch = useAppDispatch();

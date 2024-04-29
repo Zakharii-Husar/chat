@@ -9,10 +9,22 @@
   }
 }
 
+.chat{
+    height: 20px;
+}
+
 .readChat{
-    background-color: $read-chat;
+    background-color: $read-chat-bg;
 }
 
 .unreadChat{
-    background-color: $unread-chat;
+    background-color: $unread-chat-bg;
+}
+
+.chatHeader{
+    color: $chat-header;
+}
+
+.chatBody{
+    color: $chat-body;
 }

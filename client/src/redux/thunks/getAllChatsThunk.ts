@@ -7,7 +7,7 @@ const getAllChatsThunk = createAsyncThunk(
   "chats/getAllChats",
   async (_, { getState, dispatch }) => {
     const state = getState() as RootState;
-    const itemsToTake = 5;
+    const itemsToTake = 10;
     const itemsToSkip = state.chats.chats.length;
     const link = GET_ALL_CHATS(itemsToSkip, itemsToTake);
     try {

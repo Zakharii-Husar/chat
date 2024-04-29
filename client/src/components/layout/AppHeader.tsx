@@ -4,8 +4,8 @@ import { Link } from "react-router-dom";
 import { useCheckAuth } from "../../hooks/useCheckAuth";
 import { useAppSelector } from "../../hooks/useAppSelectorAndDispatch";
 import { IoIosMail } from "react-icons/io";
-import Avatar from "../reusable/Avatar";
-import "./Header.scss";
+import Avatar from "../reusable/Avatar/Avatar";
+import "./AppHeader.scss";
 export const AppHeader: React.FC = () => {
   // useCheckAuth();
 
