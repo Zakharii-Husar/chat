@@ -1,27 +1,30 @@
-.scrollable{
-    overflow-y: auto;
-    display: flex;
-    width: 100%;
-    margin:auto;
-    padding:5px;
- }
- .scrollable::-webkit-scrollbar {
-    width: 5px;
-    border-radius: 25px;
-    background-color: black; 
-    position: absolute;
-    left: 0; 
- }
- .scrollable::-webkit-scrollbar-thumb {
-   border-radius: 25px;
-    background-color: #000000;
-    
- }
- .scrollable::-webkit-scrollbar-track {
-border-radius: 5px;
- }
+.scrollable {
+   list-style: none;
+   display: flex;
+   flex-direction: column;
+  height: 80vh;
+  overflow-y: auto;
+  display: flex;
+  width: 100%;
+  margin: auto;
+  padding: 5px;
+}
+.scrollable::-webkit-scrollbar {
+  width: 5px;
+  border-radius: 25px;
+  background-color: black;
+  position: absolute;
+  left: 0;
+}
+.scrollable::-webkit-scrollbar-thumb {
+  border-radius: 25px;
+  background-color: #000000;
+}
+.scrollable::-webkit-scrollbar-track {
+  border-radius: 5px;
+}
 
- .scrollable::-webkit-scrollbar-thumb{
-   overflow-y: hidden;
-   background-color: blue;
- }
+.scrollable::-webkit-scrollbar-thumb {
+  overflow-y: hidden;
+  background-color: blue;
+}

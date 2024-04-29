@@ -3,11 +3,6 @@ import RemoveCandidates from "./RemoveCandidates";
 import AddCandidates from "./AddCandidates";
 import NewGroupName from "./NewGroupName";
 
-import Card from "react-bootstrap/Card";
-import Modal from "react-bootstrap/Modal";
-import Button from "react-bootstrap/Button";
-
-
 import {
   useAppSelector,
   useAppDispatch,
@@ -17,7 +12,8 @@ import { resetChatCandidates } from "../../../../redux/slices/createGroupSlice";
 
 import createGroupThunk from "../../../../redux/thunks/createGroupThunk";
 import { useRedirectAsync } from "../../../../hooks/useRedirectAsync";
-import { Row, Col } from "react-bootstrap";
+import { Row, Col, Card, Modal, Button } from "react-bootstrap";
+import { FaUserGroup } from "react-icons/fa6";
 
 const CreateGroup: React.FC = () => {
   const redirectAsync = useRedirectAsync();
@@ -53,10 +49,15 @@ const CreateGroup: React.FC = () => {
 
   return (
     <Row className="d-flex justify-content-center">
-      <Col xs={12} sm={10} lg={8} xl={6}>
+      <Col>
         <Card>
-          <Card.Header className="badge text-bg-primary text-wrap h-5" role="button" onClick={() => handleShowForm(true)}>
-            Create Group Chat
+          <Card.Header
+            className="w-100 badge text-bg-primary text-wrap h-5"
+            role="button"
+            onClick={() => handleShowForm(true)}
+          >
+            <span className="me-2">Create Group Chat</span>
+            <FaUserGroup/>
           </Card.Header>
 
           <Modal show={showForm} onHide={() => handleShowForm(false)}>
@@ -67,7 +68,6 @@ const CreateGroup: React.FC = () => {
               <RemoveCandidates />
               <AddCandidates />
               <NewGroupName />
-
               <Button variant="primary" onClick={createGroup}>
                 Create Group Chat
               </Button>

@@ -14,7 +14,7 @@ const ChatBody: React.FC<{ message: IMessage }> = ({ message }) => {
   const isRead = message.seenBy.length > 0;
 
   return (
-    <li className="border p-2" key={message.chatId}>
+    <li className="p-2" key={message.chatId}>
       <Row className="align-items-center">
         <Col xs={2}>
           <Avatar

@@ -1,0 +1,18 @@
+@import "../../../style/_colors";
+
+.ChatsOverview {
+  a {
+    text-decoration: "none";
+    color: "inherit";
+    border-radius: 15px;
+    border: 1px solid black
+  }
+}
+
+.readChat{
+    background-color: $read-chat;
+}
+
+.unreadChat{
+    background-color: $unread-chat;
+}
