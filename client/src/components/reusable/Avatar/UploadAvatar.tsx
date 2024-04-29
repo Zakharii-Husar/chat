@@ -71,7 +71,7 @@ const UploadAvatar: React.FC = () => {
       />
 
       {showForm && (
-        <Card className="position-absolute top-50 start-50 translate-middle">
+        <Card className="position-absolute w-50 top-50 start-50 translate-middle">
           <Card.Header>File Upload</Card.Header>
           <Card.Body>
             <h3>Choose avatar:</h3>

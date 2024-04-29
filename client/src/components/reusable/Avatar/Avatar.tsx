@@ -40,7 +40,7 @@ const Avatar: React.FC<{
 
   return (
     <div
-    className="Avatar"
+    className="Avatar d-flex flex-column"
       style={{
         width: avatarState.photoSize,
         height: avatarState.photoSize,

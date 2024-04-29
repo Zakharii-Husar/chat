@@ -16,11 +16,11 @@ export const AppHeader: React.FC = () => {
     .filter((c) => c.seenBy.length === 0 && c.senderId !== user.id).length;
 
   return (
-    <Container fluid className="d-flex justify-content-center">
-      <Row className="Header align-items-center">
+    <Container fluid className="w-100 pt-2 d-flex justify-content-center align-items-center">
+      <Row className="Header w-100 justify-content-center align-items-center">
         {!user.userName ? null : (
-          <Col>
-            <Link to={"/users/" + user.userName}>
+          <Col xs={2}>
+            <Link className="d-flex align-items-center justify-content-center" to={"/users/" + user.userName}>
               <Avatar
                 size="M"
                 fileName={user.avatarName}
@@ -31,19 +31,19 @@ export const AppHeader: React.FC = () => {
           </Col>
         )}
 
-        <Col>
+        <Col xs={8}>
           <Link
             to="/"
-            className="text-xl d-flex flex-row w-100 justify-content-between"
+            className="text-xl d-flex flex-row justify-content-around"
           >
             <h1>Chat</h1>
-            <TiMessages size={40} className="mx-4" />
+            <TiMessages size={40} />
             <h1>:)</h1>
           </Link>
         </Col>
 
         {!user.userName ? null : (
-          <Col>
+          <Col xs={2}>
             <div>
               <Link className="position-relative" to="/chats">
                 <IoIosMail size="60" />

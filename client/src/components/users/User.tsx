@@ -48,11 +48,11 @@ export default function User() {
   return !currentProfile.id ? (
     <h1>LOADING...</h1>
   ) : (
-    <div className="gradient-custom-2">
-      <Container className="py-5 h-100">
+    <div className="gradient-custom-2 w-100">
+      <Container fluid className="py-5 h-100 w-100">
         <Row className="justify-content-center align-items-center h-100">
-          <Col lg="9" xl="7">
-            <Card>
+          <Col>
+            <Card className='d-flex'>
               <div
                 className="rounded-top text-white d-flex flex-row"
                 style={{ backgroundColor: '#000', height: '200px' }}
