@@ -36,7 +36,7 @@ const UpdateBio: React.FC<{ children: ReactNode }> = ({ children }) => {
         </Modal.Header>
         <Modal.Body>
         <Form.Group>
-            <Form.Label>Message</Form.Label>
+            <Form.Label>Up to 50 characters</Form.Label>
             <Form.Control as="textarea" rows={4} onChange={updateBio} />
           </Form.Group>
         </Modal.Body>

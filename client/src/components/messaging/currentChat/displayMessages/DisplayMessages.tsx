@@ -6,6 +6,7 @@ import getChatByIdThunk from '../../../../redux/thunks/getChatByIdThunk';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import Message from './Message';
 import GenericMessage from './GenericMessage';
+import Loading from '../../../reusable/Loading';
 
 export const DisplayMessages = () => {
   const dispatch = useAppDispatch();
@@ -17,8 +18,6 @@ export const DisplayMessages = () => {
     if (!isLoading) dispatch(getChatByIdThunk(currentChat.chatId!));
   };
 
-  console.log(currentChat.messages);
-
   return (
     <InfiniteScroll
       style={{ height: '50vh' }}
@@ -28,7 +27,7 @@ export const DisplayMessages = () => {
       dataLength={currentChat.messages.length}
       next={loadMore}
       hasMore={currentChat.hasMoreMessages}
-      loader={<h4>Loading...</h4>}
+      loader={<Loading/>}
       endMessage={<p style={{ textAlign: 'center' }}><b>Beginning of the chat:</b></p>}
     >
       <div>

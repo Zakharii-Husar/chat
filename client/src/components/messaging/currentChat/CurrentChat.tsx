@@ -11,6 +11,7 @@ import getChatByIdThunk from "../../../redux/thunks/getChatByIdThunk";
 import useWsCurrentChatTracker from "../../../hooks/ws/useWsCurrentChatTracker";
 
 import { Container, Row, Col } from "react-bootstrap";
+import Loading from "../../reusable/Loading";
 
 export const CurrentChat: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -35,12 +36,9 @@ export const CurrentChat: React.FC = () => {
   }, []);
 
   return !parsedChatId ? (
-    <h1>LOADING...</h1>
+    <Loading />
   ) : (
-    <Container
-      fluid
-      className="d-flex m-0 p-0 w-100"
-    >
+    <Container fluid className="d-flex m-0 p-0 w-100">
       <Row className="d-flex w-100 m-0 justify-content-center">
         <Col sm={11} md={9} lg={6} xl={6}>
           <DisplayHeader />
