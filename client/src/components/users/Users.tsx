@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   useAppSelector,
@@ -27,11 +27,12 @@ const Users: React.FC = () => {
   useCheckAuth();
   const redirectAsync = useRedirectAsync();
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
-  const [redirectTrigger, setRedirectTrigger] = useState(false);
+
   const { allUsers, filteredUsers, searchedUser } = useAppSelector(
     (state) => state.users
   );
+
+  const [timer, setTimer] = useState(null);
 
   const currentChatId = useAppSelector((state) => state.currentChat.chatId);
 
@@ -43,9 +44,17 @@ const Users: React.FC = () => {
     initialLoad();
   }, []);
 
+  let timeOut: any = useRef(null);
   useEffect(() => {
-    if (searchedUser) dispatch(searchUsersThunk(searchedUser));
-  }, [searchedUser]);
+    const searchUsers =()=>{
+      if (!searchedUser) return;
+      clearTimeout(timeOut.current);
+      timeOut.current = setTimeout(() => {
+        dispatch(searchUsersThunk(searchedUser));
+      }, 1000);
+    }
+    searchUsers();
+  }, [searchedUser, timer]);
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const input = e.target.value;
