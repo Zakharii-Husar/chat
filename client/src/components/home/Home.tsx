@@ -10,7 +10,7 @@ export const Home: React.FC = () => {
   const loggedInId = useAppSelector((state) => state.loggedInUser.id);
 
   return (
-    <Container fluid className="d-flex flex-column align-items-center vw-100">
+    <Container fluid className="d-flex flex-column justify-content-center align-items-center vw-100">
       {loggedInId ? <Welcome /> : <Auth />}
     </Container>
   );
