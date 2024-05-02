@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import {
   useAppSelector,
   useAppDispatch,
@@ -46,13 +45,13 @@ const Users: React.FC = () => {
 
   let timeOut: any = useRef(null);
   useEffect(() => {
-    const searchUsers =()=>{
+    const searchUsers = () => {
       if (!searchedUser) return;
       clearTimeout(timeOut.current);
       timeOut.current = setTimeout(() => {
         dispatch(searchUsersThunk(searchedUser));
       }, 1000);
-    }
+    };
     searchUsers();
   }, [searchedUser, timer]);
 

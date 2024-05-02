@@ -8,9 +8,10 @@ import { useNavigate } from "react-router";
 
 import loginWithPasswordThunk from "../../../redux/thunks/loginWithPasswordThunk";
 
-import { Container, Card, Button, Row, Form } from "react-bootstrap";
+import { Container, Card, Button, Col, Row, Form } from "react-bootstrap";
 
 import { useCheckAuth } from "../../../hooks/useCheckAuth";
+import "./Login.scss";
 
 export function Login() {
   useCheckAuth();
@@ -37,33 +38,45 @@ export function Login() {
   };
 
   return (
-    <Container fluid className="d-flex flex-column align-items-center justify-content-center">
-      <Row className={"z-3 bg-danger d-" + (showError ? "flex" : "none")}>
-        <h1>Wrong Credentials</h1>
-      </Row>
-      <Card className="m-5" style={{ maxWidth: "600px" }}>
-        <Card.Body className="px-5">
-          <h2 className="text-uppercase text-center mb-5">Sign in</h2>
+    <Container
+      fluid
+      className="d-flex flex-column align-items-center justify-content-center"
+    >
+      <Col xs={12}>
+        <Card>
+          <Card.Body>
+            <h2 className="text-uppercase text-center">Sign in</h2>
+            <h3
+              className={
+                "rounded-3 text-center p-1 z-3 justify-content-center text-danger " +
+                (showError ? "visible" : "invisible")
+              }
+            >
+              Invalid Credentials!
+            </h3>
+            <Form.Group className="mb-2">
+              <Form.Label>Nickname or email</Form.Label>
+              <Form.Control type="text" name="login" onInput={handleInput} />
+            </Form.Group>
 
-          <Form.Group className="mb-4">
-            <Form.Label>Nickname or email</Form.Label>
-            <Form.Control type="text" name="login" size="lg" onInput={handleInput} />
-          </Form.Group>
+            <Form.Group className="mb-2">
+              <Form.Label>Password</Form.Label>
+              <Form.Control
+                type="password"
+                name="password"
+                onInput={handleInput}
+              />
+            </Form.Group>
 
-          <Form.Group className="mb-4">
-            <Form.Label>Password</Form.Label>
-            <Form.Control type="password" name="password" size="lg" onInput={handleInput} />
-          </Form.Group>
-
-          <Button
-            className="mb-4 w-100 gradient-custom-4"
-            size="lg"
-            onClick={handleSubmit}
-          >
-            Sign in
-          </Button>
-        </Card.Body>
-      </Card>
+            <Button
+              className="mb-4 w-100 gradient-custom-3"
+              onClick={handleSubmit}
+            >
+              Sign in
+            </Button>
+          </Card.Body>
+        </Card>
+      </Col>
     </Container>
   );
 }
