@@ -1,0 +1,21 @@
+@import "../../../style/colors";
+
+button{
+  background-color: $register-button-bg;
+}
+
+.formGroup{
+  position: relative;
+}
+.formGroup::after {
+  position: absolute;
+  right: -8px;
+  top: 10px;
+  display: inline-block;
+  color: red;
+  content: ('*');
+}
+
+.registerFontSize{
+  font-size: 0.7rem;
+}

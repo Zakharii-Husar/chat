@@ -32,7 +32,7 @@ export const useRegValidation = () => {
   useEffect(() => {
     const validateEmail = async () => {
       if (!email) {
-        dispatch(setEmailErr("*"));
+        dispatch(setEmailErr(""));
       } else if (!validator.isEmail(email)) {
         dispatch(setEmailErr("invalid"));
       } else if (await isTaken("email", email)) {
@@ -47,7 +47,7 @@ export const useRegValidation = () => {
   useEffect(() => {
     const validateNickName = async () => {
       if (!nickName) {
-        dispatch(setNickNameErr("*"));
+        dispatch(setNickNameErr(""));
       }
       else if (!validator.isLength(nickName, { min: 4, max: 20 })) {
         dispatch(setNickNameErr("should be between 4 and 20 characters"));
@@ -70,7 +70,7 @@ export const useRegValidation = () => {
   useEffect(() => {
     const validatePassword = () => {
       if (!password) {
-        dispatch(setPasswordErr("*"));
+        dispatch(setPasswordErr(""));
       } else if (
         !validator.isLength(password, { min: 8, max: 30 }) ||
         !validator.isStrongPassword(password, {
@@ -87,8 +87,6 @@ export const useRegValidation = () => {
               "include upper and lower case letters,a digit and a special character"
           )
         );
-      } else {
-        dispatch(setPasswordErr(""));
       }
 
       validator.equals(password ?? "", confirm ?? "")
@@ -102,7 +100,7 @@ export const useRegValidation = () => {
   useEffect(() => {
     const validateFullName = () => {
       if (!fullName) {
-        dispatch(setFullNameErr("*"));
+        dispatch(setFullNameErr(""));
       } else {
         !validator.isEmpty(fullName) &&
         validator.isLength(fullName, { min: 3, max: 30 }) &&
