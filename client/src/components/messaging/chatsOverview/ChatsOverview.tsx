@@ -12,6 +12,7 @@ import ChatBody from "./ChatBody";
 import { ChatHeader } from "./ChatHeader";
 import { Link } from "react-router-dom";
 import "./ChatsOverview.scss";
+import PATH from "../../../routing/pathConstants";
 
 export const ChatsOverview: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -43,7 +44,7 @@ export const ChatsOverview: React.FC = () => {
                     <Container>
                       <Link
                         key={chat.chatId}
-                        to={chat.chatId.toString()}
+                        to={`${PATH.chats}/${chat.chatId}`}
                         className={
                           "d-flex flex-column justify-content-between mb-2 " +
                           (isRead ? "readChat" : "unreadChat")

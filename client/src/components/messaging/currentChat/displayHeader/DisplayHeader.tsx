@@ -28,7 +28,7 @@ export const DisplayHeader: React.FC = () => {
         >
           <Avatar
             size="M"
-            fileName={currentChat.messages[0].interlocutor?.avatarName ?? null}
+            fileName={currentChat.messages?.[0]?.interlocutor?.avatarName ?? null}
             editBtn={false}
             isGroup={false}
           />

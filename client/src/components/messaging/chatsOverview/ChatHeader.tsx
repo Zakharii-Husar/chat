@@ -1,9 +1,8 @@
-import { Container, Col, Row } from "react-bootstrap";
+import { Container } from "react-bootstrap";
 import { IMessage } from "../../../redux/slices/Interfaces";
 import Avatar from "../../reusable/Avatar/Avatar";
 
 export const ChatHeader: React.FC<{ chat: IMessage }> = ({ chat }) => {
-  console.log(chat.interlocutor);
   return (
     <Container
       className="
