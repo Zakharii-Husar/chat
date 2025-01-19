@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { Col, Container, Row, Card, Button } from 'react-bootstrap';
 import { MdModeEdit } from 'react-icons/md';
@@ -95,7 +95,7 @@ export default function User() {
                       {currentProfile.bio}
                     </p>
                   </div>
-                  <UpdateBio children={<MdModeEdit cursor="pointer" />} />
+                  {isMyPofile && <UpdateBio children={<MdModeEdit cursor="pointer" />} />}
                 </div>
               </div>
             </Card>

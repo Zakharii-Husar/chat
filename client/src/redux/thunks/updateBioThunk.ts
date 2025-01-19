@@ -5,7 +5,6 @@ const updateBioThunk = createAsyncThunk(
   "currentChat/sendMessage",
   async (newBio: string) => {
     const link = UPDATE_BIO();
-    console.log(newBio)
     try {
       const response = await fetch(link, {
         method: "POST",

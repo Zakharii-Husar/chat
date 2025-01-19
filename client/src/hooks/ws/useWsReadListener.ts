@@ -3,7 +3,7 @@ import { useEffect, useRef } from "react";
 import { useAppDispatch } from "../useAppSelectorAndDispatch";
 import { markChatAsRead } from "../../redux/slices/chatsOverviewSlice";
 import { markMessagesAsRead } from "../../redux/slices/currentChatSlice";
-import { IMessage, IUser } from "../../redux/slices/Interfaces";
+import {  IUser } from "../../redux/slices/Interfaces";
 import { useAppSelector } from "../useAppSelectorAndDispatch";
 
 const useWsReadListener = () => {
@@ -21,7 +21,6 @@ const useWsReadListener = () => {
 
   useEffect(() => {
     const handleRead = (data: { chatId: number; user: IUser }) => {
-      console.log(data)
       const index = chatsOverviewRef.current.findIndex(
         (chat) => chat.chatId === data.chatId
       );
