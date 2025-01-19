@@ -87,6 +87,8 @@ export const useRegValidation = () => {
               "include upper and lower case letters,a digit and a special character"
           )
         );
+      } else {
+        dispatch(setPasswordErr(""));
       }
 
       validator.equals(password ?? "", confirm ?? "")
