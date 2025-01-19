@@ -1,5 +1,39 @@
 # Chat App
 
+## Deploy Containers
+
+### DB Container
+
+1. Build: ``sudo docker build -t chat-db -f DB/Dockerfile .``
+
+2. Run: ```
+sudo docker run -d \
+  --name chat-db \
+  --network host \
+  -e "ACCEPT_EULA=Y" \
+  -e "MSSQL_SA_PASSWORD=YourStrongPassword123!" \
+  -e "MSSQL_ENCRYPT=OPTIONAL" \
+  -p 1433:1433 \
+  chat-db
+  ```
+
+
+
+### API Container
+
+1. Build: ``sudo docker build -t chat-api -f API/Dockerfile . ``
+
+2. Run: ```
+sudo docker run -d \
+  --name chat-api \
+  --network host \
+  -e "DB_SERVER=localhost,1433" \
+  -e "DB_NAME=chat" \
+  -e "DB_USERNAME=sa" \
+  -e "DB_PASSWORD=YourStrongPassword123!" \
+  -p 5190:80 \
+  chat-api
+  ```
 
 ## Description
 

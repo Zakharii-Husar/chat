@@ -1,0 +1,4 @@
+CREATE DATABASE chat;
+GO
+USE chat;
+GO 

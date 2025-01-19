@@ -1,0 +1,77 @@
+version: '3.8'
+
+services:
+  db:
+    build:
+      context: .
+      dockerfile: DB/Dockerfile
+    container_name: chat-db
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=${MSSQL_SA_PASSWORD}
+      - MSSQL_ENCRYPT=OPTIONAL
+      - MSSQL_SSL_CERT_SKIP_VALIDATION=true
+    ports:
+      - "1433:1433"
+    networks:
+      - chat-network
+    healthcheck:
+      test: /opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P "${MSSQL_SA_PASSWORD}" -Q "SELECT 1" -N -C || exit 1
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+  api:
+    build:
+      context: .
+      dockerfile: API/Dockerfile
+    container_name: chat-api
+    environment:
+      - DB_SERVER=db,1433
+      - DB_NAME=chat
+      - DB_USERNAME=sa
+      - DB_PASSWORD=${MSSQL_SA_PASSWORD}
+      - ASPNETCORE_ENVIRONMENT=Docker
+      - MSSQL_SA_PASSWORD=${MSSQL_SA_PASSWORD}
+      - ASPNETCORE_URLS=http://+:80
+    ports:
+      - "5190:80"
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - chat-network
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "200k"
+        max-file: "10"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:80/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+      args:
+        - REACT_APP_API_URL=http://localhost:3000/chat-api
+        - REACT_APP_WS_URL=http://localhost:3000/Hub
+    container_name: chat-client
+    ports:
+      - "3000:80"
+    depends_on:
+      - api
+    networks:
+      - chat-network
+    environment:
+      - REACT_APP_API_URL=http://localhost:3000/chat-api
+      - REACT_APP_WS_URL=http://localhost:3000/Hub
+
+networks:
+  chat-network:
+    driver: bridge

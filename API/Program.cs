@@ -13,11 +13,15 @@ builder.Services.AddCors(options =>
     options.AddPolicy(name: AllowFilteredOrigins,
                       policy =>
                       {
-                          policy.WithOrigins("http://localhost:3000",
-                                              "http://www.localhost:3000")
-                                 .AllowAnyHeader()
-                                 .AllowAnyMethod()
-                                 .AllowCredentials();
+                          policy.WithOrigins(
+                              "http://localhost:3000",
+                              "http://localhost:5190",
+                              "http://client",
+                              "http://client:80"
+                          )
+                          .AllowAnyHeader()
+                          .AllowAnyMethod()
+                          .AllowCredentials();
                       });
 });
 
@@ -90,5 +94,20 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+
+// Add detailed logging
+app.Use(async (context, next) =>
+{
+    try
+    {
+        await next();
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"Error: {ex.Message}");
+        Console.WriteLine($"Stack Trace: {ex.StackTrace}");
+        throw;
+    }
+});
 
 app.Run();
