@@ -12,18 +12,19 @@ var AllowFilteredOrigins = "_allowFilteredOrigins";
 builder.Services.AddCors(options =>
 {
     options.AddPolicy(name: AllowFilteredOrigins,
-                      policy =>
-                      {
-                          policy.WithOrigins(
-                              "http://localhost:3000",
-                              "http://localhost:5190",
-                              "http://client",
-                              "http://client:80"
-                          )
-                          .AllowAnyHeader()
-                          .AllowAnyMethod()
-                          .AllowCredentials();
-                      });
+        policy =>
+        {
+            policy.WithOrigins(
+                "http://localhost:3000",
+                "http://localhost:5190",
+                "http://client",
+                "http://client:80"
+            )
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+            .AllowCredentials()
+            .SetIsOriginAllowed(_ => true); // Be careful with this in production
+        });
 });
 
 // Hosting doesn't add IHttpContextAccessor by default

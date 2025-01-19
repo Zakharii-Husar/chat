@@ -21,6 +21,7 @@ import createPrivateChatThunk from "../../redux/thunks/createPrivateChatThunk";
 import { useRedirectAsync } from "../../hooks/useRedirectAsync";
 import Avatar from "../reusable/Avatar/Avatar";
 import { Link } from "react-router-dom";
+import PATH from "../../routing/pathConstants";
 
 const Users: React.FC = () => {
   useCheckAuth();
@@ -30,10 +31,6 @@ const Users: React.FC = () => {
   const { allUsers, filteredUsers, searchedUser } = useAppSelector(
     (state) => state.users
   );
-
-  const [timer, setTimer] = useState(null);
-
-  const currentChatId = useAppSelector((state) => state.currentChat.chatId);
 
   useEffect(() => {
     const initialLoad = () => {
@@ -53,7 +50,7 @@ const Users: React.FC = () => {
       }, 1000);
     };
     searchUsers();
-  }, [searchedUser, timer]);
+  }, [searchedUser]);
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const input = e.target.value;
@@ -93,7 +90,7 @@ const Users: React.FC = () => {
                 className="d-flex w-100 align-items-center justify-content-between py-1"
               >
                 <Link
-                  to={"users/" + user.userName}
+                  to={`${PATH.users}/${user.userName}`}
                   style={{
                     textDecoration: "none",
                     color: "inherit",

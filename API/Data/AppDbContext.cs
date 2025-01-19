@@ -22,7 +22,6 @@ namespace API.Data
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             var connectionString = _configuration.GetConnectionString("DefaultConnection");
-            Console.WriteLine($"Connection String: {connectionString}");
             
             try
             {
