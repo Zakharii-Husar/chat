@@ -34,9 +34,9 @@ export const useRegValidation = () => {
       if (!email) {
         dispatch(setEmailErr(""));
       } else if (!validator.isEmail(email)) {
-        dispatch(setEmailErr("invalid"));
+        dispatch(setEmailErr("Invalid email"));
       } else if (await isTaken("email", email)) {
-        dispatch(setEmailErr("is taken."));
+        dispatch(setEmailErr("Account with this email already exists."));
       } else {
         dispatch(setEmailErr(""));
       }
@@ -50,14 +50,14 @@ export const useRegValidation = () => {
         dispatch(setNickNameErr(""));
       }
       else if (!validator.isLength(nickName, { min: 4, max: 20 })) {
-        dispatch(setNickNameErr("should be between 4 and 20 characters"));
+        dispatch(setNickNameErr("Should be between 4 and 20 characters"));
       } 
       else if (!validator.matches(nickName, /^[a-zA-Z][\w\-#$\._]*$/)) {
-        dispatch(setNickNameErr("should start with a letter and can only contain '-', '_', '.', '#', '$'"));
+        dispatch(setNickNameErr("Should start with a letter and can only contain '-', '_', '.', '#', '$'"));
       }
       else if (!validator.isAlpha(nickName[0])) {
-        dispatch(setNickNameErr("should begin with a letter"));
-      } else if (await isTaken("username", nickName)) {
+        dispatch(setNickNameErr("Should begin with a letter"));
+      } else if (await isTaken("Username", nickName)) {
         dispatch(setNickNameErr("already taken!"));
       } else {
         dispatch(setNickNameErr(""));
@@ -83,7 +83,7 @@ export const useRegValidation = () => {
       ) {
         dispatch(
           setPasswordErr(
-            "must be 8-30 characters long, " +
+            "Must be 8-30 characters long, " +
               "include upper and lower case letters,a digit and a special character"
           )
         );
@@ -108,7 +108,7 @@ export const useRegValidation = () => {
         validator.isLength(fullName, { min: 3, max: 30 }) &&
         validator.matches(fullName, /^[a-zA-Z\s]+$/)
           ? dispatch(setFullNameErr(""))
-          : dispatch(setFullNameErr("has to be 3 to 20 letters."));
+          : dispatch(setFullNameErr("Has to be 3 to 20 letters."));
       }
     };
     validateFullName();

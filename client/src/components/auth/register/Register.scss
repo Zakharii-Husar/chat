@@ -5,62 +5,96 @@
 
 .register-container {
   @include flex-center;
-  min-height: 80vh;
-  padding: map-get($spacing, 'xl');
+  min-height: 90vh;
+  padding: map-get($spacing, 'md');
+  background: linear-gradient(145deg, rgba($primary-100, 0.1), rgba($primary-200, 0.2));
 }
 
 .register-card {
   @include card-shadow;
   max-width: map-get($container, 'sm');
   width: 100%;
+  background: linear-gradient(145deg, $primary-500, $primary-600);
+  border-radius: map-get($radius, 'lg');
+  border: none;
+  overflow: hidden;
   
   &__body {
-    padding: map-get($spacing, 'xl');
+    padding: map-get($spacing, 'md');
+    background: linear-gradient(to bottom, rgba($neutral-100, 0.95), rgba($neutral-100, 0.98));
+    backdrop-filter: blur(8px);
   }
-
+  
   &__title {
     @include heading-2;
-    color: $primary-600;
-    margin-bottom: map-get($spacing, 'lg');
+    margin-bottom: map-get($spacing, 'sm');
     text-align: center;
+    font-size: $font-size-lg;
+    background: linear-gradient(145deg, $primary-500, $primary-600);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
   }
 }
 
 .register-form {
   &__group {
-    position: relative;
-    margin-bottom: map-get($spacing, 'md');
-
-    &::after {
-      position: absolute;
-      right: -8px;
-      top: 10px;
-      content: '*';
-      color: $error-500;
+    margin-bottom: map-get($spacing, 'xs');
+    min-height: 78px;
+    
+    label {
+      font-size: $font-size-xs;
+      color: $neutral-700;
+      margin-bottom: 2px;
+      display: block;
+      font-weight: $font-weight-medium;
     }
   }
-
+  
   &__input {
-    @include form-input;
-    margin-top: map-get($spacing, 'xs');
-  }
-
-  &__error {
-    color: $error-500;
+    padding: 6px map-get($spacing, 'sm');
     font-size: $font-size-sm;
-    margin-top: map-get($spacing, 'xs');
+    height: 32px;
+    background: rgba($neutral-100, 0.8);
+    border: 1px solid rgba($primary-300, 0.3);
+    transition: all 0.2s ease;
+    
+    &:focus {
+      background: $neutral-100;
+      border-color: $primary-400;
+      box-shadow: 0 0 0 2px rgba($primary-400, 0.2);
+    }
+    
+    &::placeholder {
+      color: $neutral-400;
+    }
   }
-
+  
+  &__error {
+    display: block;
+    color: $error-500;
+    font-size: $font-size-xs;
+    margin-top: 2px;
+    min-height: 18px;
+    line-height: 1.2;
+  }
+  
   &__button {
     @include clickable;
     width: 100%;
-    padding: map-get($spacing, 'md');
+    padding: map-get($spacing, 'xs') map-get($spacing, 'sm');
+    margin-top: map-get($spacing, 'sm');
     background: $button-primary-gradient;
     border: none;
-    border-radius: map-get($radius, 'md');
     color: $neutral-100;
     font-weight: $font-weight-medium;
-    margin-top: map-get($spacing, 'lg');
+    height: 36px;
+    border-radius: map-get($radius, 'md');
+    
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba($primary-500, 0.2);
+    }
   }
 }
 
@@ -68,4 +102,14 @@
   font-size: $font-size-xs;
   color: $neutral-600;
   margin-top: map-get($spacing, 'xs');
+}
+
+@media (max-width: map-get($breakpoints, 'md')) {
+  .register-container {
+    padding: map-get($spacing, 'sm');
+  }
+  
+  .register-card {
+    width: 95%;
+  }
 }

@@ -23,6 +23,7 @@ export function Register() {
   const validationErrors = useAppSelector(
     (state) => state.register.validationErrors
   );
+  const formData = useAppSelector((state) => state.register);
   const currentUser = useAppSelector((state) => state.loggedInUser);
   const dispatch = useAppDispatch();
 
@@ -61,7 +62,7 @@ export function Register() {
     if (inputIsOk) {
       dispatch(registerWithPasswordThunk());
     } else {
-      alert("YOU HAVE VALIDATION ERRORS!");
+      alert("Please fix validation errors!");
     }
   };
 
@@ -70,73 +71,83 @@ export function Register() {
       <Card className="register-card">
         <Card.Body className="register-card__body">
           <h2 className="register-card__title">Create an account</h2>
-          <Form className="register-form">
-            <Form.Group className="register-form__group">
-              <Form.Label className="register-form__error">
-                {validationErrors.email}
-              </Form.Label>
+          <Form className="register-form" onSubmit={handleSubmit}>
+            <div className="register-form__group">
+              <label htmlFor="email">Email</label>
               <Form.Control
                 className="register-form__input"
                 placeholder="Email"
                 type="email"
                 name="email"
+                value={formData.email || ''}
                 onChange={handleInput}
               />
-            </Form.Group>
+              {validationErrors.email && (
+                <span className="register-form__error">{validationErrors.email}</span>
+              )}
+            </div>
 
-            <Form.Group className="register-form__group">
-              <Form.Label className="register-form__error">
-                {validationErrors.fullName}
-              </Form.Label>
+            <div className="register-form__group">
+              <label htmlFor="fullName">Full Name</label>
               <Form.Control
                 className="register-form__input"
                 placeholder="Full name"
                 type="text"
                 name="fullName"
+                value={formData.fullName || ''}
                 onChange={handleInput}
               />
-            </Form.Group>
+              {validationErrors.fullName && (
+                <span className="register-form__error">{validationErrors.fullName}</span>
+              )}
+            </div>
 
-            <Form.Group className="register-form__group">
-              <Form.Label className="register-form__error">
-                {validationErrors.nickName}
-              </Form.Label>
+            <div className="register-form__group">
+              <label htmlFor="nickName">Nickname</label>
               <Form.Control
                 className="register-form__input"
                 placeholder="Nickname"
                 type="text"
                 name="nickName"
+                value={formData.nickName || ''}
                 onChange={handleInput}
               />
-            </Form.Group>
+              {validationErrors.nickName && (
+                <span className="register-form__error">{validationErrors.nickName}</span>
+              )}
+            </div>
 
-            <Form.Group className="register-form__group">
-              <Form.Label className="register-form__error">
-                {validationErrors.password}
-              </Form.Label>
+            <div className="register-form__group">
+              <label htmlFor="password">Password</label>
               <Form.Control
                 className="register-form__input"
                 placeholder="Password"
                 type="password"
                 name="password"
+                value={formData.password || ''}
                 onChange={handleInput}
               />
-            </Form.Group>
+              {validationErrors.password && (
+                <span className="register-form__error">{validationErrors.password}</span>
+              )}
+            </div>
 
-            <Form.Group className="register-form__group">
-              <Form.Label className="register-form__error">
-                {validationErrors.confirm}
-              </Form.Label>
+            <div className="register-form__group">
+              <label htmlFor="confirm">Confirm Password</label>
               <Form.Control
                 className="register-form__input"
-                placeholder="Confirm"
+                placeholder="Confirm password"
                 type="password"
                 name="confirm"
+                value={formData.confirm || ''}
                 onChange={handleInput}
               />
-            </Form.Group>
+              {validationErrors.confirm && (
+                <span className="register-form__error">{validationErrors.confirm}</span>
+              )}
+            </div>
 
-            <Button className="register-form__button" onClick={handleSubmit}>
+            <Button className="register-form__button" type="submit">
               Register
             </Button>
           </Form>
