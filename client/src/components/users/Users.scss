@@ -1,0 +1,202 @@
+@import '../../theme/mixins';
+@import '../../theme/colors';
+@import '../../theme/spacing';
+@import '../../theme/typography';
+
+.users {
+  @include flex-center;
+  min-height: 80vh;
+  padding: map-get($spacing, 'sm');
+
+  &__container {
+    @include card-shadow;
+    max-width: 80%;
+    width: 100%;
+    padding: map-get($spacing, 'md');
+    border-radius: map-get($radius, 'lg');
+    background: linear-gradient(145deg, $neutral-100, rgba($primary-100, 0.3));
+    min-height: 85vh;
+    overflow-x: hidden;
+  }
+
+  &__header {
+    margin-bottom: map-get($spacing, 'md');
+    text-align: center;
+    position: relative;
+    z-index: 1;
+
+    h1 {
+      @include heading-2;
+      font-size: $font-size-xl;
+      color: $primary-600;
+      margin-bottom: 0;
+      background: linear-gradient(145deg, $primary-500, $primary-600);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+  }
+
+  &__search-wrapper {
+    position: relative;
+    margin-bottom: map-get($spacing, 'md');
+
+    .search-icon {
+      position: absolute;
+      left: map-get($spacing, 'md');
+      top: 50%;
+      transform: translateY(-50%);
+      color: $primary-500;
+      font-size: $font-size-lg;
+    }
+  }
+
+  &__search {
+    @include form-input;
+    padding: map-get($spacing, 'sm') map-get($spacing, 'md');
+    padding-left: calc(#{map-get($spacing, 'md')} * 3);
+    background: linear-gradient(145deg, $neutral-100, $neutral-200);
+    border: 1px solid $neutral-300;
+    font-size: $font-size-base;
+    height: 42px;
+    
+    &:focus {
+      border-color: $primary-400;
+      background: $neutral-100;
+      box-shadow: 0 0 0 3px rgba($primary-500, 0.1);
+    }
+  }
+
+  &__list {
+    max-height: 65vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: map-get($spacing, 'xs') 0 0 0;
+    margin: 0;
+    list-style: none;
+    display: grid;
+    gap: map-get($spacing, 'sm');
+    width: 100%;
+    position: relative;
+    z-index: 2;
+    
+    &::-webkit-scrollbar {
+      width: 6px;
+    }
+    
+    &::-webkit-scrollbar-track {
+      background: $neutral-200;
+      border-radius: map-get($radius, 'sm');
+    }
+    
+    &::-webkit-scrollbar-thumb {
+      background: $primary-300;
+      border-radius: map-get($radius, 'sm');
+      
+      &:hover {
+        background: $primary-400;
+      }
+    }
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  &__item {
+    @include card-shadow;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: map-get($spacing, 'sm') map-get($spacing, 'md');
+    border-radius: map-get($radius, 'md');
+    background: linear-gradient(145deg, $neutral-100, $neutral-200);
+    border: 1px solid transparent;
+    transition: all 0.3s ease;
+    height: 60px;
+    width: 100%;
+    transform-origin: center left;
+    
+    &:hover {
+      transform: translateY(-2px);
+      border-color: $primary-400;
+      background: linear-gradient(145deg, $neutral-100, $primary-100);
+      box-shadow: 0 8px 16px rgba($primary-500, 0.1);
+    }
+  }
+
+  &__profile-link {
+    display: flex;
+    align-items: center;
+    gap: map-get($spacing, 'sm');
+    text-decoration: none;
+    color: $neutral-900;
+    flex: 1;
+    transition: all 0.2s ease;
+
+    h5 {
+      margin: 0;
+      font-weight: $font-weight-semibold;
+      color: $primary-600;
+      font-size: $font-size-base;
+      position: relative;
+      transition: all 0.2s ease;
+      
+      &::after {
+        content: '';
+        position: absolute;
+        bottom: -2px;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background: $button-primary-gradient;
+        transition: width 0.2s ease;
+      }
+    }
+
+    &:hover {
+      h5 {
+        color: $primary-700;
+        transform: translateX(4px);
+        
+        &::after {
+          width: 100%;
+        }
+      }
+    }
+  }
+
+  &__message-btn {
+    @include clickable;
+    display: flex;
+    align-items: center;
+    gap: map-get($spacing, 'xs');
+    color: $primary-500;
+    background: rgba($primary-100, 0.5);
+    border: none;
+    padding: map-get($spacing, 'xs') map-get($spacing, 'sm');
+    border-radius: map-get($radius, 'full');
+    transition: all 0.2s ease;
+    height: 32px;
+    
+    span {
+      font-size: $font-size-sm;
+      font-weight: $font-weight-medium;
+    }
+    
+    &:hover {
+      color: $neutral-100;
+      background: $button-primary-gradient;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 8px rgba($primary-500, 0.2);
+    }
+  }
+
+  @media (max-width: map-get($breakpoints, 'md')) {
+    padding: map-get($spacing, 'xs');
+    
+    &__container {
+      max-width: 100%;
+    }
+  }
+}

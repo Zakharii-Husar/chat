@@ -37,14 +37,35 @@ const UpdateBio: React.FC<{ children: ReactNode }> = ({ children }) => {
         <Modal.Body>
           <Form.Group>
             <Form.Label>Up to 50 characters</Form.Label>
-            <Form.Control as="textarea" rows={4} onChange={updateBio} />
+            <Form.Control 
+              as="textarea" 
+              rows={4} 
+              onChange={updateBio}
+              className="form-input"
+            />
           </Form.Group>
         </Modal.Body>
         <Modal.Footer className="d-flex flex-row justify-content-between">
-          <Button className="bg-danger" onClick={cancel}>
-            CANCEL
+          <Button 
+            variant="secondary"
+            onClick={cancel}
+            style={{
+              background: "$button-secondary-gradient",
+              border: "none"
+            }}
+          >
+            Cancel
           </Button>
-          <Button onClick={submit}>SUBMIT</Button>
+          <Button 
+            variant="primary"
+            onClick={submit}
+            style={{
+              background: "$button-primary-gradient",
+              border: "none"
+            }}
+          >
+            Save Changes
+          </Button>
         </Modal.Footer>
       </Modal>
     </div>

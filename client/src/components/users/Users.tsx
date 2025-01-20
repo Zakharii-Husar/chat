@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import {
   useAppSelector,
   useAppDispatch,
@@ -6,13 +6,6 @@ import {
 import { updateSearchedUser } from "../../redux/slices/usersSlice";
 import { IUser } from "../../redux/slices/Interfaces";
 
-import Container from "react-bootstrap/Container";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
-import ListGroup from "react-bootstrap/ListGroup";
-import Form from "react-bootstrap/Form";
-
-import { BsFillSendFill } from "react-icons/bs";
 import { useCheckAuth } from "../../hooks/useCheckAuth";
 import getAllUsersThunk from "../../redux/thunks/getAllUsersThunk";
 import searchUsersThunk from "../../redux/thunks/searchUsersThunk";
@@ -22,6 +15,9 @@ import { useRedirectAsync } from "../../hooks/useRedirectAsync";
 import Avatar from "../reusable/Avatar/Avatar";
 import { Link } from "react-router-dom";
 import PATH from "../../routing/pathConstants";
+import { HiMagnifyingGlass } from "react-icons/hi2";
+import { IoPaperPlaneSharp } from "react-icons/io5";
+import "./Users.scss";
 
 const Users: React.FC = () => {
   useCheckAuth();
@@ -33,23 +29,23 @@ const Users: React.FC = () => {
   );
 
   useEffect(() => {
-    const initialLoad = () => {
-      if (allUsers.length > 1) return;
+    if (allUsers.length <= 1) {
       dispatch(getAllUsersThunk());
-    };
-    initialLoad();
+    }
   }, []);
 
-  let timeOut: any = useRef(null);
+  const timeOut = useRef<NodeJS.Timeout | null>(null);
+  
   useEffect(() => {
-    const searchUsers = () => {
-      if (!searchedUser) return;
+    if (!searchedUser) return;
+    
+    if (timeOut.current) {
       clearTimeout(timeOut.current);
-      timeOut.current = setTimeout(() => {
-        dispatch(searchUsersThunk(searchedUser));
-      }, 1000);
-    };
-    searchUsers();
+    }
+    
+    timeOut.current = setTimeout(() => {
+      dispatch(searchUsersThunk(searchedUser));
+    }, 1000);
   }, [searchedUser]);
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -62,7 +58,6 @@ const Users: React.FC = () => {
       const action = await dispatch(getChatIdByUsernameThunk(username));
       if (action.payload) {
         redirectAsync();
-        return;
       } else {
         await dispatch(createPrivateChatThunk(username));
         redirectAsync();
@@ -73,52 +68,52 @@ const Users: React.FC = () => {
   };
 
   const currentList = searchedUser === null ? allUsers : filteredUsers;
+
   return (
-    <Container fluid className="d-flex vw-100">
-      <Row className="d-flex flex-column align-items-center justify-content-center w-100 mt-3">
-        <Col xs={12} md={8} lg={8} xl={8}>
-          <Form.Control
+    <div className="users">
+      <div className="users__container">
+        <div className="users__header">
+          <h1>Chat Community</h1>
+        </div>
+
+        <div className="users__search-wrapper">
+          <HiMagnifyingGlass className="search-icon" />
+          <input
             type="text"
+            className="users__search"
             placeholder="Search users..."
-            onInput={handleInput}
+            onChange={handleInput}
           />
+        </div>
 
-          <ListGroup>
-            {currentList?.map((user: IUser) => (
-              <ListGroup.Item
-                key={user.id}
-                className="d-flex w-100 align-items-center justify-content-between py-1"
+        <ul className="users__list">
+          {currentList?.map((user: IUser) => (
+            <li key={user.id} className="users__item">
+              <Link
+                to={`${PATH.users}/${user.userName}`}
+                className="users__profile-link"
               >
-                <Link
-                  to={`${PATH.users}/${user.userName}`}
-                  style={{
-                    textDecoration: "none",
-                    color: "inherit",
-                  }}
-                  className="d-flex flex-row align-items-center"
-                >
-                  <Avatar
-                    size="M"
-                    fileName={user.avatarName}
-                    isGroup={false}
-                  />
-                  <h5>{`${user.userName}`}</h5>
-                </Link>
-
-                <BsFillSendFill
-                  onClick={() => {
-                    navToChat(user.userName!);
-                  }}
-                  size={25}
-                  role="button"
-                  className="me-2 text-primary"
+                <Avatar
+                  size="M"
+                  fileName={user.avatarName}
+                  isGroup={false}
                 />
-              </ListGroup.Item>
-            ))}
-          </ListGroup>
-        </Col>
-      </Row>
-    </Container>
+                <h5>{user.userName}</h5>
+              </Link>
+
+              <button
+                className="users__message-btn"
+                onClick={() => navToChat(user.userName!)}
+                aria-label="Send message"
+              >
+                <IoPaperPlaneSharp size={16} />
+                <span>Message</span>
+              </button>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
   );
 };
 

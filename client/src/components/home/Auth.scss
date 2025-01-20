@@ -5,40 +5,54 @@
 
 .auth-container {
   @include flex-center;
-  min-height: 80vh;
-  padding: map-get($spacing, 'xl');
+  min-height: 100vh;
+  padding: map-get($spacing, 'md');
+  background: linear-gradient(145deg, rgba($primary-100, 0.1), rgba($primary-200, 0.2));
 }
 
 .auth-card {
   @include card-shadow;
   max-width: map-get($container, 'sm');
   width: 100%;
+  background: linear-gradient(145deg, $neutral-100, rgba($primary-100, 0.3));
+  border-radius: map-get($radius, 'lg');
+  border: none;
+  overflow: hidden;
   
   &__header {
     @include heading-2;
     color: $primary-600;
-    padding: map-get($spacing, 'lg');
-    border-bottom: 1px solid $neutral-200;
+    padding: map-get($spacing, 'xl');
+    text-align: center;
+    background: linear-gradient(145deg, $primary-500, $primary-600);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    border-bottom: 1px solid rgba($neutral-300, 0.5);
   }
   
   &__body {
     padding: map-get($spacing, 'xl');
+    display: flex;
+    justify-content: center;
+    gap: map-get($spacing, 'lg');
   }
 }
 
 .auth-button {
   @include clickable;
+  min-width: 140px;
   padding: map-get($spacing, 'md') map-get($spacing, 'lg');
-  background: $button-primary-gradient;
   border: none;
   border-radius: map-get($radius, 'md');
-  color: $neutral-100;
-  font-weight: $font-weight-medium;
-  min-width: 120px;
+  background: rgba($primary-100, 0.5);
+  transition: all 0.2s ease;
   
   a {
-    color: $neutral-100;
+    color: $primary-600;
     text-decoration: none;
+    font-weight: $font-weight-medium;
+    font-size: $font-size-base;
     
     &:hover {
       color: $neutral-100;
@@ -46,6 +60,29 @@
   }
   
   &:hover {
-    box-shadow: $shadow-md;
+    transform: translateY(-2px);
+    background: $button-primary-gradient;
+    box-shadow: 0 8px 16px rgba($primary-500, 0.1);
+  }
+}
+
+@media (max-width: map-get($breakpoints, 'md')) {
+  .auth-container {
+    padding: map-get($spacing, 'sm');
+  }
+  
+  .auth-card {
+    width: 95%;
+    
+    &__body {
+      padding: map-get($spacing, 'lg');
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+  
+  .auth-button {
+    width: 100%;
+    max-width: 200px;
   }
 }

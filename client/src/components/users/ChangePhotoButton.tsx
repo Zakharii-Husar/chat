@@ -51,6 +51,10 @@ export const ChangePhotoButton: React.FC = () => {
             <button
               className="btn btn-secondary"
               onClick={() => setShowForm(false)}
+              style={{
+                background: "$button-secondary-gradient",
+                border: "none"
+              }}
             >
               Cancel
             </button>
@@ -58,6 +62,10 @@ export const ChangePhotoButton: React.FC = () => {
               onClick={handleUpload}
               className="btn btn-primary"
               disabled={!selectedAvatar}
+              style={{
+                background: "$button-primary-gradient",
+                border: "none"
+              }}
             >
               Upload
             </button>

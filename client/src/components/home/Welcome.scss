@@ -1,0 +1,61 @@
+@import '../../theme/mixins';
+@import '../../theme/colors';
+@import '../../theme/spacing';
+@import '../../theme/typography';
+
+.welcome {
+  @include flex-center;
+  min-height: 80vh;
+  padding: map-get($spacing, 'xl');
+
+  &__container {
+    @include card-shadow;
+    max-width: map-get($container, 'sm');
+    width: 100%;
+    padding: map-get($spacing, 'xl');
+    text-align: center;
+  }
+
+  &__title {
+    @include heading-1;
+    color: $primary-600;
+    margin-bottom: map-get($spacing, 'lg');
+    background: linear-gradient(145deg, $primary-500, $primary-600);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  &__nav {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: map-get($spacing, 'md');
+    margin-top: map-get($spacing, 'xl');
+  }
+
+  &__link {
+    @include clickable;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: map-get($spacing, 'sm');
+    padding: map-get($spacing, 'md');
+    background: linear-gradient(145deg, $neutral-100, $neutral-200);
+    border-radius: map-get($radius, 'md');
+    color: $primary-600;
+    text-decoration: none;
+    font-weight: $font-weight-medium;
+    transition: all 0.3s ease;
+    
+    &:hover {
+      transform: translateY(-2px);
+      background: $button-primary-gradient;
+      color: $neutral-100;
+      box-shadow: $shadow-md;
+    }
+
+    .icon {
+      font-size: $font-size-xl;
+    }
+  }
+}
