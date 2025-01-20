@@ -100,7 +100,6 @@ const Users: React.FC = () => {
                   <Avatar
                     size="M"
                     fileName={user.avatarName}
-                    editBtn={false}
                     isGroup={false}
                   />
                   <h5>{`${user.userName}`}</h5>

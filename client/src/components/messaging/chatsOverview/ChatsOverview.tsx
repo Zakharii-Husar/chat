@@ -41,9 +41,8 @@ export const ChatsOverview: React.FC = () => {
                 {chatsOverviewState?.chats?.map((chat) => {
                   const isRead = chat.seenBy.length > 0;
                   return (
-                    <Container>
+                    <Container key={chat.chatId}>
                       <Link
-                        key={chat.chatId}
                         to={`${PATH.chats}/${chat.chatId}`}
                         className={
                           "d-flex flex-column justify-content-between mb-2 " +

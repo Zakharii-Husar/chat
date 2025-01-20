@@ -1,0 +1,63 @@
+@import '../../../theme/variables';
+@import '../../../theme/mixins';
+@import '../../../theme/colors';
+@import '../../../theme/spacing';
+@import '../../../theme/typography';
+
+.chat-body-container {
+  padding: map-get($spacing, 'sm');
+  transition: all 0.2s ease;
+}
+
+.message-content {
+  display: flex;
+  align-items: center;
+  gap: map-get($spacing, 'sm');
+}
+
+.avatar-wrapper {
+  flex-shrink: 0;
+}
+
+.message-text {
+  overflow: hidden;
+  
+  .sender-name {
+    font-weight: $font-weight-bold;
+    color: $neutral-900;
+    margin-bottom: map-get($spacing, 'xs');
+    font-size: $font-size-sm;
+  }
+  
+  .message-preview {
+    color: $neutral-600;
+    font-size: $font-size-sm;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+.message-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: map-get($spacing, 'xs');
+  
+  .time-stamp {
+    color: $primary-500;
+    font-size: $font-size-xs;
+  }
+  
+  .read-status {
+    .read-icon {
+      color: $primary-500;
+      font-size: $font-size-base;
+    }
+    
+    .unread-icon {
+      color: $neutral-400;
+      font-size: $font-size-base;
+    }
+  }
+}

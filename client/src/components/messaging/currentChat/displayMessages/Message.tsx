@@ -57,7 +57,6 @@ const Message: React.FC<{ message: IMessage }> = ({ message }) => {
           <Avatar
             size="M"
             fileName={message.senderAvatarName ?? null}
-            editBtn={false}
             isGroup={false}
           />
           <p className="fw-bold">{isSender ? "You" : message.senderUserName}</p>

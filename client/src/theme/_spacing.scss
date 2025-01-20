@@ -1,0 +1,44 @@
+// Base spacing unit (1rem = 16px)
+$spacing-unit: 1rem;
+
+// Spacing scale
+$spacing: (
+  'none': 0,
+  'xs': $spacing-unit * 0.25,    // 4px
+  'sm': $spacing-unit * 0.5,     // 8px
+  'md': $spacing-unit,           // 16px
+  'lg': $spacing-unit * 1.5,     // 24px
+  'xl': $spacing-unit * 2,       // 32px
+  '2xl': $spacing-unit * 2.5,    // 40px
+  '3xl': $spacing-unit * 3,      // 48px
+  '4xl': $spacing-unit * 4       // 64px
+);
+
+// Border radius
+$radius: (
+  'none': 0,
+  'sm': 0.125rem,    // 2px
+  'md': 0.25rem,     // 4px
+  'lg': 0.5rem,      // 8px
+  'xl': 1rem,        // 16px
+  'full': 9999px
+);
+
+// Container widths
+$container: (
+  'sm': 640px,
+  'md': 768px,
+  'lg': 1024px,
+  'xl': 1280px
+);
+
+// Export as CSS variables
+:root {
+  @each $key, $value in $spacing {
+    --spacing-#{$key}: #{$value};
+  }
+
+  @each $key, $value in $radius {
+    --radius-#{$key}: #{$value};
+  }
+}

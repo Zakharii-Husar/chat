@@ -1,0 +1,51 @@
+// Import all theme partials
+@import 'colors';
+@import 'typography';
+@import 'spacing';
+@import 'breakpoints';
+
+// Z-index scale
+$z-index: (
+  'below': -1,
+  'base': 0,
+  'above': 1,
+  'header': 100,
+  'modal': 200,
+  'tooltip': 300,
+  'toast': 400
+);
+
+// Transitions
+$transition-fast: 150ms ease-in-out;
+$transition-base: 250ms ease-in-out;
+$transition-slow: 350ms ease-in-out;
+
+// Layout
+$header-height: 60px;
+$sidebar-width: 250px;
+$container-max-width: 1200px;
+
+// Chat specific
+$chat-message-max-width: 70%;
+$avatar-sizes: (
+  'sm': 24px,
+  'md': 36px,
+  'lg': 48px,
+  'xl': 64px
+);
+
+// Export as CSS variables
+:root {
+  @each $key, $value in $z-index {
+    --z-#{$key}: #{$value};
+  }
+
+  --transition-base: #{$transition-base};
+  --header-height: #{$header-height};
+  --sidebar-width: #{$sidebar-width};
+  --container-max-width: #{$container-max-width};
+  
+  @each $size, $value in $avatar-sizes {
+    --avatar-size-#{$size}: #{$value};
+  }
+}

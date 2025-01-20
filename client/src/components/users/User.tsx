@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { Col, Container, Row, Card, Button } from 'react-bootstrap';
+import { Col, Container, Row, Card } from 'react-bootstrap';
 import { MdModeEdit } from 'react-icons/md';
 import {
   useAppSelector,
@@ -12,6 +12,8 @@ import getChatIdByUsernameThunk from '../../redux/thunks/getChatIdByUsernameThun
 import createPrivateChatThunk from '../../redux/thunks/createPrivateChatThunk';
 import { useRedirectAsync } from '../../hooks/useRedirectAsync';
 import UpdateBio from './UpdateBio';
+import ChangePhotoButton from './ChangePhotoButton';
+import './User.scss';
 
 export default function User() {
   const redirectAsync = useRedirectAsync();
@@ -48,60 +50,60 @@ export default function User() {
   return !currentProfile.id ? (
     <h1>LOADING...</h1>
   ) : (
-    <div className="gradient-custom-2 w-100">
-      <Container fluid className="py-5 h-100 w-100">
-        <Row className="justify-content-center align-items-center h-100">
-          <Col>
-            <Card className='d-flex'>
-              <div
-                className="rounded-top text-white d-flex flex-row"
-                style={{ backgroundColor: '#000', height: '200px' }}
-              >
-                <h3 className="d-flex position-absolute p-2">
-                  {'@' + currentProfile.userName}
-                </h3>
-                <div
-                  className="ms-4 mt-5 d-flex flex-column"
-                  style={{ width: '150px' }}
-                >
+    <Container fluid className="py-5">
+      <Row className="justify-content-center">
+        <Col md={8} lg={6}>
+          <Card className="user-profile">
+            <div className="user-profile__header">
+              <h3 className="user-profile__username">
+                @{currentProfile.userName}
+              </h3>
+              <div className="user-profile__content">
+                <div className="user-profile__avatar-section">
                   <Avatar
                     size="L"
                     fileName={currentProfile.avatarName}
-                    editBtn={isMyPofile}
                     isGroup={false}
                   />
-                  <Button
-                    className={'my-2 ' + (isMyPofile ? 'd-none' : 'd-flex')}
-                    variant="outline-dark"
-                    style={{ height: '36px', overflow: 'visible' }}
-                    onClick={() => navToChat(anotherUser.userName!)}
-                  >
-                    Send Message
-                  </Button>
+                  {isMyPofile ? (
+                    <ChangePhotoButton />
+                  ) : (
+                    <button 
+                      className="btn-message"
+                      onClick={() => navToChat(anotherUser.userName!)}
+                    >
+                      Send Message
+                    </button>
+                  )}
                 </div>
-                <div className="ms-3" style={{ marginTop: '130px' }}>
+                <div className="user-profile__info">
                   <h5>{currentProfile.fullName}</h5>
                   <p>{currentProfile.email}</p>
                 </div>
               </div>
-              <div
-                className="p-4 text-black"
-                style={{ backgroundColor: '#f8f9fa' }}
-              >
-                <div className="d-flex justify-content-end text-center py-1">
-                  <div>
-                    <p className="mb-1 h5">About</p>
-                    <p className="small text-muted mb-0">
-                      {currentProfile.bio}
-                    </p>
-                  </div>
-                  {isMyPofile && <UpdateBio children={<MdModeEdit cursor="pointer" />} />}
+            </div>
+            
+            <div className="p-4">
+              <div className="d-flex justify-content-between align-items-start">
+                <div>
+                  <h5 className="mb-1">About</h5>
+                  <p className="text-muted">
+                    {currentProfile.bio}
+                  </p>
                 </div>
+                {isMyPofile && (
+                  <UpdateBio>
+                    <div className="edit-bio-button d-flex align-items-center">
+                      <p className="mb-0">Edit</p>
+                      <MdModeEdit className="edit-icon ms-2" />
+                    </div>
+                  </UpdateBio>
+                )}
               </div>
-            </Card>
-          </Col>
-        </Row>
-      </Container>
-    </div>
+            </div>
+          </Card>
+        </Col>
+      </Row>
+    </Container>
   );
 }

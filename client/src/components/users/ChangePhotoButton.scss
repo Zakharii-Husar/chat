@@ -1,0 +1,78 @@
+@import '../../theme/variables';
+@import '../../theme/colors';
+@import '../../theme/spacing';
+@import '../../theme/mixins';
+
+.avatar-wrapper {
+  position: relative;
+  width: 150px;
+}
+
+.btn-change-photo {
+  @include clickable;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 150px;
+  background: rgba($neutral-900, 0.5);
+  color: $neutral-100;
+  border: none;
+  padding: map-get($spacing, 'xxs') 0;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: map-get($spacing, 'xs');
+  transition: all 0.2s ease;
+  
+  &:hover {
+    background: rgba($neutral-900, 0.7);
+  }
+  
+  .icon {
+    font-size: 16px;
+  }
+  
+  .text {
+    font-weight: $font-weight-medium;
+  }
+}
+
+.photo-upload-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  max-width: 400px;
+  box-shadow: $shadow-lg;
+  background-color: $neutral-100;
+  border-radius: map-get($radius, 'md');
+  padding: map-get($spacing, 'lg');
+
+  .modal-header {
+    border-bottom: 1px solid rgba($neutral-300, 0.5);
+    background-color: $primary-500;
+    color: $neutral-100;
+    padding: map-get($spacing, 'md');
+
+    h5 {
+      margin: 0;
+    }
+  }
+
+  .modal-body {
+    padding: map-get($spacing, 'md');
+    color: $neutral-800;
+  }
+
+  .modal-footer {
+    border-top: 1px solid rgba($neutral-300, 0.5);
+    padding: map-get($spacing, 'md');
+
+    .btn {
+      border-radius: map-get($radius, 'md');
+      padding: map-get($spacing, 'sm') map-get($spacing, 'md');
+    }
+  }
+}

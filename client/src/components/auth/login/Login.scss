@@ -1,5 +1,56 @@
-@import "../../../style/colors";
+@import '../../../theme/mixins';
+@import '../../../theme/colors';
+@import '../../../theme/spacing';
+@import '../../../theme/typography';
 
-button{
-  color: $login-button-bg;
+.login-container {
+  @include flex-center;
+  min-height: 80vh;
+  padding: map-get($spacing, 'xl');
+}
+
+.login-card {
+  @include card-shadow;
+  max-width: map-get($container, 'sm');
+  width: 100%;
+  
+  &__body {
+    padding: map-get($spacing, 'xl');
+  }
+
+  &__title {
+    @include heading-2;
+    color: $primary-600;
+    margin-bottom: map-get($spacing, 'lg');
+    text-align: center;
+  }
+}
+
+.login-form {
+  &__group {
+    margin-bottom: map-get($spacing, 'md');
+  }
+
+  &__input {
+    @include form-input;
+    margin-top: map-get($spacing, 'xs');
+  }
+
+  &__error {
+    color: $error-500;
+    font-size: $font-size-sm;
+    margin-top: map-get($spacing, 'xs');
+  }
+
+  &__button {
+    @include clickable;
+    width: 100%;
+    padding: map-get($spacing, 'md');
+    background: $button-primary-gradient;
+    border: none;
+    border-radius: map-get($radius, 'md');
+    color: $neutral-100;
+    font-weight: $font-weight-medium;
+    margin-top: map-get($spacing, 'lg');
+  }
 }

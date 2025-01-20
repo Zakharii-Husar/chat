@@ -66,89 +66,77 @@ export function Register() {
   };
 
   return (
-    <Container
-      fluid
-      className="d-flex align-items-center justify-content-center h6 registerFontSize"
-    >
-      <Card className="m-2 mw-100 w-100">
-        <Card.Body className="px-5">
-          <h2 className="text-center mb-2">Create an account</h2>
-          <Form>
-            <Form.Group className="formGroup">
-              <Form.Label className="text-danger" size="sm">
+    <Container className="register-container">
+      <Card className="register-card">
+        <Card.Body className="register-card__body">
+          <h2 className="register-card__title">Create an account</h2>
+          <Form className="register-form">
+            <Form.Group className="register-form__group">
+              <Form.Label className="register-form__error">
                 {validationErrors.email}
               </Form.Label>
               <Form.Control
+                className="register-form__input"
                 placeholder="Email"
-                size="sm"
                 type="email"
                 name="email"
                 onChange={handleInput}
               />
             </Form.Group>
 
-            <Form.Group className="formGroup">
-              <Form.Label className="text-danger" size="sm">
+            <Form.Group className="register-form__group">
+              <Form.Label className="register-form__error">
                 {validationErrors.fullName}
               </Form.Label>
               <Form.Control
+                className="register-form__input"
                 placeholder="Full name"
-                size="sm"
                 type="text"
                 name="fullName"
                 onChange={handleInput}
               />
             </Form.Group>
 
-            <Form.Group className="formGroup">
-              <Form.Label
-                className="text-danger"
-                size="sm"
-              >
+            <Form.Group className="register-form__group">
+              <Form.Label className="register-form__error">
                 {validationErrors.nickName}
               </Form.Label>
               <Form.Control
+                className="register-form__input"
                 placeholder="Nickname"
-                size="sm"
                 type="text"
                 name="nickName"
                 onChange={handleInput}
               />
             </Form.Group>
 
-            <Form.Group className="formGroup">
-              <Form.Label
-                className="text-danger"
-                size="sm"
-              >
+            <Form.Group className="register-form__group">
+              <Form.Label className="register-form__error">
                 {validationErrors.password}
               </Form.Label>
               <Form.Control
+                className="register-form__input"
                 placeholder="Password"
-                size="sm"
                 type="password"
                 name="password"
                 onChange={handleInput}
               />
             </Form.Group>
 
-            <Form.Group className="formGroup">
-              <Form.Label
-                className="text-danger"
-                size="sm"
-              >
+            <Form.Group className="register-form__group">
+              <Form.Label className="register-form__error">
                 {validationErrors.confirm}
               </Form.Label>
               <Form.Control
+                className="register-form__input"
                 placeholder="Confirm"
-                size="sm"
                 type="password"
                 name="confirm"
                 onChange={handleInput}
               />
             </Form.Group>
 
-            <Button className="mt-2 w-100" size="sm" onClick={handleSubmit}>
+            <Button className="register-form__button" onClick={handleSubmit}>
               Register
             </Button>
           </Form>

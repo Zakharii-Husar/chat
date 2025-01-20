@@ -1,0 +1,17 @@
+@import 'variables';
+@import 'colors';
+@import 'typography';
+@import 'spacing';
+@import 'breakpoints';
+@import 'mixins';
+
+// Add any global styles here
+body {
+  font-family: $font-primary;
+  font-size: $font-size-base;
+  line-height: $line-height-base;
+  color: $neutral-900;
+  background-color: $neutral-200;
+}
+
+// Add more global styles as needed

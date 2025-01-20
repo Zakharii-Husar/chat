@@ -8,7 +8,7 @@ import { useNavigate } from "react-router";
 
 import loginWithPasswordThunk from "../../../redux/thunks/loginWithPasswordThunk";
 
-import { Container, Card, Button, Col, Row, Form } from "react-bootstrap";
+import { Container, Card, Form } from "react-bootstrap";
 
 import { useCheckAuth } from "../../../hooks/useCheckAuth";
 import "./Login.scss";
@@ -38,45 +38,41 @@ export function Login() {
   };
 
   return (
-    <Container
-      fluid
-      className="d-flex flex-column align-items-center justify-content-center"
-    >
-      <Col xs={12}>
-        <Card>
-          <Card.Body>
-            <h2 className="text-uppercase text-center">Sign in</h2>
-            <h3
-              className={
-                "rounded-3 text-center p-1 z-3 justify-content-center text-danger " +
-                (showError ? "visible" : "invisible")
-              }
-            >
-              Invalid Credentials!
-            </h3>
-            <Form.Group className="mb-2">
+    <Container className="login-container">
+      <Card className="login-card">
+        <Card.Body className="login-card__body">
+          <h2 className="login-card__title">Sign in</h2>
+          <div className={`login-form__error ${showError ? 'visible' : 'invisible'}`}>
+            Invalid Credentials!
+          </div>
+          
+          <Form className="login-form">
+            <Form.Group className="login-form__group">
               <Form.Label>Nickname or email</Form.Label>
-              <Form.Control type="text" name="login" onInput={handleInput} />
+              <Form.Control 
+                className="login-form__input"
+                type="text" 
+                name="login" 
+                onInput={handleInput} 
+              />
             </Form.Group>
 
-            <Form.Group className="mb-2">
+            <Form.Group className="login-form__group">
               <Form.Label>Password</Form.Label>
               <Form.Control
+                className="login-form__input"
                 type="password"
                 name="password"
                 onInput={handleInput}
               />
             </Form.Group>
 
-            <Button
-              className="mb-4 w-100 gradient-custom-3"
-              onClick={handleSubmit}
-            >
+            <button className="login-form__button" onClick={handleSubmit}>
               Sign in
-            </Button>
-          </Card.Body>
-        </Card>
-      </Col>
+            </button>
+          </Form>
+        </Card.Body>
+      </Card>
     </Container>
   );
 }

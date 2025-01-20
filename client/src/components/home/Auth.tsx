@@ -2,27 +2,28 @@ import {
   Row,
   Col,
   Container,
-  Card,
-  CardBody,
-  CardHeader,
-  Button,
+  Card
 } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import "./Auth.scss";
+
 export const Auth: React.FC = () => {
   return (
-    <Container className="d-flex  flex-column align-items-center w-100 align-self-center m-5">
-      <Row className="d-flex flex-row w-100 justify-content-center">
-        <Col xs={"auto"} className="d-flex w-100">
-          <Card className="d-flex w-100 text-center">
-            <CardHeader className="text-center h3">Welcome</CardHeader>
-            <CardBody className="d-flex flex-row w-100 justify-content-around">
-              <Button>
+    <Container className="auth-container">
+      <Row className="w-100">
+        <Col>
+          <Card className="auth-card">
+            <Card.Header className="auth-card__header text-center">
+              Welcome to Chat App
+            </Card.Header>
+            <Card.Body className="auth-card__body d-flex justify-content-around">
+              <button className="auth-button">
                 <Link to="login">Sign in</Link>
-              </Button>
-              <Button>
+              </button>
+              <button className="auth-button">
                 <Link to="register">Sign up</Link>
-              </Button>
-            </CardBody>
+              </button>
+            </Card.Body>
           </Card>
         </Col>
       </Row>

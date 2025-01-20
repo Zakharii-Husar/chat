@@ -1,0 +1,90 @@
+@import 'colors';
+@import 'typography';
+@import 'breakpoints';
+
+// Flexbox helpers
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+// Typography helpers
+@mixin heading-1 {
+  font-family: $font-heading;
+  font-size: $font-size-4xl;
+  font-weight: $font-weight-bold;
+  line-height: $line-height-tight;
+}
+
+@mixin heading-2 {
+  font-family: $font-heading;
+  font-size: $font-size-3xl;
+  font-weight: $font-weight-bold;
+  line-height: $line-height-tight;
+}
+
+// Interactive elements
+@mixin clickable {
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  
+  &:hover {
+    transform: translateY(-1px);
+  }
+  
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+// Cards and containers
+@mixin card-shadow {
+  box-shadow: $shadow-md;
+  border-radius: 8px;
+  background-color: $neutral-100;
+}
+
+// Form elements
+@mixin form-input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid $neutral-300;
+  border-radius: 4px;
+  font-size: $font-size-base;
+  transition: border-color 0.2s ease;
+
+  &:focus {
+    outline: none;
+    border-color: $primary-500;
+    box-shadow: 0 0 0 2px rgba($primary-500, 0.2);
+  }
+}
+
+// Scrollbar styling
+@mixin custom-scrollbar {
+  &::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: $neutral-200;
+    border-radius: 3px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: $neutral-400;
+    border-radius: 3px;
+
+    &:hover {
+      background: $neutral-500;
+    }
+  }
+}

@@ -1,0 +1,38 @@
+@import '../../../theme/variables';
+@import '../../../theme/mixins';
+@import '../../../theme/colors';
+@import '../../../theme/spacing';
+@import '../../../theme/typography';
+
+.chat-header {
+  display: flex;
+  align-items: center;
+  padding: map-get($spacing, 'sm') map-get($spacing, 'md');
+  border-bottom: 1px solid rgba($neutral-300, 0.5);
+  transition: all 0.2s ease;
+  
+  &__avatar {
+    margin-right: map-get($spacing, 'sm');
+    flex-shrink: 0;
+  }
+  
+  &__name {
+    font-weight: $font-weight-bold;
+    color: $neutral-800;
+    font-size: $font-size-base;
+    margin: 0;
+    
+    &.group {
+      color: $primary-600;
+    }
+  }
+  
+  &__status {
+    margin-left: auto;
+    font-size: $font-size-xs;
+    color: $neutral-500;
+    display: flex;
+    align-items: center;
+    gap: map-get($spacing, 'xs');
+  }
+}

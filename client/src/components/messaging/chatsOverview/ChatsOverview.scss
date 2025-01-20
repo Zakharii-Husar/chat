@@ -1,30 +1,90 @@
-@import "../../../style/_colors";
+@import '../../../theme/variables';
+@import '../../../theme/mixins';
+@import '../../../theme/colors';
+@import '../../../theme/spacing';
+@import '../../../theme/typography';
+@import '../../../style/_colors';
 
 .ChatsOverview {
+  width: 50%;
+  margin: 0 auto;
+  
   a {
-    text-decoration: "none";
-    color: "inherit";
-    border-radius: 15px;
-    border: 1px solid black
+    @include card-shadow;
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    color: $neutral-800;
+    border-radius: map-get($radius, 'md');
+    border: 1px solid transparent;
+    transition: all 0.3s ease;
+    padding: map-get($spacing, 'sm') map-get($spacing, 'md');
+    margin-bottom: map-get($spacing, 'sm');
+    backdrop-filter: blur(8px);
+    
+    &:hover {
+      transform: translateY(-2px) scale(1.01);
+      border-color: $primary-400;
+      box-shadow: 0 8px 16px rgba($primary-500, 0.1);
+    }
+
+    &.readChat {
+      background: linear-gradient(145deg, $neutral-100, $neutral-200);
+    }
+
+    &.unreadChat {
+      background: linear-gradient(145deg, $primary-100, $unread-chat-bg);
+      border-left: 4px solid $primary-500;
+      position: relative;
+      
+      &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 8px;
+        height: 8px;
+        background: $primary-500;
+        border-radius: 50%;
+        margin: map-get($spacing, 'sm');
+      }
+    }
   }
 }
 
-.chat{
-    height: 20px;
+.chat {
+  height: map-get($spacing, 'md');
 }
 
-.readChat{
-    background-color: $read-chat-bg;
+.chatHeader {
+  color: $chat-header;
+  font-weight: $font-weight-bold;
+  padding: map-get($spacing, 'xs') map-get($spacing, 'sm');
+  border-bottom: 1px solid rgba($neutral-300, 0.5);
+  height: 30px;
+  display: flex;
+  align-items: center;
+  gap: map-get($spacing, 'sm');
 }
 
-.unreadChat{
-    background-color: $unread-chat-bg;
+.chatBody {
+  color: $chat-body;
+  padding: map-get($spacing, 'xs') map-get($spacing, 'sm');
+  height: 30px;
+  
+  p {
+    margin-bottom: map-get($spacing, 'xs');
+    font-size: $font-size-sm;
+  }
+  
+  .small {
+    color: $neutral-600;
+    font-size: $font-size-xs;
+  }
 }
 
-.chatHeader{
-    color: $chat-header;
-}
-
-.chatBody{
-    color: $chat-body;
+@media (max-width: map-get($breakpoints, 'md')) {
+  .ChatsOverview {
+    width: 100%;
+  }
 }

@@ -29,13 +29,13 @@ const UpdateBio: React.FC<{ children: ReactNode }> = ({ children }) => {
 
   return (
     <div className="static-modal m-2">
-      <span onClick={visibility}>{children}</span>
+      <span onClick={visibility} className="edit-bio-button">{children}</span>
       <Modal show={show} animation={false} backdrop={true} keyboard={true}>
         <Modal.Header>
           <Modal.Title>Enter new bio: </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-        <Form.Group>
+          <Form.Group>
             <Form.Label>Up to 50 characters</Form.Label>
             <Form.Control as="textarea" rows={4} onChange={updateBio} />
           </Form.Group>

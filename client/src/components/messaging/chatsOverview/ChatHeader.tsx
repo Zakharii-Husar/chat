@@ -1,27 +1,23 @@
 import { Container } from "react-bootstrap";
 import { IMessage } from "../../../redux/slices/Interfaces";
 import Avatar from "../../reusable/Avatar/Avatar";
+import "./ChatHeader.scss";
 
 export const ChatHeader: React.FC<{ chat: IMessage }> = ({ chat }) => {
+  const isGroup = chat.chatName !== null;
+  
   return (
-    <Container
-      className="
-      chatHeader
-    d-flex 
-    flex-row 
-    align-items-center 
-    justify-content-start
-    border-bottom"
-    >
-      <span className="chatHeader me-2 my-1">
+    <Container className="chat-header">
+      <div className="chat-header__avatar">
         <Avatar
           size="S"
           fileName={chat.interlocutor?.avatarName ?? null}
-          editBtn={false}
-          isGroup={chat.chatName !== null}
+          isGroup={isGroup}
         />
+      </div>
+      <span className={`chat-header__name ${isGroup ? 'group' : ''}`}>
+        {chat.interlocutor?.userName ?? chat.chatName}
       </span>
-      <span className="">{chat.interlocutor?.userName ?? chat.chatName}</span>
     </Container>
   );
 };
