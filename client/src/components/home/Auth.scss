@@ -47,22 +47,17 @@
   border-radius: map-get($radius, 'md');
   background: rgba($primary-100, 0.5);
   transition: all 0.2s ease;
-  
-  a {
-    color: $primary-600;
-    text-decoration: none;
-    font-weight: $font-weight-medium;
-    font-size: $font-size-base;
-    
-    &:hover {
-      color: $neutral-100;
-    }
-  }
+  color: $primary-600;
+  text-decoration: none;
+  font-weight: $font-weight-medium;
+  font-size: $font-size-base;
+  text-align: center;
   
   &:hover {
     transform: translateY(-2px);
     background: $button-primary-gradient;
     box-shadow: 0 8px 16px rgba($primary-500, 0.1);
+    color: $neutral-100;
   }
 }
 

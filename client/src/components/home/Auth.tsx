@@ -12,12 +12,12 @@ export const Auth: React.FC = () => {
           Welcome to Chat App
         </Card.Header>
         <Card.Body className="auth-card__body">
-          <button className="auth-button">
-            <Link to="login">Sign in</Link>
-          </button>
-          <button className="auth-button">
-            <Link to="register">Sign up</Link>
-          </button>
+          <Link to="login" className="auth-button">
+            Sign in
+          </Link>
+          <Link to="register" className="auth-button">
+            Sign up
+          </Link>
         </Card.Body>
       </Card>
     </div>
