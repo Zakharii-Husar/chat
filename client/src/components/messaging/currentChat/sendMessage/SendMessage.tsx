@@ -29,10 +29,12 @@ export const SendMessage: React.FC = () => {
   };
 
   const send = () => {
-    if (messageToSend.Content && messageToSend.Content.length > 0)
+    if (messageToSend.Content && messageToSend.Content.length > 0) {
       dispatch(sendMessageThunk());
-    dispatch(setMessageContent(''));
+      dispatch(setMessageContent(""));
+    }
   };
+
   const handleFocus = () => {
     wsTypingTracker.startTyping();
   };
@@ -41,23 +43,26 @@ export const SendMessage: React.FC = () => {
     wsTypingTracker.stopTyping();
   };
 
-  return !currentChat.chatId && !isStillMember ? null : (
-    <div>
-      {wsTypingUsers.length > 0 && <span>{wsTypingUsers[0] + ' is typing...'}</span>}
-      <div className="d-flex bg-white mb-3">
-        <Form.Control
-          as="textarea"
-          onFocus={handleFocus}
-          onBlur={handleBlur}
-          onChange={handleMessageInput}
-          placeholder="Type message..."
-          value={messageToSend.Content ?? ''}
-          rows={4}
-        />
-      </div>
-      <Button onClick={send} variant="info" className="float-end">
-        Send
-      </Button>
-    </div>
+  if (!currentChat.chatId || !isStillMember) return null;
+
+  return (
+    <>
+      {wsTypingUsers.length > 0 && (
+        <div className="typing-indicator">
+          {wsTypingUsers[0]} is typing...
+        </div>
+      )}
+      <textarea
+        onFocus={handleFocus}
+        onBlur={handleBlur}
+        onChange={handleMessageInput}
+        placeholder="Type your message..."
+        value={messageToSend.Content ?? ""}
+        rows={3}
+      />
+      <button className="send-button" onClick={send}>
+        Send Message
+      </button>
+    </>
   );
 };

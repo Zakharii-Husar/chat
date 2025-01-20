@@ -10,8 +10,8 @@ import { resetChat } from "../../../redux/slices/currentChatSlice";
 import getChatByIdThunk from "../../../redux/thunks/getChatByIdThunk";
 import useWsCurrentChatTracker from "../../../hooks/ws/useWsCurrentChatTracker";
 
-import { Container, Row, Col } from "react-bootstrap";
 import Loading from "../../reusable/Loading";
+import "./CurrentChat.scss";
 
 export const CurrentChat: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -26,26 +26,24 @@ export const CurrentChat: React.FC = () => {
     };
     setChatStateOnLoad();
 
-    const resetChatStateOnExit = () => {
-      dispatch(resetChat());
-    };
-
     return () => {
-      resetChatStateOnExit();
+      dispatch(resetChat());
     };
   }, []);
 
   return !parsedChatId ? (
     <Loading />
   ) : (
-    <Container fluid className="d-flex m-0 p-0 w-100">
-      <Row className="d-flex w-100 m-0 justify-content-center">
-        <Col sm={11} md={9} lg={6} xl={6}>
-          <DisplayHeader />
-          <DisplayMessages />
-          <SendMessage />
-        </Col>
-      </Row>
-    </Container>
+    <div className="current-chat">
+      <div className="current-chat__header">
+        <DisplayHeader />
+      </div>
+      <div className="current-chat__messages">
+        <DisplayMessages />
+      </div>
+      <div className="current-chat__input">
+        <SendMessage />
+      </div>
+    </div>
   );
 };

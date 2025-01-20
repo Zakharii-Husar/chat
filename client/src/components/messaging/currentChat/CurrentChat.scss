@@ -1,0 +1,168 @@
+@import '../../../theme/variables';
+@import '../../../theme/mixins';
+@import '../../../theme/colors';
+@import '../../../theme/spacing';
+@import '../../../theme/typography';
+
+.current-chat {
+  @include card-shadow;
+  background: $neutral-100;
+  border-radius: map-get($radius, 'lg');
+  height: calc(100vh - #{$header-height} - 2rem);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  max-width: 800px;
+  margin: 0 auto;
+
+  &__header {
+    background: linear-gradient(145deg, $primary-500, $primary-600);
+    padding: map-get($spacing, 'xs');
+    color: $neutral-100;
+    min-height: 48px;
+    display: flex;
+    align-items: center;
+    
+    .chat-title {
+      display: flex;
+      align-items: center;
+      gap: map-get($spacing, 'sm');
+      
+      a {
+        display: flex;
+        align-items: center;
+        gap: map-get($spacing, 'sm');
+        color: $neutral-100;
+        text-decoration: none;
+        
+        h3 {
+          font-size: $font-size-base;
+          margin: 0;
+          font-weight: $font-weight-semibold;
+        }
+      }
+    }
+  }
+
+  &__messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: map-get($spacing, 'sm');
+    background: linear-gradient(145deg, $neutral-100, rgba($primary-100, 0.3));
+
+    // Custom scrollbar styling
+    &::-webkit-scrollbar {
+      width: 5px;
+      border-radius: 25px;
+      background-color: rgba($neutral-900, 0.1);
+    }
+
+    &::-webkit-scrollbar-thumb {
+      border-radius: 25px;
+      background: linear-gradient(145deg, $primary-400, $primary-500);
+    }
+
+    &::-webkit-scrollbar-track {
+      border-radius: 5px;
+      background: rgba($neutral-200, 0.5);
+    }
+
+    .message-row {
+      margin-bottom: map-get($spacing, 'xs');
+      
+      &--sender {
+        justify-content: flex-end;
+        
+        .message-bubble {
+          background: linear-gradient(145deg, $primary-500, $primary-600);
+          color: $neutral-100;
+        }
+      }
+    }
+
+    .message-bubble {
+      padding: map-get($spacing, 'sm');
+      border-radius: map-get($radius, 'md');
+      background: $neutral-200;
+      max-width: 80%;
+      
+      .message-header {
+        display: flex;
+        align-items: center;
+        gap: map-get($spacing, 'xs');
+        margin-bottom: map-get($spacing, 'xs');
+        font-size: $font-size-sm;
+      }
+      
+      .message-content {
+        font-size: $font-size-base;
+        line-height: 1.4;
+      }
+      
+      .message-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: map-get($spacing, 'xs');
+        font-size: $font-size-xs;
+        opacity: 0.8;
+      }
+    }
+  }
+
+  &__input {
+    padding: map-get($spacing, 'sm');
+    background: $neutral-100;
+    border-top: 1px solid rgba($neutral-300, 0.5);
+
+    .typing-indicator {
+      color: $primary-600;
+      font-size: $font-size-xs;
+      margin-bottom: map-get($spacing, 'xs');
+    }
+
+    textarea {
+      @include form-input;
+      resize: none;
+      margin-bottom: map-get($spacing, 'xs');
+      min-height: 40px;
+      max-height: 80px;
+    }
+
+    .send-button {
+      @include clickable;
+      background: $primary-500;
+      color: $neutral-100;
+      border: none;
+      padding: map-get($spacing, 'xs') map-get($spacing, 'md');
+      border-radius: map-get($radius, 'md');
+      float: right;
+    }
+  }
+}
+
+@media (max-width: map-get($breakpoints, 'md')) {
+  .current-chat {
+    max-width: 100%;
+  }
+  
+  .chat-container {
+    padding: map-get($spacing, 'sm');
+  }
+  
+  .chat {
+    height: 95vh;
+    
+    &__header {
+      padding: map-get($spacing, 'sm');
+    }
+    
+    &__messages {
+      padding: map-get($spacing, 'sm');
+    }
+    
+    &__input-container {
+      padding: map-get($spacing, 'sm');
+    }
+  }
+}

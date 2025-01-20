@@ -15,30 +15,25 @@ export const DisplayHeader: React.FC = () => {
     isAgroupChat && currentChat.chatName
       ? currentChat.chatName
       : filteredParticipants[0]?.userName;
+
   return (
-    <h3 className="font-weight-bold mb-3 text-center text-lg-center p-2">
+    <div className="chat-title">
       {!isAgroupChat ? (
-        <Link
-        className="d-flex alig-items-center justify-content-center"
-          style={{
-            textDecoration: "none",
-            color: "inherit",
-          }}
-          to={"/users/" + chatHeader}
-        >
+        <Link to={"/users/" + chatHeader}>
           <Avatar
-            size="M"
+            size="S"
             fileName={currentChat.messages?.[0]?.interlocutor?.avatarName ?? null}
             isGroup={false}
           />
           <h3>{chatHeader}</h3>
         </Link>
       ) : (
-        <div>
-          <ManageGroupChat />
+        <>
+          <Avatar size="S" fileName={null} isGroup={true} />
           <h3>{chatHeader}</h3>
-        </div>
+          <ManageGroupChat />
+        </>
       )}
-    </h3>
+    </div>
   );
 };

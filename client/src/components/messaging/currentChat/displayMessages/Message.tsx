@@ -13,6 +13,7 @@ import rmLikeThunk from "../../../../redux/thunks/rmLikeThunk";
 import { FaHeart } from "react-icons/fa";
 import Likes from "./Likes";
 import { useState } from "react";
+import "./Message.scss";
 
 const Message: React.FC<{ message: IMessage }> = ({ message }) => {
   const currentUser = useAppSelector((state) => state.loggedInUser);
@@ -29,7 +30,6 @@ const Message: React.FC<{ message: IMessage }> = ({ message }) => {
       (msg) => msg.messageId === messageId
     );
     const likes = currentChat.messages[msgIndex].likes;
-
     return likes.some((user) => user.id === currentUser.id);
   };
 
@@ -49,60 +49,53 @@ const Message: React.FC<{ message: IMessage }> = ({ message }) => {
   const time = formatDistanceToNow(new Date(message.sentAt), {
     addSuffix: true,
   });
-  const isRead = message.seenBy.length > 0;
+
   return (
-    <li className="border p-2 position-relative" key={message.chatId} onDoubleClick={addLike}>
-      <div className="d-flex flex-column">
-        <span className="d-flex flex-row align-items-center">
+    <div className={`message-row ${isSender ? 'message-row--sender' : ''}`}>
+      <div className="message-bubble" onDoubleClick={addLike}>
+        <div className="message-header">
           <Avatar
-            size="M"
+            size="S"
             fileName={message.senderAvatarName ?? null}
             isGroup={false}
           />
-          <p className="fw-bold">{isSender ? "You" : message.senderUserName}</p>
-          <Confirmation titleText="Delete Message?" proceed={deleteMsg}>
-            {" "}
-            <TiDelete
-              role="button"
-              className={
-                "text-danger position-absolute end-0 top-0 cursor-pointer " +
-                (isSender ? "d-flex" : "d-none")
-              }
-              size={25}
-            />
-          </Confirmation>
-        </span>
-        <p
-          style={{ overflowWrap: "break-word", flexShrink: 0 }}
-          className="small text-muted"
-        >
+          <span className="sender-name">
+            {isSender ? "You" : message.senderUserName}
+          </span>
+          {isSender && (
+            <Confirmation titleText="Delete Message?" proceed={deleteMsg}>
+              <TiDelete className="delete-button" size={20} />
+            </Confirmation>
+          )}
+        </div>
+        
+        <div className="message-content">
           {message.content}
-        </p>
+        </div>
+
+        <div className="message-footer">
+          <span className="time-stamp">{time}</span>
+          
+          <div className="likes-container">
+            {message.likes.length > 0 && (
+              <FaHeart
+                className="heart-icon"
+                size={16}
+                onMouseEnter={() => setDisplayLikes(true)}
+                onMouseLeave={() => setDisplayLikes(false)}
+                onClick={rmLike}
+              />
+            )}
+            
+            {displayLikes && message.likes.length > 0 && (
+              <div className="likes-popup">
+                <Likes users={message.likes} />
+              </div>
+            )}
+          </div>
+        </div>
       </div>
-      <span
-        className={
-          "w-100 justify-content-end position-absolue " +
-          (displayLikes ? "d-flex" : "d-none")
-        }
-      >
-        <Likes users={message.likes} />
-      </span>
-      <div className="pt-1 d-flex justify-content-between">
-        <p className="small text-info mb-1">{time}</p>
-        <span style={{ minWidth: "20px", minHeight: "20px" }}>
-          <FaHeart
-            onMouseEnter={() => setDisplayLikes(true)}
-            onMouseLeave={() => setDisplayLikes(false)}
-            onClick={rmLike}
-            size={20}
-            className={
-              "text-danger end-0 bottom-0 w-20 " +
-              (message.likes.length > 0 ? "d-flex" : "d-none")
-            }
-          />
-        </span>
-      </div>
-    </li>
+    </div>
   );
 };
 
