@@ -29,7 +29,7 @@ namespace API.Repos
 
         public async Task<AppUser?> GetUserByEmailAsync(string email)
         {
-            return await userManager.FindByNameAsync(email);
+            return await userManager.FindByEmailAsync(email);
         }
         public async Task<AppUser?> CreateUserAsync(AppUser appUser, string password)
         {
