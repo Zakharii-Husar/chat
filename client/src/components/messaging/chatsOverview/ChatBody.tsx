@@ -3,8 +3,8 @@ import { formatDistanceToNow } from 'date-fns';
 import { Container, Row, Col } from 'react-bootstrap';
 import Avatar from '../../reusable/Avatar/Avatar';
 import { useAppSelector } from '../../../hooks/useAppSelectorAndDispatch';
-import { FaEye, FaCheckDouble } from 'react-icons/fa';
 import { IMessage } from '../../../redux/slices/Interfaces';
+import { BsCheckAll, BsCheck } from 'react-icons/bs';
 import './ChatBody.scss';
 
 const ChatBody: React.FC<{ message: IMessage }> = ({ message }) => {
@@ -38,7 +38,7 @@ const ChatBody: React.FC<{ message: IMessage }> = ({ message }) => {
           {time}
         </Col>
         <Col xs="auto" className="read-status">
-          {isRead ? <FaCheckDouble className="read-icon" /> : <FaEye className="unread-icon" />}
+          {isRead ? <BsCheckAll className="read-icon" /> : <BsCheck className="unread-icon" />}
         </Col>
       </Row>
     </Container>
