@@ -142,7 +142,7 @@
         z-index: 9999;
         
         &.visible {
-          display: block;
+          display: flex;
         }
 
         .like-item {

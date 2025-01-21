@@ -1,12 +1,10 @@
 import React from 'react';
-import { Form, Button } from 'react-bootstrap';
 import {
   useAppSelector,
   useAppDispatch,
 } from '../../../../hooks/useAppSelectorAndDispatch';
 import { setMessageContent } from '../../../../redux/slices/sendMessageSlice';
 import sendMessageThunk from '../../../../redux/thunks/sendMessageThunk';
-import { getSignalRConnection } from '../../../../hooks/ws/signalRConnection';
 import { useCheckAuth } from '../../../../hooks/useCheckAuth';
 import useWsGetTypingUsers from '../../../../hooks/ws/useWsGetTypingUsers';
 import useWsTypingTracker from '../../../../hooks/ws/useWsTypingTracker';
@@ -35,6 +33,13 @@ export const SendMessage: React.FC = () => {
     }
   };
 
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      send();
+    }
+  };
+
   const handleFocus = () => {
     wsTypingTracker.startTyping();
   };
@@ -56,6 +61,7 @@ export const SendMessage: React.FC = () => {
         onFocus={handleFocus}
         onBlur={handleBlur}
         onChange={handleMessageInput}
+        onKeyPress={handleKeyPress}
         placeholder="Type your message..."
         value={messageToSend.Content ?? ""}
         rows={3}
