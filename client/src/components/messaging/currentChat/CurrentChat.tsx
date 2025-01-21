@@ -35,14 +35,16 @@ export const CurrentChat: React.FC = () => {
     <Loading />
   ) : (
     <div className="current-chat">
-      <div className="current-chat__header">
-        <DisplayHeader />
-      </div>
-      <div className="current-chat__messages">
-        <DisplayMessages />
-      </div>
-      <div className="current-chat__input">
-        <SendMessage />
+      <div className="current-chat__container">
+        <div className="current-chat__header">
+          <DisplayHeader />
+        </div>
+        <div className="current-chat__messages">
+          <DisplayMessages />
+        </div>
+        <div className="current-chat__input">
+          <SendMessage />
+        </div>
       </div>
     </div>
   );

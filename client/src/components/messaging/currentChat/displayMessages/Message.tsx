@@ -12,7 +12,7 @@ import addLikeThunk from "../../../../redux/thunks/addLikeThunk";
 import rmLikeThunk from "../../../../redux/thunks/rmLikeThunk";
 import { FaHeart } from "react-icons/fa";
 import Likes from "./Likes";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import "./Message.scss";
 
 const Message: React.FC<{ message: IMessage }> = ({ message }) => {
@@ -26,6 +26,10 @@ const Message: React.FC<{ message: IMessage }> = ({ message }) => {
   const lastTap = useRef<number>(0);
   const DOUBLE_TAP_DELAY = 300;
   const LONG_PRESS_DELAY = 500;
+
+  const [hideTimeout, setHideTimeout] = useState<NodeJS.Timeout | null>(null);
+
+  const likesContainerRef = useRef<HTMLDivElement>(null);
 
   const deleteMsg = () => {
     dispatch(markMsgAsDeletedThunk(message.messageId));
@@ -90,15 +94,60 @@ const Message: React.FC<{ message: IMessage }> = ({ message }) => {
 
   const handleLikesMouseEnter = () => {
     if (window.matchMedia('(min-width: 768px)').matches) {
+      if (hideTimeout) {
+        clearTimeout(hideTimeout);
+        setHideTimeout(null);
+      }
       setDisplayLikes(true);
     }
   };
 
-  const handleLikesMouseLeave = () => {
+  const handleLikesMouseLeave = (e: React.MouseEvent) => {
     if (window.matchMedia('(min-width: 768px)').matches) {
-      setDisplayLikes(false);
+      const container = e.currentTarget;
+      const relatedTarget = e.relatedTarget as Node;
+      
+      if (!container.contains(relatedTarget)) {
+        const timeout = setTimeout(() => {
+          setDisplayLikes(false);
+        }, 300); // 300ms delay
+        setHideTimeout(timeout);
+      }
     }
   };
+
+  // Clean up timeout on component unmount
+  useEffect(() => {
+    return () => {
+      if (hideTimeout) {
+        clearTimeout(hideTimeout);
+      }
+    };
+  }, [hideTimeout]);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent | TouchEvent) => {
+      if (!window.matchMedia('(min-width: 768px)').matches) { // Only on mobile
+        if (
+          displayLikes && 
+          likesContainerRef.current && 
+          !likesContainerRef.current.contains(event.target as Node)
+        ) {
+          setDisplayLikes(false);
+        }
+      }
+    };
+
+    if (displayLikes) {
+      document.addEventListener('mousedown', handleClickOutside);
+      document.addEventListener('touchstart', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('touchstart', handleClickOutside);
+    };
+  }, [displayLikes]);
 
   const isSender = message.senderId === currentUser.id;
   const time = formatDistanceToNow(new Date(message.sentAt), {
@@ -137,21 +186,22 @@ const Message: React.FC<{ message: IMessage }> = ({ message }) => {
         <div className="message-footer">
           <span className="time-stamp">{time}</span>
           
-          <div className="likes-container">
+          <div 
+            ref={likesContainerRef}
+            className="likes-container" 
+            onMouseEnter={handleLikesMouseEnter}
+            onMouseLeave={handleLikesMouseLeave}
+          >
             {message.likes.length > 0 && (
-              <FaHeart
-                className="heart-icon"
-                size={16}
-                onMouseEnter={handleLikesMouseEnter}
-                onMouseLeave={handleLikesMouseLeave}
-                onClick={handleLikeClick}
-              />
-            )}
-            
-            {displayLikes && message.likes.length > 0 && (
-              <div className="likes-popup">
-                <Likes users={message.likes} />
-              </div>
+              <>
+                <div className="heart-icon" onClick={handleLikeClick}>
+                  <FaHeart size={16} />
+                </div>
+                
+                <div className={`likes-popup ${displayLikes ? 'visible' : ''}`}>
+                  <Likes users={message.likes} />
+                </div>
+              </>
             )}
           </div>
         </div>
@@ -161,3 +211,4 @@ const Message: React.FC<{ message: IMessage }> = ({ message }) => {
 };
 
 export default Message;
+
