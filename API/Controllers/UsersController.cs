@@ -16,16 +16,24 @@ namespace API.Controllers
         [HttpGet("IsTaken/{Type}/{Value}")]
         public async Task<IActionResult> CheckAvailability(string Value, string Type)
         {
-            switch (Type.ToLower())
+            try
             {
-                case "email":
-                    var userByEmail = await usersService.GetUserByEmailAsync(Value);
-                    return Ok(userByEmail != null);
-                case "username":
-                    var userByName = await usersService.GetUserByUnameAsync(Value);
-                    return Ok(userByName != null);
-                default:
-                    return BadRequest("Invalid Type parameter. Please use 'email' or 'username'.");
+                switch (Type.ToLower())
+                {
+                    case "email":
+                        var userByEmail = await usersService.GetUserByEmailAsync(Value);
+                        return Ok(userByEmail != null);
+                    case "username":
+                        var userByName = await usersService.GetUserByUnameAsync(Value);
+                        return Ok(userByName != null);
+                    default:
+                        return BadRequest("Invalid Type parameter. Please use 'email' or 'username'.");
+                }
+            }
+            catch (Exception ex)
+            {
+                // Log the error here if you have logging configured
+                return Ok(true); // Consider the email/username taken if we encounter an error
             }
         }
 
