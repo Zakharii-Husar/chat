@@ -33,7 +33,7 @@ export const SendMessage: React.FC = () => {
     }
   };
 
-  const handleKeyPress = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
       send();
@@ -61,7 +61,7 @@ export const SendMessage: React.FC = () => {
         onFocus={handleFocus}
         onBlur={handleBlur}
         onChange={handleMessageInput}
-        onKeyPress={handleKeyPress}
+        onKeyDown={handleKeyDown}
         placeholder="Type your message..."
         value={messageToSend.Content ?? ""}
         rows={3}
