@@ -80,7 +80,7 @@ namespace API.Data
 
             modelBuilder.Entity<Message>()
                 .Property(m => m.SentAt)
-                .HasDefaultValueSql("CURRENT_TIMESTAMP");
+                .HasDefaultValueSql("SYSUTCDATETIME()");
 
         }
 

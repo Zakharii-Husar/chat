@@ -7,6 +7,7 @@ services:
       dockerfile: DB/Dockerfile
     container_name: chat-db
     environment:
+      - TZ=UTC
       - ACCEPT_EULA=Y
       - MSSQL_SA_PASSWORD=${MSSQL_SA_PASSWORD}
       - MSSQL_ENCRYPT=OPTIONAL
@@ -17,6 +18,8 @@ services:
       - chat-network
     volumes:
       - mssql-data:/var/opt/mssql
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
     healthcheck:
       test: /opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P "${MSSQL_SA_PASSWORD}" -Q "SELECT 1" -N -C || exit 1
       interval: 10s
@@ -30,6 +33,7 @@ services:
       dockerfile: API/Dockerfile
     container_name: chat-api
     environment:
+      - TZ=UTC
       - DB_SERVER=db,1433
       - DB_NAME=chat
       - DB_USERNAME=sa
@@ -57,6 +61,8 @@ services:
       start_period: 40s
     volumes:
       - avatar-data:/app/Avatars
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
 
   client:
     build:
@@ -73,8 +79,12 @@ services:
     networks:
       - chat-network
     environment:
+      - TZ=UTC
       - REACT_APP_API_URL=http://localhost:3000/chat-api
       - REACT_APP_WS_URL=http://localhost:3000/Hub
+    volumes:
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
 
 networks:
   chat-network:
