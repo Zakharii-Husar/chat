@@ -15,19 +15,28 @@ export const DisplayMessages = () => {
     if (!isLoading) dispatch(getChatByIdThunk(currentChat.chatId!));
   };
 
+  const handleScroll = (e: any) => {
+    const element = e.target;
+    const endLine = element.querySelector('.messages-end-line');
+    if (!endLine) return;
+    
+    const isAtBottom = element.scrollHeight - element.scrollTop === element.clientHeight;
+    if (isAtBottom) {
+      endLine.classList.add('bounce');
+      setTimeout(() => endLine.classList.remove('bounce'), 500);
+    }
+  };
+
   return (
-    <div className="messages-container scrollable">
+    <div className="messages-container scrollable" onScroll={handleScroll}>
       <InfiniteScroll
+        className="messages-container"
         dataLength={currentChat.messages.length}
         next={loadMore}
         hasMore={currentChat.hasMoreMessages}
         loader={<Loading />}
         inverse={true}
-        scrollableTarget="messages-container"
-        style={{ display: 'flex', flexDirection: 'column' }}
-        endMessage={
-          <p className="text-center text-muted small">Beginning of the chat</p>
-        }
+        endMessage={<div className="messages-end-line" />}
       >
         {currentChat.messages.map((message) => {
           const isSender = currentUser.id === message.senderId;

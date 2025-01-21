@@ -19,6 +19,18 @@ export const ChatsOverview: React.FC = () => {
   const chatsOverviewState = useAppSelector((state) => state.chats);
   const hasMore = chatsOverviewState.hasMore;
 
+  const handleScroll = (e: any) => {
+    const element = e.target;
+    const endLine = element.querySelector('.chat-end-line');
+    if (!endLine) return;
+    
+    const isAtBottom = element.scrollHeight - element.scrollTop === element.clientHeight;
+    if (isAtBottom) {
+      endLine.classList.add('bounce');
+      setTimeout(() => endLine.classList.remove('bounce'), 500);
+    }
+  };
+
   return (
     <Container
       fluid
@@ -29,13 +41,14 @@ export const ChatsOverview: React.FC = () => {
         <Col className="d-flex h-100">
           <Card className="d-flex w-100 h-100">
             <InfiniteScroll
-            className="scrollable"
+              className="scrollable"
               height={400}
               dataLength={chatsOverviewState?.chats.length}
               next={() => dispatch(getAllChatsThunk())}
               hasMore={hasMore}
               loader={<h4>Loading...</h4>}
-              endMessage={<b>Beginning of the chats</b>}
+              endMessage={<div className="chat-end-line" />}
+              onScroll={handleScroll}
             >
               <Card.Body className="ChatsOverview">
                 {chatsOverviewState?.chats?.map((chat) => {

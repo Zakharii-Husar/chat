@@ -83,6 +83,20 @@
   }
 }
 
+.chat-end-line {
+  width: 80%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, $neutral-300, transparent);
+  margin: map-get($spacing, 'md') auto;
+  transition: all 0.3s ease;
+  
+  &.bounce {
+    transform: scale(1.05);
+    background: linear-gradient(90deg, transparent, rgba($primary-400, 0.5), transparent);
+    box-shadow: 0 0 8px rgba($primary-400, 0.3);
+  }
+}
+
 @media (max-width: map-get($breakpoints, 'md')) {
   .ChatsOverview {
     width: 100%;
