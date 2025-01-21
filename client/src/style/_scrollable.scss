@@ -1,31 +1,26 @@
+@import '../theme/colors';
+@import '../theme/variables';
+
 .scrollable {
   list-style: none;
-  display: flex;
-  flex-direction: column;
-  min-height: 80vh;
-  height: 80vh;
   overflow-y: auto;
-  display: flex;
   width: 100%;
-  margin: auto;
+  height: 100%;
   padding: 5px;
-}
-.scrollable::-webkit-scrollbar {
-  width: 5px;
-  border-radius: 25px;
-  background-color: black;
-  position: absolute;
-  left: 0;
-}
-.scrollable::-webkit-scrollbar-thumb {
-  border-radius: 25px;
-  background-color: #000000;
-}
-.scrollable::-webkit-scrollbar-track {
-  border-radius: 5px;
-}
 
-.scrollable::-webkit-scrollbar-thumb {
-  overflow-y: hidden;
-  background-color: blue;
+  &::-webkit-scrollbar {
+    width: 5px;
+    border-radius: 25px;
+    background-color: rgba(0, 0, 0, 0.1);
+  }
+
+  &::-webkit-scrollbar-thumb {
+    border-radius: 25px;
+    background: linear-gradient(145deg, $primary-400, $primary-500);
+  }
+
+  &::-webkit-scrollbar-track {
+    border-radius: 5px;
+    background: rgba($neutral-200, 0.5);
+  }
 }

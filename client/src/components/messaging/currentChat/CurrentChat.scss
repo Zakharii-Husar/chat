@@ -16,6 +16,7 @@
   margin: 0 auto;
 
   &__header {
+    flex-shrink: 0;
     background: linear-gradient(145deg, $primary-500, $primary-600);
     padding: map-get($spacing, 'xs');
     color: $neutral-100;
@@ -46,9 +47,17 @@
 
   &__messages {
     flex: 1;
-    overflow-y: auto;
-    padding: map-get($spacing, 'sm');
+    position: relative;
     background: linear-gradient(145deg, $neutral-100, rgba($primary-100, 0.3));
+    overflow: hidden;
+
+    .messages-container {
+      height: 100%;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      padding: map-get($spacing, 'sm');
+    }
 
     // Custom scrollbar styling
     &::-webkit-scrollbar {
@@ -111,6 +120,7 @@
   }
 
   &__input {
+    flex-shrink: 0;
     padding: map-get($spacing, 'sm');
     background: $neutral-100;
     border-top: 1px solid rgba($neutral-300, 0.5);

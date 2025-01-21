@@ -8,6 +8,7 @@
   display: flex;
   margin-bottom: map-get($spacing, 'xs');
   padding: 0 map-get($spacing, 'sm');
+  width: 100%;
 
   &--sender {
     justify-content: flex-end;
@@ -50,9 +51,12 @@
   padding: map-get($spacing, 'sm');
   transition: all 0.2s ease;
   position: relative;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  max-width: 70%;
   
   @media (max-width: map-get($breakpoints, 'md')) {
-    width: 90vw;
+    width: 80vw;
   }
 
   &:hover {
@@ -134,29 +138,40 @@
         box-shadow: $shadow-lg;
         z-index: 10;
 
-        .likes-list {
-          list-style: none;
-          margin: 0;
-          padding: 0;
+        @media (max-width: map-get($breakpoints, 'md')) {
+          position: fixed;
+          left: 50%;
+          top: 50%;
+          transform: translate(-50%, -50%);
+          width: 90%;
+          max-width: 300px;
+          background: linear-gradient(145deg, $neutral-900, $neutral-800);
+          box-shadow: 0 4px 20px rgba($neutral-900, 0.3);
+          border: 1px solid rgba($neutral-100, 0.1);
 
-          .likes-header {
-            color: $primary-300;
-            font-size: $font-size-sm;
-            margin-bottom: map-get($spacing, 'xs');
-            padding-bottom: map-get($spacing, 'xs');
-            border-bottom: 1px solid rgba($neutral-100, 0.1);
+          &::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba($neutral-900, 0.5);
+            backdrop-filter: blur(4px);
+            z-index: -1;
           }
 
-          .like-item {
-            display: flex;
-            align-items: center;
-            gap: map-get($spacing, 'sm');
-            padding: map-get($spacing, 'xs');
-            color: $neutral-100;
+          .likes-list {
+            max-height: 60vh;
+            overflow-y: auto;
             
-            &:hover {
-              background: rgba($neutral-100, 0.1);
-              border-radius: map-get($radius, 'sm');
+            &::-webkit-scrollbar {
+              width: 4px;
+            }
+            
+            &::-webkit-scrollbar-thumb {
+              background: $primary-500;
+              border-radius: map-get($radius, 'full');
             }
           }
         }
