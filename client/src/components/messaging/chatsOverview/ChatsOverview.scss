@@ -6,18 +6,21 @@
 @import '../../../style/_colors';
 
 .chats-overview {
-  padding: map-get($spacing, 'xl');
-  min-height: calc(100vh - #{$header-height} - 2rem);
+  height: calc(100vh - #{$header-height});
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 100%;
+  position: relative;
+  overflow: hidden;
   
   &__content {
     width: 100%;
     max-width: $container-max-width;
     display: flex;
     justify-content: center;
+    height: 100%;
+    padding: map-get($spacing, 'md');
   }
 
   &__card {
@@ -26,8 +29,10 @@
     border-radius: map-get($radius, 'lg');
     width: 80%;
     max-width: 800px;
-    height: calc(100vh - #{$header-height} - 4rem);
+    height: 100%;
     overflow: hidden;
+    display: flex;
+    flex-direction: column;
   }
 
   &__scroll-container {

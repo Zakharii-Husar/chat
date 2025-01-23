@@ -2,6 +2,7 @@ import ManageGroupChat from "../../groupChatControll/manageGroupChat/ManageGroup
 import { Link } from "react-router-dom";
 import { useAppSelector } from "../../../../hooks/useAppSelectorAndDispatch";
 import Avatar from "../../../reusable/Avatar/Avatar";
+import "./DisplayHeader.scss";
 
 export const DisplayHeader: React.FC = () => {
   const CurrentUser = useAppSelector((state) => state.loggedInUser);
@@ -18,22 +19,21 @@ export const DisplayHeader: React.FC = () => {
 
   return (
     <div className="chat-title">
-      {!isAgroupChat ? (
-        <Link to={"/users/" + chatHeader}>
-          <Avatar
-            size="S"
-            fileName={currentChat.messages?.[0]?.interlocutor?.avatarName ?? null}
-            isGroup={false}
-          />
+      <div className="chat-title__content">
+        <Avatar
+          size="S"
+          fileName={currentChat.messages?.[0]?.interlocutor?.avatarName ?? null}
+          isGroup={isAgroupChat}
+        />
+        {!isAgroupChat ? (
+          <Link to={"/users/" + chatHeader}>
+            <h3>{chatHeader}</h3>
+          </Link>
+        ) : (
           <h3>{chatHeader}</h3>
-        </Link>
-      ) : (
-        <>
-          <Avatar size="S" fileName={null} isGroup={true} />
-          <h3>{chatHeader}</h3>
-          <ManageGroupChat />
-        </>
-      )}
+        )}
+      </div>
+      {isAgroupChat && <ManageGroupChat />}
     </div>
   );
 };

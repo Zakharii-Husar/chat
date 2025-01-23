@@ -70,16 +70,17 @@ export const DisplayMessages = () => {
   return (
     <div className="messages-scroll-container">
       <Virtuoso
+        className="scrollable"
         style={{ height: '100%' }}
         itemContent={MessageItem}
         startReached={loadMore}
         increaseViewportBy={200}
         data={currentChat.messages}
-        
+        firstItemIndex={0}
+        initialTopMostItemIndex={currentChat.messages.length - 1}
+        alignToBottom
+        followOutput
         reversed={true}
-        components={{
-          Footer: () => <div>Loading...</div>
-        }}
       />
     </div>
   );

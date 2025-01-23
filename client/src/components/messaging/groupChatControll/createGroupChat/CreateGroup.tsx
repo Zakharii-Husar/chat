@@ -12,12 +12,13 @@ import { resetChatCandidates } from "../../../../redux/slices/createGroupSlice";
 
 import createGroupThunk from "../../../../redux/thunks/createGroupThunk";
 import { useRedirectAsync } from "../../../../hooks/useRedirectAsync";
-import { Row, Col, Card, Modal, Button } from "react-bootstrap";
-import { FaUserGroup } from "react-icons/fa6";
+import { Modal, Button } from "react-bootstrap";
+import {  FaUsers, FaPlus } from "react-icons/fa6";
+import "./CreateGroup.scss";
 
 const CreateGroup: React.FC = () => {
   const redirectAsync = useRedirectAsync();
-  const [showForm, setShowForm] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
   const dispatch = useAppDispatch();
   const createGroupState = useAppSelector((state) => state.createGroup);
@@ -29,17 +30,13 @@ const CreateGroup: React.FC = () => {
     };
   }, []);
 
-  const handleShowForm = (status: boolean) => {
-    setShowForm(status);
-  };
-
   const createGroup = async () => {
     if (!createGroupState.name || createGroupState.name.length < 4) {
       alert("Provide at least 4 characters long chat name!");
     } else {
       try {
         await dispatch(createGroupThunk());
-        handleShowForm(false);
+        setShowModal(false);
         redirectAsync();
       } catch (error) {
         console.error("Error creating group chat:", error);
@@ -48,34 +45,35 @@ const CreateGroup: React.FC = () => {
   };
 
   return (
-    <Row className="d-flex justify-content-center">
-      <Col>
-        <Card>
-          <Card.Header
-            className="w-100 badge text-bg-primary text-wrap h-5"
-            role="button"
-            onClick={() => handleShowForm(true)}
-          >
-            <span className="me-2">Create Group Chat</span>
-            <FaUserGroup/>
-          </Card.Header>
+    <div className="create-group">
+      <Button
+        className="create-group__button"
+        onClick={() => setShowModal(true)}
+      >
+        <FaPlus className="icon" />
+        <span>New Group</span>
+      </Button>
 
-          <Modal show={showForm} onHide={() => handleShowForm(false)}>
-            <Modal.Header closeButton>
-              <Modal.Title>Create Group Chat</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-              <RemoveCandidates />
-              <AddCandidates />
-              <NewGroupName />
-              <Button variant="primary" onClick={createGroup}>
-                Create Group Chat
-              </Button>
-            </Modal.Body>
-          </Modal>
-        </Card>
-      </Col>
-    </Row>
+      <Modal
+        show={showModal}
+        onHide={() => setShowModal(false)}
+        className="create-group__modal"
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>
+            <FaUsers className="icon" /> Create New Group Chat
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <RemoveCandidates />
+          <AddCandidates />
+          <NewGroupName />
+          <Button variant="primary" onClick={createGroup}>
+            Create Group Chat
+          </Button>
+        </Modal.Body>
+      </Modal>
+    </div>
   );
 };
 

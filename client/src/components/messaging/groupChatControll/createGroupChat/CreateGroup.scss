@@ -1,0 +1,84 @@
+@import '../../../../theme/variables';
+@import '../../../../theme/mixins';
+@import '../../../../theme/colors';
+@import '../../../../theme/spacing';
+@import '../../../../theme/typography';
+
+.create-group {
+  width: 80%;
+  max-width: 800px;
+  margin-bottom: map-get($spacing, 'md');
+  display: flex;
+  justify-content: flex-end;
+
+  &__button {
+    @include card-shadow;
+    background: linear-gradient(145deg, $primary-500, $primary-600);
+    color: $neutral-100;
+    border: none;
+    padding: map-get($spacing, 'sm') map-get($spacing, 'lg');
+    border-radius: map-get($radius, 'full');
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: map-get($spacing, 'xs');
+    
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba($primary-500, 0.2);
+    }
+
+    .icon {
+      font-size: $font-size-lg;
+    }
+  }
+
+  &__modal {
+    .modal-content {
+      background: linear-gradient(145deg, $neutral-100, rgba($primary-100, 0.3));
+      border-radius: map-get($radius, 'lg');
+      border: none;
+      box-shadow: $shadow-lg;
+    }
+    
+    .modal-header {
+      background: linear-gradient(145deg, $primary-500, $primary-600);
+      color: $neutral-100;
+      border-radius: map-get($radius, 'lg') map-get($radius, 'lg') 0 0;
+      border: none;
+      padding: map-get($spacing, 'md') map-get($spacing, 'lg');
+      
+      .modal-title {
+        font-size: $font-size-lg;
+        font-weight: $font-weight-semibold;
+        display: flex;
+        align-items: center;
+        gap: map-get($spacing, 'sm');
+      }
+      
+      .close {
+        color: $neutral-100;
+        text-shadow: none;
+        opacity: 0.8;
+        
+        &:hover {
+          opacity: 1;
+        }
+      }
+    }
+
+    .modal-body {
+      padding: map-get($spacing, 'lg');
+    }
+  }
+}
+
+@media (max-width: map-get($breakpoints, 'md')) {
+  .create-group {
+    width: 95%;
+    
+    &__button {
+      padding: map-get($spacing, 'xs') map-get($spacing, 'md');
+    }
+  }
+}

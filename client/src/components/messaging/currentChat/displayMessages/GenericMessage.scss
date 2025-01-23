@@ -1,0 +1,60 @@
+@import '../../../../theme/variables';
+@import '../../../../theme/mixins';
+@import '../../../../theme/colors';
+@import '../../../../theme/spacing';
+@import '../../../../theme/typography';
+
+.generic-message {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  padding: map-get($spacing, 'lg') map-get($spacing, 'sm');
+  margin: map-get($spacing, 'md') 0;
+  min-height: 150px;
+
+  &__content {
+    @include card-shadow;
+    background: linear-gradient(145deg, rgba($neutral-800, 0.05), rgba($neutral-900, 0.1));
+    padding: map-get($spacing, 'lg') map-get($spacing, 'xl');
+    border-radius: map-get($radius, 'lg');
+    font-size: $font-size-base;
+    color: $neutral-600;
+    backdrop-filter: blur(8px);
+    width: 60%;
+    min-width: 250px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: map-get($spacing, 'md');
+    
+    &--system {
+      background: linear-gradient(145deg, rgba($primary-500, 0.05), rgba($primary-600, 0.1));
+      color: $primary-600;
+    }
+    
+    &--deleted {
+      background: linear-gradient(145deg, rgba($error-500, 0.05), rgba($error-500, 0.1));
+      color: $error-500;
+      font-style: italic;
+    }
+  }
+
+  .time-stamp {
+    font-size: $font-size-xs;
+    color: $neutral-500;
+    margin-top: map-get($spacing, 'sm');
+  }
+}
+
+@media (max-width: map-get($breakpoints, 'md')) {
+  .generic-message {
+    min-height: 120px;
+    padding: map-get($spacing, 'md') map-get($spacing, 'sm');
+    
+    &__content {
+      width: 80%;
+      padding: map-get($spacing, 'md');
+    }
+  }
+}
