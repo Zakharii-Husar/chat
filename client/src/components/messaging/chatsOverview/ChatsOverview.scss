@@ -5,81 +5,94 @@
 @import '../../../theme/typography';
 @import '../../../style/_colors';
 
-.ChatsOverview {
-  width: 50%;
-  margin: 0 auto;
+.chats-overview {
+  padding: map-get($spacing, 'xl');
+  min-height: calc(100vh - #{$header-height} - 2rem);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
   
-  a {
+  &__content {
+    width: 100%;
+    max-width: $container-max-width;
+    display: flex;
+    justify-content: center;
+  }
+
+  &__card {
     @include card-shadow;
+    background: linear-gradient(145deg, $neutral-100, rgba($primary-100, 0.3));
+    border-radius: map-get($radius, 'lg');
+    width: 80%;
+    max-width: 800px;
+    height: calc(100vh - #{$header-height} - 4rem);
+    overflow: hidden;
+  }
+
+  &__scroll-container {
+    height: 100%;
+    width: 100%;
     display: flex;
     flex-direction: column;
-    text-decoration: none;
-    color: $neutral-800;
-    border-radius: map-get($radius, 'md');
-    border: 1px solid transparent;
-    transition: all 0.3s ease;
-    padding: map-get($spacing, 'sm') map-get($spacing, 'md');
-    margin-bottom: map-get($spacing, 'sm');
-    backdrop-filter: blur(8px);
-    
-    &:hover {
-      transform: translateY(-2px) scale(1.01);
-      border-color: $primary-400;
-      box-shadow: 0 8px 16px rgba($primary-500, 0.1);
-    }
+  }
 
-    &.readChat {
-      background: linear-gradient(145deg, $neutral-100, $neutral-200);
-    }
+  &__list {
+    width: 100%;
+    padding: map-get($spacing, 'md');
+  }
 
-    &.unreadChat {
-      background: linear-gradient(145deg, $primary-100, $unread-chat-bg);
-      border-left: 4px solid $primary-500;
-      position: relative;
-      
-      &::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        right: 0;
-        width: 8px;
-        height: 8px;
-        background: $primary-500;
-        border-radius: 50%;
-        margin: map-get($spacing, 'sm');
-      }
-    }
+  &__loader {
+    text-align: center;
+    padding: map-get($spacing, 'md');
+    color: $primary-600;
+    font-weight: $font-weight-medium;
+    width: 100%;
   }
 }
 
-.chat {
-  height: map-get($spacing, 'md');
+.chat-item {
+  margin-bottom: map-get($spacing, 'sm');
 }
 
-.chatHeader {
-  color: $chat-header;
-  font-weight: $font-weight-bold;
-  padding: map-get($spacing, 'xs') map-get($spacing, 'sm');
-  border-bottom: 1px solid rgba($neutral-300, 0.5);
-  height: 30px;
+.chat-link {
+  @include card-shadow;
   display: flex;
-  align-items: center;
-  gap: map-get($spacing, 'sm');
-}
-
-.chatBody {
-  color: $chat-body;
-  padding: map-get($spacing, 'xs') map-get($spacing, 'sm');
-  height: 30px;
+  flex-direction: column;
+  text-decoration: none;
+  color: $neutral-800;
+  border-radius: map-get($radius, 'md');
+  border: 1px solid transparent;
+  transition: all 0.3s ease;
+  padding: map-get($spacing, 'sm') map-get($spacing, 'md');
+  backdrop-filter: blur(8px);
   
-  p {
-    margin-bottom: map-get($spacing, 'xs');
-    font-size: $font-size-sm;
+  &:hover {
+    transform: translateY(-2px) scale(1.01);
+    border-color: $primary-400;
+    box-shadow: 0 8px 16px rgba($primary-500, 0.1);
   }
-  
-  .small {
-    color: $neutral-600;
-    font-size: $font-size-xs;
+
+  &.read {
+    background: linear-gradient(145deg, $neutral-100, $neutral-200);
+  }
+
+  &.unread {
+    background: linear-gradient(145deg, $primary-100, rgba($primary-200, 0.5));
+    border-left: 4px solid $primary-500;
+    position: relative;
+    
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 8px;
+      height: 8px;
+      background: $primary-500;
+      border-radius: 50%;
+      margin: map-get($spacing, 'sm');
+    }
   }
 }
 
@@ -97,8 +110,13 @@
   }
 }
 
+
 @media (max-width: map-get($breakpoints, 'md')) {
-  .ChatsOverview {
-    width: 100%;
+  .chats-overview {
+    padding: map-get($spacing, 'sm');
+    
+    &__card {
+      width: 95%;
+    }
   }
 }

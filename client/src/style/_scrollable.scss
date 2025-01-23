@@ -2,12 +2,11 @@
 @import '../theme/variables';
 
 .scrollable {
-  list-style: none;
   overflow-y: auto;
+  overflow-x: hidden;
   width: 100%;
-  height: 100%;
-  padding: 5px;
-
+  margin: auto;
+  
   &::-webkit-scrollbar {
     width: 5px;
     border-radius: 25px;
@@ -22,5 +21,22 @@
   &::-webkit-scrollbar-track {
     border-radius: 5px;
     background: rgba($neutral-200, 0.5);
+  }
+}
+
+.infinite-scroll {
+  width: 100%;
+  height: calc(100vh - #{$header-height} - 8rem);
+  padding: map-get($spacing, 'md');
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.infinite-scroll-inverse {
+  direction: rtl;
+  
+  & > div {
+    direction: ltr;
   }
 }

@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@virtuoso.dev/message-list": "^1.9.10",
     "date-fns": "^3.4.0"
   }
 }

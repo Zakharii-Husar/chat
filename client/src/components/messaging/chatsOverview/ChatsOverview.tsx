@@ -1,6 +1,5 @@
-import React from "react";
-import { Container, Row, Col, Card } from "react-bootstrap";
-import InfiniteScroll from "react-infinite-scroll-component";
+import React, { useCallback } from "react";
+import { Virtuoso } from "react-virtuoso";
 import "../../../style/_scrollable.scss";
 import {
   useAppDispatch,
@@ -13,66 +12,60 @@ import { ChatHeader } from "./ChatHeader";
 import { Link } from "react-router-dom";
 import "./ChatsOverview.scss";
 import PATH from "../../../routing/pathConstants";
+import Loading  from "../../../components/reusable/Loading";
 
 export const ChatsOverview: React.FC = () => {
   const dispatch = useAppDispatch();
   const chatsOverviewState = useAppSelector((state) => state.chats);
   const hasMore = chatsOverviewState.hasMore;
 
-  const handleScroll = (e: any) => {
-    const element = e.target;
-    const endLine = element.querySelector('.chat-end-line');
-    if (!endLine) return;
-    
-    const isAtBottom = element.scrollHeight - element.scrollTop === element.clientHeight;
-    if (isAtBottom) {
-      endLine.classList.add('bounce');
-      setTimeout(() => endLine.classList.remove('bounce'), 500);
+  const loadMore = useCallback(() => {
+    if (hasMore) {
+      dispatch(getAllChatsThunk());
     }
-  };
+  }, [dispatch, hasMore]);
+
+  const ChatItem = useCallback((index: number) => {
+    if (!chatsOverviewState.chats?.[index]) {
+      return <div className="chat-item loading">Loading...</div>;
+    }
+
+    const chat = chatsOverviewState.chats[index];
+    const isRead = chat.seenBy.length > 0;
+
+    return (
+      <div className="chat-item">
+        <Link
+          to={`${PATH.chats}/${chat.chatId}`}
+          className={`chat-link ${isRead ? "read" : "unread"}`}
+        >
+          <ChatHeader chat={chat} />
+          <ChatBody message={chat} />
+        </Link>
+      </div>
+    );
+  }, [chatsOverviewState.chats]);
+
+  if (!chatsOverviewState.chats) {
+    return <Loading />;
+  }
 
   return (
-    <Container
-      fluid
-      className="d-flex flex-column justify-content-center w-100 h-100"
-    >
+    <div className="chats-overview">
       <CreateGroup />
-      <Row className="d-flex justify-content-center h-100">
-        <Col className="d-flex h-100">
-          <Card className="d-flex w-100 h-100">
-            <InfiniteScroll
+      <div className="chats-overview__content">
+        <div className="chats-overview__card">
+          <div className="chats-overview__scroll-container">
+            <Virtuoso
+              style={{ height: "100%" }}
+              totalCount={chatsOverviewState.chats.length}
+              itemContent={ChatItem}
+              endReached={loadMore}
               className="scrollable"
-              height={400}
-              dataLength={chatsOverviewState?.chats.length}
-              next={() => dispatch(getAllChatsThunk())}
-              hasMore={hasMore}
-              loader={<h4>Loading...</h4>}
-              endMessage={<div className="chat-end-line" />}
-              onScroll={handleScroll}
-            >
-              <Card.Body className="ChatsOverview">
-                {chatsOverviewState?.chats?.map((chat) => {
-                  const isRead = chat.seenBy.length > 0;
-                  return (
-                    <Container key={chat.chatId}>
-                      <Link
-                        to={`${PATH.chats}/${chat.chatId}`}
-                        className={
-                          "d-flex flex-column justify-content-between mb-2 " +
-                          (isRead ? "readChat" : "unreadChat")
-                        }
-                      >
-                        <ChatHeader chat={chat} />
-                        <ChatBody message={chat} />
-                      </Link>
-                    </Container>
-                  );
-                })}
-              </Card.Body>
-            </InfiniteScroll>
-          </Card>
-        </Col>
-      </Row>
-    </Container>
+            />
+          </div>
+        </div>
+      </div>
+    </div>
   );
 };
