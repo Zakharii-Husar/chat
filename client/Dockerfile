@@ -8,6 +8,7 @@ RUN npm config set fetch-retry-mintimeout 10000
 
 COPY package*.json ./
 RUN npm install --legacy-peer-deps --verbose
+RUN npm install --save-dev @babel/plugin-proposal-private-property-in-object
 
 COPY . .
 
@@ -16,7 +17,9 @@ ARG REACT_APP_WS_URL
 
 ENV REACT_APP_API_URL=${REACT_APP_API_URL}
 ENV REACT_APP_WS_URL=${REACT_APP_WS_URL}
+ENV NODE_OPTIONS="--max-old-space-size=4096"
 
+RUN npx update-browserslist-db@latest
 RUN npm run build
 
 FROM nginx:alpine
