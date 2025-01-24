@@ -69,19 +69,19 @@ services:
       context: ./client
       dockerfile: Dockerfile
       args:
-        - REACT_APP_API_URL=http://localhost:3000/chat-api
-        - REACT_APP_WS_URL=http://localhost:3000/Hub
+        - REACT_APP_API_URL=http://localhost:8082/chat-api
+        - REACT_APP_WS_URL=http://localhost:8082/Hub
     container_name: chat-client
     ports:
-      - "3000:80"
+      - "8082:80"
     depends_on:
       - api
     networks:
       - chat-network
     environment:
       - TZ=UTC
-      - REACT_APP_API_URL=http://localhost:3000/chat-api
-      - REACT_APP_WS_URL=http://localhost:3000/Hub
+      - REACT_APP_API_URL=http://localhost:8082/chat-api
+      - REACT_APP_WS_URL=http://localhost:8082/Hub
     volumes:
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro

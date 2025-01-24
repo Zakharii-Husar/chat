@@ -7,7 +7,7 @@ RUN npm config set fetch-retry-maxtimeout 600000
 RUN npm config set fetch-retry-mintimeout 10000
 
 COPY package*.json ./
-RUN npm install --verbose || npm install --verbose || npm install --verbose
+RUN npm install --legacy-peer-deps --verbose
 
 COPY . .
 
