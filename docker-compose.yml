@@ -55,10 +55,10 @@ services:
         max-file: "10"
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:80/health"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 40s
+      interval: 60s
+      timeout: 20s
+      retries: 5
+      start_period: 90s
     volumes:
       - avatar-data:/app/Avatars
       - /etc/timezone:/etc/timezone:ro
