@@ -36,9 +36,6 @@ sleep 30s \n\
 tail -f /dev/null' > /docker-entrypoint.sh && \
 chmod +x /docker-entrypoint.sh
 
-USER mssql
-ENV ACCEPT_EULA=Y
-
 EXPOSE 1433
 
 CMD ["/docker-entrypoint.sh"]

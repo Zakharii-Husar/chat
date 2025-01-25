@@ -33,11 +33,11 @@ RUN echo '#!/bin/sh\n\
 echo "Waiting for database..."\n\
 until /opt/mssql-tools18/bin/sqlcmd -S db -U sa -P "$MSSQL_SA_PASSWORD" -Q "SELECT 1" -N -C; do\n\
   echo "Database not ready - waiting..."\n\
-  sleep 2\n\
+  sleep 5\n\
 done\n\
 echo "Database is ready"\n\
 echo "Starting API..."\n\
-dotnet API.dll' > /app/start.sh && \
+dotnet API.dll 2>&1 | tee /var/log/api.log' > /app/start.sh && \
 chmod +x /app/start.sh
 
 ENTRYPOINT ["/app/start.sh"]
