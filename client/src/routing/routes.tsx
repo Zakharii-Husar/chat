@@ -46,6 +46,8 @@ const router = createBrowserRouter([
       },
     ],
   },
-]);
+], {
+  basename: "/projects/chat"
+});
 
 export default router;
