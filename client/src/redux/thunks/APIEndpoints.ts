@@ -5,10 +5,9 @@ const getBasePath = () => {
 };
 
 // Modify API_URL to include the base path in production
-export const API_URL = process.env.REACT_APP_API_URL || 
-  `${window.location.origin}${getBasePath()}/projects/chat/chat-api`;
+export const API_URL = "http://localhost:8082/projects/chat/chat-api";
 export const WS_URL = process.env.REACT_APP_WS_URL || 
-  `${window.location.origin}${getBasePath()}/projects/chat/Hub`;
+  `${window.location.origin}${getBasePath()}/Hub`;
 
   console.log(API_URL);
 //AUTHORIZATION
