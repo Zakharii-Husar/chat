@@ -6,7 +6,7 @@ function App() {
   useInit();
 
   return (
-    <RouterProvider router={router} basename="/projects/chat" />
+    <RouterProvider router={router} />
   );
 }
 
