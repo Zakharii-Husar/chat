@@ -1,7 +1,16 @@
-// Get environment variables with fallbacks (the fallbacks are only for development)
-export const API_URL = process.env.REACT_APP_API_URL || "http://localhost:5190/chat-api";
-export const WS_URL = process.env.REACT_APP_WS_URL || "http://localhost:5190/Hub";
+// Add a base path helper
+const getBasePath = () => {
+  // Use the same base path as the router
+  return process.env.NODE_ENV === 'production' ? '/projects/chat' : '';
+};
 
+// Modify API_URL to include the base path in production
+export const API_URL = process.env.REACT_APP_API_URL || 
+  `${window.location.origin}${getBasePath()}/chat-api`;
+export const WS_URL = process.env.REACT_APP_WS_URL || 
+  `${window.location.origin}${getBasePath()}/Hub`;
+
+  console.log(API_URL);
 //AUTHORIZATION
 //post
 export const REGISTER_URL = () => `${API_URL}/Auth/SignUp/WithPass`;
