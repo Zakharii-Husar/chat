@@ -9,6 +9,7 @@ import { Layout } from "../components/layout/Layout";
 import { createBrowserRouter } from "react-router-dom";
 import PATH from "./pathConstants";
 
+
 const router = createBrowserRouter([
   {
     path: PATH.index,
@@ -47,7 +48,7 @@ const router = createBrowserRouter([
     ],
   },
 ], {
-  basename: "/projects/chat"
+  basename: process.env.REACT_APP_BASE_PATH || "/"
 });
 
 export default router;

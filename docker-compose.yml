@@ -85,6 +85,7 @@ services:
       - TZ=UTC
       - REACT_APP_API_URL=https://api.zakharii.dev/projects/chat/chat-api
       - REACT_APP_WS_URL=https://api.zakharii.dev/projects/chat/Hub
+      - REACT_APP_BASE_PATH=/projects/chat
     volumes:
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
