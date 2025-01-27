@@ -1,4 +1,4 @@
-// Get environment variables with fallbacks (the fallbacks are only for development)
+// Get environment variables with fallbacks (the fallbacks are only for dev)
 export const API_URL = process.env.REACT_APP_API_URL || "http://localhost:5190/chat-api";
 export const WS_URL = process.env.REACT_APP_WS_URL || "http://localhost:5190/Hub";
 
