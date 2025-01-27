@@ -48,7 +48,7 @@ const router = createBrowserRouter([
     ],
   },
 ], {
-  basename: process.env.REACT_APP_BASE_PATH || "/"
+  basename: "/projects/chat"
 });
 
 export default router;
