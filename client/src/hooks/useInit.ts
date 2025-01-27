@@ -14,13 +14,13 @@ export const useInit = () => {
   useWsReadListener();
   const dispatch = useAppDispatch();
   const currentUserId = useAppSelector((state) => state.loggedInUser.id);
-  const chatsOverviewState = useAppSelector((state) => state.chats);
+  const chatsLength = useAppSelector((state) => state.chats.chats.length);
 
   useEffect(() => {
     const initialLoad = () => {
-      if (!currentUserId || chatsOverviewState.chats?.length > 1) return;
+      if (!currentUserId || chatsLength > 1) return;
       dispatch(getAllChatsThunk());
     };
     initialLoad();
-  }, [currentUserId, chatsOverviewState]);
+  }, [currentUserId, chatsLength, dispatch]);
 };
