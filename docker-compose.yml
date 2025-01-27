@@ -74,6 +74,7 @@ services:
       args:
         - REACT_APP_API_URL=https://api.zakharii.dev/projects/chat/chat-api
         - REACT_APP_WS_URL=https://api.zakharii.dev/projects/chat/Hub
+        - REACT_APP_BASE_PATH=/projects/chat
     container_name: chat-client
     ports:
       - "8082:80"
