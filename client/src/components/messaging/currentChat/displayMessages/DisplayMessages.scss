@@ -29,3 +29,17 @@
         }
     }
 }
+
+.messages-loading {
+  padding: 8px;
+  text-align: center;
+  color: rgba($neutral-600, 0.7);
+  font-size: 0.875rem;
+}
+
+.message-row.loading {
+  justify-content: center;
+  padding: 8px;
+  color: rgba($neutral-600, 0.7);
+  font-size: 0.875rem;
+}
