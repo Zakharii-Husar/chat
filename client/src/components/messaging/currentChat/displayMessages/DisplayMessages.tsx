@@ -13,7 +13,7 @@ export const DisplayMessages = () => {
   const currentChat = useAppSelector((state) => state.currentChat);
   const currentUser = useAppSelector((state) => state.loggedInUser);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
-  const firstItemIndex = 1000 - (currentChat.messages?.length || 0);
+  const firstItemIndex = 10000 - (currentChat.messages?.length || 0);
 
   // Load more messages when scrolling to the top
   const loadMore = useCallback(async () => {
@@ -79,7 +79,7 @@ export const DisplayMessages = () => {
             startReached={loadMore}
             reversed={true} // Reverse the list
             firstItemIndex={firstItemIndex} // Start indexing from a large number
-            initialTopMostItemIndex={firstItemIndex} // Start at the most recent message (bottom of the list)
+            initialTopMostItemIndex={0} // Start at the most recent message (bottom of the list)
             followOutput={true} // Automatically scroll to the bottom when new messages are added
           />
         )}
