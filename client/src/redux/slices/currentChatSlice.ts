@@ -23,28 +23,26 @@ export const existingChatSlice = createSlice({
       state.chatId = action.payload;
     },
     appendMsgs: (state, action: PayloadAction<ICurrentChat>) => {
-      const newState = { ...state, ...action.payload };
+      state.chatId = action.payload.chatId;
+      state.adminId = action.payload.adminId;
+      state.chatName = action.payload.chatName;
+      state.members = action.payload.members;
+      state.hasMoreMessages = action.payload.hasMoreMessages;
 
-      const newMessages = action.payload.messages.reverse();
-      const existingMessageIds = new Set(
-        state.messages.map((chat) => chat.messageId)
-      );
-
-      const filteredMessages = newMessages.filter(
-        (message) => !existingMessageIds.has(message.messageId)
-      );
-
-      newState.messages = [...filteredMessages, ...state.messages];
-
-      return newState;
+      const newMessages = action.payload.messages;
+      const existingMessageIds = new Set(state.messages.map((msg) => msg.messageId));
+      
+      const filteredMessages = newMessages
+        .filter(message => !existingMessageIds.has(message.messageId))
+        .sort((a, b) => a.messageId - b.messageId);
+      
+      state.messages = [...filteredMessages, ...state.messages];
     },
-
+    
     prependMsg: (state, action: PayloadAction<IMessage>) => {
-      if (
-        state.messages.some((obj) => obj.messageId === action.payload.messageId)
-      )
-        return;
-      state.messages.push(action.payload);
+      if (!state.messages.some((msg) => msg.messageId === action.payload.messageId)) {
+        state.messages.unshift(action.payload);
+      }
     },
 
     updateMsg: (state, action: PayloadAction<IMessage>) => {

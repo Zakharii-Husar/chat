@@ -6,10 +6,10 @@
 
 .message-row {
   display: flex;
-  margin-bottom: map-get($spacing, 'xs');
-  padding: 0 map-get($spacing, 'sm');
   width: 100%;
+}
 
+.message-row {
   &--sender {
     justify-content: flex-end;
 
@@ -48,12 +48,13 @@
   width: 40vw;
   background: linear-gradient(145deg, $neutral-100, $neutral-200);
   border-radius: map-get($radius, 'lg');
-  padding: map-get($spacing, 'sm');
+  padding: map-get($spacing, 'md');
   transition: all 0.2s ease;
   position: relative;
   touch-action: manipulation;
   -webkit-tap-highlight-color: transparent;
   max-width: 70%;
+  min-width: 250px;
   
   @media (max-width: map-get($breakpoints, 'md')) {
     width: 80vw;

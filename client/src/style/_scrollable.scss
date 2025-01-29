@@ -4,8 +4,8 @@
 .scrollable {
   overflow-y: auto;
   overflow-x: hidden;
-  width: 100%;
-  margin: auto;
+  flex: 1;
+  min-height: 0;
   
   &::-webkit-scrollbar {
     width: 5px;
