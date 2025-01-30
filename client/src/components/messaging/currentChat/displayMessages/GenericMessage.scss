@@ -6,44 +6,41 @@
 
 .generic-message {
   display: flex;
-  justify-content: center;
   width: 100%;
-  padding: map-get($spacing, 'lg') map-get($spacing, 'sm');
-  margin: map-get($spacing, 'md') 0;
-  min-height: 150px;
+  padding: map-get($spacing, 'xs') map-get($spacing, 'sm');
+  min-height: 40px;
+  justify-content: flex-start; // Default left alignment
 
-  &__content {
-    @include card-shadow;
-    background: linear-gradient(145deg, rgba($neutral-800, 0.05), rgba($neutral-900, 0.1));
-    padding: map-get($spacing, 'lg') map-get($spacing, 'xl');
-    border-radius: map-get($radius, 'lg');
-    font-size: $font-size-base;
-    color: $neutral-600;
-    backdrop-filter: blur(8px);
-    width: 60%;
-    min-width: 250px;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: map-get($spacing, 'md');
-    
-    &--system {
-      background: linear-gradient(145deg, rgba($primary-500, 0.05), rgba($primary-600, 0.1));
-      color: $primary-600;
-    }
-    
-    &--deleted {
-      background: linear-gradient(145deg, rgba($error-500, 0.05), rgba($error-500, 0.1));
-      color: $error-500;
-      font-style: italic;
-    }
+  &.sender {
+    justify-content: flex-end; // Right alignment for sender
   }
 
-  .time-stamp {
-    font-size: $font-size-xs;
-    color: $neutral-500;
-    margin-top: map-get($spacing, 'sm');
+  &__content {
+    background: rgba($neutral-300, 0.2);
+    border-radius: map-get($radius, 'md');
+    padding: map-get($spacing, 'xs') map-get($spacing, 'sm');
+    font-size: $font-size-sm;
+    color: $neutral-600;
+    max-width: 50%;
+    min-width: 200px;
+    display: flex;
+    flex-direction: column;
+    gap: map-get($spacing, 'xs');
+
+    &--deleted {
+      font-style: italic;
+      color: $neutral-500;
+    }
+
+    &--system {
+      color: $primary-600;
+    }
+
+    .time-stamp {
+      font-size: $font-size-xs;
+      color: $neutral-500;
+      align-self: flex-end;
+    }
   }
 }
 

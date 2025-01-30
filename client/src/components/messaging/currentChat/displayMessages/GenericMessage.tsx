@@ -1,5 +1,6 @@
 import { IMessage } from "../../../../redux/slices/Interfaces";
 import { formatDistanceToNow } from "date-fns";
+import { useAppSelector } from "../../../../hooks/useAppSelectorAndDispatch";
 import "./GenericMessage.scss";
 
 interface GenericMessageProps {
@@ -7,6 +8,9 @@ interface GenericMessageProps {
 }
 
 const GenericMessage: React.FC<GenericMessageProps> = ({ message }) => {
+  const currentUser = useAppSelector((state) => state.loggedInUser);
+  const isSender = message.senderId === currentUser.id;
+  
   const time = formatDistanceToNow(new Date(message.sentAt), {
     addSuffix: true,
   });
@@ -18,7 +22,7 @@ const GenericMessage: React.FC<GenericMessageProps> = ({ message }) => {
   };
 
   return (
-    <div className="generic-message">
+    <div className={`generic-message ${isSender ? 'sender' : ''}`}>
       <div className={`generic-message__content ${getMessageClass()}`}>
         <span>{message.content}</span>
         <span className="time-stamp">{time}</span>

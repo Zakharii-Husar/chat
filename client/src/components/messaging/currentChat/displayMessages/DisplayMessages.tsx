@@ -22,7 +22,7 @@ export const DisplayMessages = () => {
         setIsLoadingMore(true);
         await dispatch(getChatByIdThunk(currentChat.chatId));
       } finally {
-        setIsLoadingMore(false);  console.log(currentChat.messages);
+        setIsLoadingMore(false);
       }
     }
   }, [dispatch, isLoadingMore, currentChat.chatId, currentChat.hasMoreMessages]);
@@ -79,7 +79,7 @@ export const DisplayMessages = () => {
             reversed={true} // Reverse the list
             firstItemIndex={firstItemIndex} // Start indexing from a large number
             initialTopMostItemIndex={currentChat.messages.length} // Start at the most recent message (bottom of the list)
-            followOutput={true} // Automatically scroll to the bottom when new messages are added
+            followOutput="smooth" // Automatically scroll to the bottom when new messages are added
           />
         )}
       </div>
