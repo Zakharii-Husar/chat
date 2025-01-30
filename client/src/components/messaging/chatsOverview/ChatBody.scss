@@ -12,11 +12,12 @@
 .message-content {
   display: flex;
   align-items: center;
-  gap: map-get($spacing, 'sm');
+  gap: map-get($spacing, 'xs');
 }
 
 .avatar-wrapper {
   flex-shrink: 0;
+  margin-right: map-get($spacing, 'xs');
 }
 
 .message-text {
@@ -25,7 +26,7 @@
   .sender-name {
     font-weight: $font-weight-bold;
     color: $neutral-900;
-    margin-bottom: map-get($spacing, 'xs');
+    margin-bottom: map-get($spacing, 'xxs');
     font-size: $font-size-sm;
   }
   
@@ -42,7 +43,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: map-get($spacing, 'xs');
+  margin-top: map-get($spacing, 'xxs');
   
   .time-stamp {
     color: $primary-500;

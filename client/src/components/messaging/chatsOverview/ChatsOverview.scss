@@ -69,7 +69,7 @@
   border-radius: map-get($radius, 'md');
   border: 1px solid transparent;
   transition: all 0.3s ease;
-  padding: map-get($spacing, 'sm') map-get($spacing, 'md');
+  padding: 0;
   backdrop-filter: blur(8px);
   
   &:hover {
@@ -79,24 +79,58 @@
   }
 
   &.read {
-    background: linear-gradient(145deg, $neutral-100, $neutral-200);
+    &.sent {
+      background: linear-gradient(145deg, $neutral-100, rgba($primary-100, 0.2));
+      
+      .chat-header, .chat-body-container {
+        padding: map-get($spacing, 'sm') map-get($spacing, 'md');
+      }
+    }
+
+    &.received {
+      background: linear-gradient(145deg, $neutral-100, $neutral-200);
+      
+      .chat-header, .chat-body-container {
+        padding: map-get($spacing, 'sm') map-get($spacing, 'md');
+      }
+    }
   }
 
   &.unread {
-    background: linear-gradient(145deg, $primary-100, rgba($primary-200, 0.5));
-    border-left: 4px solid $primary-500;
-    position: relative;
-    
-    &::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      right: 0;
-      width: 8px;
-      height: 8px;
-      background: $primary-500;
-      border-radius: 50%;
-      margin: map-get($spacing, 'sm');
+    &.sent {
+      background: $neutral-100;
+      
+      .chat-header {
+        padding: map-get($spacing, 'sm') map-get($spacing, 'md');
+        background: linear-gradient(145deg, rgba($primary-100, 0.3), rgba($primary-200, 0.1));
+      }
+      
+      .chat-body-container {
+        padding: map-get($spacing, 'sm') map-get($spacing, 'md');
+        background: linear-gradient(145deg, $neutral-200, $neutral-300);
+      }
+    }
+
+    &.received {
+      background: linear-gradient(145deg, $primary-100, rgba($primary-200, 0.5));
+      border-left: 4px solid $primary-500;
+      position: relative;
+      
+      .chat-header, .chat-body-container {
+        padding: map-get($spacing, 'sm') map-get($spacing, 'md');
+      }
+      
+      &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 8px;
+        height: 8px;
+        background: $primary-500;
+        border-radius: 50%;
+        margin: map-get($spacing, 'sm');
+      }
     }
   }
 }

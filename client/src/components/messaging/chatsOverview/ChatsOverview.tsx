@@ -18,6 +18,7 @@ export const ChatsOverview: React.FC = () => {
   const dispatch = useAppDispatch();
   const chatsOverviewState = useAppSelector((state) => state.chats);
   const hasMore = chatsOverviewState.hasMore;
+  const currentUser = useAppSelector((state) => state.loggedInUser);
 
   const loadMore = useCallback(() => {
     if (hasMore) {
@@ -32,19 +33,22 @@ export const ChatsOverview: React.FC = () => {
 
     const chat = chatsOverviewState.chats[index];
     const isRead = chat.seenBy.length > 0;
+    const isSentByCurrentUser = chat.senderId === currentUser.id;
 
     return (
       <div className="chat-item">
         <Link
           to={`${PATH.chats}/${chat.chatId}`}
-          className={`chat-link ${isRead ? "read" : "unread"}`}
+          className={`chat-link ${isRead ? "read" : "unread"} ${
+            !isRead ? (isSentByCurrentUser ? "sent" : "received") : ""
+          }`}
         >
           <ChatHeader chat={chat} />
           <ChatBody message={chat} />
         </Link>
       </div>
     );
-  }, [chatsOverviewState.chats]);
+  }, [chatsOverviewState.chats, currentUser.id]);
 
   if (!chatsOverviewState.chats) {
     return <Loading />;

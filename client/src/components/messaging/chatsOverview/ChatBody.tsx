@@ -17,7 +17,7 @@ const ChatBody: React.FC<{ message: IMessage }> = ({ message }) => {
   return (
     <Container className="chat-body-container" key={message.chatId}>
       <Row className="message-content">
-        <Col xs={2} className="avatar-wrapper">
+        <Col xs="auto" className="avatar-wrapper">
           <Avatar
             size="S"
             fileName={message.senderAvatarName ?? null}
