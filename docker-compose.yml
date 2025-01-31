@@ -17,7 +17,7 @@ services:
     networks:
       - chat-network
     volumes:
-      - mssql-data:/var/opt/mssql
+      - mssql-data:/var/opt/mssql:delegated
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
     healthcheck:

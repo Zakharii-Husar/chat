@@ -1,16 +1,14 @@
 import React from 'react';
-import { formatDistanceToNow } from 'date-fns';
 import { Container, Row, Col } from 'react-bootstrap';
 import Avatar from '../../reusable/Avatar/Avatar';
 import { useAppSelector } from '../../../hooks/useAppSelectorAndDispatch';
 import { IMessage } from '../../../redux/slices/Interfaces';
 import { BsCheckAll, BsCheck } from 'react-icons/bs';
+import { formatUtcToLocal } from '../../../utils/dateUtils';
 import './ChatBody.scss';
 
 const ChatBody: React.FC<{ message: IMessage }> = ({ message }) => {
-  const time = formatDistanceToNow(new Date(message.sentAt), {
-    addSuffix: true,
-  });
+  const time = formatUtcToLocal(message.sentAt);
   const currentUserName = useAppSelector((state) => state.loggedInUser.userName);
   const isRead = message.seenBy.length > 0;
 

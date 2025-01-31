@@ -14,11 +14,17 @@ import { useRedirectAsync } from '../../hooks/useRedirectAsync';
 import UpdateBio from './UpdateBio';
 import ChangePhotoButton from './ChangePhotoButton';
 import './User.scss';
-import { formatDistanceToNow } from 'date-fns';
 
-const formatLastVisit = (date: Date) => {
-  return `Last seen ${formatDistanceToNow(new Date(date), { addSuffix: true })}`;
+import { formatUtcToLocal } from '../../utils/dateUtils';
+
+
+const formatLastVisit = (date: Date | null) => {
+  if (!date) return "Last seen unknown";
+  return `Last seen ${formatUtcToLocal(date)}`;
 };
+
+
+
 
 export default function User() {
   const redirectAsync = useRedirectAsync();
@@ -72,7 +78,7 @@ export default function User() {
                     <span>Online</span>
                   </>
                 ) : (
-                  <span>{formatLastVisit(currentProfile.lastVisit!)}</span>
+                  <span>{formatLastVisit(currentProfile.lastVisit)}</span>
                 )}
               </div>
               <div className="user-profile__content">

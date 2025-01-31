@@ -14,6 +14,7 @@ import { FaHeart } from "react-icons/fa";
 import Likes from "./Likes";
 import { useState, useRef, useEffect } from "react";
 import "./Message.scss";
+import { formatUtcToLocal } from '../../../../utils/dateUtils';
 
 const Message: React.FC<{ message: IMessage }> = ({ message }) => {
   const currentUser = useAppSelector((state) => state.loggedInUser);
@@ -150,9 +151,8 @@ const Message: React.FC<{ message: IMessage }> = ({ message }) => {
   }, [displayLikes]);
 
   const isSender = message.senderId === currentUser.id;
-  const time = formatDistanceToNow(new Date(message.sentAt), {
-    addSuffix: true,
-  });
+  const time = formatUtcToLocal(message.sentAt);
+
 
   return (
     <div className={`message-row ${isSender ? 'message-row--sender' : ''}`}>

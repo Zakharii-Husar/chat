@@ -76,10 +76,14 @@ namespace API.Data
             //GENERATING TIMESTAMP ON INSERTION OF NEW CHAT MEMBER:
             modelBuilder.Entity<ChatMember>()
                 .Property(cm => cm.EnteredChat)
-                .HasDefaultValueSql("CURRENT_TIMESTAMP");
+                .HasDefaultValueSql("SYSUTCDATETIME()");
 
             modelBuilder.Entity<Message>()
                 .Property(m => m.SentAt)
+                .HasDefaultValueSql("SYSUTCDATETIME()");
+
+            modelBuilder.Entity<AppUser>()
+                .Property(u => u.LastVisit)
                 .HasDefaultValueSql("SYSUTCDATETIME()");
 
         }
