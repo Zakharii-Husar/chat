@@ -16,11 +16,17 @@ namespace API.Services
     {
         public async Task BroadcastMessageAsync(Message newMessage, string currentUserId)
         {
-            var recipients = await GetConnectionsByChatIdAsync(newMessage.ChatId);
-
-            var dto = newMessage.ToDTO(currentUserId);
-            await hub.Clients.Clients(recipients).SendAsync("ReceiveNewMessage", dto);
-
+            try 
+            {
+                var recipients = await GetConnectionsByChatIdAsync(newMessage.ChatId);
+                var dto = newMessage.ToDTO(currentUserId);
+                await hub.Clients.Clients(recipients).SendAsync("ReceiveNewMessage", dto);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Broadcasting failed for message {newMessage.MessageId}. Message state: {Newtonsoft.Json.JsonConvert.SerializeObject(newMessage)}");
+                throw;
+            }
         }
 
         public async Task UpdateMessageAsync(Message newMessage, string currentUserId)

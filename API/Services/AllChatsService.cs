@@ -11,13 +11,29 @@ namespace API.Services
         public Task<List<MessageDTO>> GetChatsOverviewAsync(string userId, int itemsToSkip, int itemsToTake);
         public Task<ChatDTO?> GetChatByIdAsync(string userId, int chatId, int itemsToSkip, int itemsToTake);
     }
-    public class AllChatsService(IMessagesRepo messagesRepo, IChatsRepo chatsRepo, IChatMembersRepo chatMembersRepo) : IAllChatsService
+    public class AllChatsService(
+        IMessagesRepo messagesRepo, 
+        IChatsRepo chatsRepo, 
+        IChatMembersRepo chatMembersRepo,
+        IUsersRepo usersRepo) : IAllChatsService
     {
         public async Task<Message?> SendNotificationAsync(int chatId, string senderId, string content)
         {
-            var notification = new Message(chatId, senderId, content, null, true);
+            var chat = await chatsRepo.GetChatById(chatId);
+            var sender = await usersRepo.GetUserByIdAsync(senderId);
+            
+            if (chat == null || sender == null) return null;
+            
+            var notification = new Message(chatId, senderId, content, null, true)
+            {
+                Chat = chat,
+                Sender = sender
+            };
+            
             var inserted = await messagesRepo.InsertAsync(notification);
             if (inserted == null) return null;
+            
+            // Return the message with navigation properties loaded
             return notification;
         }
         public async Task<bool> MarkChatAsReadAsync(int chatId, AppUser currentUser)

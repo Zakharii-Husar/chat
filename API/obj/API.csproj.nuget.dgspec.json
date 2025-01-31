@@ -1,27 +1,25 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\zakha\\repos\\chat\\API\\API.csproj": {}
+    "/home/zakharii/repos/chat/API/API.csproj": {}
   },
   "projects": {
-    "C:\\Users\\zakha\\repos\\chat\\API\\API.csproj": {
+    "/home/zakharii/repos/chat/API/API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\zakha\\repos\\chat\\API\\API.csproj",
+        "projectUniqueName": "/home/zakharii/repos/chat/API/API.csproj",
         "projectName": "API",
-        "projectPath": "C:\\Users\\zakha\\repos\\chat\\API\\API.csproj",
-        "packagesPath": "C:\\Users\\zakha\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\zakha\\repos\\chat\\API\\obj\\",
+        "projectPath": "/home/zakharii/repos/chat/API/API.csproj",
+        "packagesPath": "/home/zakharii/.nuget/packages/",
+        "outputPath": "/home/zakharii/repos/chat/API/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\zakha\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "/home/zakharii/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -75,6 +73,10 @@
               "target": "Package",
               "version": "[8.0.4, )"
             },
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[13.0.3, )"
+            },
             "ObjectDumper.NET": {
               "target": "Package",
               "version": "[4.1.17, )"
@@ -107,7 +109,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.200/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/8.0.405/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

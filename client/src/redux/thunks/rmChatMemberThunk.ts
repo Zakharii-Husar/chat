@@ -11,15 +11,22 @@ const rmChatMemberThunk = createAsyncThunk(
     if(!memberUname || !chatId) return;
     const link = REMOVE_CHAT_MEMBER(chatId, memberUname);
     try {
-      await fetch(link, {
+      const response = await fetch(link, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
         },
         credentials: "include",
       });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      
+      return await response.json();
     } catch (error) {
-      console.log(error);
+      console.error("Error removing chat member:", error);
+      throw error;
     }
   }
 );
