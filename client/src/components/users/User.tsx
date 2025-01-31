@@ -14,6 +14,11 @@ import { useRedirectAsync } from '../../hooks/useRedirectAsync';
 import UpdateBio from './UpdateBio';
 import ChangePhotoButton from './ChangePhotoButton';
 import './User.scss';
+import { formatDistanceToNow } from 'date-fns';
+
+const formatLastVisit = (date: Date) => {
+  return `Last seen ${formatDistanceToNow(new Date(date), { addSuffix: true })}`;
+};
 
 export default function User() {
   const redirectAsync = useRedirectAsync();
@@ -25,7 +30,7 @@ export default function User() {
   const anotherUser = useAppSelector((state) => state.viewUser);
   const isMyPofile = loggedInUser.userName === userName;
   const currentProfile = isMyPofile ? loggedInUser : anotherUser;
-
+  
   const navToChat = async (username: string) => {
     try {
       const action = await dispatch(getChatIdByUsernameThunk(username));
@@ -58,6 +63,18 @@ export default function User() {
               <h3 className="user-profile__username">
                 @{currentProfile.userName}
               </h3>
+              <div className={`status-indicator ${
+                currentProfile.isOnline || isMyPofile ? 'status-indicator--online' : 'status-indicator--offline'
+              }`}>
+                {currentProfile.isOnline || isMyPofile ? (
+                  <>
+                    <div className="status-indicator__dot" />
+                    <span>Online</span>
+                  </>
+                ) : (
+                  <span>{formatLastVisit(currentProfile.lastVisit!)}</span>
+                )}
+              </div>
               <div className="user-profile__content">
                 <div className="user-profile__avatar-section">
                   <Avatar

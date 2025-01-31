@@ -11,7 +11,8 @@ namespace API.Controllers
     public partial class UsersController(
         UserManager<AppUser> userManager,
         IUsersService usersService,
-        IAvatarService avatarService) : ControllerBase
+        IAvatarService avatarService,
+        IWSService wsService) : ControllerBase
     {
         [HttpGet("IsTaken/{Type}/{Value}")]
         public async Task<IActionResult> CheckAvailability(string Value, string Type)
@@ -60,8 +61,8 @@ namespace API.Controllers
         {
             var user = await usersService.GetUserByUnameAsync(UserName);
             if (user == null) return NotFound();
+            user.IsOnline = wsService.IsUserOnline(user.Id);
             return Ok(user);
-
         }
 
         [HttpGet("Search")]

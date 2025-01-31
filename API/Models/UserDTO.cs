@@ -2,12 +2,13 @@
 {
     public class UserDTO
     {
-        public string Id { get; set; }
-        public string UserName { get; set; }
-        public string Email { get; set; }
-        public string FullName { get; set; }
+        public required string Id { get; set; }
+        public required string UserName { get; set; }
+        public required string Email { get; set; }
+        public required string FullName { get; set; }
         public string? AvatarName { get; set; } = null;
         public string? Bio { get; set; } = null;
         public DateTime LastVisit { get; set; }
+        public bool IsOnline { get; set; } = false;
     }
 }

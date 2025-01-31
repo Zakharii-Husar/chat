@@ -92,6 +92,14 @@ namespace API.Hubs
             await BroadcastTypingStatus(groupId);
         }
 
+        public override async Task OnDisconnectedAsync(Exception? exception)
+        {
+            var connectionId = Context.ConnectionId;
+            await wsConmanService.RemoveConnectionAsync(connectionId);
+            await Groups.RemoveFromGroupAsync(connectionId, "online");
+            await base.OnDisconnectedAsync(exception);
+        }
+
     }
 
 }

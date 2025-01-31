@@ -27,6 +27,7 @@ namespace API.Controllers
             var result = await messageService.SendMsgAsync(ChatId, model, currentUser!.Id);
             if (result == null) return StatusCode(500);
             var modifiedMsg = await messageService.GetMsgByIdAsync(result.MessageId);
+            if (modifiedMsg == null) return StatusCode(500);
             await WSService.BroadcastMessageAsync(modifiedMsg, currentUser.Id);
             return Ok();
         }

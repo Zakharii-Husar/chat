@@ -12,7 +12,7 @@ namespace API.Services
         public Task<bool> RmLikeAsync(int messageId, string currentUserId);
         public Task<bool> MarkMsgAsDelAsync(Message msg);
     }
-    public class MessageService(IMessagesRepo messagesRepo) : IMessageService
+    public class MessageService(IMessagesRepo messagesRepo, IUsersRepo usersRepo) : IMessageService
     {
         public async Task<Message?> GetMsgByIdAsync(int msgId)
         {
@@ -36,7 +36,16 @@ namespace API.Services
             var existingLike = await messagesRepo.GetLikeAsync(messageId, currentUserId);
             if (existingLike != null) return true;
 
-            var newLike = new Like(messageId, currentUserId);
+            var message = await messagesRepo.GetMessageByIdAsync(messageId);
+            var user = await usersRepo.GetUserByIdAsync(currentUserId);
+            
+            if (message == null || user == null) return false;
+
+            var newLike = new Like(messageId, currentUserId)
+            {
+                Message = message,
+                User = user
+            };
 
             return await messagesRepo.AddLikeAsync(newLike);
         }

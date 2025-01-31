@@ -6,13 +6,11 @@ namespace API.Services
 {
     public interface IUsersService
     {
-
         public Task<List<UserDTO>> GetAllUsers(string currentUserId, int itemsToSkip, int itemsToTake);
         public Task<List<UserDTO>> SearchUsers(string query, string currentUserId, int intemsToSkip, int itemsToTake);
         public Task<UserDTO?> GetUserByUnameAsync(string uname);
         public Task<UserDTO?> GetUserByEmailAsync(string email);
         public Task<bool> UpdateBioAsync(AppUser currentUser, string newBio);
-
     }
     public class UsersService(IUsersRepo usersRepo) : IUsersService
     {

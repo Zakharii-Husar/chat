@@ -31,7 +31,11 @@ namespace API.Services
 
         public async Task RemoveConnectionAsync(string connectionId)
         {
-            _onlineUsers.TryRemove(connectionId, out _);
+            var userToRemove = _onlineUsers.FirstOrDefault(x => x.Value == connectionId);
+            if (userToRemove.Key != null)
+            {
+                _onlineUsers.TryRemove(userToRemove.Key, out _);
+            }
             await Task.CompletedTask;
         }
 

@@ -6,6 +6,7 @@ export interface IUser {
   id: string | null;
   lastVisit: Date | null;
   userName: string | null;
+  isOnline: boolean;
 }
 
 export interface IUsers {

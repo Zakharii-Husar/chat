@@ -11,6 +11,7 @@ namespace API.Services
         public Task UpdateMessageAsync(Message newMessage, string currentUserId);
         public Task MarkAsReadAsync(int chatId, AppUser user);
         public Task<List<string>> GetConnectionsByChatIdAsync(int chatId);
+        public bool IsUserOnline(string identityId);
     }
     public class WSService(IHubContext<MainHub> hub, IWsConManService wsConManService, IChatMembersRepo chatMembersRepo) : IWSService
     {
@@ -59,6 +60,12 @@ namespace API.Services
                 connections.Add(connectionId);
             }
             return connections;
+        }
+
+        public bool IsUserOnline(string identityId)
+        {
+            var connectionId = wsConManService.GetConnectionId(identityId);
+            return connectionId != null;
         }
     }
 }

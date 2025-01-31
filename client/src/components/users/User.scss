@@ -123,3 +123,39 @@
     }
   }
 }
+
+.status-indicator {
+  position: absolute;
+  top: map-get($spacing, 'md');
+  right: map-get($spacing, 'md');
+  display: flex;
+  align-items: center;
+  gap: map-get($spacing, 'xs');
+  z-index: 1;
+  font-size: $font-size-sm;
+  
+  &__dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    border: 2px solid $neutral-100;
+  }
+
+  &--online {
+    .status-indicator__dot {
+      background-color: #44b700;
+    }
+    color: #44b700;
+  }
+
+  &--offline {
+    color: rgba($neutral-100, 0.8);
+    .status-indicator__dot {
+      display: none;
+    }
+  }
+}
+
+.user-profile__avatar-section {
+  position: relative;
+}

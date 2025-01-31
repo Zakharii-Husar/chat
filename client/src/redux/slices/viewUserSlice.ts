@@ -9,7 +9,8 @@ const initialState: IUser = {
     fullName: null,
     avatarName: null,
     bio: null,
-    lastVisit: null
+    lastVisit: null,
+    isOnline: false
 };
 
 export const viewUserSlice = createSlice({
