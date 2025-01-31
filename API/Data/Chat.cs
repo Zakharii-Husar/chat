@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace API.Data
 {
     [Table("Chats")]
-    public class Chat(string chatName = null, bool isGroupChat = false)
+    public class Chat(string? chatName = null, bool isGroupChat = false)
     {
         [Key]
         public int ChatId { get; set; }

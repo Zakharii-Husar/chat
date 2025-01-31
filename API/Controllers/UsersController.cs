@@ -30,7 +30,7 @@ namespace API.Controllers
                         return BadRequest("Invalid Type parameter. Please use 'email' or 'username'.");
                 }
             }
-            catch (Exception ex)
+            catch
             {
                 // Log the error here if you have logging configured
                 return Ok(true); // Consider the email/username taken if we encounter an error
@@ -69,6 +69,7 @@ namespace API.Controllers
         {
             var currentUser = await userManager.GetUserAsync(User);
             var currentUserId = currentUser?.Id;
+            if (currentUserId == null) return Unauthorized();
             var filteredUsers = await usersService.SearchUsers(SearchPhrase, currentUserId, itemsToSkip, itemsToTake);
 
             return Ok(filteredUsers);

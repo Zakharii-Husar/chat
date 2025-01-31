@@ -22,7 +22,7 @@ namespace API.Services
                 var dto = newMessage.ToDTO(currentUserId);
                 await hub.Clients.Clients(recipients).SendAsync("ReceiveNewMessage", dto);
             }
-            catch (Exception ex)
+            catch
             {
                 Console.WriteLine($"Broadcasting failed for message {newMessage.MessageId}. Message state: {Newtonsoft.Json.JsonConvert.SerializeObject(newMessage)}");
                 throw;

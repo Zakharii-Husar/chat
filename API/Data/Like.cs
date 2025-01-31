@@ -11,9 +11,9 @@ namespace API.Data
         public int LikeId { get; set; }
 
         [ForeignKey("Message")][Required] public int MessageId { get; set; } = messageId;
-        public virtual Message Message { get; set; }
+        public required virtual Message Message { get; set; }
 
         [ForeignKey("User")][Required] public string UserId { get; set; } = userId;
-        public virtual AppUser User { get; set; }
+        public required virtual AppUser User { get; set; }
     }
 }
