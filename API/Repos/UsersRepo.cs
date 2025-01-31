@@ -14,8 +14,9 @@ namespace API.Repos
         public Task<AppUser?> CreateUserAsync(AppUser appUser, string password);
         public Task<bool> UpdateAvatarNameAsync(AppUser currentUser, string newName);
         public Task<bool> UpdateBioAsync(AppUser currentUser, string newBio);
+        public Task<bool> UpdateLastSeenAsync(AppUser currentUser);
     }
-    public partial class UsersRepo(UserManager<AppUser> userManager) : IUsersRepo
+    public partial class UsersRepo(UserManager<AppUser> userManager, AppDbContext dbContext) : IUsersRepo
     {
         public async Task<AppUser?> GetUserByIdAsync(string uId)
         {
@@ -85,5 +86,13 @@ namespace API.Repos
                     user.FullName.Contains(searchQuery))
                 .ToListAsync();
         }
+
+        public async Task<bool> UpdateLastSeenAsync(AppUser currentUser)
+        {
+            currentUser.LastVisit = DateTime.UtcNow;
+            dbContext.Users.Update(currentUser);
+            return await dbContext.SaveChangesAsync() > 0;
+        }
     }
+
 }

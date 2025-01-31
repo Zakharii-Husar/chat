@@ -12,9 +12,27 @@ namespace API.Services
         public Task MarkAsReadAsync(int chatId, AppUser user);
         public Task<List<string>> GetConnectionsByChatIdAsync(int chatId);
         public bool IsUserOnline(string identityId);
+        public Task HandleDisconnectAsync(string connectionId, AppUser user);
     }
-    public class WSService(IHubContext<MainHub> hub, IWsConManService wsConManService, IChatMembersRepo chatMembersRepo) : IWSService
+    public class WSService : IWSService
     {
+        private readonly IHubContext<MainHub> hub;
+        private readonly IWsConManService wsConManService;
+        private readonly IChatMembersRepo chatMembersRepo;
+        private readonly IUsersRepo usersRepo;
+
+        public WSService(
+            IHubContext<MainHub> hub,
+            IWsConManService wsConManService,
+            IChatMembersRepo chatMembersRepo,
+            IUsersRepo usersRepo)
+        {
+            this.hub = hub;
+            this.wsConManService = wsConManService;
+            this.chatMembersRepo = chatMembersRepo;
+            this.usersRepo = usersRepo;
+        }
+
         public async Task BroadcastMessageAsync(Message newMessage, string currentUserId)
         {
             try 
@@ -66,6 +84,20 @@ namespace API.Services
         {
             var connectionId = wsConManService.GetConnectionId(identityId);
             return connectionId != null;
+        }
+
+        public async Task HandleDisconnectAsync(string connectionId, AppUser user)
+        {
+            try 
+            {
+                await wsConManService.RemoveConnectionAsync(connectionId);
+                await usersRepo.UpdateLastSeenAsync(user);
+            }
+            catch (Exception ex)
+            {
+                // Log the error but don't rethrow since this is disconnect handling
+                Console.WriteLine($"Error handling disconnect for user {user.UserName}: {ex.Message}");
+            }
         }
     }
 }

@@ -1,12 +1,12 @@
 ﻿using Microsoft.AspNetCore.SignalR;
 using API.Services;
-using API.Models;
+using API.Repos;
 using System.Security.Claims;
 
 
 namespace API.Hubs
 {
-    public partial class MainHub(IWsConManService wsConmanService) : Hub
+    public partial class MainHub(IWsConManService wsConmanService, IUsersRepo usersRepo, IWSService wsService) : Hub
     {
         private readonly Dictionary<int, List<string>> _typingUsersByGroup = [];
 
@@ -95,7 +95,14 @@ namespace API.Hubs
         public override async Task OnDisconnectedAsync(Exception? exception)
         {
             var connectionId = Context.ConnectionId;
-            await wsConmanService.RemoveConnectionAsync(connectionId);
+            var userId = Context.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var user = await usersRepo.GetUserByIdAsync(userId);
+            
+            if (user != null)
+            {
+                await wsService.HandleDisconnectAsync(connectionId, user);
+            }
+            
             await Groups.RemoveFromGroupAsync(connectionId, "online");
             await base.OnDisconnectedAsync(exception);
         }

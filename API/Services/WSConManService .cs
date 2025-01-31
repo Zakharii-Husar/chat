@@ -1,13 +1,13 @@
 ﻿using System.Collections.Concurrent;
-
+using API.Data;
 namespace API.Services
 {
     public interface IWsConManService
     {
-        Task AddConnectionAsync(string identityId, string connectionId);
-        Task RemoveConnectionAsync(string connectionId);
-        string? GetConnectionId(string identityId);
-        void PrintConnections();
+    Task AddConnectionAsync(string identityId, string connectionId);
+    Task RemoveConnectionAsync(string connectionId);
+    string? GetConnectionId(string identityId);
+    void PrintConnections();
 
     }
 
@@ -15,19 +15,19 @@ namespace API.Services
     {
         private readonly ConcurrentDictionary<string, string> _onlineUsers = [];
 
-        public async Task AddConnectionAsync(string identityId, string connectionId)
-        {
-            var existingConnection = _onlineUsers.FirstOrDefault(kvp => kvp.Key == identityId);
-            if (existingConnection.Key != null)
-            {
-                _onlineUsers.TryUpdate(identityId, connectionId, existingConnection.Value);
-            }
-            else
-            {
-                _onlineUsers.AddOrUpdate(identityId, connectionId, (_, _) => connectionId);
-            }
-            await Task.CompletedTask;
-        }
+public async Task AddConnectionAsync(string identityId, string connectionId)
+{
+    var existingConnection = _onlineUsers.FirstOrDefault(kvp => kvp.Key == identityId);
+    if (existingConnection.Key != null)
+    {
+        _onlineUsers.TryUpdate(identityId, connectionId, existingConnection.Value);
+    }
+    else
+    {
+        _onlineUsers.AddOrUpdate(identityId, connectionId, (_, _) => connectionId);
+    }
+    await Task.CompletedTask;
+}
 
         public async Task RemoveConnectionAsync(string connectionId)
         {
@@ -53,6 +53,7 @@ namespace API.Services
                 Console.WriteLine($"Identity ID: {kvp.Key}, Connection ID: {kvp.Value}");
             }
         }
+
 
     }
 }
