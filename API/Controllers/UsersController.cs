@@ -59,6 +59,7 @@ namespace API.Controllers
         public async Task<ActionResult> GetUserDetails(string UserName)
         {
             var user = await usersService.GetUserByUnameAsync(UserName);
+            if (user == null) return NotFound();
             return Ok(user);
 
         }
@@ -87,7 +88,6 @@ namespace API.Controllers
         [HttpPost("UpdateBio")]
         public async Task<IActionResult> Post([FromBody] string newBio)
         {
-            Console.WriteLine(newBio);
             var currentUser = await userManager.GetUserAsync(User);
             if (currentUser == null) return Unauthorized();
             var result = await usersService.UpdateBioAsync(currentUser, newBio);

@@ -9,8 +9,8 @@ namespace API.Services
 
         public Task<List<UserDTO>> GetAllUsers(string currentUserId, int itemsToSkip, int itemsToTake);
         public Task<List<UserDTO>> SearchUsers(string query, string currentUserId, int intemsToSkip, int itemsToTake);
-        public Task<AppUser?> GetUserByUnameAsync(string uname);
-        public Task<AppUser?> GetUserByEmailAsync(string email);
+        public Task<UserDTO?> GetUserByUnameAsync(string uname);
+        public Task<UserDTO?> GetUserByEmailAsync(string email);
         public Task<bool> UpdateBioAsync(AppUser currentUser, string newBio);
 
     }
@@ -21,14 +21,18 @@ namespace API.Services
             return await usersRepo.UpdateBioAsync(currentUser, newBio);
         }
 
-        public async Task<AppUser?> GetUserByUnameAsync(string uname)
+        public async Task<UserDTO?> GetUserByUnameAsync(string uname)
         {
-            return await usersRepo.GetUserByUnameAsync(uname);
+            var user = await usersRepo.GetUserByUnameAsync(uname);
+            if (user == null) return null;
+            return user.ToDTO();
         }
 
-        public async Task<AppUser?> GetUserByEmailAsync(string email)
+        public async Task<UserDTO?> GetUserByEmailAsync(string email)
         {
-            return await usersRepo.GetUserByEmailAsync(email);
+            var user = await usersRepo.GetUserByEmailAsync(email);
+            if (user == null) return null;
+            return user.ToDTO();
         }
 
         public async Task<List<UserDTO>> GetAllUsers(string currentUserId, int itemsToSkip, int itemsToTake)
