@@ -163,23 +163,33 @@ const Message: React.FC<{ message: IMessage }> = ({ message }) => {
         onTouchMove={handleTouchMove}
         onDoubleClick={addLike}
       >
-        <div className="message-header">
-          <div className={`message-avatar ${currentChat.isGroupChat && message.senderIsOnline ? 'online' : ''}`}>
-            <Avatar
-              size="S"
-              fileName={message.senderAvatarName ?? null}
-              isGroup={false}
-            />
+        {currentChat.isGroupChat && (
+          <div className="message-header">
+            <div className={`message-avatar ${message.senderIsOnline ? 'online' : ''}`}>
+              <Avatar
+                size="S"
+                fileName={message.senderAvatarName ?? null}
+                isGroup={false}
+              />
+            </div>
+            <span className="sender-name">
+              {isSender ? "You" : message.senderUserName}
+            </span>
+            {isSender && (
+              <Confirmation titleText="Delete Message?" proceed={deleteMsg}>
+                <TiDelete className="delete-button" size={20} />
+              </Confirmation>
+            )}
           </div>
-          <span className="sender-name">
-            {isSender ? "You" : message.senderUserName}
-          </span>
-          {isSender && (
+        )}
+        
+        {!currentChat.isGroupChat && isSender && (
+          <div className="message-header">
             <Confirmation titleText="Delete Message?" proceed={deleteMsg}>
               <TiDelete className="delete-button" size={20} />
             </Confirmation>
-          )}
-        </div>
+          </div>
+        )}
         
         <div className="message-content">
           {message.content}
