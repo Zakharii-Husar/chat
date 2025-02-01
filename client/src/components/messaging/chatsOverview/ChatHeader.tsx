@@ -1,9 +1,9 @@
-import { IMessage } from "../../../redux/slices/Interfaces";
+import { IMessage } from "../../../Interfaces";
 import Avatar from "../../reusable/Avatar/Avatar";
 import "./ChatHeader.scss";
 
 export const ChatHeader: React.FC<{ chat: IMessage }> = ({ chat }) => {
-  const isGroup = chat.chatName !== null;
+  const isGroup = chat.isGroupChat;
   const isOnline = !isGroup && chat.interlocutor?.isOnline;
   
   return (

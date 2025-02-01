@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import { ICurrentChat, IMessage, IUser } from "./Interfaces";
+import { ICurrentChat, IMessage, IUser } from "../../Interfaces";
 
 const initialState: ICurrentChat = {
   chatId: null,
@@ -10,6 +10,7 @@ const initialState: ICurrentChat = {
   messages: [],
   hasMoreMessages: true,
   isLoading: false,
+  isGroupChat: false,
 };
 
 export const existingChatSlice = createSlice({

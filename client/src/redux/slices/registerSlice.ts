@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import { IregisterState } from "./Interfaces";
+import { IregisterState } from "../../Interfaces";
 
 export interface IRegisterStateWithErrors extends IregisterState {
   validationErrors: IregisterState;

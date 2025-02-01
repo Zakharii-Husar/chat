@@ -1,6 +1,6 @@
 import {  createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import { IUser, IUsers } from "./Interfaces";
+import { IUser, IUsers } from "../../Interfaces";
 
 const initialState: IUsers = {
   allUsers: [],

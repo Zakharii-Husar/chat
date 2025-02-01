@@ -1,4 +1,4 @@
-import { IMessage } from "../../../../redux/slices/Interfaces";
+import { IMessage } from "../../../../Interfaces";
 import { formatDistanceToNow } from "date-fns";
 import Avatar from "../../../reusable/Avatar/Avatar";
 import {
@@ -150,7 +150,6 @@ const Message: React.FC<{ message: IMessage }> = ({ message }) => {
     };
   }, [displayLikes]);
 
-  const isGroupChat = currentChat.members.length > 2;
   const isSender = message.senderId === currentUser.id;
   const time = formatUtcToLocal(message.sentAt);
 
@@ -165,7 +164,7 @@ const Message: React.FC<{ message: IMessage }> = ({ message }) => {
         onDoubleClick={addLike}
       >
         <div className="message-header">
-          <div className={`message-avatar ${isGroupChat && message.senderIsOnline ? 'online' : ''}`}>
+          <div className={`message-avatar ${currentChat.isGroupChat && message.senderIsOnline ? 'online' : ''}`}>
             <Avatar
               size="S"
               fileName={message.senderAvatarName ?? null}

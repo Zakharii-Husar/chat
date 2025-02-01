@@ -1,5 +1,5 @@
 import { createAsyncThunk} from "@reduxjs/toolkit";
-import { GET_ALL_USERS } from "./APIEndpoints";
+import { GET_ALL_USERS } from "../../APIEndpoints";
 import { fetchAllUsers } from "../slices/usersSlice";
 import { RootState } from "../store";
 

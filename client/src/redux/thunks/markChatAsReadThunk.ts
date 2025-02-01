@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { MARK_CHAT_AS_READ } from "./APIEndpoints";
+import { MARK_CHAT_AS_READ } from "../../APIEndpoints";
 
 const markChatAsReadThunk = createAsyncThunk(
     "currentChat/markChatAsRead",

@@ -19,7 +19,7 @@ import {
   useAppSelector,
   useAppDispatch,
 } from "../../../../hooks/useAppSelectorAndDispatch";
-import { IUser } from "../../../../redux/slices/Interfaces";
+import { IUser } from "../../../../Interfaces";
 import getAllUsersThunk from "../../../../redux/thunks/getAllUsersThunk";
 import searchUsersThunk from "../../../../redux/thunks/searchUsersThunk";
 

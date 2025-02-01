@@ -1,4 +1,4 @@
-import { GET_AVATAR } from "../../../redux/thunks/APIEndpoints";
+import { GET_AVATAR } from "../../../APIEndpoints";
 import { FaUserAlt } from "react-icons/fa";
 import { FaPeopleGroup } from "react-icons/fa6";
 import { useState, useEffect } from "react";

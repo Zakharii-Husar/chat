@@ -1,7 +1,7 @@
 import React from 'react';
 import Avatar from '../../reusable/Avatar/Avatar';
 import { useAppSelector } from '../../../hooks/useAppSelectorAndDispatch';
-import { IMessage } from '../../../redux/slices/Interfaces';
+import { IMessage } from '../../../Interfaces';
 import { BsCheckAll, BsCheck } from 'react-icons/bs';
 import { formatUtcToLocal } from '../../../utils/dateUtils';
 import './ChatBody.scss';
@@ -18,7 +18,7 @@ const ChatBody: React.FC<{ message: IMessage }> = ({ message }) => {
           <Avatar
             size="S"
             fileName={message.senderAvatarName ?? null}
-            isGroup={false}
+            isGroup={message.isGroupChat}
           />
         </div>
         <div className="message-details">

@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { SEARCH_USERS } from "./APIEndpoints";
+import { SEARCH_USERS } from "../../APIEndpoints";
 import { findUsers } from "../slices/usersSlice";
 import { RootState } from "../store";
 

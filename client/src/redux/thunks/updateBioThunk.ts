@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { UPDATE_BIO } from "./APIEndpoints";
+import { UPDATE_BIO } from "../../APIEndpoints";
 
 const updateBioThunk = createAsyncThunk(
   "currentChat/sendMessage",

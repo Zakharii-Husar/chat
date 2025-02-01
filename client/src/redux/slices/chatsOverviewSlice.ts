@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 
-import { IChatsOverview, IMessage, IUser } from "./Interfaces";
+import { IChatsOverview, IMessage, IUser } from "../../Interfaces";
 
 const initialState: IChatsOverview = {
   chats: [],

@@ -4,6 +4,7 @@ import { useAppSelector } from "../../../../hooks/useAppSelectorAndDispatch";
 import Avatar from "../../../reusable/Avatar/Avatar";
 import { formatUtcToLocal } from '../../../../utils/dateUtils';
 import "./DisplayHeader.scss";
+import { IUser } from "../../../../Interfaces";
 
 const formatLastVisit = (date: Date | null) => {
   if (!date) return "Last seen unknown";
@@ -14,35 +15,33 @@ export const DisplayHeader: React.FC = () => {
   const CurrentUser = useAppSelector((state) => state.loggedInUser);
   const currentChat = useAppSelector((state) => state.currentChat);
   const filteredParticipants = currentChat?.members?.filter(
-    (member) => member.userName !== CurrentUser.userName
+    (member: IUser) => member.userName !== CurrentUser.userName
   );
 
-  const isAgroupChat = filteredParticipants.length !== 1;
   const interlocutor = filteredParticipants[0];
-  const chatHeader =
-    isAgroupChat && currentChat.chatName
-      ? currentChat.chatName
-      : interlocutor?.userName;
+  const chatHeader = currentChat.isGroupChat && currentChat.chatName
+    ? currentChat.chatName
+    : interlocutor?.userName;
 
   return (
     <div className="chat-title">
       <div className="chat-title__content">
-        <div className={`chat-title__avatar ${!isAgroupChat && interlocutor?.isOnline ? 'online' : ''}`}>
+        <div className={`chat-title__avatar ${!currentChat.isGroupChat && interlocutor?.isOnline ? 'online' : ''}`}>
           <Avatar
             size="S"
-            fileName={isAgroupChat ? null : interlocutor?.avatarName}
-            isGroup={isAgroupChat}
+            fileName={currentChat.isGroupChat ? null : interlocutor?.avatarName}
+            isGroup={currentChat.isGroupChat}
           />
         </div>
         <div className="chat-title__info">
-          {!isAgroupChat ? (
+          {!currentChat.isGroupChat ? (
             <Link to={"/users/" + chatHeader}>
               <h3>{chatHeader}</h3>
             </Link>
           ) : (
             <h3>{chatHeader}</h3>
           )}
-          {!isAgroupChat && (
+          {!currentChat.isGroupChat && (
             <div className={`chat-title__status ${
               interlocutor?.isOnline ? 'online-status' : 'offline-status'
             }`}>
@@ -55,7 +54,7 @@ export const DisplayHeader: React.FC = () => {
           )}
         </div>
       </div>
-      {isAgroupChat && <ManageGroupChat />}
+      {currentChat.isGroupChat && <ManageGroupChat />}
     </div>
   );
 };

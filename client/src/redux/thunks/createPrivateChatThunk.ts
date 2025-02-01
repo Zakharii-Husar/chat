@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { CREATE_PRIVATE } from "./APIEndpoints";
+import { CREATE_PRIVATE } from "../../APIEndpoints";
 import { setCurrentChatId } from "../slices/currentChatSlice";
 
 const createPrivateChatThunk = createAsyncThunk(

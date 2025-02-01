@@ -1,6 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import type { RootState } from "../store";
-import { SEND_MESSAGE } from "./APIEndpoints";
+import { SEND_MESSAGE } from "../../APIEndpoints";
 
 const sendMessageThunk = createAsyncThunk(
   "currentChat/sendMessage",

@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { ADD_LIKE } from "./APIEndpoints";
+import { ADD_LIKE } from "../../APIEndpoints";
 import { RootState } from "../store";
 
 const addLikeThunk = createAsyncThunk(

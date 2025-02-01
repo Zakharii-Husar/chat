@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import { ICreateChat, IChatMember } from "./Interfaces";
+import { ICreateChat, IChatMember } from "../../Interfaces";
 
 const initialState: ICreateChat = {
   name: null,

@@ -1,4 +1,4 @@
-import { IMessage } from "../../../../redux/slices/Interfaces";
+import { IMessage } from "../../../../Interfaces";
 import { formatDistanceToNow } from "date-fns";
 import { useAppSelector } from "../../../../hooks/useAppSelectorAndDispatch";
 import "./GenericMessage.scss";

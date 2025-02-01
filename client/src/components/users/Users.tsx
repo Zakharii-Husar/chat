@@ -4,7 +4,7 @@ import {
   useAppDispatch,
 } from "../../hooks/useAppSelectorAndDispatch";
 import { updateSearchedUser } from "../../redux/slices/usersSlice";
-import { IUser } from "../../redux/slices/Interfaces";
+import { IUser } from "../../Interfaces";
 
 import { useCheckAuth } from "../../hooks/useCheckAuth";
 import getAllUsersThunk from "../../redux/thunks/getAllUsersThunk";

@@ -81,12 +81,14 @@ namespace API.Services
             var messages = await messagesRepo.GetMessagesByChatMemberAsync(currentMember, itemsToSkip, itemsToTake);
             var convertedMessages = messages.Select(msg => msg.ToDTO(userId)).ToList();
             var chatAdmin = await chatMembersRepo.GetAdminByChatIdAsync(chatId);
+            var chat = await chatsRepo.GetChatById(chatId);
 
             return new ChatDTO
             {
                 ChatId = chatId,
                 AdminId = chatAdmin?.MemberId ?? null,
                 ChatName = chatName,
+                IsGroupChat = chat.IsGroupChat,
                 Members = convertedMembers,
                 Messages = convertedMessages,
                 PaginationOffset = itemsToSkip + itemsToTake,

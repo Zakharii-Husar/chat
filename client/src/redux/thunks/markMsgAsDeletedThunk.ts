@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { MARK_MSG_AS_DELETED } from "./APIEndpoints";
+import { MARK_MSG_AS_DELETED } from "../../APIEndpoints";
 import { RootState } from "../store";
 
 const markMsgAsDeletedThunk = createAsyncThunk(

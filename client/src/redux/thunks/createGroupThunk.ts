@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { CREATE_GROUP } from "./APIEndpoints";
+import { CREATE_GROUP } from "../../APIEndpoints";
 import type { RootState } from "../store";
 import { setCurrentChatId } from "../slices/currentChatSlice";
 

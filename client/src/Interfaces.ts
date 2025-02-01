@@ -36,6 +36,7 @@ export interface IMessage {
   likes: IUser[];
   seenBy: IUser[];
   senderIsOnline: boolean;
+  isGroupChat: boolean;
 }
 
 export interface IChats extends Array<IMessage> {}
@@ -49,6 +50,7 @@ export interface ICurrentChat {
   messages: IMessage[];
   hasMoreMessages: boolean;
   isLoading: boolean;
+  isGroupChat: boolean;
 }
 
 export interface IChatsOverview {

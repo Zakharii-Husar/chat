@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { GET_USER } from "./APIEndpoints";
+import { GET_USER } from "../../APIEndpoints";
 import { setUserDetails } from "../slices/viewUserSlice";
 
 const getUserDetailsThunk = createAsyncThunk(

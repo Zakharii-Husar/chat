@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import { ILoginState } from "./Interfaces";
+import { ILoginState } from "../../Interfaces";
 const initialState: ILoginState = {
         usernameOrEmail: null,
         password: null

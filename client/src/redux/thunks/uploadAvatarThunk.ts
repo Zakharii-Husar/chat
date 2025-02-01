@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { UPLOAD_AVATAR } from "./APIEndpoints";
+import { UPLOAD_AVATAR } from "../../APIEndpoints";
 import { updateAvatarName } from "../slices/loggedInUserSlice";
 
 const uploadAvatarThunk = createAsyncThunk(

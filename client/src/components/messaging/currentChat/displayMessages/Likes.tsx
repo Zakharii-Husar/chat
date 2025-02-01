@@ -1,4 +1,4 @@
-import { IUser } from "../../../../redux/slices/Interfaces";
+import { IUser } from "../../../../Interfaces";
 import Avatar from "../../../reusable/Avatar/Avatar";
 import { Link } from "react-router-dom";
 import PATH from "../../../../routing/pathConstants";

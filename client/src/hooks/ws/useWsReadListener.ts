@@ -3,7 +3,7 @@ import { useEffect, useRef } from "react";
 import { useAppDispatch } from "../useAppSelectorAndDispatch";
 import { markChatAsRead } from "../../redux/slices/chatsOverviewSlice";
 import { markMessagesAsRead } from "../../redux/slices/currentChatSlice";
-import {  IUser } from "../../redux/slices/Interfaces";
+import {  IUser } from "../../Interfaces";
 import { useAppSelector } from "../useAppSelectorAndDispatch";
 
 const useWsReadListener = () => {

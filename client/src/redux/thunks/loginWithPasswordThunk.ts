@@ -1,6 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import type { RootState } from "../store";
-import { LOGIN_URL } from "./APIEndpoints";
+import { LOGIN_URL } from "../../APIEndpoints";
 import { setLoggedInUser } from "../slices/loggedInUserSlice";
 
 

@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { CHECK_COOKIES_URL } from "./APIEndpoints";
+import { CHECK_COOKIES_URL } from "../../APIEndpoints";
 import { setLoggedInUser } from "../slices/loggedInUserSlice";
 
 const validateCookiesThunk = createAsyncThunk(

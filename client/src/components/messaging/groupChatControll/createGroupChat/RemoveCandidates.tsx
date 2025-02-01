@@ -9,7 +9,7 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
 import { removeCandidate } from "../../../../redux/slices/createGroupSlice";
-import { IChatMember } from "../../../../redux/slices/Interfaces";
+import { IChatMember } from "../../../../Interfaces";
 
 const RemoveCandidates: React.FC = () => {
   const dispatch = useAppDispatch();

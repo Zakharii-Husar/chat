@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { GET_CHAT_BY_ID } from "./APIEndpoints";
+import { GET_CHAT_BY_ID } from "../../APIEndpoints";
 import type { RootState } from "../store";
 import { appendMsgs } from "../slices/currentChatSlice";
 

@@ -23,7 +23,8 @@ namespace API.Data
                 .Select(m => m.Member?.ToDTO())
                 .FirstOrDefault(),
                 Likes = message.Likes?.Select(like => like.User.ToDTO()).ToList(),
-                SeenBy = message?.ReadReceipts?.Select(r => r.User.ToDTO()).ToList()
+                SeenBy = message?.ReadReceipts?.Select(r => r.User.ToDTO()).ToList(),
+                IsGroupChat = message.Chat.IsGroupChat
             };
         }
     }

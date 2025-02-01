@@ -18,5 +18,6 @@ namespace API.Models
         public List<UserDTO> Likes { get; set; } = [];
         public List<UserDTO> SeenBy { get; set; } = [];
         public bool SenderIsOnline { get; set; } = false;
+        public bool IsGroupChat { get; set; }
     }
 }

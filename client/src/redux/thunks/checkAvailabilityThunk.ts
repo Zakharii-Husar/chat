@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { IS_TAKEN } from "./APIEndpoints";
+import { IS_TAKEN } from "../../APIEndpoints";
 
 const checkAvailabilityThunk = createAsyncThunk(
     "register/checkAvailability",

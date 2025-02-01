@@ -1,4 +1,4 @@
-import { WS_URL } from "../../redux/thunks/APIEndpoints";
+import { WS_URL } from "../../APIEndpoints";
 import * as signalR from "@microsoft/signalr";
 
 let connection: null | signalR.HubConnection = null;
