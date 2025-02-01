@@ -35,6 +35,7 @@ export interface IMessage {
   sentAt: string;
   likes: IUser[];
   seenBy: IUser[];
+  senderIsOnline: boolean;
 }
 
 export interface IChats extends Array<IMessage> {}

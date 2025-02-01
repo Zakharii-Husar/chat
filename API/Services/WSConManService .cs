@@ -1,5 +1,4 @@
 ﻿using System.Collections.Concurrent;
-using API.Data;
 namespace API.Services
 {
     public interface IWsConManService

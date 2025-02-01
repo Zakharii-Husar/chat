@@ -20,6 +20,7 @@ export const ChatsOverview: React.FC = () => {
   const hasMore = chatsOverviewState.hasMore;
   const currentUser = useAppSelector((state) => state.loggedInUser);
 
+  console.log(chatsOverviewState.chats);
   const loadMore = useCallback(() => {
     if (hasMore) {
       dispatch(getAllChatsThunk());

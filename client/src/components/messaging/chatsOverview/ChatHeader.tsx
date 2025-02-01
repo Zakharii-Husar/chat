@@ -4,10 +4,11 @@ import "./ChatHeader.scss";
 
 export const ChatHeader: React.FC<{ chat: IMessage }> = ({ chat }) => {
   const isGroup = chat.chatName !== null;
+  const isOnline = !isGroup && chat.interlocutor?.isOnline;
   
   return (
     <div className="chat-header">
-      <div className="chat-header__avatar">
+      <div className={`chat-header__avatar ${isOnline ? 'online' : ''}`}>
         <Avatar
           size="S"
           fileName={chat.interlocutor?.avatarName ?? null}

@@ -10,10 +10,29 @@
   padding: map-get($spacing, 'sm') map-get($spacing, 'md');
   border-bottom: 1px solid rgba($neutral-300, 0.5);
   transition: all 0.2s ease;
+  position: relative;
   
   &__avatar {
     margin-right: map-get($spacing, 'sm');
     flex-shrink: 0;
+    position: relative;
+    
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      width: 8px;
+      height: 8px;
+      background-color: $primary-500;
+      border-radius: 50%;
+      border: 2px solid white;
+      display: none;
+    }
+    
+    &.online::after {
+      display: block;
+    }
   }
   
   &__name {

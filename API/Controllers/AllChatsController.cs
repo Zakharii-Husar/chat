@@ -20,6 +20,16 @@ namespace API.Controllers
         {
             var currentUser = await userManager.GetUserAsync(User);
             var chatsList = await allChatsService.GetChatsOverviewAsync(currentUser!.Id, itemsToSkip, itemsToTake);
+            
+            foreach (var chat in chatsList)
+            {
+                if (chat.Interlocutor != null)
+                {
+                    chat.Interlocutor.IsOnline = WSService.IsUserOnline(chat.Interlocutor.Id);
+                    chat.SenderIsOnline = WSService.IsUserOnline(chat.SenderId);
+                }
+            }
+            
             return Ok(chatsList);
         }
 
@@ -34,7 +44,7 @@ namespace API.Controllers
             if (chat == null) return StatusCode(500);
             await allChatsService.MarkChatAsReadAsync(ChatId, currentUser);
             await WSService.MarkAsReadAsync(ChatId, currentUser);
-            return Ok(chat);
+            return Ok(chat.Members);
         }
     }
 }
