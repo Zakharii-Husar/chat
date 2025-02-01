@@ -15,6 +15,7 @@ export const DisplayMessages = () => {
   const [isLoadingMore, setIsLoadingMore] = useState(false);
   const firstItemIndex = 10000 - (currentChat.messages?.length || 0);
 
+  console.log(currentChat.messages);
   // Load more messages when scrolling to the top
   const loadMore = useCallback(async () => {
     if (!isLoadingMore && currentChat.chatId && currentChat.hasMoreMessages) {

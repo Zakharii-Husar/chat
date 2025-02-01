@@ -92,6 +92,22 @@
         color: $error-500;
       }
     }
+
+    .message-avatar {
+      position: relative;
+      
+      &.online::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        width: 8px;
+        height: 8px;
+        background-color: #44b700;
+        border-radius: 50%;
+        border: 2px solid white;
+      }
+    }
   }
 
   &:hover .delete-button {

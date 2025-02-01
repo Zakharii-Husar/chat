@@ -23,10 +23,11 @@ namespace API.Controllers
             
             foreach (var chat in chatsList)
             {
+                chat.SenderIsOnline = chat.SenderId == currentUser.Id || WSService.IsUserOnline(chat.SenderId);
+                
                 if (chat.Interlocutor != null)
                 {
                     chat.Interlocutor.IsOnline = WSService.IsUserOnline(chat.Interlocutor.Id);
-                    chat.SenderIsOnline = WSService.IsUserOnline(chat.SenderId);
                 }
             }
             
@@ -44,7 +45,17 @@ namespace API.Controllers
             if (chat == null) return StatusCode(500);
             await allChatsService.MarkChatAsReadAsync(ChatId, currentUser);
             await WSService.MarkAsReadAsync(ChatId, currentUser);
-            return Ok(chat.Members);
+            
+            foreach (var msg in chat.Messages)
+            {
+                msg.SenderIsOnline = msg.SenderId == currentUser.Id || WSService.IsUserOnline(msg.SenderId);
+                
+                if (msg.Interlocutor != null)
+                {
+                    msg.Interlocutor.IsOnline = WSService.IsUserOnline(msg.Interlocutor.Id);
+                }
+            }
+            return Ok(chat);
         }
     }
 }

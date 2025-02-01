@@ -15,7 +15,8 @@ namespace API.Services
         IMessagesRepo messagesRepo, 
         IChatsRepo chatsRepo, 
         IChatMembersRepo chatMembersRepo,
-        IUsersRepo usersRepo) : IAllChatsService
+        IUsersRepo usersRepo,
+        IWSService _wsService) : IAllChatsService
     {
         public async Task<Message?> SendNotificationAsync(int chatId, string senderId, string content)
         {
@@ -67,12 +68,19 @@ namespace API.Services
             var chatName = await chatsRepo.GetChatNameByIdAsync(chatId);
             var currentMember = await chatMembersRepo.GetMemberByChatIdAsync(chatId, userId);
             var members = await chatMembersRepo.GetAllMembersAsync(chatId, false);
-            var convertedMembers = members.Select(member => member.ToDTO()).ToList();
+            
+            // Get online status for each member through WSService
+            var convertedMembers = members.Select(member => 
+            {
+                var dto = member.ToDTO();
+                dto.IsOnline = _wsService.IsUserOnline(member.Id);
+                return dto;
+            }).ToList();
+
             if (currentMember == null) return null;
             var messages = await messagesRepo.GetMessagesByChatMemberAsync(currentMember, itemsToSkip, itemsToTake);
             var convertedMessages = messages.Select(msg => msg.ToDTO(userId)).ToList();
             var chatAdmin = await chatMembersRepo.GetAdminByChatIdAsync(chatId);
-
 
             return new ChatDTO
             {

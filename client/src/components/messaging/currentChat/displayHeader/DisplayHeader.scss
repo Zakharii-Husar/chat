@@ -14,7 +14,13 @@
     display: flex;
     align-items: center;
     gap: map-get($spacing, 'sm');
-    
+  }
+
+  &__info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+
     a {
       color: $neutral-100;
       text-decoration: none;
@@ -30,6 +36,39 @@
       font-size: $font-size-base;
       font-weight: $font-weight-semibold;
       color: $neutral-100;
+    }
+  }
+
+  &__avatar {
+    position: relative;
+    
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      width: 8px;
+      height: 8px;
+      background-color: #44b700;
+      border-radius: 50%;
+      border: 2px solid white;
+      display: none;
+    }
+    
+    &.online::after {
+      display: block;
+    }
+  }
+
+  &__status {
+    font-size: $font-size-xs;
+    
+    .online-status {
+      color: #44b700;
+    }
+    
+    .offline-status {
+      color: rgba($neutral-100, 0.7);
     }
   }
 }

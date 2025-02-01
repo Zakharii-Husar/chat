@@ -150,6 +150,7 @@ const Message: React.FC<{ message: IMessage }> = ({ message }) => {
     };
   }, [displayLikes]);
 
+  const isGroupChat = currentChat.members.length > 2;
   const isSender = message.senderId === currentUser.id;
   const time = formatUtcToLocal(message.sentAt);
 
@@ -164,11 +165,13 @@ const Message: React.FC<{ message: IMessage }> = ({ message }) => {
         onDoubleClick={addLike}
       >
         <div className="message-header">
-          <Avatar
-            size="S"
-            fileName={message.senderAvatarName ?? null}
-            isGroup={false}
-          />
+          <div className={`message-avatar ${isGroupChat && message.senderIsOnline ? 'online' : ''}`}>
+            <Avatar
+              size="S"
+              fileName={message.senderAvatarName ?? null}
+              isGroup={false}
+            />
+          </div>
           <span className="sender-name">
             {isSender ? "You" : message.senderUserName}
           </span>

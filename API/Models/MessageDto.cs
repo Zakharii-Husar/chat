@@ -17,6 +17,6 @@ namespace API.Models
         public UserDTO? Interlocutor { get; set; }
         public List<UserDTO> Likes { get; set; } = [];
         public List<UserDTO> SeenBy { get; set; } = [];
-        public bool SenderIsOnline { get; set; }
+        public bool SenderIsOnline { get; set; } = false;
     }
 }
