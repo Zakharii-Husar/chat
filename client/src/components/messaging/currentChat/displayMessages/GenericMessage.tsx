@@ -1,6 +1,6 @@
 import { IMessage } from "../../../../Interfaces";
-import { formatDistanceToNow } from "date-fns";
 import { useAppSelector } from "../../../../hooks/useAppSelectorAndDispatch";
+import { formatUtcToLocal } from "../../../../utils/dateUtils";
 import "./GenericMessage.scss";
 
 interface GenericMessageProps {
@@ -11,9 +11,7 @@ const GenericMessage: React.FC<GenericMessageProps> = ({ message }) => {
   const currentUser = useAppSelector((state) => state.loggedInUser);
   const isSender = message.senderId === currentUser.id;
   
-  const time = formatDistanceToNow(new Date(message.sentAt), {
-    addSuffix: true,
-  });
+  const time = formatUtcToLocal(message.sentAt);
 
   const getMessageClass = () => {
     if (message.isDeleted) return "generic-message__content--deleted";

@@ -11,13 +11,14 @@ import { resetChatCandidates } from "../../../../redux/slices/createGroupSlice";
 
 import createGroupThunk from "../../../../redux/thunks/createGroupThunk";
 import { useRedirectAsync } from "../../../../hooks/useRedirectAsync";
-import { Modal, Button } from "react-bootstrap";
+import { Modal, Button, Alert } from "react-bootstrap";
 import { FaUsers, FaPlus } from "react-icons/fa6";
 import "./CreateGroup.scss";
 
 const CreateGroup: React.FC = () => {
   const redirectAsync = useRedirectAsync();
   const [showModal, setShowModal] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const dispatch = useAppDispatch();
   const createGroupState = useAppSelector((state) => state.createGroup);
@@ -29,16 +30,28 @@ const CreateGroup: React.FC = () => {
     };
   }, []);
 
-  const createGroup = async () => {
+  const validateGroup = () => {
     if (!createGroupState.name || createGroupState.name.length < 4) {
-      alert("Provide at least 4 characters long chat name!");
-    } else {
+      setError("Group name should be at least 4 characters long");
+      return false;
+    }
+    if (createGroupState.candidates.length === 0) {
+      setError("Add at least one member to the group");
+      return false;
+    }
+    setError(null);
+    return true;
+  };
+
+  const createGroup = async () => {
+    if (validateGroup()) {
       try {
         await dispatch(createGroupThunk());
         setShowModal(false);
         redirectAsync();
       } catch (error) {
         console.error("Error creating group chat:", error);
+        setError("Failed to create group. Please try again.");
       }
     }
   };
@@ -65,10 +78,15 @@ const CreateGroup: React.FC = () => {
         </Modal.Header>
         <Modal.Body>
           <div className="create-group__content">
+            {error && (
+              <Alert variant="danger" className="create-group__error">
+                {error}
+              </Alert>
+            )}
             <div className="create-group__top">
               <NewGroupName />
               <Button variant="primary" onClick={createGroup}>
-                Create Group Chat
+                Create
               </Button>
             </div>
             <div className="create-group__members">

@@ -1,0 +1,39 @@
+@import '../../../../theme/variables';
+@import '../../../../theme/mixins';
+@import '../../../../theme/colors';
+@import '../../../../theme/spacing';
+@import '../../../../theme/typography';
+
+.new-group-name {
+  flex: 1;
+  display: flex;
+  align-items: center;
+
+  &__input {
+    background: rgba($neutral-100, 0.8);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba($primary-300, 0.2);
+    border-radius: map-get($radius, 'md');
+    padding: map-get($spacing, 'sm') map-get($spacing, 'md');
+    height: 38px;
+    transition: all 0.2s ease;
+    
+    &:focus {
+      border-color: $primary-400;
+      box-shadow: 0 0 0 3px rgba($primary-500, 0.1);
+      transform: translateY(-1px);
+    }
+
+    &::placeholder {
+      color: $neutral-500;
+      font-size: $font-size-sm;
+    }
+  }
+}
+
+// Update remove button hover in AddCandidates
+.add-candidates__remove {
+  &:hover {
+    color: $error-500 !important;
+  }
+} 
