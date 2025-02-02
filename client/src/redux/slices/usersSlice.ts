@@ -20,13 +20,21 @@ export const usersSlice = createSlice({
       state.hasMore = true;
     },
     fetchAllUsers: (state, action: PayloadAction<IUser[]>) => {
-      state.allUsers = [...state.allUsers, ...action.payload];
+      const existingIds = new Set(state.allUsers.map(user => user.id));
+      
+      const newUsers = action.payload.filter(user => !existingIds.has(user.id));
+      
+      state.allUsers = [...state.allUsers, ...newUsers];
       if (action.payload.length < 5) {
         state.hasMore = false;
       }
     },
     findUsers: (state, action: PayloadAction<IUser[]>) => {
-      state.filteredUsers = [...state.filteredUsers, ...action.payload];
+      const existingIds = new Set(state.filteredUsers.map(user => user.id));
+      
+      const newUsers = action.payload.filter(user => !existingIds.has(user.id));
+      
+      state.filteredUsers = [...state.filteredUsers, ...newUsers];
       if (action.payload.length < 5) {
         state.hasMore = false;
       }

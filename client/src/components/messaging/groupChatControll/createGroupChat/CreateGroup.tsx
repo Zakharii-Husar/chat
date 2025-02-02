@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import RemoveCandidates from "./RemoveCandidates";
 import AddCandidates from "./AddCandidates";
 import NewGroupName from "./NewGroupName";
 
@@ -13,7 +12,7 @@ import { resetChatCandidates } from "../../../../redux/slices/createGroupSlice";
 import createGroupThunk from "../../../../redux/thunks/createGroupThunk";
 import { useRedirectAsync } from "../../../../hooks/useRedirectAsync";
 import { Modal, Button } from "react-bootstrap";
-import {  FaUsers, FaPlus } from "react-icons/fa6";
+import { FaUsers, FaPlus } from "react-icons/fa6";
 import "./CreateGroup.scss";
 
 const CreateGroup: React.FC = () => {
@@ -72,10 +71,7 @@ const CreateGroup: React.FC = () => {
                 Create Group Chat
               </Button>
             </div>
-            <div className="create-group__selected">
-              <RemoveCandidates />
-            </div>
-            <div className="create-group__search">
+            <div className="create-group__members">
               <AddCandidates />
             </div>
           </div>

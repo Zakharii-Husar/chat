@@ -2,7 +2,7 @@ import { useEffect, useCallback, useRef, useMemo } from "react";
 import { Virtuoso } from "react-virtuoso";
 import { InputGroup, FormControl, ListGroup } from "react-bootstrap";
 import { updateSearchedUser } from "../../../../redux/slices/usersSlice";
-import { addChatCandidates } from "../../../../redux/slices/createGroupSlice";
+import { addChatCandidates, removeCandidate } from "../../../../redux/slices/createGroupSlice";
 import { useAppSelector, useAppDispatch } from "../../../../hooks/useAppSelectorAndDispatch";
 import { IChatMember, IUser } from "../../../../Interfaces";
 import searchUsersThunk from "../../../../redux/thunks/searchUsersThunk";
@@ -64,33 +64,45 @@ const AddCandidates: React.FC = () => {
     dispatch(addChatCandidates(member));
   };
 
-  // Filter the list before passing to Virtuoso
+  // Only filter out current user
   const filteredList = useMemo(() => {
-    return currentUsersList.filter(user => 
-      !createGroupState.candidates.some(
-        member => member.memberId === user.id || user.id === currentUserId
-      )
-    );
-  }, [currentUsersList, createGroupState.candidates, currentUserId]);
+    return currentUsersList.filter(user => user.id !== currentUserId);
+  }, [currentUsersList, currentUserId]);
 
   const UserItem = useCallback((index: number) => {
     const user = filteredList[index];
     if (!user) return <div style={{ height: '48px' }}>Loading...</div>;
 
+    const isAdded = createGroupState.candidates.some(
+      member => member.memberId === user.id
+    );
+
     return (
       <ListGroup.Item
         key={user.id}
-        action
-        onClick={() => add({
-          userName: user.userName,
-          memberId: user.id,
-          isCreator: false,
-        })}
+        action={!isAdded}
+        className={`add-candidates__item ${isAdded ? 'added' : ''}`}
+        onClick={() => {
+          if (isAdded) {
+            const candidate = createGroupState.candidates.find(c => c.memberId === user.id);
+            if (candidate) {
+              const index = createGroupState.candidates.indexOf(candidate);
+              dispatch(removeCandidate(index));
+            }
+          } else {
+            add({
+              userName: user.userName,
+              memberId: user.id,
+              isCreator: false,
+            });
+          }
+        }}
       >
-        {user.userName}
+        <span>{user.userName}</span>
+        {isAdded && <span className="add-candidates__remove">×</span>}
       </ListGroup.Item>
     );
-  }, [filteredList]);
+  }, [filteredList, createGroupState.candidates]);
 
   return (
     <div className="add-candidates">
@@ -102,7 +114,7 @@ const AddCandidates: React.FC = () => {
       </InputGroup>
       <div className="add-candidates__list">
         <Virtuoso
-          style={{ height: '200px' }}
+          style={{ height: '180px' }}
           totalCount={filteredList.length}
           itemContent={UserItem}
           endReached={loadMore}

@@ -69,14 +69,16 @@
     }
 
     .modal-body {
-      padding: map-get($spacing, 'lg');
+      max-height: 70vh;
+      overflow-y: hidden;
     }
   }
 
   &__content {
     display: flex;
     flex-direction: column;
-    gap: map-get($spacing, 'md');
+    height: 100%;
+    gap: map-get($spacing, 'sm');
   }
 
   &__top {
@@ -103,18 +105,12 @@
     }
   }
 
-  &__selected {
-    max-height: 150px;
-    overflow:visible;
-    border-radius: map-get($radius, 'md');
+  &__members {
+    height: 300px;  // Increased height since we're using single list now
+    flex: 0 0 auto;
     background: rgba($neutral-100, 0.5);
+    border-radius: map-get($radius, 'md');
     padding: map-get($spacing, 'xs');
-    margin-bottom: map-get($spacing, 'sm');
-  }
-
-  &__search {
-    flex: 1;
-    min-height: 0;
   }
 }
 

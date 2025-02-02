@@ -31,4 +31,32 @@
       }
     }
   }
+
+  &__item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: map-get($spacing, 'sm');
+
+    &.added {
+      background: rgba($primary-100, 0.2);
+      cursor: default;
+      
+      &:hover {
+        background: rgba($primary-100, 0.2);
+      }
+    }
+  }
+
+  &__remove {
+    cursor: pointer;
+    color: $neutral-600;
+    transition: color 0.2s ease;
+    font-size: 1.2rem;
+    line-height: 1;
+    
+    &:hover {
+      color: $primary-600;
+    }
+  }
 } 
