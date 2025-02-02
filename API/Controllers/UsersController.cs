@@ -44,6 +44,12 @@ namespace API.Controllers
             var currentUser = await userManager.GetUserAsync(User);
             if (currentUser == null) return Unauthorized();
             var users = await usersService.GetAllUsers(currentUser.Id, itemsToSkip, itemsToTake);
+            
+            foreach (var user in users)
+            {
+                user.IsOnline = wsService.IsUserOnline(user.Id);
+            }
+            
             return Ok(users);
         }
 
@@ -73,8 +79,14 @@ namespace API.Controllers
             if (currentUserId == null) return Unauthorized();
             var filteredUsers = await usersService.SearchUsers(SearchPhrase, currentUserId, itemsToSkip, itemsToTake);
 
-            return Ok(filteredUsers);
+            if (filteredUsers.Count == 0) return Ok(filteredUsers);
 
+            foreach (var user in filteredUsers)
+            {
+                user.IsOnline = wsService.IsUserOnline(user.Id);
+            }
+
+            return Ok(filteredUsers);
         }
 
         [HttpPost("UploadAvatar")]

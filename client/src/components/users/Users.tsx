@@ -28,6 +28,7 @@ const Users: React.FC = () => {
     (state) => state.users
   );
 
+
   useEffect(() => {
     if (allUsers.length <= 1) {
       dispatch(getAllUsersThunk());
@@ -93,12 +94,19 @@ const Users: React.FC = () => {
                 to={`${PATH.users}/${user.userName}`}
                 className="users__profile-link"
               >
-                <Avatar
-                  size="M"
-                  fileName={user.avatarName}
-                  isGroup={false}
-                />
-                <h5>{user.userName}</h5>
+                <div className={`users__avatar-wrapper ${user.isOnline ? 'online' : ''}`}>
+                  <Avatar
+                    size="M"
+                    fileName={user.avatarName}
+                    isGroup={false}
+                  />
+                </div>
+                <div className="users__info">
+                  <h5>{user.userName}</h5>
+                  <span className={`users__status ${user.isOnline ? 'online' : 'offline'}`}>
+                    {user.isOnline ? 'Online' : 'Offline'}
+                  </span>
+                </div>
               </Link>
 
               <button

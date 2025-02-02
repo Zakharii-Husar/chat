@@ -192,6 +192,40 @@
     }
   }
 
+  &__avatar-wrapper {
+    position: relative;
+    
+    &.online::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      width: 8px;
+      height: 8px;
+      background-color: #44b700;
+      border-radius: 50%;
+      border: 2px solid white;
+    }
+  }
+
+  &__info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  &__status {
+    font-size: 12px;
+    
+    &.online {
+      color: #44b700;
+    }
+    
+    &.offline {
+      color: rgba($neutral-100, 0.7);
+    }
+  }
+
   @media (max-width: map-get($breakpoints, 'md')) {
     padding: map-get($spacing, 'xs');
     
