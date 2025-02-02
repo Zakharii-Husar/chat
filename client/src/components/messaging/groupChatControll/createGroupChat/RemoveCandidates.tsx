@@ -19,7 +19,7 @@ const RemoveCandidates: React.FC = () => {
 
   return (
     <div className="remove-candidates">
-      <ListGroup className="remove-candidates__list">
+      <ListGroup className="remove-candidates__list scrollable">
         {createGroupState.candidates.map((candidate, i) => (
           <ListGroup.Item
             key={i}

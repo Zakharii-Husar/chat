@@ -3,29 +3,16 @@
 @import '../../../../theme/colors';
 @import '../../../../theme/spacing';
 @import '../../../../theme/typography';
+@import '../../../../style/scrollable';
 
 .remove-candidates {
+  display: flex;
+  flex-direction: column;
+  height: 150px;  // Fixed height to enable scrolling
+  overflow: hidden;  // Add this to prevent outer scrollbar
   &__list {
-    max-height: 150px;
-    overflow-y: auto;
-    
-    &::-webkit-scrollbar {
-      width: 6px;
-    }
-    
-    &::-webkit-scrollbar-track {
-      background: rgba($neutral-200, 0.5);
-      border-radius: map-get($radius, 'full');
-    }
-    
-    &::-webkit-scrollbar-thumb {
-      background: $primary-300;
-      border-radius: map-get($radius, 'full');
-      
-      &:hover {
-        background: $primary-400;
-      }
-    }
+    flex: 1;
+    min-height: 0;
   }
 
   &__item {

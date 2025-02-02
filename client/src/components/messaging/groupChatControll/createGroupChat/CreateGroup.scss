@@ -105,7 +105,7 @@
 
   &__selected {
     max-height: 150px;
-    overflow-y: auto;
+    overflow:visible;
     border-radius: map-get($radius, 'md');
     background: rgba($neutral-100, 0.5);
     padding: map-get($spacing, 'xs');
