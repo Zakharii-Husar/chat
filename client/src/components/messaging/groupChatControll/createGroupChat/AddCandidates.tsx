@@ -1,4 +1,4 @@
-import { useEffect, useCallback, useRef } from "react";
+import { useEffect, useCallback, useRef, useMemo } from "react";
 import { Virtuoso } from "react-virtuoso";
 import { InputGroup, FormControl, ListGroup } from "react-bootstrap";
 import { updateSearchedUser } from "../../../../redux/slices/usersSlice";
@@ -64,16 +64,18 @@ const AddCandidates: React.FC = () => {
     dispatch(addChatCandidates(member));
   };
 
-  const UserItem = useCallback((index: number) => {
-    const user = currentUsersList[index];
-    if (!user) return <div style={{ height: '48px' }}>Loading...</div>;
+  // Filter the list before passing to Virtuoso
+  const filteredList = useMemo(() => {
+    return currentUsersList.filter(user => 
+      !createGroupState.candidates.some(
+        member => member.memberId === user.id || user.id === currentUserId
+      )
+    );
+  }, [currentUsersList, createGroupState.candidates, currentUserId]);
 
-    // Skip if user is current user or already added
-    if (createGroupState.candidates.some(
-      member => member.memberId === user.id || user.id === currentUserId
-    )) {
-      return <div style={{ height: '48px' }}></div>;
-    }
+  const UserItem = useCallback((index: number) => {
+    const user = filteredList[index];
+    if (!user) return <div style={{ height: '48px' }}>Loading...</div>;
 
     return (
       <ListGroup.Item
@@ -88,7 +90,7 @@ const AddCandidates: React.FC = () => {
         {user.userName}
       </ListGroup.Item>
     );
-  }, [currentUsersList, createGroupState.candidates, currentUserId]);
+  }, [filteredList]);
 
   return (
     <div className="add-candidates">
@@ -101,7 +103,7 @@ const AddCandidates: React.FC = () => {
       <div className="add-candidates__list">
         <Virtuoso
           style={{ height: '200px' }}
-          totalCount={currentUsersList.length}
+          totalCount={filteredList.length}
           itemContent={UserItem}
           endReached={loadMore}
           className="scrollable"
