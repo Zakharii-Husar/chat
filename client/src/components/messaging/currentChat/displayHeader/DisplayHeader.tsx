@@ -1,8 +1,10 @@
+import { useState } from 'react';
 import ManageGroupChat from "../../groupChatControll/manageGroupChat/ManageGroup";
 import { Link } from "react-router-dom";
 import { useAppSelector } from "../../../../hooks/useAppSelectorAndDispatch";
 import Avatar from "../../../reusable/Avatar/Avatar";
 import { formatUtcToLocal } from '../../../../utils/dateUtils';
+import { GroupMembersList } from './GroupMembersList';
 import "./DisplayHeader.scss";
 import { IUser } from "../../../../Interfaces";
 
@@ -12,6 +14,7 @@ const formatLastVisit = (date: Date | null) => {
 };
 
 export const DisplayHeader: React.FC = () => {
+  const [showMembers, setShowMembers] = useState(false);
   const CurrentUser = useAppSelector((state) => state.loggedInUser);
   const currentChat = useAppSelector((state) => state.currentChat);
   const filteredParticipants = currentChat?.members?.filter(
@@ -23,9 +26,15 @@ export const DisplayHeader: React.FC = () => {
     ? currentChat.chatName
     : interlocutor?.userName;
 
+  const handleGroupClick = () => {
+    if (currentChat.isGroupChat) {
+      setShowMembers(true);
+    }
+  };
+
   return (
     <div className="chat-title">
-      <div className="chat-title__content">
+      <div className="chat-title__content" onClick={handleGroupClick}>
         <div className={`chat-title__avatar ${!currentChat.isGroupChat && interlocutor?.isOnline ? 'online' : ''}`}>
           <Avatar
             size="S"
@@ -39,7 +48,7 @@ export const DisplayHeader: React.FC = () => {
               <h3>{chatHeader}</h3>
             </Link>
           ) : (
-            <h3>{chatHeader}</h3>
+            <h3 style={{ cursor: 'pointer' }}>{chatHeader}</h3>
           )}
           {!currentChat.isGroupChat && (
             <div className={`chat-title__status ${
@@ -54,7 +63,17 @@ export const DisplayHeader: React.FC = () => {
           )}
         </div>
       </div>
-      {currentChat.isGroupChat && <ManageGroupChat />}
+      {currentChat.isGroupChat && (
+        <>
+          <ManageGroupChat />
+          <GroupMembersList
+            show={showMembers}
+            onHide={() => setShowMembers(false)}
+            members={currentChat.members}
+            adminId={currentChat.adminId}
+          />
+        </>
+      )}
     </div>
   );
 };

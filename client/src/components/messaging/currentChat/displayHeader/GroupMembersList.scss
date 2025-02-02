@@ -1,0 +1,115 @@
+@import '../../../../theme/variables';
+@import '../../../../theme/mixins';
+@import '../../../../theme/colors';
+@import '../../../../theme/spacing';
+@import '../../../../theme/typography';
+
+.group-members-list {
+  .modal-content {
+    background: linear-gradient(145deg, $neutral-100, rgba($primary-100, 0.3));
+    border-radius: map-get($radius, 'lg');
+    border: none;
+    box-shadow: $shadow-lg;
+  }
+  
+  .modal-header {
+    background: linear-gradient(145deg, $primary-500, $primary-600);
+    color: $neutral-100;
+    border-radius: map-get($radius, 'lg') map-get($radius, 'lg') 0 0;
+    border: none;
+    
+    .close {
+      color: $neutral-100;
+      text-shadow: none;
+      opacity: 0.8;
+      
+      &:hover {
+        opacity: 1;
+      }
+    }
+  }
+
+  .members-container {
+    max-height: 60vh;
+    overflow-y: auto;
+    padding-right: map-get($spacing, 'xs');
+    
+    &::-webkit-scrollbar {
+      width: 6px;
+    }
+    
+    &::-webkit-scrollbar-track {
+      background: rgba($neutral-200, 0.5);
+      border-radius: map-get($radius, 'full');
+    }
+    
+    &::-webkit-scrollbar-thumb {
+      background: $primary-300;
+      border-radius: map-get($radius, 'full');
+      
+      &:hover {
+        background: $primary-400;
+      }
+    }
+  }
+
+  .member-item {
+    display: flex;
+    align-items: center;
+    padding: map-get($spacing, 'sm');
+    border-bottom: 1px solid rgba($neutral-300, 0.2);
+    transition: all 0.2s ease;
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+    
+    &:hover {
+      background: rgba($primary-100, 0.8);
+      text-decoration: none;
+      color: inherit;
+    }
+  }
+
+  .member-avatar {
+    position: relative;
+    margin-right: map-get($spacing, 'md');
+    
+    &.online::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      width: 8px;
+      height: 8px;
+      background-color: #44b700;
+      border-radius: 50%;
+      border: 2px solid white;
+    }
+  }
+
+  .member-info {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .member-name {
+    font-weight: $font-weight-semibold;
+    color: $neutral-800;
+    display: flex;
+    align-items: center;
+    gap: map-get($spacing, 'sm');
+  }
+
+  .admin-badge {
+    background: linear-gradient(145deg, $primary-400, $primary-500);
+    color: $neutral-100;
+    font-size: $font-size-xs;
+    padding: 2px map-get($spacing, 'xs');
+    border-radius: map-get($radius, 'sm');
+  }
+
+  .member-status {
+    font-size: $font-size-sm;
+    color: $neutral-600;
+  }
+} 
