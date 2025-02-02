@@ -1,0 +1,55 @@
+@import '../../../../theme/variables';
+@import '../../../../theme/mixins';
+@import '../../../../theme/colors';
+@import '../../../../theme/spacing';
+@import '../../../../theme/typography';
+
+.remove-candidates {
+  &__list {
+    max-height: 150px;
+    overflow-y: auto;
+    
+    &::-webkit-scrollbar {
+      width: 6px;
+    }
+    
+    &::-webkit-scrollbar-track {
+      background: rgba($neutral-200, 0.5);
+      border-radius: map-get($radius, 'full');
+    }
+    
+    &::-webkit-scrollbar-thumb {
+      background: $primary-300;
+      border-radius: map-get($radius, 'full');
+      
+      &:hover {
+        background: $primary-400;
+      }
+    }
+  }
+
+  &__item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: map-get($spacing, 'sm') !important;
+    border: 1px solid $neutral-200 !important;
+    margin-bottom: map-get($spacing, 'xs') !important;
+    
+    &:last-child {
+      margin-bottom: 0 !important;
+    }
+  }
+
+  &__remove {
+    cursor: pointer;
+    color: $neutral-600;
+    transition: color 0.2s ease;
+    font-size: 1.2rem;
+    line-height: 1;
+    
+    &:hover {
+      color: $primary-600;
+    }
+  }
+} 

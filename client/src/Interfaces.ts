@@ -13,6 +13,8 @@ export interface IUsers {
   allUsers: IUser[];
   filteredUsers: IUser[];
   searchedUser: string | null;
+  hasMore: boolean;
+  isLoading: boolean;
 }
 
 export interface IChatMember {

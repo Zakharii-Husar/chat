@@ -1,39 +1,61 @@
-import { useEffect } from "react";
-
-import InputGroup from "react-bootstrap/InputGroup";
-import ListGroup from "react-bootstrap/ListGroup";
-import FormControl from "react-bootstrap/FormControl";
-import Form from "react-bootstrap/Form";
-import Container from "react-bootstrap/Container";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
+import { useEffect, useCallback, useRef } from "react";
+import { Virtuoso } from "react-virtuoso";
+import { InputGroup, FormControl, ListGroup } from "react-bootstrap";
 import { updateSearchedUser } from "../../../../redux/slices/usersSlice";
-
 import { addChatCandidates } from "../../../../redux/slices/createGroupSlice";
-
-import {
-  useAppSelector,
-  useAppDispatch,
-} from "../../../../hooks/useAppSelectorAndDispatch";
+import { useAppSelector, useAppDispatch } from "../../../../hooks/useAppSelectorAndDispatch";
 import { IChatMember, IUser } from "../../../../Interfaces";
-import getAllUsersThunk from "../../../../redux/thunks/getAllUsersThunk";
 import searchUsersThunk from "../../../../redux/thunks/searchUsersThunk";
+import getAllUsersThunk from "../../../../redux/thunks/getAllUsersThunk";
+import "./AddCandidates.scss";
 
 const AddCandidates: React.FC = () => {
-  const { allUsers, filteredUsers, searchedUser } = useAppSelector(
+  const { allUsers, filteredUsers, searchedUser, hasMore, isLoading } = useAppSelector(
     (state) => state.users
   );
   const currentUserId = useAppSelector((state) => state.loggedInUser.id);
-
   const createGroupState = useAppSelector((state) => state.createGroup);
   const currentUsersList = searchedUser ? filteredUsers : allUsers;
   const dispatch = useAppDispatch();
+  const timeOut = useRef<NodeJS.Timeout | null>(null);
 
+  // Load initial users
   useEffect(() => {
-    if (searchedUser) dispatch(searchUsersThunk(searchedUser));
-  }, [searchedUser]);
+    if (allUsers.length === 0) {
+      dispatch(getAllUsersThunk());
+    }
+  }, []);
 
-  const search = (e: React.ChangeEvent<HTMLInputElement>) => {
+  // Handle search with debounce
+  useEffect(() => {
+    if (!searchedUser) return;
+    
+    if (timeOut.current) {
+      clearTimeout(timeOut.current);
+    }
+    
+    timeOut.current = setTimeout(() => {
+      dispatch(searchUsersThunk(searchedUser));
+    }, 1000);
+
+    return () => {
+      if (timeOut.current) {
+        clearTimeout(timeOut.current);
+      }
+    };
+  }, [searchedUser, dispatch]);
+
+  const loadMore = useCallback(() => {
+    if (!hasMore || isLoading) return;
+    
+    if (searchedUser) {
+      dispatch(searchUsersThunk(searchedUser));
+    } else {
+      dispatch(getAllUsersThunk());
+    }
+  }, [dispatch, hasMore, isLoading, searchedUser]);
+
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     const input = e.target.value;
     dispatch(updateSearchedUser(input !== "" ? input : null));
   };
@@ -42,43 +64,50 @@ const AddCandidates: React.FC = () => {
     dispatch(addChatCandidates(member));
   };
 
-  return (
-    <Container fluid className="d-flex mb-3">
-      <Col>
-        <Row>
-          <Form>
-            <InputGroup className="mb-3">
-              <FormControl placeholder="Search users" onInput={search} />
-            </InputGroup>
+  const UserItem = useCallback((index: number) => {
+    const user = currentUsersList[index];
+    if (!user) return <div style={{ height: '48px' }}>Loading...</div>;
 
-            {currentUsersList.map((user: IUser) => {
-              //prevent showing current user and already added users
-              return createGroupState.candidates.some(
-                (member) =>
-                  member.memberId === user.id || user.id === currentUserId
-              ) ? null : (
-                //show candidats
-                <Form.Group key={user.id}>
-                  <ListGroup.Item>
-                    <span
-                      onClick={() =>
-                        add({
-                          userName: user.userName,
-                          memberId: user.id,
-                          isCreator: false,
-                        })
-                      }
-                    >
-                      {user.userName}
-                    </span>
-                  </ListGroup.Item>
-                </Form.Group>
-              );
-            })}
-          </Form>
-        </Row>
-      </Col>
-    </Container>
+    // Skip if user is current user or already added
+    if (createGroupState.candidates.some(
+      member => member.memberId === user.id || user.id === currentUserId
+    )) {
+      return <div style={{ height: '48px' }}></div>;
+    }
+
+    return (
+      <ListGroup.Item
+        key={user.id}
+        action
+        onClick={() => add({
+          userName: user.userName,
+          memberId: user.id,
+          isCreator: false,
+        })}
+      >
+        {user.userName}
+      </ListGroup.Item>
+    );
+  }, [currentUsersList, createGroupState.candidates, currentUserId]);
+
+  return (
+    <div className="add-candidates">
+      <InputGroup className="mb-3">
+        <FormControl 
+          placeholder="Search users" 
+          onChange={handleSearch}
+        />
+      </InputGroup>
+      <div className="add-candidates__list">
+        <Virtuoso
+          style={{ height: '200px' }}
+          totalCount={currentUsersList.length}
+          itemContent={UserItem}
+          endReached={loadMore}
+          className="scrollable"
+        />
+      </div>
+    </div>
   );
 };
 

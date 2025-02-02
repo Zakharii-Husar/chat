@@ -3,13 +3,10 @@ import {
   useAppDispatch,
 } from "../../../../hooks/useAppSelectorAndDispatch";
 
-import ListGroup from "react-bootstrap/ListGroup";
-import Container from "react-bootstrap/Container";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
-
 import { removeCandidate } from "../../../../redux/slices/createGroupSlice";
 import { IChatMember } from "../../../../Interfaces";
+import { ListGroup } from "react-bootstrap";
+import "./RemoveCandidates.scss";
 
 const RemoveCandidates: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -21,35 +18,24 @@ const RemoveCandidates: React.FC = () => {
   };
 
   return (
-    <Container fluid className="d-flex mb-3">
-      <Col>
-        <Row className="d-flex ">
-          <div>
-            {createGroupState.candidates.map((candidate, i) => {
-              return (
-                <ListGroup.Item
-                  key={i}
-                  className="d-flex flex-row justify-content-between align-items-center"
-                  style={{
-                    margin: 0,
-                    padding: "0.5rem",
-                    border: "1px solid #dee2e6",
-                  }}
-                >
-                  <span>{candidate.userName} </span>
-                  <span
-                    onClick={() => remove(candidate)}
-                    style={{ cursor: "pointer" }}
-                  >
-                    x
-                  </span>
-                </ListGroup.Item>
-              );
-            })}
-          </div>
-        </Row>
-      </Col>
-    </Container>
+    <div className="remove-candidates">
+      <ListGroup className="remove-candidates__list">
+        {createGroupState.candidates.map((candidate, i) => (
+          <ListGroup.Item
+            key={i}
+            className="remove-candidates__item"
+          >
+            <span>{candidate.userName}</span>
+            <span 
+              className="remove-candidates__remove"
+              onClick={() => remove(candidate)}
+            >
+              ×
+            </span>
+          </ListGroup.Item>
+        ))}
+      </ListGroup>
+    </div>
   );
 };
 

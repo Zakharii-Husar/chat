@@ -65,12 +65,20 @@ const CreateGroup: React.FC = () => {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <RemoveCandidates />
-          <AddCandidates />
-          <NewGroupName />
-          <Button variant="primary" onClick={createGroup}>
-            Create Group Chat
-          </Button>
+          <div className="create-group__content">
+            <div className="create-group__top">
+              <NewGroupName />
+              <Button variant="primary" onClick={createGroup}>
+                Create Group Chat
+              </Button>
+            </div>
+            <div className="create-group__selected">
+              <RemoveCandidates />
+            </div>
+            <div className="create-group__search">
+              <AddCandidates />
+            </div>
+          </div>
         </Modal.Body>
       </Modal>
     </div>

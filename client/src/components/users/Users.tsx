@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useCallback, useRef } from "react";
 import {
   useAppSelector,
   useAppDispatch,
@@ -17,33 +17,43 @@ import { Link } from "react-router-dom";
 import PATH from "../../routing/pathConstants";
 import { HiMagnifyingGlass } from "react-icons/hi2";
 import { IoPaperPlaneSharp } from "react-icons/io5";
+import Loading from "../reusable/Loading";
 import "./Users.scss";
+import { Virtuoso } from "react-virtuoso";
 
 const Users: React.FC = () => {
   useCheckAuth();
   const redirectAsync = useRedirectAsync();
   const dispatch = useAppDispatch();
+  const timeOut = useRef<NodeJS.Timeout | null>(null);
 
-  const { allUsers, filteredUsers, searchedUser } = useAppSelector(
+  const { allUsers, filteredUsers, searchedUser, hasMore, isLoading } = useAppSelector(
     (state) => state.users
   );
 
+  const loadMore = useCallback(() => {
+    if (!hasMore || isLoading) return;
+    
+    if (searchedUser) {
+      dispatch(searchUsersThunk(searchedUser));
+    } else {
+      dispatch(getAllUsersThunk());
+    }
+  }, [dispatch, hasMore, isLoading, searchedUser]);
 
   useEffect(() => {
-    if (allUsers.length <= 1) {
+    if (allUsers.length === 0) {
       dispatch(getAllUsersThunk());
     }
   }, []);
 
-  const timeOut = useRef<NodeJS.Timeout | null>(null);
-  
   useEffect(() => {
     if (!searchedUser) return;
-    
+
     if (timeOut.current) {
       clearTimeout(timeOut.current);
     }
-    
+
     timeOut.current = setTimeout(() => {
       dispatch(searchUsersThunk(searchedUser));
     }, 1000);
@@ -70,6 +80,36 @@ const Users: React.FC = () => {
 
   const currentList = searchedUser === null ? allUsers : filteredUsers;
 
+  const UserItem = useCallback((index: number) => {
+    const user = currentList[index];
+    if (!user) return <Loading />;
+
+    return (
+      <li className="users__item">
+        <Link to={`${PATH.users}/${user.userName}`} className="users__profile-link">
+          <div className={`users__avatar-wrapper ${user.isOnline ? 'online' : ''}`}>
+            <Avatar size="M" fileName={user.avatarName} isGroup={false} />
+          </div>
+          <div className="users__info">
+            <h5>{user.userName}</h5>
+            <span className={`users__status ${user.isOnline ? 'online' : 'offline'}`}>
+              {user.isOnline ? 'Online' : 'Offline'}
+            </span>
+          </div>
+        </Link>
+
+        <button
+          className="users__message-btn"
+          onClick={() => navToChat(user.userName!)}
+          aria-label="Send message"
+        >
+          <IoPaperPlaneSharp size={16} />
+          <span>Message</span>
+        </button>
+      </li>
+    );
+  }, [currentList]);
+
   return (
     <div className="users">
       <div className="users__container">
@@ -87,39 +127,15 @@ const Users: React.FC = () => {
           />
         </div>
 
-        <ul className="users__list">
-          {currentList?.map((user: IUser) => (
-            <li key={user.id} className="users__item">
-              <Link
-                to={`${PATH.users}/${user.userName}`}
-                className="users__profile-link"
-              >
-                <div className={`users__avatar-wrapper ${user.isOnline ? 'online' : ''}`}>
-                  <Avatar
-                    size="M"
-                    fileName={user.avatarName}
-                    isGroup={false}
-                  />
-                </div>
-                <div className="users__info">
-                  <h5>{user.userName}</h5>
-                  <span className={`users__status ${user.isOnline ? 'online' : 'offline'}`}>
-                    {user.isOnline ? 'Online' : 'Offline'}
-                  </span>
-                </div>
-              </Link>
-
-              <button
-                className="users__message-btn"
-                onClick={() => navToChat(user.userName!)}
-                aria-label="Send message"
-              >
-                <IoPaperPlaneSharp size={16} />
-                <span>Message</span>
-              </button>
-            </li>
-          ))}
-        </ul>
+        <div className="users__list">
+          <Virtuoso
+            style={{ height: '65vh' }}
+            totalCount={currentList.length}
+            itemContent={UserItem}
+            endReached={loadMore}
+            className="scrollable"
+          />
+        </div>
       </div>
     </div>
   );

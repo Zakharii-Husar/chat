@@ -68,8 +68,7 @@
   }
 
   &__list {
-    max-height: 65vh;
-    overflow-y: auto;
+    overflow: hidden;
     overflow-x: hidden;
     padding: map-get($spacing, 'xs') 0 0 0;
     margin: 0;
