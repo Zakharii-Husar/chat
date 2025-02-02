@@ -14,9 +14,7 @@ const createGroupSlice = createSlice({
   reducers: {
     addChatCandidates: (state, action: PayloadAction<IChatMember>) => {
       const alreadyAdded = state.candidates.some(
-        (member) =>
-          member.userName === action.payload.userName &&
-          member.memberId === action.payload.memberId
+        member => member.memberId === action.payload.memberId
       );
       if (alreadyAdded) return;
       state.candidates.push(action.payload);
