@@ -25,7 +25,7 @@ namespace API.Repos
 
         public async Task<bool> RmChatMemberAsync(ChatMember memberToRemove)
         {
-            memberToRemove.LeftChat = DateTime.Now;
+            memberToRemove.LeftChat = DateTime.UtcNow;
             dbContext.ChatMembers.Update(memberToRemove);
             var rowsAffected = await dbContext.SaveChangesAsync();
             return rowsAffected > 0;

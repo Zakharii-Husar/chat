@@ -2,7 +2,6 @@ import {
   useAppDispatch,
   useAppSelector,
 } from "../../../../hooks/useAppSelectorAndDispatch";
-import { RxExit } from "react-icons/rx";
 import Confirmation from "../../../reusable/Confirmation";
 import rmChatMemberThunk from "../../../../redux/thunks/rmChatMemberThunk";
 import { Button } from "react-bootstrap";
