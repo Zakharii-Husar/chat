@@ -1,6 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import type { RootState } from "../store";
 import { RENAME_GROUP_CHAT } from "../../APIEndpoints";
+import { rename } from "../slices/currentChatSlice";
 
 const renameGroupThunk = createAsyncThunk(
   "currentChat/renameGroup",
@@ -11,15 +12,21 @@ const renameGroupThunk = createAsyncThunk(
     const link = RENAME_GROUP_CHAT(chatId, encodeURI(newName));
 
     try {
-      await fetch(link, {
+      const response = await fetch(link, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
         },
         credentials: "include",
       });
+
+      if (response.ok) {
+        // Update local state immediately after successful response
+        dispatch(rename(newName));
+      }
     } catch (error) {
-      console.log(error);
+      console.error("Error renaming group:", error);
+      throw error;
     }
   }
 );

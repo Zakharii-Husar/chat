@@ -2,12 +2,15 @@
 using API.Hubs;
 using API.Repos;
 using Microsoft.AspNetCore.SignalR;
+using API.Models;
 namespace API.Services
 {
 
     public interface IWSService
     {
         public Task BroadcastMessageAsync(Message newMessage, string currentUserId);
+
+        public Task BroadcastSysMessageAsync(Message newMessage, string currentUserId, string msgType, SysMessagePayload msgPayload);
         public Task UpdateMessageAsync(Message newMessage, string currentUserId);
         public Task MarkAsReadAsync(int chatId, AppUser user);
         public Task<List<string>> GetConnectionsByChatIdAsync(int chatId);
@@ -38,7 +41,9 @@ namespace API.Services
             try 
             {
                 var recipients = await GetConnectionsByChatIdAsync(newMessage.ChatId);
+                
                 var dto = newMessage.ToDTO(currentUserId);
+                    
                 await hub.Clients.Clients(recipients).SendAsync("ReceiveNewMessage", dto);
             }
             catch
@@ -46,6 +51,13 @@ namespace API.Services
                 Console.WriteLine($"Broadcasting failed for message {newMessage.MessageId}. Message state: {Newtonsoft.Json.JsonConvert.SerializeObject(newMessage)}");
                 throw;
             }
+        }
+
+        public async Task BroadcastSysMessageAsync(Message newMessage, string currentUserId, string msgType, SysMessagePayload msgPayload)
+        {
+            var recipients = await GetConnectionsByChatIdAsync(newMessage.ChatId);
+            var dto = newMessage.ToSysMsgDTO(currentUserId, msgType, msgPayload);
+            await hub.Clients.Clients(recipients).SendAsync("ReceiveNewMessage", dto);
         }
 
         public async Task UpdateMessageAsync(Message newMessage, string currentUserId)

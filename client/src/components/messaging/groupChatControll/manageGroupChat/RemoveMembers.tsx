@@ -2,69 +2,60 @@ import {
   useAppSelector,
   useAppDispatch,
 } from "../../../../hooks/useAppSelectorAndDispatch";
-
+import { rmMemberByUname } from "../../../../redux/slices/currentChatSlice";
 import Confirmation from "../../../reusable/Confirmation";
-
-import ListGroup from "react-bootstrap/ListGroup";
-import Button from "react-bootstrap/Button";
-import Collapse from "react-bootstrap/Collapse";
-import Container from "react-bootstrap/Container";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
+import { ListGroup, Button, Collapse } from "react-bootstrap";
 import { useState } from "react";
 import rmChatMemberThunk from "../../../../redux/thunks/rmChatMemberThunk";
+import "./RemoveMembers.scss";
 
 const RemoveMembers: React.FC = () => {
   const dispatch = useAppDispatch();
   const currentChat = useAppSelector((state) => state.currentChat);
   const currentUserId = useAppSelector((state) => state.loggedInUser.id);
-  const isCreator = currentUserId == currentChat.adminId;
-
+  const isCreator = currentUserId === currentChat.adminId;
   const [showList, setShowList] = useState(false);
 
-  const remove = (userName: string) => {
-    dispatch(rmChatMemberThunk(userName));
+  const remove = async (userName: string) => {
+    await dispatch(rmChatMemberThunk(userName));
+    // Local state update will be handled by SignalR
   };
 
+  if (!isCreator) return null;
+
   return (
-    <Container fluid className="d-flex mb-3">
-      <Col>
-        <Row className={"d-" + (isCreator ? "flex" : "none")}>
-          <Button onClick={() => setShowList(!showList)}>
-            {showList ? "Cancel" : "Remove members"}
-          </Button>
-        </Row>
-        <Row className="d-flex ">
-          <Collapse in={showList}>
-            <div>
-              {currentChat.members.map((member, i) => {
-                return member.id === currentUserId ? null : (
-                  <ListGroup.Item
-                    key={i}
-                    className="d-flex flex-row justify-content-between align-items-center"
-                    style={{
-                      margin: 0,
-                      padding: "0.5rem",
-                      border: "1px solid #dee2e6",
-                    }}
-                  >
-                    <span>{member.userName} </span>
-                    <span style={{ cursor: "pointer" }}>
-                      <Confirmation
-                        titleText={`Remove ${member.userName} from the chaat?`}
-                        proceed={() => remove(member.userName!)}
-                      >
-                        <span>x</span>
-                      </Confirmation>
-                    </span>
-                  </ListGroup.Item>
-                );
-              })}
-            </div>
-          </Collapse>
-        </Row>
-      </Col>
-    </Container>
+    <div className="remove-members">
+      <Button 
+        variant="danger"
+        onClick={() => setShowList(!showList)}
+        className="remove-members__toggle"
+      >
+        {showList ? "Cancel" : "Remove Members"}
+      </Button>
+
+      <Collapse in={showList}>
+        <div className="remove-members__list">
+          {currentChat.members.map((member) => {
+            if (member.id === currentUserId) return null;
+            
+            return (
+              <ListGroup.Item
+                key={member.id}
+                className="remove-members__item"
+              >
+                <span>{member.userName}</span>
+                <Confirmation
+                  titleText={`Remove ${member.userName} from the chat?`}
+                  proceed={() => remove(member.userName!)}
+                >
+                  <Button variant="outline-danger" size="sm">Remove</Button>
+                </Confirmation>
+              </ListGroup.Item>
+            );
+          })}
+        </div>
+      </Collapse>
+    </div>
   );
 };
 

@@ -1,93 +1,105 @@
-import { useEffect, useState } from "react";
-
-import InputGroup from "react-bootstrap/InputGroup";
-import ListGroup from "react-bootstrap/ListGroup";
-import FormControl from "react-bootstrap/FormControl";
-import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
-import Collapse from "react-bootstrap/Collapse";
-import Container from "react-bootstrap/Container";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
+import { useEffect, useCallback, useState } from "react";
+import { Virtuoso } from "react-virtuoso";
+import { InputGroup, FormControl, ListGroup, Button, Collapse } from "react-bootstrap";
 import { updateSearchedUser } from "../../../../redux/slices/usersSlice";
-
+import { useAppSelector, useAppDispatch } from "../../../../hooks/useAppSelectorAndDispatch";
 import addChatMemberThunk from "../../../../redux/thunks/addChatMemberThunk";
-
-import Confirmation from "../../../reusable/Confirmation";
-
-import {
-  useAppSelector,
-  useAppDispatch,
-} from "../../../../hooks/useAppSelectorAndDispatch";
-import { IUser } from "../../../../Interfaces";
 import getAllUsersThunk from "../../../../redux/thunks/getAllUsersThunk";
 import searchUsersThunk from "../../../../redux/thunks/searchUsersThunk";
+import Confirmation from "../../../reusable/Confirmation";
+import "./AddMembers.scss";
+import { IUser } from "../../../../Interfaces";
 
 const AddMembers: React.FC = () => {
-  const { allUsers, filteredUsers, searchedUser } = useAppSelector(
+  const [showForm, setShowForm] = useState(false);
+  const dispatch = useAppDispatch();
+  const { allUsers, filteredUsers, searchedUser, hasMore, isLoading } = useAppSelector(
     (state) => state.users
   );
-
   const currentChat = useAppSelector((state) => state.currentChat);
   const currentUserId = useAppSelector((state) => state.loggedInUser.id);
   const isCreator = currentChat.adminId === currentUserId;
-
   const currentUsersList = searchedUser ? filteredUsers : allUsers;
-  const dispatch = useAppDispatch();
 
-  const [showForm, setShowForm] = useState(false);
+  const loadMore = useCallback(() => {
+    if (!hasMore || isLoading) return;
+    
+    if (searchedUser) {
+      dispatch(searchUsersThunk(searchedUser));
+    } else {
+      dispatch(getAllUsersThunk());
+    }
+  }, [dispatch, hasMore, isLoading, searchedUser]);
 
   useEffect(() => {
-    if (searchedUser) dispatch(searchUsersThunk(searchedUser));
-  }, [searchedUser]);
+    if (allUsers.length === 0) {
+      dispatch(getAllUsersThunk());
+    }
+  }, []);
 
-  const search = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     const input = e.target.value;
-    dispatch(updateSearchedUser(input ?? null));
+    dispatch(updateSearchedUser(input !== "" ? input : null));
   };
 
-  const add = (member: IUser) => {
-    dispatch(addChatMemberThunk(member));
+  const add = async (user: IUser) => {
+    await dispatch(addChatMemberThunk(user));
   };
+
+  const filteredList = currentUsersList.filter(user => 
+    !currentChat.members.some(member => member.id === user.id) && 
+    user.id !== currentUserId
+  );
+
+  const UserItem = useCallback((index: number) => {
+    const user = filteredList[index];
+    if (!user) return <div style={{ height: '48px' }}>Loading...</div>;
+
+    return (
+      <ListGroup.Item className="add-members__item">
+        <span>{user.userName}</span>
+        <Confirmation
+          titleText={`Add ${user.userName} to chat?`}
+          proceed={() => add(user)}
+        >
+          <Button variant="outline-primary" size="sm">Add</Button>
+        </Confirmation>
+      </ListGroup.Item>
+    );
+  }, [filteredList, currentChat.members]);
+
+  if (!isCreator) return null;
 
   return (
-    <Container fluid className="d-flex mb-3">
-      <Col>
-        <Row className={"d-" + (isCreator ? "flex" : "none")}>
-          <Button onClick={() => setShowForm(!showForm)}>
-            {showForm ? "Cancel" : "Add Members"}
-          </Button>
-        </Row>
-        <Row>
-          <Collapse in={showForm}>
-            <Form>
-              <InputGroup className="mb-3">
-                <FormControl placeholder="Search users" onInput={search} />
-              </InputGroup>
+    <div className="add-members">
+      <Button 
+        variant="primary"
+        onClick={() => setShowForm(!showForm)}
+        className="add-members__toggle"
+      >
+        {showForm ? "Cancel" : "Add Members"}
+      </Button>
 
-              {currentUsersList.map((user: IUser) => {
-                //prevent showing already added users and current user
-                return currentChat.members.some(
-                  (member) => member.id === user.id || user.id === currentUserId
-                ) ? null : (
-                  //show candidats
-                  <Form.Group key={user.id}>
-                    <ListGroup.Item>
-                      <Confirmation
-                        titleText={`Add ${user.userName} to chat?`}
-                        proceed={() => add(user)}
-                      >
-                        <Button>{user.userName!}</Button>
-                      </Confirmation>
-                    </ListGroup.Item>
-                  </Form.Group>
-                );
-              })}
-            </Form>
-          </Collapse>
-        </Row>
-      </Col>
-    </Container>
+      <Collapse in={showForm}>
+        <div className="add-members__content">
+          <InputGroup className="add-members__search">
+            <FormControl 
+              placeholder="Search users" 
+              onChange={handleSearch}
+            />
+          </InputGroup>
+          <div className="add-members__list">
+            <Virtuoso
+              style={{ height: '180px' }}
+              totalCount={filteredList.length}
+              itemContent={UserItem}
+              endReached={loadMore}
+              className="scrollable"
+            />
+          </div>
+        </div>
+      </Collapse>
+    </div>
   );
 };
 

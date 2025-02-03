@@ -1,10 +1,8 @@
 import { useState } from "react";
-import RemoveMembers from "./RemoveMembers";
 import AddMembers from "./AddMembers";
 import RenameGroup from "./RenameGroup";
 import LeaveGroup from "./LeaveGroup";
-import Modal from "react-bootstrap/Modal";
-import Button from "react-bootstrap/Button";
+import { Modal, Button } from "react-bootstrap";
 import { FaEllipsisV } from "react-icons/fa";
 import { useAppSelector } from "../../../../hooks/useAppSelectorAndDispatch";
 import "./ManageGroup.scss";
@@ -34,10 +32,13 @@ const ManageGroupChat: React.FC = () => {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body className="manage-group__body">
-          <LeaveGroup />
-          <RemoveMembers />
-          <AddMembers />
-          <RenameGroup />
+          <div className="manage-group__content">
+            <RenameGroup />
+            <div className="manage-group__members-section">
+              <AddMembers />
+            </div>
+            <LeaveGroup />
+          </div>
         </Modal.Body>
       </Modal>
     </div>

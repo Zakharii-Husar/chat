@@ -1,0 +1,65 @@
+@import '../../../../theme/variables';
+@import '../../../../theme/mixins';
+@import '../../../../theme/colors';
+@import '../../../../theme/spacing';
+@import '../../../../theme/typography';
+
+.manage-group {
+  &__content {
+    display: flex;
+    flex-direction: column;
+    gap: map-get($spacing, 'md');
+  }
+
+  &__members-section {
+    display: flex;
+    flex-direction: column;
+    gap: map-get($spacing, 'md');
+  }
+}
+
+.add-members {
+  &__toggle {
+    width: 100%;
+    margin-bottom: map-get($spacing, 'sm');
+  }
+
+  &__content {
+    background: rgba($neutral-100, 0.5);
+    border-radius: map-get($radius, 'md');
+    padding: map-get($spacing, 'sm');
+    display: flex;
+    flex-direction: column;
+    gap: map-get($spacing, 'sm');
+  }
+
+  &__list {
+    flex: 1;
+    min-height: 0;
+    
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+    
+    ::-webkit-scrollbar-track {
+      background: $neutral-200;
+      border-radius: map-get($radius, 'sm');
+    }
+    
+    ::-webkit-scrollbar-thumb {
+      background: $primary-300;
+      border-radius: map-get($radius, 'sm');
+      
+      &:hover {
+        background: $primary-400;
+      }
+    }
+  }
+
+  &__item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: map-get($spacing, 'sm');
+  }
+}

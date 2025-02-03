@@ -1,5 +1,4 @@
 ﻿using API.Data;
-using API.Hubs;
 using API.Models;
 using API.Services;
 using Microsoft.AspNetCore.Authorization;
