@@ -27,7 +27,7 @@ const useWsMsgListener = () => {
           const systemMsg = msg as ISystemMessage;
           switch (systemMsg.type.toLowerCase()) {
             case 'rm_member':
-              dispatch(rmMemberByUname(systemMsg.senderId));
+              dispatch(rmMemberByUname(systemMsg.payload.member?.userName!));
               break;
             case 'add_member':
               dispatch(addMember(systemMsg.payload.member!));

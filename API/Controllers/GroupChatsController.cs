@@ -41,51 +41,26 @@ namespace API.Controllers
             try 
             {
                 var currentUser = await userManager.GetUserAsync(User);
-                if (currentUser == null)
-                {
-                    Console.WriteLine($"Error: Current user is null when trying to remove {Username} from chat {ChatId}");
-                    return Unauthorized();
-                }
+                if (currentUser == null) return Unauthorized();
 
                 bool isAdmin = await chatMembershipService.CheckRoleAsync(ChatId, currentUser.Id);
                 bool isLeaving = currentUser.UserName == Username;
                 
-                if (!isAdmin && !isLeaving)
-                {
-                    Console.WriteLine($"Error: User {currentUser.UserName} attempted to remove {Username} without permission from chat {ChatId}");
-                    return Unauthorized();
-                }
+                if (!isAdmin && !isLeaving) return Unauthorized();
                 
                 var notificationContent = await chatMembershipService.RmChatMemberAsync(ChatId, Username, currentUser);
-                if (notificationContent == null)
+                if (notificationContent == null) return StatusCode(500);
+
+                var notification = await allChatsService.SendNotificationAsync(ChatId, currentUser.Id, notificationContent);
+                
+                if (notification != null)
                 {
-                    Console.WriteLine($"Error: Failed to remove member {Username} from chat {ChatId}. Notification content is null");
-                    return StatusCode(500);
+                    var member = await usersService.GetUserByUnameAsync(Username);
+                    var payload = new SysMessagePayload { Member = member };
+                    await WSService.BroadcastSysMessageAsync(notification, Username, "rm_member", payload);
                 }
 
-                try 
-                {
-                    var notification = await allChatsService.SendNotificationAsync(ChatId, currentUser.Id, notificationContent);
-                    if (notification != null)
-                    {
-                        try 
-                        {
-                            await WSService.BroadcastMessageAsync(notification, currentUser.Id);
-                        }
-                        catch (Exception wsEx)
-                        {
-                            Console.WriteLine($"Warning: WebSocket broadcast failed: {wsEx.Message}");
-                            // Continue execution - WebSocket failure shouldn't prevent member removal
-                        }
-                    }
-                }
-                catch (Exception notifEx)
-                {
-                    Console.WriteLine($"Warning: Notification creation failed: {notifEx.Message}");
-                    // Continue execution - notification failure shouldn't prevent member removal
-                }
-                
-                return Ok(new { message = notificationContent });
+                return Ok();
             }
             catch (Exception ex)
             {
@@ -94,8 +69,6 @@ namespace API.Controllers
                 return StatusCode(500, new { error = "Internal server error" });
             }
         }
-
-
 
         [Authorize]
         [HttpPost("Create")]
@@ -116,18 +89,38 @@ namespace API.Controllers
         [HttpPost("{ChatId}/AddMember/{Username}")]
         public async Task<IActionResult> AddChatMember(int ChatId, string Username)
         {
-            var candidat = await usersService.GetUserByUnameAsync(Username);
-            if (candidat == null) return BadRequest();
-            var currentUser = await userManager.GetUserAsync(User);
-            bool isAdmin = await chatMembershipService.CheckRoleAsync(ChatId, currentUser!.Id);
-            if (!isAdmin) return Unauthorized();
-            var isAlreadyAdded = await chatMembershipService.GetMemberByUnameAsync(ChatId, Username);
-            if (isAlreadyAdded != null) return Ok();
-            var notificationContent = await chatMembershipService.AddChatMemberAsync(ChatId, Username, currentUser);
-            if (notificationContent == null) return StatusCode(500);
-            var notification = await allChatsService.SendNotificationAsync(ChatId, currentUser.Id, notificationContent);
-            if (notification != null) await WSService.BroadcastMessageAsync(notification, currentUser.Id);
-            return Ok();
+            try 
+            {
+                var currentUser = await userManager.GetUserAsync(User);
+                if (currentUser == null) return Unauthorized();
+
+                var isAdmin = await chatMembershipService.CheckRoleAsync(ChatId, currentUser.Id);
+                if (!isAdmin)
+                {
+                    Console.WriteLine($"Error: User {currentUser.UserName} attempted to add {Username} without permission to chat {ChatId}");
+                    return Unauthorized();
+                }
+
+                var notificationContent = await chatMembershipService.AddChatMemberAsync(ChatId, Username, currentUser);
+                if (notificationContent == null) return StatusCode(500);
+
+                var notification = await allChatsService.SendNotificationAsync(ChatId, currentUser.Id, notificationContent);
+                
+                if (notification != null)
+                {
+                    var newMember = await usersService.GetUserByUnameAsync(Username);
+                    var payload = new SysMessagePayload { Member = newMember };
+                    await WSService.BroadcastSysMessageAsync(notification, currentUser.Id, "add_member", payload);
+                }
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Critical Error in AddChatMember: {ex.Message}");
+                Console.WriteLine($"Stack Trace: {ex.StackTrace}");
+                return StatusCode(500, new { error = "Internal server error" });
+            }
         }
     };
 }

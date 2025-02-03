@@ -1,11 +1,10 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { REMOVE_CHAT_MEMBER } from "../../APIEndpoints";
 import type { RootState } from "../store";
-import { rmMemberByUname } from "../slices/currentChatSlice";
 
 const rmChatMemberThunk = createAsyncThunk(
   "currentChat/rmChatMember",
-  async (memberUname: string, { getState, dispatch }) => {
+  async (memberUname: string, { getState }) => {
     const state = getState() as RootState;
     const chatId = state.currentChat.chatId;
     if(!memberUname || !chatId) return;
@@ -22,8 +21,6 @@ const rmChatMemberThunk = createAsyncThunk(
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
-      
-      return await response.json();
     } catch (error) {
       console.error("Error removing chat member:", error);
       throw error;

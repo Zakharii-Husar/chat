@@ -7,7 +7,6 @@ import Confirmation from "../../../reusable/Confirmation";
 import { ListGroup, Button, Collapse } from "react-bootstrap";
 import { useState } from "react";
 import rmChatMemberThunk from "../../../../redux/thunks/rmChatMemberThunk";
-import "./RemoveMembers.scss";
 
 const RemoveMembers: React.FC = () => {
   const dispatch = useAppDispatch();

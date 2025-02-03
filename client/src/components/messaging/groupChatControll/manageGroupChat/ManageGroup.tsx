@@ -1,12 +1,11 @@
 import { useState } from "react";
-import AddMembers from "./AddMembers";
 import RenameGroup from "./RenameGroup";
 import LeaveGroup from "./LeaveGroup";
 import { Modal, Button } from "react-bootstrap";
 import { FaEllipsisV } from "react-icons/fa";
 import { useAppSelector } from "../../../../hooks/useAppSelectorAndDispatch";
 import "./ManageGroup.scss";
-
+import ManageMembers from "./ManageMembers";
 const ManageGroupChat: React.FC = () => {
   const [showForm, setShowForm] = useState(false);
   const currentChat = useAppSelector((state) => state.currentChat);
@@ -35,7 +34,7 @@ const ManageGroupChat: React.FC = () => {
           <div className="manage-group__content">
             <RenameGroup />
             <div className="manage-group__members-section">
-              <AddMembers />
+              <ManageMembers />
             </div>
             <LeaveGroup />
           </div>
