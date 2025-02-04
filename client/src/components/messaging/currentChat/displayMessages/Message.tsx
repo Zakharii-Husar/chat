@@ -1,5 +1,4 @@
 import { IMessage } from "../../../../Interfaces";
-import { formatDistanceToNow } from "date-fns";
 import Avatar from "../../../reusable/Avatar/Avatar";
 import {
   useAppSelector,
@@ -15,12 +14,14 @@ import Likes from "./Likes";
 import { useState, useRef, useEffect } from "react";
 import "./Message.scss";
 import { formatUtcToLocal } from '../../../../utils/dateUtils';
+import { useIsChatMember } from "../../../../hooks/useIsChatMember";
 
 const Message: React.FC<{ message: IMessage }> = ({ message }) => {
   const currentUser = useAppSelector((state) => state.loggedInUser);
   const currentChat = useAppSelector((state) => state.currentChat);
   const dispatch = useAppDispatch();
   const [displayLikes, setDisplayLikes] = useState(false);
+  const isStillMember = useIsChatMember();
   
   // Touch handling states
   const touchTimer = useRef<NodeJS.Timeout | null>(null);
@@ -45,12 +46,14 @@ const Message: React.FC<{ message: IMessage }> = ({ message }) => {
   };
 
   const addLike = () => {
+    if (!isStillMember) return;
     const isAlreadyLiked = findLike(message.messageId);
     if (isAlreadyLiked) return;
     dispatch(addLikeThunk(message.messageId));
   };
 
   const rmLike = () => {
+    if (!isStillMember) return;
     const isAlreadyUnliked = !findLike(message.messageId);
     if (isAlreadyUnliked) return;
     dispatch(rmLikeThunk(message.messageId));
@@ -158,10 +161,10 @@ const Message: React.FC<{ message: IMessage }> = ({ message }) => {
     <div className={`message-row ${isSender ? 'message-row--sender' : ''}`}>
       <div 
         className="message-bubble" 
-        onTouchStart={handleTouchStart}
-        onTouchEnd={handleTouchEnd}
-        onTouchMove={handleTouchMove}
-        onDoubleClick={addLike}
+        onTouchStart={isStillMember ? handleTouchStart : undefined}
+        onTouchEnd={isStillMember ? handleTouchEnd : undefined}
+        onTouchMove={isStillMember ? handleTouchMove : undefined}
+        onDoubleClick={isStillMember ? addLike : undefined}
       >
         {currentChat.isGroupChat && (
           <div className="message-header">
@@ -206,7 +209,7 @@ const Message: React.FC<{ message: IMessage }> = ({ message }) => {
           >
             {message.likes.length > 0 && (
               <>
-                <div className="heart-icon" onClick={handleLikeClick}>
+                <div className="heart-icon"  onClick={handleLikeClick}>
                   <FaHeart size={16} />
                 </div>
                 
