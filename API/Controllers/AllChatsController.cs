@@ -55,6 +55,7 @@ namespace API.Controllers
                     msg.Interlocutor.IsOnline = WSService.IsUserOnline(msg.Interlocutor.Id);
                 }
             }
+            chat.Members.ForEach(m => m.IsOnline = WSService.IsUserOnline(m.Id));
             return Ok(chat);
         }
     }
