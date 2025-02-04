@@ -23,21 +23,8 @@
   grid-row: 1;
   grid-column: 1;
   
-  &::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    width: 8px;
-    height: 8px;
-    background-color: $primary-500;
-    border-radius: 50%;
-    border: 2px solid white;
-    display: none;
-  }
-  
   &.online::after {
-    display: block;
+    @include online-indicator;
   }
 }
 
