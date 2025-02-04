@@ -9,9 +9,10 @@ import searchUsersThunk from "../../../../redux/thunks/searchUsersThunk";
 import Confirmation from "../../../reusable/Confirmation";
 import "./AddMembers.scss";
 import { IUser } from "../../../../Interfaces";
+import { FaUserPlus } from "react-icons/fa";
 
 const AddMembers: React.FC = () => {
-  const [showForm, setShowForm] = useState(false);
+  const [showList, setShowList] = useState(false);
   const dispatch = useAppDispatch();
   const { allUsers, filteredUsers, searchedUser, hasMore, isLoading } = useAppSelector(
     (state) => state.users
@@ -62,7 +63,9 @@ const AddMembers: React.FC = () => {
           titleText={`Add ${user.userName} to chat?`}
           proceed={() => add(user)}
         >
-          <Button variant="outline-primary" size="sm">Add</Button>
+          <Button variant="link" size="sm" className="add-members__action">
+            <FaUserPlus />
+          </Button>
         </Confirmation>
       </ListGroup.Item>
     );
@@ -72,16 +75,17 @@ const AddMembers: React.FC = () => {
 
   return (
     <div className="add-members">
-      <Button 
+      <Button
         variant="primary"
-        onClick={() => setShowForm(!showForm)}
-        className="add-members__toggle"
+        onClick={() => setShowList(!showList)}
+        className="d-flex align-items-center gap-2"
       >
-        {showForm ? "Cancel" : "Add Members"}
+        <FaUserPlus />
+        {showList ? 'Cancel' : 'Add Members'}
       </Button>
 
-      <Collapse in={showForm}>
-        <div className="add-members__content">
+      {showList && (
+        <div className="add-members__content mt-3">
           <InputGroup className="add-members__search">
             <FormControl 
               placeholder="Search users" 
@@ -98,7 +102,7 @@ const AddMembers: React.FC = () => {
             />
           </div>
         </div>
-      </Collapse>
+      )}
     </div>
   );
 };

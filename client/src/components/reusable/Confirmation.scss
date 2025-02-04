@@ -1,0 +1,85 @@
+@import '../../theme/variables';
+@import '../../theme/mixins';
+@import '../../theme/colors';
+@import '../../theme/spacing';
+@import '../../theme/typography';
+
+// Add warning colors if not defined in theme
+$warning-400: #fbbf24;
+$warning-500: #f59e0b;
+
+.confirmation-modal {
+  .modal-content {
+    background: linear-gradient(145deg, $neutral-100, rgba($primary-100, 0.3));
+    border-radius: map-get($radius, 'lg');
+    border: none;
+    box-shadow: $shadow-lg;
+    backdrop-filter: blur(10px);
+  }
+
+  .modal-header {
+    background: linear-gradient(145deg, $primary-500, $primary-600);
+    color: $neutral-100;
+    border-radius: map-get($radius, 'lg') map-get($radius, 'lg') 0 0;
+    border: none;
+    padding: map-get($spacing, 'md');
+
+    .close {
+      color: $neutral-100;
+      text-shadow: none;
+      opacity: 0.8;
+      transition: all 0.2s ease;
+      
+      &:hover {
+        opacity: 1;
+        transform: scale(1.1);
+      }
+    }
+  }
+
+  &__title {
+    font-size: $font-size-lg;
+    font-weight: $font-weight-semibold;
+    display: flex;
+    align-items: center;
+    gap: map-get($spacing, 'sm');
+  }
+
+  &__icon {
+    color: $warning-400;
+  }
+
+  &__message {
+    font-size: $font-size-base;
+    color: $neutral-700;
+    margin: map-get($spacing, 'md') 0;
+    text-align: center;
+  }
+
+  .modal-footer {
+    border: none;
+    padding: map-get($spacing, 'md');
+    gap: map-get($spacing, 'sm');
+  }
+
+  &__cancel {
+    transition: all 0.2s ease;
+    
+    &:hover {
+      background: $neutral-200;
+      transform: translateY(-1px);
+    }
+  }
+
+  &__confirm {
+    @include card-shadow;
+    background: linear-gradient(145deg, $primary-500, $primary-600);
+    border: none;
+    transition: all 0.2s ease;
+    
+    &:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba($primary-500, 0.2);
+    }
+  }
+} 

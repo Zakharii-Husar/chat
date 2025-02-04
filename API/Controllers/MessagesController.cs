@@ -62,9 +62,13 @@ namespace API.Controllers
         public async Task<IActionResult> MarkAsDeleted(int MessageId)
         {
             var currentUser = await userManager.GetUserAsync(User);
+            var membershipStatus = await chatMembershipService.GetMemberByMsgIdAsync(MessageId, currentUser!.Id);
+            if (membershipStatus == null || membershipStatus.LeftChat != null) return Unauthorized();
+            
             var msg = await messageService.GetMsgByIdAsync(MessageId);
             if (msg == null) return BadRequest();
             if (msg.SenderId != currentUser!.Id) return Unauthorized();
+            
             var result = await messageService.MarkMsgAsDelAsync(msg);
             var modifiedMsg = await messageService.GetMsgByIdAsync(MessageId);
             if (result && modifiedMsg != null) await WSService.UpdateMessageAsync(modifiedMsg, currentUser.Id);

@@ -1,40 +1,59 @@
-import { useState, ReactNode } from "react";
+import { useState } from 'react';
 import { Modal, Button } from 'react-bootstrap';
+import { FaExclamationTriangle } from 'react-icons/fa';
+import './Confirmation.scss';
 
-const Confirmation: React.FC<{children: ReactNode; titleText: string; proceed: () => void }> = ({
-  titleText,
-  proceed,
-  children
-}) => {
+interface Props {
+  children: React.ReactNode;
+  titleText: string;
+  proceed: () => void;
+}
+
+const Confirmation: React.FC<Props> = ({ children, titleText, proceed }) => {
   const [show, setShow] = useState(false);
 
-
-  const confirm = () => {
+  const handleConfirm = () => {
     proceed();
     setShow(false);
   };
 
-  const cancel = () => {
-    setShow(false);
-  };
-
-  const visibility = () => {
-    setShow(true);
-  }
-
   return (
-    <div className="static-modal w-100">
-      <span onClick={visibility}>{children}</span>
-      <Modal show={show} animation={false} backdrop={true} keyboard={true}>
-        <Modal.Header>
-          <Modal.Title>{titleText}</Modal.Title>
+    <>
+      <span onClick={() => setShow(true)}>{children}</span>
+
+      <Modal 
+        show={show} 
+        onHide={() => setShow(false)}
+        className="confirmation-modal"
+        centered
+      >
+        <Modal.Header closeButton>
+          <Modal.Title className="confirmation-modal__title">
+            <FaExclamationTriangle className="confirmation-modal__icon" />
+            Confirm Action
+          </Modal.Title>
         </Modal.Header>
+        <Modal.Body>
+          <p className="confirmation-modal__message">{titleText}</p>
+        </Modal.Body>
         <Modal.Footer>
-          <Button onClick={cancel}>CANCEL</Button>
-          <Button onClick={confirm}>OK</Button>
+          <Button 
+            variant="outline-secondary" 
+            onClick={() => setShow(false)}
+            className="confirmation-modal__cancel"
+          >
+            Cancel
+          </Button>
+          <Button 
+            variant="primary" 
+            onClick={handleConfirm}
+            className="confirmation-modal__confirm"
+          >
+            Confirm
+          </Button>
         </Modal.Footer>
       </Modal>
-    </div>
+    </>
   );
 };
 

@@ -34,6 +34,7 @@ const Message: React.FC<{ message: IMessage }> = ({ message }) => {
   const likesContainerRef = useRef<HTMLDivElement>(null);
 
   const deleteMsg = () => {
+    if (!isStillMember) return;
     dispatch(markMsgAsDeletedThunk(message.messageId));
   };
 
@@ -178,7 +179,7 @@ const Message: React.FC<{ message: IMessage }> = ({ message }) => {
             <span className="sender-name">
               {isSender ? "You" : message.senderUserName}
             </span>
-            {isSender && (
+            {isSender && isStillMember && (
               <Confirmation titleText="Delete Message?" proceed={deleteMsg}>
                 <TiDelete className="delete-button" size={20} />
               </Confirmation>
@@ -186,7 +187,7 @@ const Message: React.FC<{ message: IMessage }> = ({ message }) => {
           </div>
         )}
         
-        {!currentChat.isGroupChat && isSender && (
+        {!currentChat.isGroupChat && isSender && isStillMember && (
           <div className="message-header">
             <Confirmation titleText="Delete Message?" proceed={deleteMsg}>
               <TiDelete className="delete-button" size={20} />

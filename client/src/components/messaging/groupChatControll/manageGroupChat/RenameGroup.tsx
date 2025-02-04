@@ -1,53 +1,80 @@
-import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
-import Collapse from "react-bootstrap/Collapse";
-import Container from "react-bootstrap/Container";
-import Row from "react-bootstrap/Row";
-import { useAppDispatch } from "../../../../hooks/useAppSelectorAndDispatch";
-import renameChatThunk from "../../../../redux/thunks/renameGroupThunk";
-import { useState } from "react";
+import { useState } from 'react';
+import { Modal, Button, Form } from 'react-bootstrap';
+import { FaEdit } from 'react-icons/fa';
+import { useAppDispatch } from '../../../../hooks/useAppSelectorAndDispatch';
+import renameGroupThunk from '../../../../redux/thunks/renameGroupThunk';
+import './RenameGroup.scss';
 
 const RenameGroup: React.FC = () => {
+  const [show, setShow] = useState(false);
+  const [newName, setNewName] = useState('');
   const dispatch = useAppDispatch();
 
-  const [showForm, setShowForm] = useState(false);
-  const [newName, setNewName] = useState<string | null>(null);
-
-  const setName = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setNewName(e.target.value);
-  };
-
-  const rename = () => {
-    if (newName && newName?.length >= 4 && newName?.length <= 20) {
-      dispatch(renameChatThunk(newName));
-      setShowForm(false);
-    } else {
-      alert("Group chat name should be 4-20 characters long!");
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (newName.trim()) {
+      await dispatch(renameGroupThunk(newName.trim()));
+      setShow(false);
+      setNewName('');
     }
   };
 
   return (
-    <Container>
-      <Row>
-        <Button onClick={() => setShowForm(!showForm)}>
-          {showForm ? "Cancel" : "Rename Group"}
-        </Button>
-      </Row>
-      <Row>
-        <Collapse in={showForm}>
-          <Form.Group className="mb-3" controlId="chatName">
-            <Form.Label>Rename Chat</Form.Label>
-            <Form.Control
-              type="text"
-              placeholder="Enter new name"
-              value={newName ?? ""}
-              onChange={setName}
-            />
-            <Button onClick={rename}>Rename</Button>
-          </Form.Group>
-        </Collapse>
-      </Row>
-    </Container>
+    <>
+      <Button 
+        variant="primary"
+        onClick={() => setShow(true)}
+        className="d-flex align-items-center gap-2"
+      >
+        <FaEdit />
+        Rename Group
+      </Button>
+
+      <Modal 
+        show={show} 
+        onHide={() => setShow(false)}
+        className="rename-group__modal"
+        centered
+      >
+        <Modal.Header closeButton>
+          <Modal.Title className="rename-group__title">
+            <FaEdit className="rename-group__title-icon" />
+            Rename Group
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form onSubmit={handleSubmit}>
+            <Form.Group>
+              <Form.Control
+                type="text"
+                placeholder="Enter new group name"
+                value={newName}
+                onChange={(e) => setNewName(e.target.value)}
+                className="rename-group__input"
+                autoFocus
+              />
+            </Form.Group>
+          </Form>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button 
+            variant="outline-secondary" 
+            onClick={() => setShow(false)}
+            className="rename-group__cancel"
+          >
+            Cancel
+          </Button>
+          <Button 
+            variant="primary" 
+            onClick={handleSubmit}
+            className="rename-group__confirm"
+            disabled={!newName.trim()}
+          >
+            Rename
+          </Button>
+        </Modal.Footer>
+      </Modal>
+    </>
   );
 };
 
