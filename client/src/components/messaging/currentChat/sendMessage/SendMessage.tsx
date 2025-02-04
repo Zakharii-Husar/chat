@@ -9,6 +9,7 @@ import { useCheckAuth } from '../../../../hooks/useCheckAuth';
 import useWsGetTypingUsers from '../../../../hooks/ws/useWsGetTypingUsers';
 import useWsTypingTracker from '../../../../hooks/ws/useWsTypingTracker';
 import { FaPen } from 'react-icons/fa';
+import { TypingIndicator } from '../../../../components/reusable/TypingIndicator/TypingIndicator';
 
 export const SendMessage: React.FC = () => {
   useCheckAuth();
@@ -56,14 +57,7 @@ export const SendMessage: React.FC = () => {
 
   return (
     <>
-      {isTyping && (
-        <div className="typing-indicator">
-          <FaPen className="typing-icon" />
-          <span className="typing-text">
-            {typingUsers[0]} is typing...
-          </span>
-        </div>
-      )}
+      {isTyping && <TypingIndicator typingUsers={typingUsers} variant="chat" />}
       <textarea
         onFocus={handleFocus}
         onBlur={handleBlur}

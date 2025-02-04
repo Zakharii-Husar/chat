@@ -1,0 +1,42 @@
+.typing-indicator {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-style: italic;
+  
+  .typing-icon {
+    animation: typing 1s ease-in-out infinite;
+  }
+  
+  .typing-text {
+    font-family: 'Inter', sans-serif;
+    letter-spacing: 0.2px;
+  }
+
+  // Chat variant (current chat)
+  &--chat {
+    padding: 4px 8px;
+    font-size: 0.85rem;
+    color: #666;
+    
+    .typing-icon {
+      font-size: 0.75rem;
+    }
+  }
+
+  // Preview variant (chats overview)
+  &--preview {
+    font-size: 0.75rem;
+    color: #888;
+    
+    .typing-icon {
+      font-size: 0.65rem;
+    }
+  }
+}
+
+@keyframes typing {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-2px); }
+  100% { transform: translateY(0); }
+} 

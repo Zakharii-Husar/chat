@@ -7,6 +7,7 @@ import { formatUtcToLocal } from '../../../utils/dateUtils';
 import './ChatBody.scss';
 import useWsGetTypingUsers from '../../../hooks/ws/useWsGetTypingUsers';
 import { FaPen } from 'react-icons/fa';
+import { TypingIndicator } from '../../reusable/TypingIndicator/TypingIndicator';
 
 const ChatBody: React.FC<{ message: IMessage }> = ({ message }) => {
   const time = formatUtcToLocal(message.sentAt);
@@ -32,10 +33,7 @@ const ChatBody: React.FC<{ message: IMessage }> = ({ message }) => {
           </div>
           <div className="message-preview">
             {isTyping ? (
-              <div className="typing-indicator">
-                <FaPen className="typing-icon" />
-                <span className="typing-text">{typingUsers[0]} is typing...</span>
-              </div>
+              <TypingIndicator typingUsers={typingUsers} variant="preview" />
             ) : (
               message.content.substring(0, 30) + (message.content.length > 30 ? '...' : '')
             )}
