@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useAppDispatch } from "../../hooks/useAppSelectorAndDispatch";
 import updateBioThunk from "../../redux/thunks/updateBioThunk";
 import { Modal, Button, Form } from 'react-bootstrap';
+import CloseButton from '../reusable/CloseButton';
 
 const UpdateBio: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [bio, setBio] = useState("");
@@ -14,14 +15,6 @@ const UpdateBio: React.FC<{ children: ReactNode }> = ({ children }) => {
     setBio(newValue);
   };
 
-  const cancel = () => {
-    setShow(false);
-  };
-
-  const visibility = () => {
-    setShow(true);
-  };
-
   const submit = () => {
     dispatch(updateBioThunk(bio));
     setShow(false);
@@ -29,10 +22,15 @@ const UpdateBio: React.FC<{ children: ReactNode }> = ({ children }) => {
 
   return (
     <div className="static-modal m-2">
-      <span onClick={visibility} className="edit-bio-button">{children}</span>
-      <Modal show={show} animation={false} backdrop={true} keyboard={true}>
+      <span onClick={() => setShow(true)} className="edit-bio-button">{children}</span>
+      <Modal 
+        show={show} 
+        onHide={() => setShow(false)}
+        centered
+      >
         <Modal.Header>
-          <Modal.Title>Enter new bio: </Modal.Title>
+          <Modal.Title>Enter new bio:</Modal.Title>
+          <CloseButton onClick={() => setShow(false)} />
         </Modal.Header>
         <Modal.Body>
           <Form.Group>
@@ -42,27 +40,20 @@ const UpdateBio: React.FC<{ children: ReactNode }> = ({ children }) => {
               rows={4} 
               onChange={updateBio}
               className="form-input"
+              maxLength={50}
             />
           </Form.Group>
         </Modal.Body>
-        <Modal.Footer className="d-flex flex-row justify-content-between">
+        <Modal.Footer>
           <Button 
-            variant="secondary"
-            onClick={cancel}
-            style={{
-              background: "$button-secondary-gradient",
-              border: "none"
-            }}
+            variant="outline-secondary"
+            onClick={() => setShow(false)}
           >
             Cancel
           </Button>
           <Button 
             variant="primary"
             onClick={submit}
-            style={{
-              background: "$button-primary-gradient",
-              border: "none"
-            }}
           >
             Save Changes
           </Button>

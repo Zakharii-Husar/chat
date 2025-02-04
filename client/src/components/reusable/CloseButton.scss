@@ -1,0 +1,22 @@
+@import '../../theme/variables';
+@import '../../theme/colors';
+@import '../../theme/spacing';
+
+.close-button {
+  position: absolute;
+  right: map-get($spacing, 'sm');
+  top: map-get($spacing, 'sm');
+  color: $error-500 !important;
+  padding: map-get($spacing, 'xs');
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  z-index: 10;
+  
+  &:hover {
+    transform: rotate(90deg);
+    color: darken($error-500, 10%) !important;
+  }
+} 

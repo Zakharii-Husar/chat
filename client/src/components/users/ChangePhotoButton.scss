@@ -39,16 +39,13 @@
 }
 
 .photo-upload-modal {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 100%;
-  max-width: 400px;
-  box-shadow: $shadow-lg;
-  background-color: $neutral-100;
-  border-radius: map-get($radius, 'md');
-  padding: map-get($spacing, 'lg');
+  .modal-content {
+    max-width: 400px;
+    margin: 0 auto;
+    background: $neutral-100;
+    border-radius: map-get($radius, 'md');
+    box-shadow: $shadow-lg;
+  }
 
   .modal-header {
     border-bottom: 1px solid rgba($neutral-300, 0.5);

@@ -10,6 +10,7 @@ import {
 import { useAppSelector } from "../../../../hooks/useAppSelectorAndDispatch";
 import "./ManageGroup.scss";
 import ManageMembers from "./ManageMembers";
+import CloseButton from '../../../reusable/CloseButton';
 
 const ManageGroupChat: React.FC = () => {
   const [showForm, setShowForm] = useState(false);
@@ -44,13 +45,7 @@ const ManageGroupChat: React.FC = () => {
             <FiUsers className="manage-group__title-icon" />
             <span>{currentChat.chatName}</span>
           </Modal.Title>
-          <Button 
-            variant="link" 
-            onClick={() => setShowForm(false)}
-            className="manage-group__close"
-          >
-            <FiX />
-          </Button>
+          <CloseButton onClick={() => setShowForm(false)} />
         </Modal.Header>
         <Modal.Body className="manage-group__body">
           <div className="manage-group__content">

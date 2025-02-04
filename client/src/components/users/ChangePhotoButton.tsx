@@ -1,8 +1,9 @@
 import { useState } from 'react';
-import { Card, Form } from 'react-bootstrap';
+import { Modal, Form, Button } from 'react-bootstrap';
 import { useAppDispatch } from '../../hooks/useAppSelectorAndDispatch';
 import uploadAvatarThunk from '../../redux/thunks/uploadAvatarThunk';
 import { MdPhotoCamera } from 'react-icons/md';
+import CloseButton from '../reusable/CloseButton';
 import './ChangePhotoButton.scss';
 
 export const ChangePhotoButton: React.FC = () => {
@@ -36,42 +37,40 @@ export const ChangePhotoButton: React.FC = () => {
         <span className="text">Change</span>
       </button>
 
-      {showForm && (
-        <Card className="photo-upload-modal">
-          <Card.Header>Change Profile Photo</Card.Header>
-          <Card.Body>
-            <Form.Label>Select new photo (max 5MB)</Form.Label>
-            <Form.Control
-              type="file"
-              onChange={handleFileChange}
-              accept="image/png,image/jpeg,image/gif"
-            />
-          </Card.Body>
-          <Card.Footer className="d-flex justify-content-between">
-            <button
-              className="btn btn-secondary"
-              onClick={() => setShowForm(false)}
-              style={{
-                background: "$button-secondary-gradient",
-                border: "none"
-              }}
-            >
-              Cancel
-            </button>
-            <button
-              onClick={handleUpload}
-              className="btn btn-primary"
-              disabled={!selectedAvatar}
-              style={{
-                background: "$button-primary-gradient",
-                border: "none"
-              }}
-            >
-              Upload
-            </button>
-          </Card.Footer>
-        </Card>
-      )}
+      <Modal 
+        show={showForm} 
+        onHide={() => setShowForm(false)}
+        className="photo-upload-modal"
+        centered
+      >
+        <Modal.Header>
+          <Modal.Title>Change Profile Photo</Modal.Title>
+          <CloseButton onClick={() => setShowForm(false)} />
+        </Modal.Header>
+        <Modal.Body>
+          <Form.Label>Select new photo (max 5MB)</Form.Label>
+          <Form.Control
+            type="file"
+            onChange={handleFileChange}
+            accept="image/png,image/jpeg,image/gif"
+          />
+        </Modal.Body>
+        <Modal.Footer>
+          <Button 
+            variant="outline-secondary" 
+            onClick={() => setShowForm(false)}
+          >
+            Cancel
+          </Button>
+          <Button 
+            variant="primary"
+            onClick={handleUpload}
+            disabled={!selectedAvatar}
+          >
+            Upload
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </>
   );
 };

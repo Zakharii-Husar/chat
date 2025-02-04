@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import Avatar from '../../../reusable/Avatar/Avatar';
 import { IUser } from '../../../../Interfaces';
 import { formatUtcToLocal } from '../../../../utils/dateUtils';
+import CloseButton from '../../../reusable/CloseButton';
 import './GroupMembersList.scss';
 
 interface GroupMembersListProps {
@@ -25,8 +26,9 @@ export const GroupMembersList: React.FC<GroupMembersListProps> = ({
 
   return (
     <Modal show={show} onHide={onHide} className="group-members-list">
-      <Modal.Header closeButton>
+      <Modal.Header>
         <Modal.Title>Group Members</Modal.Title>
+        <CloseButton onClick={onHide} />
       </Modal.Header>
       <Modal.Body>
         <div className="members-container">

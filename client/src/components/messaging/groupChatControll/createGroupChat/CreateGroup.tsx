@@ -14,6 +14,7 @@ import { useRedirectAsync } from "../../../../hooks/useRedirectAsync";
 import { Modal, Button, Alert } from "react-bootstrap";
 import { FaUsers, FaPlus } from "react-icons/fa6";
 import "./CreateGroup.scss";
+import CloseButton from '../../../reusable/CloseButton';
 
 const CreateGroup: React.FC = () => {
   const redirectAsync = useRedirectAsync();
@@ -71,10 +72,11 @@ const CreateGroup: React.FC = () => {
         onHide={() => setShowModal(false)}
         className="create-group__modal"
       >
-        <Modal.Header closeButton>
+        <Modal.Header>
           <Modal.Title>
             <FaUsers className="icon" /> Create New Group Chat
           </Modal.Title>
+          <CloseButton onClick={() => setShowModal(false)} />
         </Modal.Header>
         <Modal.Body>
           <div className="create-group__content">

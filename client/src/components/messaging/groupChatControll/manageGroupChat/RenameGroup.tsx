@@ -3,6 +3,7 @@ import { Modal, Button, Form } from 'react-bootstrap';
 import { FaEdit } from 'react-icons/fa';
 import { useAppDispatch } from '../../../../hooks/useAppSelectorAndDispatch';
 import renameGroupThunk from '../../../../redux/thunks/renameGroupThunk';
+import CloseButton from '../../../reusable/CloseButton';
 import './RenameGroup.scss';
 
 const RenameGroup: React.FC = () => {
@@ -36,11 +37,12 @@ const RenameGroup: React.FC = () => {
         className="rename-group__modal"
         centered
       >
-        <Modal.Header closeButton>
+        <Modal.Header>
           <Modal.Title className="rename-group__title">
             <FaEdit className="rename-group__title-icon" />
             Rename Group
           </Modal.Title>
+          <CloseButton onClick={() => setShow(false)} />
         </Modal.Header>
         <Modal.Body>
           <Form onSubmit={handleSubmit}>
