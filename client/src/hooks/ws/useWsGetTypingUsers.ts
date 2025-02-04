@@ -2,25 +2,33 @@ import { getSignalRConnection } from "./signalRConnection";
 import { useEffect, useState } from "react";
 import { useAppSelector } from "../useAppSelectorAndDispatch";
 
+interface TypingStatus {
+  [chatId: number]: string[];
+}
+
 const useWsGetTypingUsers = () => {
     const connection = getSignalRConnection();
     const currentUsername = useAppSelector((state) => state.loggedInUser.userName);
-    const [typingUsers, setTypingUsers] = useState<string[]>([]);
+    const loadedChats = useAppSelector((state) => state.chats.chats);
+    const [typingStatuses, setTypingStatuses] = useState<TypingStatus>({});
   
-    useEffect(()=>{
-      
-      const showTyping = (data: string[]) => {
+    useEffect(() => {
+      const showTyping = (chatId: number, users: string[]) => {
         if(connection.state !== 'Connected') return;
-        setTypingUsers(data.filter(uname=> uname !== currentUsername));
+        
+        setTypingStatuses(prev => ({
+          ...prev,
+          [chatId]: users.filter(uname => uname !== currentUsername)
+        }));
       }
 
       connection.on("TypingUsers", showTyping);
-      return(()=>{
+      return(() => {
         connection.off("TypingUsers", showTyping);
-      })
-    }, [])
+      });
+    }, [connection, currentUsername]);
 
-    return typingUsers
+    return typingStatuses;
 }
 
 export default useWsGetTypingUsers;

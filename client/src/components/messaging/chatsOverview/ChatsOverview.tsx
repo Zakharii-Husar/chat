@@ -13,8 +13,10 @@ import { Link } from "react-router-dom";
 import "./ChatsOverview.scss";
 import PATH from "../../../routing/pathConstants";
 import Loading  from "../../../components/reusable/Loading";
+import useWsCurrentChatTracker from "../../../hooks/ws/useWsCurrentChatTracker";
 
 export const ChatsOverview: React.FC = () => {
+  useWsCurrentChatTracker();
   const dispatch = useAppDispatch();
   const chatsOverviewState = useAppSelector((state) => state.chats);
   const hasMore = chatsOverviewState.hasMore;

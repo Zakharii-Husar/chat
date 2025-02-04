@@ -12,12 +12,15 @@ import { FaPen } from 'react-icons/fa';
 
 export const SendMessage: React.FC = () => {
   useCheckAuth();
-  const wsTypingUsers = useWsGetTypingUsers();
+  const typingStatuses = useWsGetTypingUsers();
   const wsTypingTracker = useWsTypingTracker();
   const dispatch = useAppDispatch();
   const messageToSend = useAppSelector((state) => state.sendMessage);
   const currentChat = useAppSelector((state) => state.currentChat);
   const currentUser = useAppSelector((state) => state.loggedInUser);
+
+  const typingUsers = currentChat.chatId ? typingStatuses[currentChat.chatId] || [] : [];
+  const isTyping = typingUsers.length > 0;
 
   const isStillMember = currentChat.members.some(
     (member) => member.id === currentUser.id
@@ -53,11 +56,11 @@ export const SendMessage: React.FC = () => {
 
   return (
     <>
-      {wsTypingUsers.length > 0 && (
+      {isTyping && (
         <div className="typing-indicator">
           <FaPen className="typing-icon" />
           <span className="typing-text">
-            {wsTypingUsers[0]} is typing...
+            {typingUsers[0]} is typing...
           </span>
         </div>
       )}

@@ -5,11 +5,16 @@ import { IMessage } from '../../../Interfaces';
 import { BsCheckAll, BsCheck } from 'react-icons/bs';
 import { formatUtcToLocal } from '../../../utils/dateUtils';
 import './ChatBody.scss';
+import useWsGetTypingUsers from '../../../hooks/ws/useWsGetTypingUsers';
+import { FaPen } from 'react-icons/fa';
 
 const ChatBody: React.FC<{ message: IMessage }> = ({ message }) => {
   const time = formatUtcToLocal(message.sentAt);
   const currentUserName = useAppSelector((state) => state.loggedInUser.userName);
   const isRead = message.seenBy.length > 0;
+  const typingStatuses = useWsGetTypingUsers();
+  const typingUsers = typingStatuses[message.chatId] || [];
+  const isTyping = typingUsers.length > 0;
 
   return (
     <div className="chat-body-container">
@@ -26,7 +31,14 @@ const ChatBody: React.FC<{ message: IMessage }> = ({ message }) => {
             {message.senderUserName === currentUserName ? 'You' : message.senderUserName}
           </div>
           <div className="message-preview">
-            {message.content.substring(0, 30) + (message.content.length > 30 ? '...' : '')}
+            {isTyping ? (
+              <div className="typing-indicator">
+                <FaPen className="typing-icon" />
+                <span className="typing-text">{typingUsers[0]} is typing...</span>
+              </div>
+            ) : (
+              message.content.substring(0, 30) + (message.content.length > 30 ? '...' : '')
+            )}
           </div>
         </div>
         <div className="message-meta">

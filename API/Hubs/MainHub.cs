@@ -53,10 +53,9 @@ namespace API.Hubs
 
         private async Task BroadcastTypingStatus(int groupId)
         {
-            // Broadcast the list of typing users for the group to all participants(or empty list if no one is typing).
             await Clients
                 .Group(groupId.ToString())
-                .SendAsync("TypingUsers", _typingUsersByGroup
+                .SendAsync("TypingUsers", groupId, _typingUsersByGroup
                 .ContainsKey(groupId) ? _typingUsersByGroup[groupId] : []);
         }
 
