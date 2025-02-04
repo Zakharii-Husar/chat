@@ -118,7 +118,7 @@ namespace API.Repos
             if (member.LeftChat != null)
             {
                 messagesQuery = messagesQuery
-                    .Where(message => message.SentAt <= member.LeftChat);
+                    .Where(message => message.SentAt <= member.LeftChat || message.SenderId == member.MemberId);
             }
             messagesQuery = messagesQuery.OrderByDescending(message => message.SentAt);
 
