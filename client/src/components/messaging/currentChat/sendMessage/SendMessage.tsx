@@ -8,6 +8,7 @@ import sendMessageThunk from '../../../../redux/thunks/sendMessageThunk';
 import { useCheckAuth } from '../../../../hooks/useCheckAuth';
 import useWsGetTypingUsers from '../../../../hooks/ws/useWsGetTypingUsers';
 import useWsTypingTracker from '../../../../hooks/ws/useWsTypingTracker';
+import { FaPen } from 'react-icons/fa';
 
 export const SendMessage: React.FC = () => {
   useCheckAuth();
@@ -54,7 +55,10 @@ export const SendMessage: React.FC = () => {
     <>
       {wsTypingUsers.length > 0 && (
         <div className="typing-indicator">
-          {wsTypingUsers[0]} is typing...
+          <FaPen className="typing-icon" />
+          <span className="typing-text">
+            {wsTypingUsers[0]} is typing...
+          </span>
         </div>
       )}
       <textarea
