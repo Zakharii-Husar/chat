@@ -23,8 +23,12 @@ namespace API.Controllers
         public async Task<IActionResult> RenameChat(int ChatId, string NewName)
         {
             var currentUser = await userManager.GetUserAsync(User);
-            var isAdmin = await chatMembershipService.GetMemberByUnameAsync(ChatId, currentUser!.UserName);
-            if (isAdmin == null) return Unauthorized();
+            var member = await chatMembershipService.GetMemberByChatIdAsync(ChatId, currentUser!.Id);
+            if (member == null || member.LeftChat != null) return Unauthorized();
+            
+            var isAdmin = await chatMembershipService.CheckRoleAsync(ChatId, currentUser!.Id);
+            if (!isAdmin) return Unauthorized();
+            
             var notificationContent = await groupService.RenameChatAsync(ChatId, NewName, currentUser);
             if (notificationContent == null) return StatusCode(500);
             var notificationMsg = await allChatsService.SendNotificationAsync(ChatId, currentUser.Id, notificationContent);

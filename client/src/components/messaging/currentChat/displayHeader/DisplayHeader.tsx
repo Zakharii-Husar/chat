@@ -32,6 +32,10 @@ export const DisplayHeader: React.FC = () => {
     }
   };
 
+  const isStillMember = currentChat.members.some(
+    (member) => member.id === CurrentUser.id
+  );
+
   return (
     <div className="chat-title">
       <div className="chat-title__content" onClick={handleGroupClick}>
@@ -63,7 +67,7 @@ export const DisplayHeader: React.FC = () => {
           )}
         </div>
       </div>
-      {currentChat.isGroupChat && (
+      {currentChat.isGroupChat && isStillMember && (
         <>
           <ManageGroupChat />
           <GroupMembersList

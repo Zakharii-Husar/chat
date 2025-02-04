@@ -6,9 +6,17 @@ import { FaEllipsisV } from "react-icons/fa";
 import { useAppSelector } from "../../../../hooks/useAppSelectorAndDispatch";
 import "./ManageGroup.scss";
 import ManageMembers from "./ManageMembers";
+
 const ManageGroupChat: React.FC = () => {
   const [showForm, setShowForm] = useState(false);
   const currentChat = useAppSelector((state) => state.currentChat);
+  const currentUser = useAppSelector((state) => state.loggedInUser);
+
+  const isStillMember = currentChat.members.some(
+    (member) => member.id === currentUser.id
+  );
+
+  if (!isStillMember) return null;
 
   return (
     <div className="manage-group">

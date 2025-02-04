@@ -67,15 +67,19 @@ namespace API.Services
             var chatName = await chatsRepo.GetChatNameByIdAsync(chatId);
             var currentMember = await chatMembersRepo.GetMemberByChatIdAsync(chatId, userId);
             var members = await chatMembersRepo.GetAllMembersAsync(chatId, false);
-            
-            // Get online status for each member through WSService
-            var convertedMembers = members.Select(member => 
+            if (currentMember == null) return null;
+
+            List<UserDTO> convertedMembers = [];
+            if(!members.Select(m => m.Id).Contains(userId)){
+                convertedMembers = [];
+            }else{
+            convertedMembers = members.Select(member => 
             {
                 var dto = member.ToDTO();
                 return dto;
-            }).ToList();
+            }).ToList(); 
+            };
 
-            if (currentMember == null) return null;
             var messages = await messagesRepo.GetMessagesByChatMemberAsync(currentMember, itemsToSkip, itemsToTake);
             var convertedMessages = messages.Select(msg => msg.ToDTO(userId)).ToList();
             var chatAdmin = await chatMembersRepo.GetAdminByChatIdAsync(chatId);
