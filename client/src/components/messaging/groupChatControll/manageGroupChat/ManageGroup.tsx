@@ -2,7 +2,11 @@ import { useState } from "react";
 import RenameGroup from "./RenameGroup";
 import LeaveGroup from "./LeaveGroup";
 import { Modal, Button } from "react-bootstrap";
-import { FaEllipsisV, FaCog } from "react-icons/fa";
+import { 
+  FiSettings, 
+  FiUsers, 
+  FiX 
+} from "react-icons/fi";
 import { useAppSelector } from "../../../../hooks/useAppSelectorAndDispatch";
 import "./ManageGroup.scss";
 import ManageMembers from "./ManageMembers";
@@ -26,7 +30,7 @@ const ManageGroupChat: React.FC = () => {
         onClick={() => setShowForm(true)}
         title="Manage Group"
       >
-        <FaCog />
+        <FiSettings />
       </Button>
 
       <Modal 
@@ -35,11 +39,18 @@ const ManageGroupChat: React.FC = () => {
         className="manage-group__modal"
         size="lg"
       >
-        <Modal.Header closeButton>
+        <Modal.Header>
           <Modal.Title className="manage-group__title">
-            <FaCog className="manage-group__title-icon" />
-            {currentChat.chatName}
+            <FiUsers className="manage-group__title-icon" />
+            <span>{currentChat.chatName}</span>
           </Modal.Title>
+          <Button 
+            variant="link" 
+            onClick={() => setShowForm(false)}
+            className="manage-group__close"
+          >
+            <FiX />
+          </Button>
         </Modal.Header>
         <Modal.Body className="manage-group__body">
           <div className="manage-group__content">
