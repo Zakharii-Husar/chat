@@ -23,10 +23,21 @@ namespace API.Controllers
             var currentUser = await userManager.GetUserAsync(User);
             var membershipStatus = await chatMembershipService.GetMemberByChatIdAsync(ChatId, currentUser!.Id);
             if (membershipStatus == null || membershipStatus.LeftChat != null) return Unauthorized();
+            
             var result = await messageService.SendMsgAsync(ChatId, model, currentUser!.Id);
             if (result == null) return StatusCode(500);
+            
             var modifiedMsg = await messageService.GetMsgByIdAsync(result.MessageId);
             if (modifiedMsg == null) return StatusCode(500);
+            
+            var dto = modifiedMsg.ToDTO(currentUser.Id);
+            dto.SenderIsOnline = true; // Sender is online since they're sending through WS
+            
+            if (dto.Interlocutor != null)
+            {
+                dto.Interlocutor.IsOnline = WSService.IsUserOnline(dto.Interlocutor.Id);
+            }
+            
             await WSService.BroadcastMessageAsync(modifiedMsg, currentUser.Id);
             return Ok();
         }

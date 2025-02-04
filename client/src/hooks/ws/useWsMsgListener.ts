@@ -18,6 +18,9 @@ const useWsMsgListener = () => {
 
   useEffect(() => {
     const handleNewMsg = (msg: IMessage) => {
+      // Set sender as online since they must be online to send WS message
+      msg.senderIsOnline = true;
+      
       dispatch(prependChat(msg));
       if (msg.chatId === currentChatId) {
         dispatch(prependMsg(msg));
@@ -41,6 +44,9 @@ const useWsMsgListener = () => {
     };
 
     const handleMsgUpdate = (data: IMessage) => {
+      // Set sender as online since they must be online to update via WS
+      data.senderIsOnline = true;
+      
       dispatch(updateChat(data));
       if (data.chatId === currentChatId) {
         dispatch(updateMsg(data));

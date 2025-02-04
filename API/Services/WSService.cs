@@ -41,9 +41,7 @@ namespace API.Services
             try 
             {
                 var recipients = await GetConnectionsByChatIdAsync(newMessage.ChatId);
-                
                 var dto = newMessage.ToDTO(currentUserId);
-                    
                 await hub.Clients.Clients(recipients).SendAsync("ReceiveNewMessage", dto);
             }
             catch
@@ -63,9 +61,8 @@ namespace API.Services
         public async Task UpdateMessageAsync(Message newMessage, string currentUserId)
         {
             var recipients = await GetConnectionsByChatIdAsync(newMessage.ChatId);
-
-            await hub.Clients.Clients(recipients).SendAsync("UpdateMessage", newMessage.ToDTO(currentUserId));
-
+            var dto = newMessage.ToDTO(currentUserId);
+            await hub.Clients.Clients(recipients).SendAsync("UpdateMessage", dto);
         }
 
         public async Task MarkAsReadAsync(int chatId, AppUser user)

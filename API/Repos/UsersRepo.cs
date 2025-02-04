@@ -88,13 +88,7 @@ namespace API.Repos
 
         public async Task<bool> UpdateLastSeenAsync(AppUser currentUser)
         {
-            var utcNow = DateTime.UtcNow;
-            Console.WriteLine($"Server UTC time: {utcNow}");
-            Console.WriteLine($"Current LastVisit in DB: {currentUser.LastVisit}");
-            
             currentUser.LastVisit = DateTime.SpecifyKind(DateTime.UtcNow, DateTimeKind.Utc);
-            Console.WriteLine($"New LastVisit being set: {currentUser.LastVisit}");
-            
             dbContext.Users.Update(currentUser);
             return await dbContext.SaveChangesAsync() > 0;
         }
