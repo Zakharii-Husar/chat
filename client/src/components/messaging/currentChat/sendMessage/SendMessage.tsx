@@ -8,7 +8,6 @@ import sendMessageThunk from '../../../../redux/thunks/sendMessageThunk';
 import { useCheckAuth } from '../../../../hooks/useCheckAuth';
 import useWsGetTypingUsers from '../../../../hooks/ws/useWsGetTypingUsers';
 import useWsTypingTracker from '../../../../hooks/ws/useWsTypingTracker';
-import { FaPen } from 'react-icons/fa';
 import { TypingIndicator } from '../../../../components/reusable/TypingIndicator/TypingIndicator';
 
 export const SendMessage: React.FC = () => {
