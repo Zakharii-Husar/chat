@@ -1,31 +1,66 @@
-.typing-indicator {
+.send-message-container {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 8px;
-  padding: 4px 8px;
-  font-size: 0.85rem;
-  color: #666;
-  font-style: italic;
-  
-  .typing-icon {
-    font-size: 0.75rem;
-    animation: typing 1s ease-in-out infinite;
-  }
-  
-  .typing-text {
-    font-family: 'Inter', sans-serif;
-    letter-spacing: 0.2px;
+  width: 100%;
+  padding: 10px;
+  background: white;
+  border-top: 1px solid #ddd;
+
+  .input-wrapper {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    background: white;
+    border-radius: 20px;
+    padding: 5px 10px;
+    border: 1px solid #e0e0e0;
+    position: relative;
+
+    textarea {
+      flex: 1;
+      border: none;
+      outline: none;
+      resize: none;
+      padding: 10px;
+      font-size: 14px;
+      border-radius: 20px;
+      min-height: 40px;
+      max-height: 120px;
+      overflow-y: auto;
+      -webkit-appearance: none;
+      
+      &:focus {
+        outline: none;
+        box-shadow: none;
+        -webkit-box-shadow: none;
+        border: none;
+      }
+    }
+
+    .send-button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #007bff;
+      border: none;
+      border-radius: 50%;
+      padding: 10px;
+      color: white;
+      cursor: pointer;
+      transition: background 0.3s;
+      margin-left: 10px;
+      width: 40px;
+      height: 40px;
+      
+      &:hover {
+        background: #0056b3;
+      }
+
+      &:disabled {
+        background: #ccc;
+        cursor: not-allowed;
+      }
+    }
   }
 }
-
-@keyframes typing {
-  0% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-2px);
-  }
-  100% {
-    transform: translateY(0);
-  }
-} 
