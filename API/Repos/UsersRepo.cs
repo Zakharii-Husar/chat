@@ -83,6 +83,8 @@ namespace API.Repos
                     user =>
                     user.UserName.Contains(searchQuery) ||
                     user.FullName.Contains(searchQuery))
+                .Skip(itemsToSkip)
+                .Take(itemsToTake)
                 .ToListAsync();
         }
 
