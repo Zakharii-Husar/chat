@@ -129,7 +129,7 @@ const Users: React.FC = () => {
 
         <div className="users__list">
           <Virtuoso
-            style={{ height: '65vh' }}
+            style={{ height: '100%' }}
             totalCount={currentList.length}
             itemContent={UserItem}
             endReached={loadMore}

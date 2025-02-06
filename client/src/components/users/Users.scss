@@ -5,11 +5,13 @@
 
 .users {
   @include flex-center;
+  height: 100%;
   min-height: 80vh;
   padding: map-get($spacing, 'sm');
 
   &__container {
     @include card-shadow;
+    height: 100%;
     max-width: 80%;
     width: 100%;
     padding: map-get($spacing, 'md');
@@ -17,6 +19,8 @@
     background: linear-gradient(145deg, $neutral-100, rgba($primary-100, 0.3));
     min-height: 85vh;
     overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
   }
 
   &__header {
@@ -68,8 +72,8 @@
   }
 
   &__list {
-    overflow: hidden;
-    overflow-x: hidden;
+    flex: 1 1 auto;
+    overflow-y: auto;
     padding: map-get($spacing, 'xs') 0 0 0;
     margin: 0;
     list-style: none;
