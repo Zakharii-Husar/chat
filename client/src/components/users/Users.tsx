@@ -79,7 +79,6 @@ const Users: React.FC = () => {
   };
 
   const currentList = searchedUser === null ? allUsers : filteredUsers;
-  console.log(currentList);
   const UserItem = useCallback((index: number) => {
     const user = currentList[index];
     if (!user) return <Loading />;
