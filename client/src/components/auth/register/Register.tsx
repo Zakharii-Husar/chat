@@ -81,6 +81,7 @@ export function Register() {
                 name="email"
                 value={formData.email || ''}
                 onChange={handleInput}
+                autoComplete="email"
               />
               {validationErrors.email && (
                 <span className="register-form__error">{validationErrors.email}</span>
@@ -96,6 +97,7 @@ export function Register() {
                 name="fullName"
                 value={formData.fullName || ''}
                 onChange={handleInput}
+                autoComplete="name"
               />
               {validationErrors.fullName && (
                 <span className="register-form__error">{validationErrors.fullName}</span>
@@ -111,6 +113,7 @@ export function Register() {
                 name="nickName"
                 value={formData.nickName || ''}
                 onChange={handleInput}
+                autoComplete="username"
               />
               {validationErrors.nickName && (
                 <span className="register-form__error">{validationErrors.nickName}</span>
@@ -126,6 +129,7 @@ export function Register() {
                 name="password"
                 value={formData.password || ''}
                 onChange={handleInput}
+                autoComplete="new-password"
               />
               {validationErrors.password && (
                 <span className="register-form__error">{validationErrors.password}</span>
@@ -141,6 +145,7 @@ export function Register() {
                 name="confirm"
                 value={formData.confirm || ''}
                 onChange={handleInput}
+                autoComplete="new-password"
               />
               {validationErrors.confirm && (
                 <span className="register-form__error">{validationErrors.confirm}</span>

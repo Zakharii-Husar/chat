@@ -54,6 +54,7 @@ export function Login() {
                 type="text" 
                 name="login" 
                 onInput={handleInput} 
+                autoComplete="username"
               />
             </Form.Group>
 
@@ -64,6 +65,7 @@ export function Login() {
                 type="password"
                 name="password"
                 onInput={handleInput}
+                autoComplete="current-password"
               />
             </Form.Group>
 
