@@ -30,7 +30,7 @@ const useWsConnection = () => {
     return () => {
       window.removeEventListener("beforeunload", disconnectWs);
     };
-  }, [currentUserId]);
+  }, [currentUserId, connection]);
 };
 
 export default useWsConnection;

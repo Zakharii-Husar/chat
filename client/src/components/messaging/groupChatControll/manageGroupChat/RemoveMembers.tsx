@@ -2,9 +2,8 @@ import {
   useAppSelector,
   useAppDispatch,
 } from "../../../../hooks/useAppSelectorAndDispatch";
-import { rmMemberByUname } from "../../../../redux/slices/currentChatSlice";
 import Confirmation from "../../../reusable/Confirmation";
-import { ListGroup, Button, InputGroup } from "react-bootstrap";
+import { ListGroup, Button } from "react-bootstrap";
 import { FaUserMinus } from "react-icons/fa";
 import { useState } from "react";
 import rmChatMemberThunk from "../../../../redux/thunks/rmChatMemberThunk";

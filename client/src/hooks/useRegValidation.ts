@@ -42,7 +42,7 @@ export const useRegValidation = () => {
       }
     };
     validateEmail();
-  }, [email]);
+  }, [email, dispatch, isTaken]);
 
   useEffect(() => {
     const validateNickName = async () => {

@@ -29,7 +29,7 @@ export function Register() {
 
   useEffect(() => {
     if (currentUser.id) navigate("/");
-  }, [currentUser]);
+  }, [currentUser, navigate]);
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const name = e.target.name;

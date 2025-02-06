@@ -56,7 +56,7 @@ export default function User() {
     if (userName && !isMyPofile) {
       dispatch(getUserDetailsThunk(userName));
     }
-  }, [userName]);
+  }, [userName, isMyPofile, dispatch]);
 
   return !currentProfile.id ? (
     <h1>LOADING...</h1>

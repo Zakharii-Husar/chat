@@ -14,7 +14,7 @@ import './SendMessage.scss';
 
 export const SendMessage: React.FC = () => {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
-  const [isExpanded, setIsExpanded] = useState(false);
+  const [, setIsExpanded] = useState(false);
   useCheckAuth();
   const typingStatuses = useWsGetTypingUsers();
   const wsTypingTracker = useWsTypingTracker();

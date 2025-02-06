@@ -4,8 +4,7 @@ import LeaveGroup from "./LeaveGroup";
 import { Modal, Button } from "react-bootstrap";
 import { 
   FiSettings, 
-  FiUsers, 
-  FiX 
+  FiUsers
 } from "react-icons/fi";
 import { useAppSelector } from "../../../../hooks/useAppSelectorAndDispatch";
 import "./ManageGroup.scss";

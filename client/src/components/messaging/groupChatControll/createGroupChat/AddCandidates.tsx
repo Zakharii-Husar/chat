@@ -4,7 +4,7 @@ import { InputGroup, FormControl, ListGroup } from "react-bootstrap";
 import { updateSearchedUser } from "../../../../redux/slices/usersSlice";
 import { addChatCandidates, removeCandidate } from "../../../../redux/slices/createGroupSlice";
 import { useAppSelector, useAppDispatch } from "../../../../hooks/useAppSelectorAndDispatch";
-import { IChatMember, IUser } from "../../../../Interfaces";
+import { IChatMember } from "../../../../Interfaces";
 import searchUsersThunk from "../../../../redux/thunks/searchUsersThunk";
 import getAllUsersThunk from "../../../../redux/thunks/getAllUsersThunk";
 import "./AddCandidates.scss";
@@ -24,7 +24,7 @@ const AddCandidates: React.FC = () => {
     if (allUsers.length === 0) {
       dispatch(getAllUsersThunk());
     }
-  }, []);
+  }, [allUsers.length, dispatch]);
 
   // Handle search with debounce
   useEffect(() => {
@@ -102,7 +102,7 @@ const AddCandidates: React.FC = () => {
         {isAdded && <span className="add-candidates__remove">×</span>}
       </ListGroup.Item>
     );
-  }, [filteredList, createGroupState.candidates]);
+  }, [filteredList, createGroupState.candidates, add, dispatch]);
 
   return (
     <div className="add-candidates">

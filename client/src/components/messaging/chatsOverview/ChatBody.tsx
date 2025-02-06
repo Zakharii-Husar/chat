@@ -6,7 +6,6 @@ import { BsCheckAll, BsCheck } from 'react-icons/bs';
 import { formatUtcToLocal } from '../../../utils/dateUtils';
 import './ChatBody.scss';
 import useWsGetTypingUsers from '../../../hooks/ws/useWsGetTypingUsers';
-import { FaPen } from 'react-icons/fa';
 import { TypingIndicator } from '../../reusable/TypingIndicator/TypingIndicator';
 
 const ChatBody: React.FC<{ message: IMessage }> = ({ message }) => {

@@ -29,7 +29,7 @@ export const CurrentChat: React.FC = () => {
     return () => {
       dispatch(resetChat());
     };
-  }, []);
+  }, [dispatch, parsedChatId]);
 
   return !parsedChatId ? (
     <Loading />

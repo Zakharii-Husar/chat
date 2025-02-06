@@ -26,10 +26,8 @@ const CreateGroup: React.FC = () => {
 
   //reset participants on exit
   useEffect(() => {
-    return () => {
-      dispatch(resetChatCandidates());
-    };
-  }, []);
+    dispatch(resetChatCandidates());
+  }, [dispatch]);
 
   const validateGroup = () => {
     if (!createGroupState.name || createGroupState.name.length < 4) {
