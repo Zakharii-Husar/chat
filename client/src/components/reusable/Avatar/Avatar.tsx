@@ -17,7 +17,7 @@ const Avatar: React.FC<{
   };
 
   const [avatarState, setAvatarState] = useState(mediumSize);
-  const hasAvatar = fileName !== null;
+  const hasAvatar = fileName !== null && fileName !== '';
   useEffect(() => {
     switch (size) {
       case "L":
