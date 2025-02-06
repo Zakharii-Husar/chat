@@ -9,8 +9,13 @@ RUN npm config set fetch-retry-mintimeout 10000
 # Set Node.js memory limit to 1GB
 ENV NODE_OPTIONS="--max-old-space-size=1024"
 
+# Clear npm cache and tmp directories after installations
+RUN npm cache clean --force
+
 COPY package*.json ./
-RUN npm install --legacy-peer-deps --verbose
+RUN npm install --legacy-peer-deps --verbose \
+    && npm cache clean --force \
+    && rm -rf /tmp/*
 
 COPY . .
 
@@ -22,7 +27,10 @@ ENV REACT_APP_API_URL=${REACT_APP_API_URL}
 ENV REACT_APP_WS_URL=${REACT_APP_WS_URL}
 ENV REACT_APP_BASE_PATH=${REACT_APP_BASE_PATH}
 
-RUN npm run build
+RUN npm run build \
+    && npm cache clean --force \
+    && rm -rf /tmp/* \
+    && rm -rf node_modules
 
 FROM nginx:alpine
 COPY --from=build /app/build /usr/share/nginx/html
