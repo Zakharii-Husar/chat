@@ -76,6 +76,12 @@ services:
         - REACT_APP_WS_URL=https://api.zakharii.dev/projects/chat/Hub
         - REACT_APP_BASE_PATH=/projects/chat
     container_name: chat-client
+    deploy:
+      resources:
+        limits:
+          memory: 1.7G  # Set maximum limit
+        reservations:
+          memory: 1G    # Guarantee minimum memory
     ports:
       - "8082:80"
     depends_on:

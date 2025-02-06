@@ -6,8 +6,8 @@ RUN npm config set registry https://registry.npmjs.org/
 RUN npm config set fetch-retry-maxtimeout 600000
 RUN npm config set fetch-retry-mintimeout 10000
 
-# Set Node.js memory limit to 1GB
-ENV NODE_OPTIONS="--max-old-space-size=1024"
+# Increase Node.js memory limit to 1.5GB since we have the available memory
+ENV NODE_OPTIONS="--max-old-space-size=1536"
 
 # Clear npm cache and tmp directories after installations
 RUN npm cache clean --force
