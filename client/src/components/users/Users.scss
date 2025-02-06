@@ -19,8 +19,6 @@
     background: linear-gradient(145deg, $neutral-100, rgba($primary-100, 0.3));
     min-height: 85vh;
     overflow-x: hidden;
-    display: flex;
-    flex-direction: column;
   }
 
   &__header {
@@ -72,8 +70,8 @@
   }
 
   &__list {
-    flex: 1 1 auto;
-    overflow-y: auto;
+    overflow: hidden;
+    overflow-x: hidden;
     padding: map-get($spacing, 'xs') 0 0 0;
     margin: 0;
     list-style: none;

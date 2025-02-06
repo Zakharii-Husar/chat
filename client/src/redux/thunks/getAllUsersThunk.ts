@@ -9,7 +9,7 @@ const getAllUsersThunk = createAsyncThunk(
   async (_, { getState, dispatch }) => {
     const state = getState() as RootState;
     const itemsToSkip = state.users.allUsers.length ?? 0;
-    const itemsToTake = 5;
+    const itemsToTake = 20;
     const link = GET_ALL_USERS(itemsToSkip, itemsToTake);
     try {
       const response = await fetch(link, {

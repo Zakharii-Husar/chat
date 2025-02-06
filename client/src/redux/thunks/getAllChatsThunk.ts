@@ -12,7 +12,7 @@ const getAllChatsThunk = createAsyncThunk(
     abortController = new AbortController();
 
     const state = getState() as RootState;
-    const itemsToTake = 10;
+    const itemsToTake = 20;
     const itemsToSkip = state.chats.chats.length;
     const link = GET_ALL_CHATS(itemsToSkip, itemsToTake);
     try {

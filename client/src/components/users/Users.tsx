@@ -79,7 +79,7 @@ const Users: React.FC = () => {
   };
 
   const currentList = searchedUser === null ? allUsers : filteredUsers;
-
+  console.log(currentList);
   const UserItem = useCallback((index: number) => {
     const user = currentList[index];
     if (!user) return <Loading />;
@@ -129,7 +129,7 @@ const Users: React.FC = () => {
 
         <div className="users__list">
           <Virtuoso
-            style={{ height: '100%' }}
+            style={{ height: '65vh' }}
             totalCount={currentList.length}
             itemContent={UserItem}
             endReached={loadMore}

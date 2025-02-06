@@ -12,7 +12,7 @@ const searchUsersThunk = createAsyncThunk(
     try {
       const state = getState() as RootState;
       const itemsToSkip = state.users.filteredUsers.length;
-      const itemsToTake = 5;
+      const itemsToTake = 20;
       const link = SEARCH_USERS(encodeURIComponent(searchQuery), itemsToSkip, itemsToTake);
       const response = await fetch(link,
         {
