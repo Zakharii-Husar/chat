@@ -2,7 +2,7 @@
 
 ## Deployment
 
-1. Adjust docker-compose.yml file as needed:
+1. Adjust docker-compose.yml file as needed.
 
 2. Create environment file in root directory with appropriate values:
 
@@ -22,6 +22,8 @@ API_PORT=5190
 ```bash
 sudo docker-compose up --build
 ```
+4. Map the client port to the host server (like Apache or Nginx) with reverse proxy, where SSL encription is handled.
+
 
 ## Description
 
