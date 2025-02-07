@@ -59,8 +59,8 @@ Chat is a web application designed for real-time communication, featuring privat
 ## DB Schema:
 ![Image Alt Text](https://github.com/Zakharii-Husar/chat/blob/main/API/Avatars/CHAT_DB_SCHEMA.png)
 
-## Interface overview:
-![Image Alt Text](https://github.com/Zakharii-Husar/chat/blob/main/API/Avatars/Collage.jpg)
+## Deployed:
+[You can check the live demo here](https://api.zakharii.dev/projects/chat)
 
-Acknowledgements
+## Acknowledgements
 Special thanks to my instructor [Carlos Osoria](https://github.com/cosoria) for introducing design patterns in .NET Core, which were implemented in the backend.
