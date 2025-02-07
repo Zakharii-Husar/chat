@@ -1,39 +1,27 @@
 # Chat App
 
-## Deploy Containers
+## Deployment
 
-### DB Container
+1. Adjust docker-compose.yml file as needed:
 
-1. Build: ``sudo docker build -t chat-db -f DB/Dockerfile .``
+2. Create environment file in root directory with appropriate values:
 
-2. Run: ```
-sudo docker run -d \
-  --name chat-db \
-  --network host \
-  -e "ACCEPT_EULA=Y" \
-  -e "MSSQL_SA_PASSWORD=YourStrongPassword123!" \
-  -e "MSSQL_ENCRYPT=OPTIONAL" \
-  -p 1433:1433 \
-  chat-db
-  ```
+```
+# Database
+MSSQL_SA_PASSWORD=YourStrongPassword123!
+DB_NAME=chat
+DB_USERNAME=sa
+DB_PASSWORD=YourStrongPassword123!
 
+# API
+API_PORT=5190
+```
 
+3. Build and run the containers on docker network:
 
-### API Container
-
-1. Build: ``sudo docker build -t chat-api -f API/Dockerfile . ``
-
-2. Run: ```
-sudo docker run -d \
-  --name chat-api \
-  --network host \
-  -e "DB_SERVER=localhost,1433" \
-  -e "DB_NAME=chat" \
-  -e "DB_USERNAME=sa" \
-  -e "DB_PASSWORD=YourStrongPassword123!" \
-  -p 5190:80 \
-  chat-api
-  ```
+```bash
+sudo docker-compose up --build
+```
 
 ## Description
 
