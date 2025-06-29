@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   db:
     build:
@@ -12,8 +10,9 @@ services:
       - MSSQL_SA_PASSWORD=${MSSQL_SA_PASSWORD}
       - MSSQL_ENCRYPT=OPTIONAL
       - MSSQL_SSL_CERT_SKIP_VALIDATION=true
-    ports:
-      - "1433:1433"
+    # Remove external port mapping to prevent internet access
+    # ports:
+    #   - "1433:1433"
     networks:
       - chat-network
     volumes:
@@ -54,14 +53,11 @@ services:
         max-size: "200k"
         max-file: "10"
     healthcheck:
-      test: |
-        /bin/sh -c '
-        /opt/mssql-tools18/bin/sqlcmd -S db -U sa -P "$MSSQL_SA_PASSWORD" -Q "SELECT 1" -N -C &&
-        curl -f http://localhost:80/Hub/negotiate || exit 1'
+      test: curl -f http://localhost:80/Hub/negotiate || exit 1
       interval: 30s
-      timeout: 30s
-      retries: 3
-      start_period: 60s
+      timeout: 10s
+      retries: 5
+      start_period: 90s
     volumes:
       - avatar-data:/app/Avatars
       - /etc/timezone:/etc/timezone:ro
@@ -72,9 +68,9 @@ services:
       context: ./client
       dockerfile: Dockerfile
       args:
-        - REACT_APP_API_URL=https://api.zakharii.dev/projects/chat/chat-api
-        - REACT_APP_WS_URL=https://api.zakharii.dev/projects/chat/Hub
-        - REACT_APP_BASE_PATH=/projects/chat
+        - REACT_APP_API_URL=http://localhost:5190/chat-api
+        - REACT_APP_WS_URL=http://localhost:5190/Hub
+        - REACT_APP_BASE_PATH=
     container_name: chat-client
     deploy:
       resources:
@@ -90,9 +86,9 @@ services:
       - chat-network
     environment:
       - TZ=UTC
-      - REACT_APP_API_URL=https://api.zakharii.dev/projects/chat/chat-api
-      - REACT_APP_WS_URL=https://api.zakharii.dev/projects/chat/Hub
-      - REACT_APP_BASE_PATH=/projects/chat
+      - REACT_APP_API_URL=http://localhost:5190/chat-api
+      - REACT_APP_WS_URL=http://localhost:5190/Hub
+      - REACT_APP_BASE_PATH=
     volumes:
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
