@@ -64,9 +64,9 @@ services:
       context: ./client
       dockerfile: Dockerfile
       args:
-        - REACT_APP_API_URL=http://localhost:5190/chat-api
-        - REACT_APP_WS_URL=http://localhost:5190/Hub
-        - REACT_APP_BASE_PATH=
+        - REACT_APP_API_URL=https://api.zakharii.dev/projects/chat/chat-api
+        - REACT_APP_WS_URL=https://api.zakharii.dev/projects/chat/Hub
+        - REACT_APP_BASE_PATH=/projects/chat
     container_name: chat-client
     deploy:
       resources:
@@ -82,9 +82,9 @@ services:
       - chat-network
     environment:
       - TZ=UTC
-      - REACT_APP_API_URL=http://localhost:5190/chat-api
-      - REACT_APP_WS_URL=http://localhost:5190/Hub
-      - REACT_APP_BASE_PATH=
+      - REACT_APP_API_URL=https://api.zakharii.dev/projects/chat/chat-api
+      - REACT_APP_WS_URL=https://api.zakharii.dev/projects/chat/Hub
+      - REACT_APP_BASE_PATH=/projects/chat
 
 networks:
   chat-network:
@@ -94,4 +94,4 @@ volumes:
   mssql-data:
     driver: local
   avatar-data:
-    driver: local
+    driver: local 

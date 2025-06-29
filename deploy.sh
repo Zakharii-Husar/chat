@@ -90,6 +90,15 @@ deploy_direct() {
     docker-compose up --build -d
 }
 
+# Function to deploy production
+deploy_production() {
+    echo "Checking environment..."
+    check_env
+    
+    echo "Building and starting production containers..."
+    docker-compose -f docker-compose.prod.yml up --build -d
+}
+
 # Function to clean up
 cleanup() {
     echo "Stopping and removing containers..."
@@ -121,6 +130,9 @@ case "$1" in
     "deploy-direct")
         deploy_direct
         ;;
+    "deploy-prod")
+        deploy_production
+        ;;
     "cleanup")
         cleanup
         ;;
@@ -128,10 +140,11 @@ case "$1" in
         add_to_git
         ;;
     *)
-        echo "Usage: $0 {build|deploy|deploy-direct|cleanup|git-add}"
+        echo "Usage: $0 {build|deploy|deploy-direct|deploy-prod|cleanup|git-add}"
         echo "  build         - Build and save images locally"
         echo "  deploy        - Deploy using saved images"
         echo "  deploy-direct - Build and deploy directly (recommended for development)"
+        echo "  deploy-prod   - Build and deploy production version (for Ubuntu server)"
         echo "  cleanup       - Stop containers and clean up images/volumes"
         echo "  git-add       - Add built images to git"
         exit 1
