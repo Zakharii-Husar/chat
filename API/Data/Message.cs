@@ -24,7 +24,7 @@ namespace API.Data
         public string Content { get; set; } = content;
 
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        [DefaultValue("CURRENT_TIMESTAMP")]
+        [DefaultValue("datetime('now')")]
         public DateTime SentAt { get; set; }
 
         [ForeignKey("MessageId")]

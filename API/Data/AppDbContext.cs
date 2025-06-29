@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Data.Sqlite;
 
 namespace API.Data
 {
@@ -22,12 +23,24 @@ namespace API.Data
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             var connectionString = _configuration.GetConnectionString("DefaultConnection");
+            var dbPassword = _configuration["DatabasePassword"] ?? "YourSecurePassword123!";
             
             try
             {
+                // Create encrypted SQLite connection
+                var connection = new SqliteConnection(connectionString);
+                connection.Open();
+                
+                // Set encryption password
+                using (var command = connection.CreateCommand())
+                {
+                    command.CommandText = $"PRAGMA key = '{dbPassword}';";
+                    command.ExecuteNonQuery();
+                }
+                
                 optionsBuilder
                     .UseLazyLoadingProxies()
-                    .UseSqlServer(connectionString);
+                    .UseSqlite(connection);
             }
             catch (Exception ex)
             {
@@ -71,20 +84,18 @@ namespace API.Data
                 .HasForeignKey(l => l.UserId)
                 .OnDelete(DeleteBehavior.NoAction);
 
-
-
             //GENERATING TIMESTAMP ON INSERTION OF NEW CHAT MEMBER:
             modelBuilder.Entity<ChatMember>()
                 .Property(cm => cm.EnteredChat)
-                .HasDefaultValueSql("SYSUTCDATETIME()");
+                .HasDefaultValueSql("datetime('now')");
 
             modelBuilder.Entity<Message>()
                 .Property(m => m.SentAt)
-                .HasDefaultValueSql("SYSUTCDATETIME()");
+                .HasDefaultValueSql("datetime('now')");
 
             modelBuilder.Entity<AppUser>()
                 .Property(u => u.LastVisit)
-                .HasDefaultValueSql("SYSUTCDATETIME()");
+                .HasDefaultValueSql("datetime('now')");
 
         }
 

@@ -2,32 +2,50 @@
 
 ## Deployment
 
-1. Adjust docker-compose.yml file as needed.
-
-2. Create environment file in root directory with appropriate values:
-
-```
-# Database
-MSSQL_SA_PASSWORD=YourStrongPassword123!
-DB_NAME=chat
-DB_USERNAME=sa
-DB_PASSWORD=YourStrongPassword123!
-
-# API
-API_PORT=5190
-```
-
-3. Build and run the containers on docker network:
-
+### Quick Start (Development)
 ```bash
-sudo docker-compose up --build
-```
-4. Map the client port to the host server (like Apache or Nginx) with reverse proxy, where SSL encription is handled.
+# Create .env file (if not exists)
+./deploy.sh
 
+# Or manually:
+docker-compose up --build -d
+```
+
+### Production Deployment
+```bash
+# Deploy with production settings
+./deploy.sh production
+```
+
+### Environment Configuration
+Create a `.env` file in the root directory:
+
+```env
+# Database Configuration (SQLite with encryption)
+DatabasePassword=YourSecurePassword123!
+
+# API Configuration
+ASPNETCORE_ENVIRONMENT=Docker
+
+# Client Configuration (Development)
+REACT_APP_API_URL=http://localhost:5190/chat-api
+REACT_APP_WS_URL=http://localhost:5190/Hub
+REACT_APP_BASE_PATH=
+
+# Client Configuration (Production)
+# REACT_APP_API_URL=https://api.zakharii.dev/projects/chat/chat-api
+# REACT_APP_WS_URL=https://api.zakharii.dev/projects/chat/Hub
+# REACT_APP_BASE_PATH=/projects/chat
+```
+
+### Access Points
+- **Client**: http://localhost:8082
+- **API**: http://localhost:5190
+- **API Documentation**: http://localhost:5190/swagger
 
 ## Description
 
-Chat is a web application designed for real-time communication, featuring private and group chat rooms. It utilizes **.NET Core** for the backend API, **ReactJS** for the frontend interface, and integrates various technologies such as **Entity Framework**, **Identity**, **SignalR**, and **SQL Server** to provide a robust chatting experience. The backend follows the service-repository pattern for better organization and scalability.
+Chat is a web application designed for real-time communication, featuring private and group chat rooms. It utilizes **.NET Core** for the backend API, **ReactJS** for the frontend interface, and integrates various technologies such as **Entity Framework**, **Identity**, **SignalR**, and **SQLite** to provide a robust chatting experience. The backend follows the service-repository pattern for better organization and scalability.
 
 ## Features
 
@@ -44,7 +62,24 @@ Chat is a web application designed for real-time communication, featuring privat
 - **Message Display:** Display chat messages chronologically.
 - **Access Control:** Users can only see chats and messages sent during their valid membership period.
 - **Notifications:** Send relevant updates to chat rooms, such as renaming groups or member changes.
-- **Live Updates:** Real-time updates using web sockets for incoming messages, likes, read receipts, etc.
+
+## Technology Stack
+
+- **Backend**: .NET 8, Entity Framework Core, ASP.NET Core Identity, SignalR
+- **Database**: SQLite with encryption
+- **Frontend**: React 19, TypeScript, Redux Toolkit, Bootstrap
+- **Real-time**: SignalR WebSockets
+- **Deployment**: Docker, Docker Compose
+- **Security**: SQLite encryption, ASP.NET Core Identity, CORS protection
+
+## Architecture
+
+- **API Layer**: RESTful controllers with SignalR hubs for real-time communication
+- **Service Layer**: Business logic implementation
+- **Repository Layer**: Data access abstraction
+- **Entity Framework**: ORM with SQLite provider
+- **Identity**: User authentication and authorization
+- **SignalR**: Real-time messaging and notifications
 
 ## DB Schema:
 ![Image Alt Text](https://github.com/Zakharii-Husar/chat/blob/main/API/Avatars/CHAT_DB_SCHEMA.png)

@@ -1,29 +1,4 @@
 services:
-  db:
-    build:
-      context: .
-      dockerfile: DB/Dockerfile
-    container_name: chat-db
-    environment:
-      - TZ=UTC
-      - ACCEPT_EULA=Y
-      - MSSQL_SA_PASSWORD=${MSSQL_SA_PASSWORD}
-      - MSSQL_ENCRYPT=OPTIONAL
-      - MSSQL_SSL_CERT_SKIP_VALIDATION=true
-    # Remove external port mapping to prevent internet access
-    # ports:
-    #   - "1433:1433"
-    networks:
-      - chat-network
-    volumes:
-      - mssql-data:/var/opt/mssql:delegated
-    healthcheck:
-      test: /opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P "${MSSQL_SA_PASSWORD}" -Q "SELECT 1" -N -C || exit 1
-      interval: 10s
-      timeout: 5s
-      retries: 5
-      start_period: 30s
-
   api:
     build:
       context: .
@@ -31,18 +6,10 @@ services:
     container_name: chat-api
     environment:
       - TZ=UTC
-      - DB_SERVER=db,1433
-      - DB_NAME=chat
-      - DB_USERNAME=sa
-      - DB_PASSWORD=${MSSQL_SA_PASSWORD}
       - ASPNETCORE_ENVIRONMENT=Docker
-      - MSSQL_SA_PASSWORD=${MSSQL_SA_PASSWORD}
       - ASPNETCORE_URLS=http://+:80
     ports:
       - "5190:80"
-    depends_on:
-      db:
-        condition: service_healthy
     networks:
       - chat-network
     logging:
@@ -55,25 +22,27 @@ services:
       interval: 30s
       timeout: 10s
       retries: 10
-      start_period: 120s
+      start_period: 60s
     volumes:
       - avatar-data:/app/Avatars
+      - sqlite-data:/app/Data:rw
+    user: "1000:1000"
 
   client:
     build:
       context: ./client
       dockerfile: Dockerfile
       args:
-        - REACT_APP_API_URL=http://localhost:5190/chat-api
-        - REACT_APP_WS_URL=http://localhost:5190/Hub
-        - REACT_APP_BASE_PATH=
+        - REACT_APP_API_URL=${REACT_APP_API_URL:-http://localhost:5190/chat-api}
+        - REACT_APP_WS_URL=${REACT_APP_WS_URL:-http://localhost:5190/Hub}
+        - REACT_APP_BASE_PATH=${REACT_APP_BASE_PATH:-}
     container_name: chat-client
     deploy:
       resources:
         limits:
-          memory: 1.7G  # Set maximum limit
+          memory: 512M  # Reduced memory limit for 1GB server
         reservations:
-          memory: 1G    # Guarantee minimum memory
+          memory: 256M
     ports:
       - "8082:80"
     depends_on:
@@ -82,16 +51,17 @@ services:
       - chat-network
     environment:
       - TZ=UTC
-      - REACT_APP_API_URL=http://localhost:5190/chat-api
-      - REACT_APP_WS_URL=http://localhost:5190/Hub
-      - REACT_APP_BASE_PATH=
+      - REACT_APP_API_URL=${REACT_APP_API_URL:-http://localhost:5190/chat-api}
+      - REACT_APP_WS_URL=${REACT_APP_WS_URL:-http://localhost:5190/Hub}
+      - REACT_APP_BASE_PATH=${REACT_APP_BASE_PATH:-}
+    user: "1000:1000"
 
 networks:
   chat-network:
     driver: bridge
 
 volumes:
-  mssql-data:
-    driver: local
   avatar-data:
+    driver: local
+  sqlite-data:
     driver: local

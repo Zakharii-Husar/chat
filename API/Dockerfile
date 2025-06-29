@@ -17,27 +17,24 @@ WORKDIR /app
 COPY --from=publish /app/publish .
 ENV ASPNETCORE_ENVIRONMENT=Docker
 
-# Install necessary tools
+# Install curl for health checks
 USER root
 RUN apt-get update && \
-    apt-get install -y curl gnupg2 iputils-ping && \
-    curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - && \
-    curl https://packages.microsoft.com/config/ubuntu/22.04/prod.list > /etc/apt/sources.list.d/mssql-release.list && \
-    apt-get update && \
-    ACCEPT_EULA=Y apt-get install -y mssql-tools18 unixodbc-dev
+    apt-get install -y curl && \
+    apt-get clean
 
-ENV PATH="${PATH}:/opt/mssql-tools18/bin"
+# Create necessary directories with proper permissions
+RUN mkdir -p /app/Data && \
+    mkdir -p /app/Avatars && \
+    chown -R 1000:1000 /app && \
+    chmod -R 755 /app
 
-# Create start script with database check
+# Create start script
 RUN echo '#!/bin/sh\n\
-echo "Waiting for database..."\n\
-until /opt/mssql-tools18/bin/sqlcmd -S db -U sa -P "$MSSQL_SA_PASSWORD" -Q "SELECT 1" -N -C; do\n\
-  echo "Database not ready - waiting..."\n\
-  sleep 5\n\
-done\n\
-echo "Database is ready"\n\
 echo "Starting API..."\n\
-dotnet API.dll 2>&1 | tee /var/log/api.log' > /app/start.sh && \
+dotnet API.dll' > /app/start.sh && \
 chmod +x /app/start.sh
+
+USER 1000
 
 ENTRYPOINT ["/app/start.sh"]

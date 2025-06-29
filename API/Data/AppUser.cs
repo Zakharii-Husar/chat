@@ -15,7 +15,7 @@ namespace API.Data
         public override string? PasswordHash { get; set; }
         public string FullName { get; set; } = null!;
 
-        [Column(TypeName = "Date")]
+        [Column(TypeName = "TEXT")]
         public DateTime CreatedAt { get; set; }
 
         public DateTime LastVisit { get; set; }

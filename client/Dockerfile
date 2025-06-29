@@ -35,5 +35,18 @@ RUN npm run build \
 FROM nginx:alpine
 COPY --from=build /app/build /usr/share/nginx/html
 COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+# Create nginx user and set up directories
+RUN addgroup -g 1000 nginxuser && \
+    adduser -D -s /bin/sh -u 1000 -G nginxuser nginxuser && \
+    mkdir -p /var/cache/nginx /var/run /var/log/nginx && \
+    chown -R nginxuser:nginxuser /var/cache/nginx /var/run /var/log/nginx /etc/nginx/conf.d && \
+    chown -R nginxuser:nginxuser /usr/share/nginx/html && \
+    touch /var/run/nginx.pid && \
+    chown -R nginxuser:nginxuser /var/run/nginx.pid
+
 EXPOSE 80
+
+USER nginxuser
+
 CMD ["nginx", "-g", "daemon off;"]
