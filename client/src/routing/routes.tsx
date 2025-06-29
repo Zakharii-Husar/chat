@@ -9,8 +9,6 @@ import { Layout } from "../components/layout/Layout";
 import { createBrowserRouter } from "react-router-dom";
 import PATH from "./pathConstants";
 
-// Get basename from environment variable, use empty string for root path
-const basename = process.env.REACT_APP_BASE_PATH || "";
 
 const router = createBrowserRouter([
   {
@@ -50,7 +48,7 @@ const router = createBrowserRouter([
     ],
   },
 ], {
-  basename: basename
+  basename: process.env.REACT_APP_BASE_PATH || "/"
 });
 
 export default router;
