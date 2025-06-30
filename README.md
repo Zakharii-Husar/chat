@@ -13,6 +13,9 @@ chmod +x deploy.sh
 # Development deployment
 ./deploy.sh deploy
 
+# Staging deployment (fast production testing)
+./deploy.sh deploy-staging
+
 # Production deployment (with aggressive cleanup)
 ./deploy.sh deploy-prod
 ```
@@ -29,6 +32,16 @@ The `deploy.sh` script provides several commands for managing your application:
 - Builds and starts containers for development
 - Uses localhost URLs
 - No cleanup performed
+
+#### Staging Deployment (Fast Production Testing)
+```bash
+./deploy.sh deploy-staging
+```
+- Creates `.env` file if missing
+- Updates `.env` with production URLs
+- **Reuses cached images when possible** for faster deployment
+- No aggressive cleanup (faster than production)
+- Perfect for testing in production environment
 
 #### Production Deployment
 ```bash
@@ -68,6 +81,14 @@ The `deploy.sh` script provides several commands for managing your application:
 # Full cleanup (stops containers, removes images, volumes, networks)
 ./deploy.sh cleanup
 ```
+
+#### When to Use Each Deployment Type
+
+| Deployment Type | Use Case | Speed | Cleanup | Cache Usage |
+|----------------|----------|-------|---------|-------------|
+| `deploy` | Development, local testing | Fast | None | Reuses cache |
+| `deploy-staging` | Production testing, quick iterations | Fast | None | Reuses cache |
+| `deploy-prod` | Final production deployment | Slow | Aggressive | Fresh build |
 
 ### Environment Configuration
 

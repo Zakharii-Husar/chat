@@ -39,6 +39,30 @@ deploy() {
     echo "To stop: docker-compose down"
 }
 
+# Function to deploy for staging (fast production testing)
+deploy_staging() {
+    echo "Checking environment..."
+    check_env
+    
+    echo "Updating .env for staging (production URLs)..."
+    # Update .env with production URLs - use more specific patterns to avoid duplication
+    sed -i 's|^REACT_APP_API_URL=.*|REACT_APP_API_URL=https://api.zakharii.dev/projects/chat/chat-api|' .env
+    sed -i 's|^REACT_APP_WS_URL=.*|REACT_APP_WS_URL=https://api.zakharii.dev/projects/chat/Hub|' .env
+    sed -i 's|^REACT_APP_BASE_PATH=.*|REACT_APP_BASE_PATH=/projects/chat|' .env
+    
+    echo "Building and starting staging containers (reusing cache when possible)..."
+    docker-compose up --build -d
+    
+    echo "Staging deployment complete!"
+    echo ""
+    echo "Your application is running at:"
+    echo "  Client: http://localhost:8082"
+    echo "  API: http://localhost:5190"
+    echo ""
+    echo "To view logs: docker-compose logs -f"
+    echo "To stop: docker-compose down"
+}
+
 # Function to deploy for production
 deploy_production() {
     echo "Checking environment..."
@@ -112,6 +136,9 @@ case "$1" in
     "deploy-prod")
         deploy_production
         ;;
+    "deploy-staging")
+        deploy_staging
+        ;;
     "cleanup")
         cleanup
         ;;
@@ -131,9 +158,10 @@ case "$1" in
         docker-compose restart
         ;;
     *)
-        echo "Usage: $0 {deploy|deploy-prod|cleanup|status|logs|stop|start|restart}"
+        echo "Usage: $0 {deploy|deploy-prod|deploy-staging|cleanup|status|logs|stop|start|restart}"
         echo "  deploy      - Build and deploy for development"
         echo "  deploy-prod - Build and deploy for production"
+        echo "  deploy-staging - Build and deploy for staging (fast production testing)"
         echo "  cleanup     - Stop containers and clean up everything"
         echo "  status      - Show container status and recent logs"
         echo "  logs        - Show live logs"
