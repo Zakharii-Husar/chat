@@ -9,6 +9,7 @@ import { Link } from "react-router-dom";
 import "./ChatsOverview.scss";
 import PATH from "../../../routing/pathConstants";
 import Loading from "../../../components/reusable/Loading";
+import { SkeletonLoader } from "../../../components/reusable/SkeletonLoader";
 import useWsCurrentChatTracker from "../../../hooks/ws/useWsCurrentChatTracker";
 import { useOptimizedChats } from "../../../hooks/useOptimizedChats";
 
@@ -19,7 +20,7 @@ export const ChatsOverview: React.FC = () => {
 
   const ChatItem = useCallback((index: number) => {
     if (!chats?.[index]) {
-      return <div className="chat-item loading">Loading...</div>;
+      return <SkeletonLoader type="chat" count={1} />;
     }
 
     const chat = chats[index];
@@ -42,7 +43,16 @@ export const ChatsOverview: React.FC = () => {
   }, [chats, currentUser.id]);
 
   if (isLoading && chats.length === 0) {
-    return <Loading />;
+    return (
+      <div className="chats-overview">
+        <CreateGroup />
+        <div className="chats-overview__content">
+          <div className="chats-overview__card">
+            <SkeletonLoader type="chat" count={5} />
+          </div>
+        </div>
+      </div>
+    );
   }
 
   return (

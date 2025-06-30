@@ -1,12 +1,10 @@
-import { useEffect } from "react";
 import {
-  useAppDispatch,
   useAppSelector,
 } from "./../hooks/useAppSelectorAndDispatch";
 import useWsConnection from "./../hooks/ws/useWsConnection";
 import useWsMsgListener from "./../hooks/ws/useWsMsgListener";
 import useWsReadListener from "./../hooks/ws/useWsReadListener";
-import { useOptimizedChats } from "./useOptimizedChats";
+import { useParallelDataLoading } from "./useParallelDataLoading";
 
 export const useInit = () => {
   useWsConnection();
@@ -15,9 +13,9 @@ export const useInit = () => {
   
   const currentUserId = useAppSelector((state) => state.loggedInUser.id);
   
-  // Use optimized chats hook which handles caching automatically
-  const { chats, isLoading } = useOptimizedChats();
+  // Use parallel data loading for better performance
+  const { isLoading, hasData } = useParallelDataLoading();
 
-  // The chats will be automatically loaded when the user is authenticated
-  // No need to manually dispatch thunks
+  // The data will be automatically loaded in parallel when the user is authenticated
+  // This reduces total load time by loading chats and users simultaneously
 };

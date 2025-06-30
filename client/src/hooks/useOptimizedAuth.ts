@@ -9,18 +9,18 @@ export const useOptimizedAuth = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  // Use RTK Query hook with caching
+  // Use RTK Query hook with aggressive caching for faster initial loads
   const { data: userData, isLoading, error } = useValidateCookiesQuery(undefined, {
     // Skip the query if we're on login/register pages
     skip: location.pathname === "/login" || location.pathname === "/register",
-    // Refetch on window focus to keep auth state fresh
-    refetchOnFocus: false, // Disable to reduce duplicate requests
-    // Refetch on reconnect
+    // Disable refetch on focus to reduce requests
+    refetchOnFocus: false,
+    // Refetch on reconnect only
     refetchOnReconnect: true,
-    // Cache for 10 minutes to reduce requests
-    refetchOnMountOrArgChange: 600,
-    // Add polling to keep auth fresh without manual refetching
-    pollingInterval: 300000, // 5 minutes
+    // Cache for 15 minutes to reduce requests
+    refetchOnMountOrArgChange: 900,
+    // Reduce polling to 10 minutes
+    pollingInterval: 600000, // 10 minutes
   });
 
   useEffect(() => {
