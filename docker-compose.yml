@@ -24,7 +24,7 @@ services:
       retries: 10
       start_period: 60s
     volumes:
-      - avatar-data:/app/Avatars
+      - avatar-data:/app/Avatars:rw
       - sqlite-data:/app/Data:rw
     user: "1000:1000"
 

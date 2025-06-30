@@ -27,11 +27,14 @@ RUN apt-get update && \
 RUN mkdir -p /app/Data && \
     mkdir -p /app/Avatars && \
     chown -R 1000:1000 /app && \
-    chmod -R 755 /app
+    chmod -R 755 /app && \
+    chmod 777 /app/Avatars
 
 # Create start script
 RUN echo '#!/bin/sh\n\
 echo "Starting API..."\n\
+echo "Ensuring Avatars directory permissions..."\n\
+chmod 777 /app/Avatars\n\
 dotnet API.dll' > /app/start.sh && \
 chmod +x /app/start.sh
 
