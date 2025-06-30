@@ -3,24 +3,21 @@ import {
   useAppDispatch,
   useAppSelector,
 } from "./../hooks/useAppSelectorAndDispatch";
-import getAllChatsThunk from "./../redux/thunks/getAllChatsThunk";
 import useWsConnection from "./../hooks/ws/useWsConnection";
 import useWsMsgListener from "./../hooks/ws/useWsMsgListener";
 import useWsReadListener from "./../hooks/ws/useWsReadListener";
+import { useOptimizedChats } from "./useOptimizedChats";
 
 export const useInit = () => {
   useWsConnection();
   useWsMsgListener();
   useWsReadListener();
-  const dispatch = useAppDispatch();
+  
   const currentUserId = useAppSelector((state) => state.loggedInUser.id);
-  const chatsLength = useAppSelector((state) => state.chats.chats.length);
+  
+  // Use optimized chats hook which handles caching automatically
+  const { chats, isLoading } = useOptimizedChats();
 
-  useEffect(() => {
-    const initialLoad = () => {
-      if (!currentUserId || chatsLength > 1) return;
-      dispatch(getAllChatsThunk());
-    };
-    initialLoad();
-  }, [currentUserId, chatsLength, dispatch]);
+  // The chats will be automatically loaded when the user is authenticated
+  // No need to manually dispatch thunks
 };

@@ -1,4 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit';
+import { apiSlice } from './api/apiSlice';
 import loginReducer from './slices/loginSlice';
 import registerReducer from './slices/registerSlice';
 import loggedInUserReducer from './slices/loggedInUserSlice';
@@ -11,6 +12,7 @@ import viewUserReducer from './slices/viewUserSlice';
 
 export const store = configureStore({
   reducer: {
+    [apiSlice.reducerPath]: apiSlice.reducer,
     login: loginReducer,
     register: registerReducer,
     users: usersReducer,
@@ -21,7 +23,8 @@ export const store = configureStore({
     sendMessage: sendMessageReducer,
     createGroup: createGroupReducer, 
   },
-
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(apiSlice.middleware),
 })
 
 // Infer the `RootState` and `AppDispatch` types from the store itself

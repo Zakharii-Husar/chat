@@ -1,10 +1,8 @@
 import { useAppSelector } from "../../hooks/useAppSelectorAndDispatch";
 import { Welcome } from "./Welcome";
 import { Auth } from "./Auth";
-import { useCheckAuth } from "../../hooks/useCheckAuth";
 
 export const Home: React.FC = () => {
-  useCheckAuth();
   const loggedInId = useAppSelector((state) => state.loggedInUser.id);
 
   return (

@@ -1,10 +1,10 @@
-import { useCheckAuth } from "../../hooks/useCheckAuth";
+import { useOptimizedAuth } from "../../hooks/useOptimizedAuth";
 import { Outlet } from "react-router-dom";
 import { AppHeader } from "./AppHeader";
 import { Col, Row, Container } from "react-bootstrap";
 
 export const Layout = () => {
-  useCheckAuth();
+  useOptimizedAuth();
 
   return (
     <Container fluid className="p-0 w-100 h-100 d-flex justify-content-center">

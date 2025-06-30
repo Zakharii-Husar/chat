@@ -1,39 +1,28 @@
 import React, { useCallback } from "react";
 import { Virtuoso } from "react-virtuoso";
 import "../../../style/_scrollable.scss";
-import {
-  useAppDispatch,
-  useAppSelector,
-} from "../../../hooks/useAppSelectorAndDispatch";
+import { useAppSelector } from "../../../hooks/useAppSelectorAndDispatch";
 import CreateGroup from "../groupChatControll/createGroupChat/CreateGroup";
-import getAllChatsThunk from "../../../redux/thunks/getAllChatsThunk";
 import ChatBody from "./ChatBody";
 import { ChatHeader } from "./ChatHeader";
 import { Link } from "react-router-dom";
 import "./ChatsOverview.scss";
 import PATH from "../../../routing/pathConstants";
-import Loading  from "../../../components/reusable/Loading";
+import Loading from "../../../components/reusable/Loading";
 import useWsCurrentChatTracker from "../../../hooks/ws/useWsCurrentChatTracker";
+import { useOptimizedChats } from "../../../hooks/useOptimizedChats";
 
 export const ChatsOverview: React.FC = () => {
   useWsCurrentChatTracker();
-  const dispatch = useAppDispatch();
-  const chatsOverviewState = useAppSelector((state) => state.chats);
-  const hasMore = chatsOverviewState.hasMore;
   const currentUser = useAppSelector((state) => state.loggedInUser);
-
-  const loadMore = useCallback(() => {
-    if (hasMore) {
-      dispatch(getAllChatsThunk());
-    }
-  }, [dispatch, hasMore]);
+  const { chats, isLoading, loadMore, hasMore } = useOptimizedChats();
 
   const ChatItem = useCallback((index: number) => {
-    if (!chatsOverviewState.chats?.[index]) {
+    if (!chats?.[index]) {
       return <div className="chat-item loading">Loading...</div>;
     }
 
-    const chat = chatsOverviewState.chats[index];
+    const chat = chats[index];
     const isRead = chat.seenBy.length > 0;
     const isSentByCurrentUser = chat.senderId === currentUser.id;
 
@@ -50,9 +39,9 @@ export const ChatsOverview: React.FC = () => {
         </Link>
       </div>
     );
-  }, [chatsOverviewState.chats, currentUser.id]);
+  }, [chats, currentUser.id]);
 
-  if (!chatsOverviewState.chats) {
+  if (isLoading && chats.length === 0) {
     return <Loading />;
   }
 
@@ -64,7 +53,7 @@ export const ChatsOverview: React.FC = () => {
           <div className="chats-overview__scroll-container">
             <Virtuoso
               style={{ height: "100%" }}
-              totalCount={chatsOverviewState.chats.length}
+              totalCount={chats.length}
               itemContent={ChatItem}
               endReached={loadMore}
               className="scrollable"
