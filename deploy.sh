@@ -39,6 +39,40 @@ deploy() {
     echo "To stop: docker-compose down"
 }
 
+# Function to deploy only the client
+deploy_client() {
+    echo "Checking environment..."
+    check_env
+    
+    echo "Building and starting client container only..."
+    docker-compose up --build -d client
+    
+    echo "Client deployment complete!"
+    echo ""
+    echo "Your client is running at:"
+    echo "  Client: http://localhost:8082"
+    echo ""
+    echo "To view logs: docker-compose logs -f client"
+    echo "To stop: docker-compose down"
+}
+
+# Function to deploy only the API
+deploy_api() {
+    echo "Checking environment..."
+    check_env
+    
+    echo "Building and starting API container only..."
+    docker-compose up --build -d api
+    
+    echo "API deployment complete!"
+    echo ""
+    echo "Your API is running at:"
+    echo "  API: http://localhost:5190"
+    echo ""
+    echo "To view logs: docker-compose logs -f api"
+    echo "To stop: docker-compose down"
+}
+
 # Function to deploy for staging (fast production testing)
 deploy_staging() {
     echo "Checking environment..."
@@ -157,8 +191,14 @@ case "$1" in
     "restart")
         docker-compose restart
         ;;
+    "deploy-client")
+        deploy_client
+        ;;
+    "deploy-api")
+        deploy_api
+        ;;
     *)
-        echo "Usage: $0 {deploy|deploy-prod|deploy-staging|cleanup|status|logs|stop|start|restart}"
+        echo "Usage: $0 {deploy|deploy-prod|deploy-staging|cleanup|status|logs|stop|start|restart|deploy-client|deploy-api}"
         echo "  deploy      - Build and deploy for development"
         echo "  deploy-prod - Build and deploy for production"
         echo "  deploy-staging - Build and deploy for staging (fast production testing)"
@@ -168,6 +208,8 @@ case "$1" in
         echo "  stop        - Stop containers"
         echo "  start       - Start containers"
         echo "  restart     - Restart containers"
+        echo "  deploy-client - Deploy only the client"
+        echo "  deploy-api  - Deploy only the API"
         exit 1
         ;;
 esac

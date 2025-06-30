@@ -10,8 +10,14 @@ The project includes a comprehensive deployment script (`deploy.sh`) that handle
 # Make the script executable (first time only)
 chmod +x deploy.sh
 
-# Development deployment
+# Development deployment (both client and API)
 ./deploy.sh deploy
+
+# Deploy only the client (faster for frontend development)
+./deploy.sh deploy-client
+
+# Deploy only the API (faster for backend development)
+./deploy.sh deploy-api
 
 # Staging deployment (fast production testing)
 ./deploy.sh deploy-staging
@@ -24,36 +30,32 @@ chmod +x deploy.sh
 
 The `deploy.sh` script provides several commands for managing your application:
 
-#### Development Deployment
+#### Full Deployments
 ```bash
+# Development deployment (both services)
 ./deploy.sh deploy
-```
-- Creates `.env` file if missing
-- Builds and starts containers for development
-- Uses localhost URLs
-- No cleanup performed
 
-#### Staging Deployment (Fast Production Testing)
-```bash
+# Staging deployment (fast production testing)
 ./deploy.sh deploy-staging
-```
-- Creates `.env` file if missing
-- Updates `.env` with production URLs
-- **Reuses cached images when possible** for faster deployment
-- No aggressive cleanup (faster than production)
-- Perfect for testing in production environment
 
-#### Production Deployment
-```bash
+# Production deployment (with aggressive cleanup)
 ./deploy.sh deploy-prod
 ```
-- Creates `.env` file if missing
-- **Performs aggressive Docker cleanup**:
-  - Stops existing containers
-  - Removes all unused images, containers, and networks
-  - Clears build cache
-- Updates `.env` with production URLs
-- Builds and starts containers
+
+#### Separate Service Deployments
+```bash
+# Deploy only the client (React frontend)
+./deploy.sh deploy-client
+
+# Deploy only the API (.NET backend)
+./deploy.sh deploy-api
+```
+
+**Benefits of separate deployments:**
+- **Faster development cycles** - Only rebuild what you changed
+- **Save time** - No need to rebuild API when working on frontend
+- **Parallel development** - Work on frontend and backend independently
+- **Resource efficient** - Use less CPU/memory during development
 
 #### Container Management
 ```bash
