@@ -54,7 +54,6 @@ services:
       - REACT_APP_API_URL=${REACT_APP_API_URL:-http://localhost:5190/chat-api}
       - REACT_APP_WS_URL=${REACT_APP_WS_URL:-http://localhost:5190/Hub}
       - REACT_APP_BASE_PATH=${REACT_APP_BASE_PATH:-}
-    user: "1000:1000"
 
 networks:
   chat-network:
