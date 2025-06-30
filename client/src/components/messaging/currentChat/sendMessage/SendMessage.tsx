@@ -6,7 +6,7 @@ import {
 } from '../../../../hooks/useAppSelectorAndDispatch';
 import { setMessageContent } from '../../../../redux/slices/sendMessageSlice';
 import sendMessageThunk from '../../../../redux/thunks/sendMessageThunk';
-import { useCheckAuth } from '../../../../hooks/useCheckAuth';
+import { useOptimizedAuth } from '../../../../hooks/useOptimizedAuth';
 import useWsGetTypingUsers from '../../../../hooks/ws/useWsGetTypingUsers';
 import useWsTypingTracker from '../../../../hooks/ws/useWsTypingTracker';
 import { TypingIndicator } from '../../../../components/reusable/TypingIndicator/TypingIndicator';
@@ -15,7 +15,7 @@ import './SendMessage.scss';
 export const SendMessage: React.FC = () => {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const [, setIsExpanded] = useState(false);
-  useCheckAuth();
+  useOptimizedAuth();
   const typingStatuses = useWsGetTypingUsers();
   const wsTypingTracker = useWsTypingTracker();
   const dispatch = useAppDispatch();

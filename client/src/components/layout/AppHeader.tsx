@@ -1,19 +1,19 @@
 import { Container } from "react-bootstrap";
 import { TiMessages } from "react-icons/ti";
 import { Link } from "react-router-dom";
-import { useCheckAuth } from "../../hooks/useCheckAuth";
 import { useAppSelector } from "../../hooks/useAppSelectorAndDispatch";
+import { useOptimizedAuth } from "../../hooks/useOptimizedAuth";
 import { IoIosMail } from "react-icons/io";
 import Avatar from "../reusable/Avatar/Avatar";
 import "./AppHeader.scss";
 
 export const AppHeader: React.FC = () => {
-  useCheckAuth();
-  const currentUser = useAppSelector((state) => state.loggedInUser);
+  useOptimizedAuth();
+  const loggedInUser = useAppSelector((state) => state.loggedInUser);
   const chats = useAppSelector((state) => state.chats.chats);
   
   const unreadCount = chats.filter(chat => 
-    chat.senderId !== currentUser.id && 
+    chat.senderId !== loggedInUser.id && 
     chat.seenBy.length === 0
   ).length;
 
@@ -23,11 +23,11 @@ export const AppHeader: React.FC = () => {
     <header className="app-header">
       <Container>
         <div className="app-header__left">
-          {currentUser.id && (
-            <Link to={`/users/${currentUser.userName}`} className="app-header__link">
+          {loggedInUser.id && (
+            <Link to={`/users/${loggedInUser.userName}`} className="app-header__link">
               <Avatar 
                 size="M"
-                fileName={currentUser.avatarName ?? null}
+                fileName={loggedInUser.avatarName ?? null}
                 isGroup={false}
               />
             </Link>
@@ -40,7 +40,7 @@ export const AppHeader: React.FC = () => {
         </Link>
         
         <div className="app-header__right">
-          {currentUser.id && (
+          {loggedInUser.id && (
             <Link to="/chats" className="app-header__link">
               <div className="notification-wrapper">
                 <IoIosMail size={32} className="app-header__icon" />

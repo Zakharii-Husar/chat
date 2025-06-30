@@ -14,11 +14,13 @@ export const useOptimizedAuth = () => {
     // Skip the query if we're on login/register pages
     skip: location.pathname === "/login" || location.pathname === "/register",
     // Refetch on window focus to keep auth state fresh
-    refetchOnFocus: true,
+    refetchOnFocus: false, // Disable to reduce duplicate requests
     // Refetch on reconnect
     refetchOnReconnect: true,
-    // Cache for 5 minutes
-    refetchOnMountOrArgChange: 300,
+    // Cache for 10 minutes to reduce requests
+    refetchOnMountOrArgChange: 600,
+    // Add polling to keep auth fresh without manual refetching
+    pollingInterval: 300000, // 5 minutes
   });
 
   useEffect(() => {
@@ -31,9 +33,7 @@ export const useOptimizedAuth = () => {
   useEffect(() => {
     // Handle redirects based on auth state
     const shouldRedirect = () => {
-      const isAuthPage = location.pathname === "/login" || 
-                        location.pathname === "/register" || 
-                        location.pathname === "/";
+      const isAuthPage = location.pathname === "/login" || location.pathname === "/register";
       
       // If we have user data, we're authenticated
       if (userData && isAuthPage) {
@@ -42,7 +42,7 @@ export const useOptimizedAuth = () => {
       }
       
       // If we have an error (not authenticated) and not on auth pages, redirect to home
-      if (error && !isAuthPage) {
+      if (error && !isAuthPage && location.pathname !== "/") {
         navigate("/");
         return;
       }

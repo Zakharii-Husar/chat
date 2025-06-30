@@ -5,16 +5,13 @@ import {
 import { setLogin, setPassword } from "../../../redux/slices/loginSlice";
 import { SyntheticEvent, useEffect, useState } from "react";
 import { useNavigate } from "react-router";
-
 import loginWithPasswordThunk from "../../../redux/thunks/loginWithPasswordThunk";
-
+import { useOptimizedAuth } from "../../../hooks/useOptimizedAuth";
 import { Container, Card, Form } from "react-bootstrap";
-
-import { useCheckAuth } from "../../../hooks/useCheckAuth";
 import "./Login.scss";
 
 export function Login() {
-  useCheckAuth();
+  useOptimizedAuth();
   const navigate = useNavigate();
 
   const currentUser = useAppSelector((state) => state.loggedInUser);

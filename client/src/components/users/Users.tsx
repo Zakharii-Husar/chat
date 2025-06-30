@@ -1,12 +1,11 @@
-import { useEffect, useCallback, useRef } from "react";
+import React, { useEffect, useCallback, useRef } from "react";
 import {
   useAppSelector,
   useAppDispatch,
 } from "../../hooks/useAppSelectorAndDispatch";
 import { updateSearchedUser } from "../../redux/slices/usersSlice";
 import { IUser } from "../../Interfaces";
-
-import { useCheckAuth } from "../../hooks/useCheckAuth";
+import { useOptimizedAuth } from "../../hooks/useOptimizedAuth";
 import getAllUsersThunk from "../../redux/thunks/getAllUsersThunk";
 import searchUsersThunk from "../../redux/thunks/searchUsersThunk";
 import getChatIdByUsernameThunk from "../../redux/thunks/getChatIdByUsernameThunk";
@@ -22,7 +21,7 @@ import "./Users.scss";
 import { Virtuoso } from "react-virtuoso";
 
 const Users: React.FC = () => {
-  useCheckAuth();
+  useOptimizedAuth();
   const redirectAsync = useRedirectAsync();
   const dispatch = useAppDispatch();
   const timeOut = useRef<NodeJS.Timeout | null>(null);
