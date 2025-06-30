@@ -15,8 +15,9 @@ builder.Services.AddCors(options =>
         policy =>
         {
             policy.WithOrigins(
- "http://localhost:3000",
+                "http://localhost:3000",
                 "http://localhost:5190",
+                "http://localhost:8082",
                 "http://client",
                 "http://client:80",
                 "https://api.zakharii.dev",
@@ -121,7 +122,6 @@ if (app.Environment.IsDevelopment())
 }
 
 app.MapHub<MainHub>("/Hub");
-
 
 app.UseCors(AllowFilteredOrigins);
 
