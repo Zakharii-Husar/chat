@@ -44,6 +44,16 @@ deploy_production() {
     echo "Checking environment..."
     check_env
     
+    echo "Performing aggressive Docker cleanup before production deployment..."
+    echo "Stopping and removing containers..."
+    docker-compose down 2>/dev/null || true
+    
+    echo "Removing all unused images, containers, and networks..."
+    docker system prune -a -f
+    
+    echo "Removing build cache..."
+    docker builder prune -f
+    
     echo "Updating .env for production..."
     # Update .env with production URLs - use more specific patterns to avoid duplication
     sed -i 's|^REACT_APP_API_URL=.*|REACT_APP_API_URL=https://api.zakharii.dev/projects/chat/chat-api|' .env
