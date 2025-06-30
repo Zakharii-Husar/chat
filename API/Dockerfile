@@ -19,7 +19,9 @@ ENV ASPNETCORE_ENVIRONMENT=Docker
 
 # Install curl for health checks
 USER root
-RUN apt-get update && \
+RUN rm -rf /var/lib/apt/lists/* && \
+    apt-get clean && \
+    apt-get update --allow-releaseinfo-change && \
     apt-get install -y curl && \
     apt-get clean
 
