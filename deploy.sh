@@ -45,10 +45,10 @@ deploy_production() {
     check_env
     
     echo "Updating .env for production..."
-    # Update .env with production URLs
-    sed -i 's|REACT_APP_API_URL=http://localhost:5190/chat-api|REACT_APP_API_URL=https://api.zakharii.dev/projects/chat/chat-api|g' .env
-    sed -i 's|REACT_APP_WS_URL=http://localhost:5190/Hub|REACT_APP_WS_URL=https://api.zakharii.dev/projects/chat/Hub|g' .env
-    sed -i 's|REACT_APP_BASE_PATH=|REACT_APP_BASE_PATH=/projects/chat|g' .env
+    # Update .env with production URLs - use more specific patterns to avoid duplication
+    sed -i 's|^REACT_APP_API_URL=.*|REACT_APP_API_URL=https://api.zakharii.dev/projects/chat/chat-api|' .env
+    sed -i 's|^REACT_APP_WS_URL=.*|REACT_APP_WS_URL=https://api.zakharii.dev/projects/chat/Hub|' .env
+    sed -i 's|^REACT_APP_BASE_PATH=.*|REACT_APP_BASE_PATH=/projects/chat|' .env
     
     echo "Building and starting production containers..."
     docker-compose up --build -d
