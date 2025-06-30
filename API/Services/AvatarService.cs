@@ -1,6 +1,7 @@
 ﻿using API.Data;
 using API.Models;
 using API.Repos;
+using Microsoft.Extensions.Logging;
 
 namespace API.Services
 {
@@ -12,7 +13,7 @@ namespace API.Services
         public Task<string?> SaveAvatarAsync(IFormFile? avatar, AppUser currentUser);
         public FileContentModel? GetAvatarByNameAsync(string fileName);
     }
-    public class AvatarService(IWebHostEnvironment hostingEnvironment, IUsersRepo usersRepo) : IAvatarService
+    public class AvatarService(IWebHostEnvironment hostingEnvironment, IUsersRepo usersRepo, ILogger<AvatarService> logger) : IAvatarService
     {
         public string GenerateContentType(string iconName)
         {
@@ -51,22 +52,62 @@ namespace API.Services
 
         public async Task<string?> SaveAvatarAsync(IFormFile? avatar, AppUser currentUser)
         {
-            if (avatar == null) return null;
-            bool isValid = ValidateAvatarFile(avatar);
-            if (!isValid) return null;
-            bool removed = RemoveAvatar(currentUser.AvatarName!);
-            if (!removed) return null;
+            try
+            {
+                logger.LogInformation("Starting avatar upload for user: {UserId}", currentUser.Id);
+                
+                if (avatar == null)
+                {
+                    logger.LogWarning("Avatar file is null");
+                    return null;
+                }
+                
+                bool isValid = ValidateAvatarFile(avatar);
+                if (!isValid)
+                {
+                    logger.LogWarning("Avatar file validation failed for user: {UserId}", currentUser.Id);
+                    return null;
+                }
+                
+                bool removed = RemoveAvatar(currentUser.AvatarName!);
+                if (!removed)
+                {
+                    logger.LogWarning("Failed to remove previous avatar for user: {UserId}", currentUser.Id);
+                    return null;
+                }
 
-            var uploadsFolder = Path.Combine(hostingEnvironment.ContentRootPath, "Avatars");
-            if (!Directory.Exists(uploadsFolder)) Directory.CreateDirectory(uploadsFolder);
-            var newAvatarName = Guid.NewGuid().ToString() + Path.GetExtension(avatar.FileName);
-            var avatarPath = Path.Combine(uploadsFolder, newAvatarName);
-            bool nameUpdated = await usersRepo.UpdateAvatarNameAsync(currentUser, newAvatarName);
-            if (!nameUpdated) return null;
-            await using var stream = new FileStream(avatarPath, FileMode.Create);
-            await avatar.CopyToAsync(stream);
+                var uploadsFolder = Path.Combine(hostingEnvironment.ContentRootPath, "Avatars");
+                logger.LogInformation("Uploads folder path: {UploadsFolder}", uploadsFolder);
+                
+                if (!Directory.Exists(uploadsFolder))
+                {
+                    logger.LogInformation("Creating uploads directory: {UploadsFolder}", uploadsFolder);
+                    Directory.CreateDirectory(uploadsFolder);
+                }
+                
+                var newAvatarName = Guid.NewGuid().ToString() + Path.GetExtension(avatar.FileName);
+                var avatarPath = Path.Combine(uploadsFolder, newAvatarName);
+                logger.LogInformation("Avatar path: {AvatarPath}", avatarPath);
+                
+                bool nameUpdated = await usersRepo.UpdateAvatarNameAsync(currentUser, newAvatarName);
+                if (!nameUpdated)
+                {
+                    logger.LogError("Failed to update avatar name in database for user: {UserId}", currentUser.Id);
+                    return null;
+                }
+                
+                logger.LogInformation("Saving avatar file to: {AvatarPath}", avatarPath);
+                await using var stream = new FileStream(avatarPath, FileMode.Create);
+                await avatar.CopyToAsync(stream);
+                logger.LogInformation("Avatar saved successfully for user: {UserId}", currentUser.Id);
 
-            return newAvatarName;
+                return newAvatarName;
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "Error saving avatar for user: {UserId}", currentUser.Id);
+                return null;
+            }
         }
 
         public FileContentModel? GetAvatarByNameAsync(string fileName)
