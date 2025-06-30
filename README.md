@@ -2,23 +2,76 @@
 
 ## Deployment
 
-### Quick Start (Development)
-```bash
-# Create .env file (if not exists)
-./deploy.sh
+The project includes a comprehensive deployment script (`deploy.sh`) that handles both development and production deployments with automatic cleanup and environment management.
 
-# Or manually:
-docker-compose up --build -d
+### Quick Start
+
+```bash
+# Make the script executable (first time only)
+chmod +x deploy.sh
+
+# Development deployment
+./deploy.sh deploy
+
+# Production deployment (with aggressive cleanup)
+./deploy.sh deploy-prod
 ```
 
-### Production Deployment
+### Deployment Script Commands
+
+The `deploy.sh` script provides several commands for managing your application:
+
+#### Development Deployment
 ```bash
-# Deploy with production settings
-./deploy.sh production
+./deploy.sh deploy
+```
+- Creates `.env` file if missing
+- Builds and starts containers for development
+- Uses localhost URLs
+- No cleanup performed
+
+#### Production Deployment
+```bash
+./deploy.sh deploy-prod
+```
+- Creates `.env` file if missing
+- **Performs aggressive Docker cleanup**:
+  - Stops existing containers
+  - Removes all unused images, containers, and networks
+  - Clears build cache
+- Updates `.env` with production URLs
+- Builds and starts containers
+
+#### Container Management
+```bash
+# Stop containers
+./deploy.sh stop
+
+# Start containers
+./deploy.sh start
+
+# Restart containers
+./deploy.sh restart
+```
+
+#### Monitoring and Debugging
+```bash
+# Show container status and recent logs
+./deploy.sh status
+
+# Show live logs
+./deploy.sh logs
+```
+
+#### Cleanup Operations
+```bash
+# Full cleanup (stops containers, removes images, volumes, networks)
+./deploy.sh cleanup
 ```
 
 ### Environment Configuration
-Create a `.env` file in the root directory:
+
+The script automatically creates a `.env` file if it doesn't exist. You can also create it manually:
 
 ```env
 # Database Configuration (SQLite with encryption)
@@ -39,9 +92,36 @@ REACT_APP_BASE_PATH=
 ```
 
 ### Access Points
+
+After deployment, your application will be available at:
 - **Client**: http://localhost:8082
 - **API**: http://localhost:5190
 - **API Documentation**: http://localhost:5190/swagger
+
+### Docker Storage Management
+
+The production deployment (`deploy-prod`) includes aggressive cleanup to prevent storage issues on your server:
+
+- **`docker system prune -a -f`**: Removes all unused images, containers, and networks
+- **`docker builder prune -f`**: Removes build cache
+- **`docker-compose down`**: Stops and removes existing containers
+
+This ensures your server won't run out of storage during deployments.
+
+### Manual Docker Commands
+
+If you prefer to use Docker commands directly:
+
+```bash
+# Development
+docker-compose up --build -d
+
+# Production (with cleanup)
+docker-compose down
+docker system prune -a -f
+docker builder prune -f
+docker-compose up --build -d
+```
 
 ## Description
 
