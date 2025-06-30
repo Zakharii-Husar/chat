@@ -17,14 +17,6 @@ WORKDIR /app
 COPY --from=publish /app/publish .
 ENV ASPNETCORE_ENVIRONMENT=Docker
 
-# Install curl for health checks
-USER root
-RUN rm -rf /var/lib/apt/lists/* && \
-    apt-get clean && \
-    apt-get update --allow-releaseinfo-change && \
-    apt-get install -y curl && \
-    apt-get clean
-
 # Create necessary directories with proper permissions
 RUN mkdir -p /app/Data && \
     mkdir -p /app/Avatars && \
