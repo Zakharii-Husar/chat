@@ -33,11 +33,7 @@ RUN mkdir -p /app/Data && \
 # Create start script
 RUN echo '#!/bin/sh\n\
 echo "Starting API..."\n\
-echo "Ensuring Avatars directory permissions..."\n\
-chmod 777 /app/Avatars\n\
 dotnet API.dll' > /app/start.sh && \
 chmod +x /app/start.sh
-
-USER 1000
 
 ENTRYPOINT ["/app/start.sh"]

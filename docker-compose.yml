@@ -26,7 +26,6 @@ services:
     volumes:
       - avatar-data:/app/Avatars:rw
       - sqlite-data:/app/Data:rw
-    user: "1000:1000"
 
   client:
     build:
