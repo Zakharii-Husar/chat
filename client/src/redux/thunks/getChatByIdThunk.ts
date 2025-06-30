@@ -1,7 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { GET_CHAT_BY_ID } from "../../APIEndpoints";
 import type { RootState } from "../store";
-import { appendMsgs } from "../slices/currentChatSlice";
+import { appendMsgs, setLoading } from "../slices/currentChatSlice";
 
 let abortController = new AbortController();
 
@@ -15,6 +15,11 @@ const getChatByIdThunk = createAsyncThunk(
     const state = getState() as RootState;
     const itemsToSkip = state.currentChat.messages.length;
     const link = GET_CHAT_BY_ID(chatId, itemsToSkip);
+    
+    // Set loading state to true when starting the request
+    if (itemsToSkip === 0) {
+      dispatch(setLoading(true));
+    }
     
     try {
       const response = await fetch(link, {
@@ -36,7 +41,12 @@ const getChatByIdThunk = createAsyncThunk(
         return;
       }
       console.log(error);
-    } 
+    } finally {
+      // Set loading state to false when request completes
+      if (itemsToSkip === 0) {
+        dispatch(setLoading(false));
+      }
+    }
   }
 );
 

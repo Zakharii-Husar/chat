@@ -13,6 +13,7 @@ import createPrivateChatThunk from '../../redux/thunks/createPrivateChatThunk';
 import { useRedirectAsync } from '../../hooks/useRedirectAsync';
 import UpdateBio from './UpdateBio';
 import ChangePhotoButton from './ChangePhotoButton';
+import { SkeletonLoader } from '../reusable/SkeletonLoader';
 import './User.scss';
 
 import { formatUtcToLocal } from '../../utils/dateUtils';
@@ -23,8 +24,42 @@ const formatLastVisit = (date: Date | null) => {
   return `Last seen ${formatUtcToLocal(date)}`;
 };
 
-
-
+// Skeleton component for user profile
+const UserProfileSkeleton: React.FC = () => (
+  <Container fluid className="py-5">
+    <Row className="justify-content-center">
+      <Col md={8} lg={6}>
+        <Card className="user-profile">
+          <div className="user-profile__header">
+            <div className="skeleton-username"></div>
+            <div className="skeleton-status"></div>
+            <div className="user-profile__content">
+              <div className="user-profile__avatar-section">
+                <div className="skeleton-avatar-large"></div>
+                <div className="skeleton-button"></div>
+              </div>
+              <div className="user-profile__info">
+                <div className="skeleton-name"></div>
+                <div className="skeleton-email"></div>
+              </div>
+            </div>
+          </div>
+          
+          <div className="p-4">
+            <div className="d-flex justify-content-between align-items-start">
+              <div>
+                <div className="skeleton-title"></div>
+                <div className="skeleton-bio"></div>
+                <div className="skeleton-bio short"></div>
+              </div>
+              <div className="skeleton-edit-button"></div>
+            </div>
+          </div>
+        </Card>
+      </Col>
+    </Row>
+  </Container>
+);
 
 export default function User() {
   const redirectAsync = useRedirectAsync();
@@ -59,7 +94,7 @@ export default function User() {
   }, [userName, isMyPofile, dispatch]);
 
   return !currentProfile.id ? (
-    <h1>LOADING...</h1>
+    <UserProfileSkeleton />
   ) : (
     <Container fluid className="py-5">
       <Row className="justify-content-center">

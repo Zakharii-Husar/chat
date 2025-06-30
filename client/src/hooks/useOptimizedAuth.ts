@@ -39,24 +39,28 @@ export const useOptimizedAuth = () => {
       const isAuthPage = location.pathname === "/login" || location.pathname === "/register";
       const isPublicPage = location.pathname === "/";
       
-      // Check if user is authenticated (has an ID)
-      const isAuthenticated = loggedInUser.id !== null;
+      // Check if user is authenticated (has an ID or userData)
+      const isAuthenticated = loggedInUser.id !== null || !!userData;
       
-      // If we have user data, we're authenticated
+      // If we have user data and we're on auth pages, redirect to chats
       if (userData && isAuthPage) {
         navigate("/chats");
         return;
       }
       
-      // If user is not authenticated and trying to access protected routes, redirect to home
-      if (!isAuthenticated && !isAuthPage && !isPublicPage) {
+      // Only redirect unauthenticated users if:
+      // 1. We're not loading (to prevent premature redirects)
+      // 2. We're not on auth pages or public pages
+      // 3. We're sure the user is not authenticated
+      if (!isLoading && !isAuthenticated && !isAuthPage && !isPublicPage) {
         navigate("/");
         return;
       }
     };
 
-    // Only redirect after we've attempted to validate cookies or if we have a clear auth state
-    if (!isLoading || loggedInUser.id !== null) {
+    // Only redirect after we've attempted to validate cookies
+    // Don't redirect while loading to prevent premature redirects
+    if (!isLoading) {
       shouldRedirect();
     }
   }, [userData, error, isLoading, location.pathname, navigate, loggedInUser.id]);

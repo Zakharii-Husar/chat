@@ -5,6 +5,7 @@ import { useAppSelector } from "../../../../hooks/useAppSelectorAndDispatch";
 import Avatar from "../../../reusable/Avatar/Avatar";
 import { formatUtcToLocal } from '../../../../utils/dateUtils';
 import { GroupMembersList } from './GroupMembersList';
+import { SkeletonLoader } from '../../../reusable/SkeletonLoader';
 import "./DisplayHeader.scss";
 import { IUser } from "../../../../Interfaces";
 
@@ -17,6 +18,8 @@ export const DisplayHeader: React.FC = () => {
   const [showMembers, setShowMembers] = useState(false);
   const CurrentUser = useAppSelector((state) => state.loggedInUser);
   const currentChat = useAppSelector((state) => state.currentChat);
+  const isLoading = useAppSelector((state) => state.currentChat.isLoading);
+  
   const filteredParticipants = currentChat?.members?.filter(
     (member: IUser) => member.userName !== CurrentUser.userName
   );
@@ -35,6 +38,15 @@ export const DisplayHeader: React.FC = () => {
   const isStillMember = currentChat.members.some(
     (member) => member.id === CurrentUser.id
   );
+
+  // Show skeleton loader while loading
+  if (isLoading || !currentChat.chatId) {
+    return (
+      <div className="chat-title">
+        <SkeletonLoader type="chatHeader" count={1} />
+      </div>
+    );
+  }
 
   return (
     <div className="chat-title">
