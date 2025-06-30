@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Col, Container, Row, Card } from 'react-bootstrap';
 import { MdModeEdit } from 'react-icons/md';
@@ -17,6 +17,9 @@ import { SkeletonLoader } from '../reusable/SkeletonLoader';
 import './User.scss';
 
 import { formatUtcToLocal } from '../../utils/dateUtils';
+import { GET_AVATAR } from '../../APIEndpoints';
+import CloseButton from '../reusable/CloseButton';
+import { FaSearchPlus } from 'react-icons/fa';
 
 
 const formatLastVisit = (date: Date | null) => {
@@ -93,6 +96,9 @@ export default function User() {
     }
   }, [userName, isMyPofile, dispatch]);
 
+  // State for avatar modal
+  const [showAvatarModal, setShowAvatarModal] = useState(false);
+
   return !currentProfile.id ? (
     <UserProfileSkeleton />
   ) : (
@@ -118,11 +124,22 @@ export default function User() {
               </div>
               <div className="user-profile__content">
                 <div className="user-profile__avatar-section">
-                  <Avatar
-                    size="L"
-                    fileName={currentProfile.avatarName}
-                    isGroup={false}
-                  />
+                  <div 
+                    className="avatar-zoom-wrapper"
+                    onClick={() => currentProfile.avatarName && setShowAvatarModal(true)} 
+                    style={{cursor: currentProfile.avatarName ? 'pointer' : 'default', position: 'relative'}}
+                  >
+                    <Avatar
+                      size="L"
+                      fileName={currentProfile.avatarName}
+                      isGroup={false}
+                    />
+                    {currentProfile.avatarName && (
+                      <span className="avatar-zoom-icon">
+                        <FaSearchPlus />
+                      </span>
+                    )}
+                  </div>
                   {isMyPofile ? (
                     <ChangePhotoButton />
                   ) : (
@@ -140,7 +157,20 @@ export default function User() {
                 </div>
               </div>
             </div>
-            
+            {/* Avatar Full Screen Modal */}
+            {showAvatarModal && (
+              <div className="avatar-modal-overlay" onClick={() => setShowAvatarModal(false)}>
+                <div className="avatar-modal-content" onClick={e => e.stopPropagation()}>
+                  <CloseButton onClick={() => setShowAvatarModal(false)} className="avatar-modal-close-btn" />
+                  <img
+                    src={GET_AVATAR(currentProfile.avatarName || '')}
+                    alt="Avatar Full Screen"
+                    className="avatar-modal-img"
+                  />
+                </div>
+              </div>
+            )}
+            {/* End Avatar Modal */}
             <div className="p-4">
               <div className="d-flex justify-content-between align-items-start">
                 <div>
